@@ -511,10 +511,6 @@ PrefabInstance:
       value: =>
       objectReference: {fileID: 0}
     - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
-      propertyPath: m_fontSize
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_margin.z
       value: 13.134298
       objectReference: {fileID: 0}
@@ -588,7 +584,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 69.6
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -629,16 +625,12 @@ PrefabInstance:
       value: Si
       objectReference: {fileID: 0}
     - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
-      propertyPath: m_fontSize
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_margin.z
       value: -13.273743
       objectReference: {fileID: 0}
     - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_fontSizeBase
-      value: 180
+      value: 169
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_Pivot.x
@@ -1272,10 +1264,6 @@ PrefabInstance:
     - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_text
       value: Si no =>
-      objectReference: {fileID: 0}
-    - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
-      propertyPath: m_fontSize
-      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 7446158247027931828, guid: a817124ea2a0d224298ea94bd42d0cbe, type: 3}
       propertyPath: m_margin.z
