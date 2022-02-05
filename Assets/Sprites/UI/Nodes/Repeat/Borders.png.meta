@@ -37,7 +37,7 @@ TextureImporter:
     second: union
   - first:
       213: -5536547068929043085
-    second: edge_bottom_right
+    second: edge_bottom_left
   - first:
       213: -7006739419520550184
     second: edge_top_union
@@ -379,7 +379,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: edge_bottom_right
+      name: edge_bottom_left
       rect:
         serializedVersion: 2
         x: 2
