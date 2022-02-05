@@ -36,9 +36,9 @@ public class CycleNodeCustomBehaviour : MonoBehaviour, INodePositioner, IZonePar
             }
 
             angleShape.Expand(dy: dy);
-            siblings.nodeTransform.SetPositionByDelta(dy: -dy);
+            siblings.ownTransform.SetPositionByDelta(dy: -dy);
 
-            controller.nodeTransform.Expand(dy: dy);
+            controller.ownTransform.Expand(dy: dy);
         }
 
 

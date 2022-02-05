@@ -55,14 +55,14 @@ public class NodeConditionalElseBehaviour : MonoBehaviour, INodePositioner, IZon
         piece.Expand(dy: dy);
 
         otherPiece?.SetFloatPositionByDelta(dy: -dy);
-        siblings.nodeTransform.SetPositionByDelta(dy: -dy);
+        siblings.ownTransform.SetPositionByDelta(dy: -dy);
 
         if (children == children1) {
             middleText.SetPositionByDelta(dy: -dy);
-            children2.nodeTransform.SetPositionByDelta(dy: -dy);
+            children2.ownTransform.SetPositionByDelta(dy: -dy);
         }
 
-        controller.nodeTransform.Expand(dy: dy);
+        controller.ownTransform.Expand(dy: dy);
     }
 
     void IZoneParentRefresher.SetZonesAsParent(NodeArray array) {

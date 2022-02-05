@@ -29,16 +29,16 @@ public class NodeConditionalCustomBehaviour : MonoBehaviour, INodePositioner, IZ
     void INodePositioner.SetPartsPosition(NodeArray toThisArray) {
 
         if (toThisArray == children) {
-            var dy = (children.nodeTransform.height + 8) - angleShape.height;
+            var dy = (children.ownTransform.height + 8) - angleShape.height;
 
             if (children.Count == 0) {
                 dy += 8;
             }
 
             angleShape.Expand(dy: dy);
-            siblings.nodeTransform.SetPositionByDelta(dy: -dy);
+            siblings.ownTransform.SetPositionByDelta(dy: -dy);
 
-            controller.nodeTransform.Expand(dy: dy);
+            controller.ownTransform.Expand(dy: dy);
         }
 
 

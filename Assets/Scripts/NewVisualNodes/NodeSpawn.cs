@@ -10,7 +10,7 @@ public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
     [SerializeField] Canvas canvas;
     [SerializeField] NodeController nodeToSpawn;
-    [SerializeField] NodeTransform nodeTransform;
+    [SerializeField] NodeTransform ownTransform;
 
     public void OnBeginDrag(PointerEventData eventData) {
         var (dx, dy) = (eventData.delta.x, eventData.delta.y);
@@ -18,7 +18,7 @@ public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
         spawnedNode = Instantiate(nodeToSpawn, canvas.transform);
 
         spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} (${spawnedNodes++})";
-        spawnedNode.nodeTransform.SetPosition(nodeTransform.position);
+        spawnedNode.ownTransform.SetPosition(ownTransform.position);
         spawnedNode.canvas = canvas;
 
         spawnedNode.SetMiddleZone(true);
@@ -26,13 +26,13 @@ public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
         spawnedNode.transform.SetAsLastSibling();
         HierarchyController.instance.SetOnTop(spawnedNode);
-        spawnedNode.nodeTransform.SetFloatPositionByDelta(dx, dy);
+        spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
     }
 
     public void OnDrag(PointerEventData eventData) {
         var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
-        spawnedNode.nodeTransform.SetFloatPositionByDelta(dx, dy);
+        spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
     }
 
     public void OnEndDrag(PointerEventData eventData) {
