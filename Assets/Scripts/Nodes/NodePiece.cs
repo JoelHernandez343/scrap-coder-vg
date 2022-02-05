@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class NodePiece : MonoBehaviour, INodeExpander {
 
-    // [SerializeField] NodeZone topZone;
     [SerializeField] NodeTransform middleZone;
     [SerializeField] NodeTransform bottomZone;
 
-    [SerializeField] NodeTransform unionSprite;
-
-    [SerializeField] NodeTransform mainShape;
-
     [SerializeField] new NodeTransform collider;
+    [SerializeField] NodeTransform unionSprite;
+    [SerializeField] NodeTransform shape;
 
-    [SerializeField] NodeTransform nodeTransform;
+    [SerializeField] NodeTransform ownTransform;
 
     public void SetPosition((int x, int y) position) {
-        nodeTransform.SetPosition(position);
+        ownTransform.SetPosition(position);
     }
 
     public void SetPositionByDelta(int dx = 0, int dy = 0) {
-        nodeTransform.SetPositionByDelta(dx, dy);
+        ownTransform.SetPositionByDelta(dx, dy);
     }
 
     void INodeExpander.Expand(int dx, int dy) {
 
-        mainShape?.Expand(dx, dy);
+        shape?.Expand(dx, dy);
         collider?.Expand(dx, dy);
         unionSprite?.SetPositionByDelta(dy: -dy);
 

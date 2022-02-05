@@ -44,7 +44,7 @@ public class NodeController : MonoBehaviour, INodeExpander {
 
     [SerializeField] public NodeArray siblings;
 
-    [SerializeField] public NodeTransform nodeTransform;
+    [SerializeField] public NodeTransform ownTransform;
 
     [SerializeField] NodeTransform mainPiece;
     [SerializeField] NodeTransform mainText;
@@ -68,19 +68,19 @@ public class NodeController : MonoBehaviour, INodeExpander {
         get => _parentArray;
     }
 
-    public int width => nodeTransform.width;
-    public int height => nodeTransform.height;
+    public int width => ownTransform.width;
+    public int height => ownTransform.height;
 
-    public int x => nodeTransform.x;
-    public int y => nodeTransform.y;
-    public int fx => nodeTransform.fx;
-    public int fy => nodeTransform.fy;
+    public int x => ownTransform.x;
+    public int y => ownTransform.y;
+    public int fx => ownTransform.fx;
+    public int fy => ownTransform.fy;
 
-    public int initWidth => nodeTransform.initWidth;
-    public int initHeight => nodeTransform.initHeight;
+    public int initWidth => ownTransform.initWidth;
+    public int initHeight => ownTransform.initHeight;
 
-    public (int x, int y) position => nodeTransform.position;
-    public (int fx, int fy) finalPosition => nodeTransform.finalPosition;
+    public (int x, int y) position => ownTransform.position;
+    public (int fx, int fy) finalPosition => ownTransform.finalPosition;
 
     void Awake() {
         selector[NodeZoneColor.Blue, NodeZoneColor.Red] = OnBlueThenRed;
@@ -204,7 +204,7 @@ public class NodeController : MonoBehaviour, INodeExpander {
 
     void INodeExpander.Expand(int dx, int dy) {
         mainPiece?.Expand(dx, dy);
-        siblings?.nodeTransform.SetPositionByDelta(dy: -dy);
+        siblings?.ownTransform.SetPositionByDelta(dy: -dy);
         mainText?.SetFloatPositionByDelta(dy: -dy / 2f);
     }
 }

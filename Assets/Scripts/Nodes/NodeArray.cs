@@ -5,7 +5,7 @@ using UnityEngine;
 public class NodeArray : MonoBehaviour {
 
     [SerializeField] public NodeController controller;
-    [SerializeField] public NodeTransform nodeTransform;
+    [SerializeField] public NodeTransform ownTransform;
 
     [SerializeField] public List<NodeController> nodes;
 
@@ -17,19 +17,19 @@ public class NodeArray : MonoBehaviour {
 
     public NodeController Last => Count == 0 ? null : nodes[Count - 1];
 
-    public int width => nodeTransform.width;
-    public int height => nodeTransform.height;
+    public int width => ownTransform.width;
+    public int height => ownTransform.height;
 
-    public int x => nodeTransform.x;
-    public int y => nodeTransform.y;
-    public int fx => nodeTransform.fx;
-    public int fy => nodeTransform.fy;
+    public int x => ownTransform.x;
+    public int y => ownTransform.y;
+    public int fx => ownTransform.fx;
+    public int fy => ownTransform.fy;
 
-    public int initWidth => nodeTransform.initWidth;
-    public int initHeight => nodeTransform.initHeight;
+    public int initWidth => ownTransform.initWidth;
+    public int initHeight => ownTransform.initHeight;
 
-    public (int x, int y) position => nodeTransform.position;
-    public (int fx, int fy) finalPosition => nodeTransform.finalPosition;
+    public (int x, int y) position => ownTransform.position;
+    public (int fx, int fy) finalPosition => ownTransform.finalPosition;
 
     List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
@@ -106,7 +106,7 @@ public class NodeArray : MonoBehaviour {
 
     public void SetPartsPosition(NodeController node) {
         if (node == null) {
-            nodeTransform.ExpandByNewDimensions(0, 0);
+            ownTransform.ExpandByNewDimensions(0, 0);
             controller.SetPartsPosition(this);
             return;
         }
@@ -116,22 +116,22 @@ public class NodeArray : MonoBehaviour {
         var begin = nodes.IndexOf(node);
 
         if (begin > 0) {
-            anchor.x = nodes[begin - 1].nodeTransform.x;
-            anchor.y = nodes[begin - 1].nodeTransform.fy + borderOffset;
+            anchor.x = nodes[begin - 1].ownTransform.x;
+            anchor.y = nodes[begin - 1].ownTransform.fy + borderOffset;
         }
 
         for (var i = begin; i < Count; ++i) {
-            nodes[i].nodeTransform.SetPosition(anchor);
-            anchor.y = nodes[i].nodeTransform.fy + borderOffset;
+            nodes[i].ownTransform.SetPosition(anchor);
+            anchor.y = nodes[i].ownTransform.fy + borderOffset;
         }
 
         nodes.ForEach(n => maxWidth =
-            maxWidth < n.nodeTransform.width
-            ? n.nodeTransform.width
+            maxWidth < n.ownTransform.width
+            ? n.ownTransform.width
             : maxWidth
         );
 
-        nodeTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
+        ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
 
         controller.SetPartsPosition(this);
     }
