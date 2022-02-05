@@ -17,17 +17,28 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     [SerializeField] public new PolygonCollider2D collider;
     [SerializeField] List<Vector2> colliderPoints;
+
     [SerializeField] NodeController controller;
 
     [SerializeField] Range widthPointsRange;
     [SerializeField] Range heightPointsRange;
 
+    [SerializeField] NodeTransform ownTransform;
+
+    int pixelsPerUnit;
+
     void Awake() {
+        pixelsPerUnit = ownTransform.pixelsPerUnit;
+
         SetDefaultCollider();
     }
 
+    List<Vector2> AdjustPathByPixelsPerUnit(List<Vector2> path) {
+        return path.ConvertAll(point => point / pixelsPerUnit);
+    }
+
     void SetDefaultCollider() {
-        collider.SetPath(0, colliderPoints);
+        collider.SetPath(0, AdjustPathByPixelsPerUnit(colliderPoints));
     }
 
     public void OnPointerDown(PointerEventData eventData) {
@@ -60,22 +71,20 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     void INodeExpander.Expand(int dx, int dy) {
 
-        var newPath = new List<Vector2>(collider.GetPath(0));
-
         // Width
         for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
-            var vector = newPath[i];
-            vector.x += dx;
-            newPath[i] = vector;
+            var point = colliderPoints[i];
+            point.x += dx;
+            colliderPoints[i] = point;
         }
 
         // Height
         for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
-            var vector = newPath[i];
-            vector.y -= dy;
-            newPath[i] = vector;
+            var point = colliderPoints[i];
+            point.y -= dy;
+            colliderPoints[i] = point;
         }
 
-        collider.SetPath(0, newPath);
+        collider.SetPath(0, AdjustPathByPixelsPerUnit(colliderPoints));
     }
 }

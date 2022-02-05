@@ -15,14 +15,19 @@ public class NodeShape : MonoBehaviour, INodeExpander {
 
     [SerializeField] public SpriteShapeController shapeController;
     [SerializeField] List<ShapePoint> shapePoints;
-    [SerializeField] NodeTransform nodeTransform;
+
+    [SerializeField] NodeTransform ownTransform;
 
     [SerializeField] Range widthPointsRange;
     [SerializeField] Range heightPointsRange;
 
     public Spline line => shapeController?.spline;
 
+    int pixelsPerUnit;
+
     void Awake() {
+        pixelsPerUnit = ownTransform.pixelsPerUnit;
+
         SetDefaultShape();
     }
 
@@ -32,7 +37,7 @@ public class NodeShape : MonoBehaviour, INodeExpander {
         for (var i = 0; i < shapePoints.Count; ++i) {
             var point = shapePoints[i];
 
-            line.InsertPointAt(i, point.position);
+            line.InsertPointAt(i, point.position / pixelsPerUnit);
             line.SetSpriteIndex(i, point.spriteIndex);
             line.SetTangentMode(i, ShapeTangentMode.Linear);
         }
@@ -41,21 +46,25 @@ public class NodeShape : MonoBehaviour, INodeExpander {
     }
 
     void INodeExpander.Expand(int dx, int dy) {
-        nodeTransform.width += dx;
-        nodeTransform.height += dy;
+        ownTransform.width += dx;
+        ownTransform.height += dy;
 
         // Width
         for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
-            var vector = line.GetPosition(i);
-            vector.x += dx;
-            line.SetPosition(i, vector);
+            var point = shapePoints[i];
+            point.position.x += dx;
+            shapePoints[i] = point;
+
+            line.SetPosition(i, point.position / pixelsPerUnit);
         }
 
         // Height
         for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
-            var vector = line.GetPosition(i);
-            vector.y -= dy;
-            line.SetPosition(i, vector);
+            var point = shapePoints[i];
+            point.position.y -= dy;
+            shapePoints[i] = point;
+
+            line.SetPosition(i, point.position / pixelsPerUnit);
         }
     }
 }
