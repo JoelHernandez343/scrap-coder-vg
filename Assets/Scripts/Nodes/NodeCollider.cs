@@ -25,20 +25,12 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     [SerializeField] NodeTransform ownTransform;
 
-    int pixelsPerUnit;
-
     void Awake() {
-        pixelsPerUnit = NodeTransform.PixelsPerUnit;
-
         SetDefaultCollider();
     }
 
-    List<Vector2> AdjustPathByPixelsPerUnit(List<Vector2> path) {
-        return path.ConvertAll(point => point / pixelsPerUnit);
-    }
-
     void SetDefaultCollider() {
-        collider.SetPath(0, AdjustPathByPixelsPerUnit(colliderPoints));
+        collider.SetPath(0, colliderPoints);
     }
 
     public void OnPointerDown(PointerEventData eventData) {
@@ -85,6 +77,6 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
             colliderPoints[i] = point;
         }
 
-        collider.SetPath(0, AdjustPathByPixelsPerUnit(colliderPoints));
+        collider.SetPath(0, colliderPoints);
     }
 }
