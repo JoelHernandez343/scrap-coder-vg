@@ -28,7 +28,7 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     int pixelsPerUnit;
 
     void Awake() {
-        pixelsPerUnit = ownTransform.pixelsPerUnit;
+        pixelsPerUnit = NodeTransform.PixelsPerUnit;
 
         SetDefaultCollider();
     }

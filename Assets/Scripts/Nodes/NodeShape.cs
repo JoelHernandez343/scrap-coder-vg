@@ -26,7 +26,7 @@ public class NodeShape : MonoBehaviour, INodeExpander {
     int pixelsPerUnit;
 
     void Awake() {
-        pixelsPerUnit = ownTransform.pixelsPerUnit;
+        pixelsPerUnit = NodeTransform.PixelsPerUnit;
 
         SetDefaultShape();
     }

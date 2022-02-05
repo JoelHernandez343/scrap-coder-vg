@@ -22,7 +22,7 @@ public class NodeTransform : MonoBehaviour {
     [SerializeField] bool resizable = true;
     [SerializeField] bool moveable = true;
 
-    [SerializeField] public int pixelsPerUnit;
+    public const int PixelsPerUnit = 24;
 
     int _height;
     public int height {
