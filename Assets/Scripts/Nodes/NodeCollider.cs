@@ -15,7 +15,7 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     [SerializeField] NodeTransform container;
 
-    [SerializeField] public new PolygonCollider2D collider;
+    [SerializeField] new PolygonCollider2D collider;
     [SerializeField] List<Vector2> colliderPoints;
 
     [SerializeField] NodeController controller;
