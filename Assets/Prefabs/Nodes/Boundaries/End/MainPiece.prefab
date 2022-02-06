@@ -110,7 +110,7 @@ MonoBehaviour:
   - {x: 16, y: 0}
   - {x: 44, y: 0}
   - {x: 44, y: -19}
-  - {x: 0, y: -23}
+  - {x: 0, y: -19}
   controller: {fileID: 0}
   widthPointsRange:
     begin: 4
@@ -543,7 +543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7456343602923598073, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: color
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
@@ -664,7 +664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5588500258169809593, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_Size.y
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7456343602923598073, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: color
