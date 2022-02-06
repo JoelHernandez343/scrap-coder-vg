@@ -101,6 +101,8 @@ public class NodeController : MonoBehaviour, INodeExpander {
             return controller.OnDrop(inZone, ownZone, this);
         }
 
+        Debug.Log($"{gameObject.name} {ownZone.color} {inZone.color}");
+
         var dropFunc = selector[ownZone.color, inZone.color];
 
         if (dropFunc != null) {
