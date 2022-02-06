@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapeController: {fileID: 0}
+  spriteShapeController: {fileID: 7466764254513914447}
   shapePoints:
   - position: {x: 4, y: -4}
     spriteIndex: 0
@@ -490,7 +490,7 @@ RectTransform:
   m_GameObject: {fileID: 7466764254849079731}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7466764254513914446}
   - {fileID: 7466764253404176220}
