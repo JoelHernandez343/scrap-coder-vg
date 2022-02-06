@@ -13,7 +13,7 @@ public struct ShapePoint {
 
 public class NodeShape : MonoBehaviour, INodeExpander {
 
-    [SerializeField] public SpriteShapeController shapeController;
+    [SerializeField] public SpriteShapeController spriteShapeController;
     [SerializeField] List<ShapePoint> shapePoints;
 
     [SerializeField] NodeTransform ownTransform;
@@ -21,7 +21,7 @@ public class NodeShape : MonoBehaviour, INodeExpander {
     [SerializeField] Range widthPointsRange;
     [SerializeField] Range heightPointsRange;
 
-    public Spline line => shapeController?.spline;
+    public Spline line => spriteShapeController?.spline;
 
     int pixelsPerUnit;
 
@@ -42,7 +42,7 @@ public class NodeShape : MonoBehaviour, INodeExpander {
             line.SetTangentMode(i, ShapeTangentMode.Linear);
         }
 
-        shapeController.RefreshSpriteShape();
+        spriteShapeController.RefreshSpriteShape();
     }
 
     void INodeExpander.Expand(int dx, int dy) {

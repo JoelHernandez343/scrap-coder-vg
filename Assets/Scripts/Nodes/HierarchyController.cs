@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HierarchyController : MonoBehaviour {
 
-    [SerializeField] int beginZ = 0;
+    [SerializeField] int initialOrder = 0;
 
     List<NodeController> nodes = new List<NodeController>();
 
@@ -29,11 +29,11 @@ public class HierarchyController : MonoBehaviour {
 
         if (index == -1) {
             nodes.Add(controller);
-            SetAllZ();
+            SetSortingOrder();
         } else if (index != nodes.Count - 1) {
             nodes.RemoveAt(index);
             nodes.Add(controller);
-            SetAllZ();
+            SetSortingOrder();
         }
     }
 
@@ -49,10 +49,10 @@ public class HierarchyController : MonoBehaviour {
         return controller;
     }
 
-    void SetAllZ() {
-        for (var i = beginZ; i < nodes.Count; ++i) {
+    void SetSortingOrder() {
+        for (int i = 0, order = initialOrder; i < nodes.Count; ++i, ++order) {
             var sorter = nodes[i].GetComponent<UnityEngine.Rendering.SortingGroup>();
-            sorter.sortingOrder = i;
+            sorter.sortingOrder = order;
         }
     }
 }
