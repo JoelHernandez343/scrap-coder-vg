@@ -17,18 +17,20 @@ public class DropFuncSelector {
 }
 
 public interface IZoneParentRefresher {
-    void SetZonesAsParent(NodeArray list);
+    void SetZonesAsParent(NodeArray array);
 }
 
 public interface INodePositioner {
     void SetPartsPosition(NodeArray toThisArray);
 }
 
+public interface INodeSelectorModifier {
+    void ModifySelectorFunc();
+}
+
 public class NodeController : MonoBehaviour, INodeExpander {
 
     public DropFuncSelector selector = new DropFuncSelector();
-
-    [SerializeField] Component nodePartsPositioner;
 
     [SerializeField] public Canvas canvas;
 
@@ -40,7 +42,6 @@ public class NodeController : MonoBehaviour, INodeExpander {
 
     [SerializeField] List<NodeZone> mainZones;
 
-    [SerializeField] Component zoneParentRefresher;
 
     [SerializeField] public NodeArray siblings;
 
@@ -48,6 +49,10 @@ public class NodeController : MonoBehaviour, INodeExpander {
 
     [SerializeField] NodeTransform mainPiece;
     [SerializeField] NodeTransform mainText;
+
+    [SerializeField] Component zoneRefresher;
+    [SerializeField] Component partsPositioner;
+    [SerializeField] Component selectorModifier;
 
     NodeController _controller;
     public NodeController controller {
@@ -86,6 +91,10 @@ public class NodeController : MonoBehaviour, INodeExpander {
         selector[NodeZoneColor.Blue, NodeZoneColor.Red] = OnBlueThenRed;
         selector[NodeZoneColor.Red, NodeZoneColor.Blue] = OnRedThenBlue;
         selector[NodeZoneColor.Yellow, NodeZoneColor.Green] = OnYellowThenGreen;
+
+        if (selectorModifier is INodeSelectorModifier modifier) {
+            modifier.ModifySelectorFunc();
+        }
     }
 
     public void ClearParent() => parentArray = null;
@@ -184,7 +193,7 @@ public class NodeController : MonoBehaviour, INodeExpander {
                 }
             }
         } else {
-            if (zoneParentRefresher is IZoneParentRefresher refresher) {
+            if (zoneRefresher is IZoneParentRefresher refresher) {
                 refresher.SetZonesAsParent(array);
             } else {
                 throw new ArgumentException($"This array {array.gameObject.name} is unkown");
@@ -194,7 +203,7 @@ public class NodeController : MonoBehaviour, INodeExpander {
 
     public void SetPartsPosition(NodeArray toThisArray) {
         if (toThisArray != siblings) {
-            if (nodePartsPositioner is INodePositioner positioner) {
+            if (partsPositioner is INodePositioner positioner) {
                 positioner.SetPartsPosition(toThisArray);
             } else {
                 throw new System.NotImplementedException("SetPartsPosition method is not implemented");
