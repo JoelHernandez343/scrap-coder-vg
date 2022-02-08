@@ -17,9 +17,11 @@ public enum SetZone {
 
 public class NodeZone : MonoBehaviour, INodeExpander {
 
-    [SerializeField] public NodeController controller;
     [SerializeField] new BoxCollider2D collider;
     [SerializeField] public NodeZoneColor color;
+    [SerializeField] NodeTransform ownTransform;
+
+    public NodeController controller => ownTransform.controller;
 
     List<NodeZone> zones = new List<NodeZone>();
 

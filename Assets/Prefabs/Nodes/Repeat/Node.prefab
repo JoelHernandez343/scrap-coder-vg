@@ -68,12 +68,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6150825404952637395}
-  controller: {fileID: 6150825404952637395}
   rectTransform: {fileID: 6150825404952637404}
   initHeight: 19
   initWidth: 44
   resizable: 1
   moveable: 1
+  directController: {fileID: 6150825404952637395}
+  pieceParent: {fileID: 0}
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +263,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 7842788364981981113, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
+      propertyPath: directController
+      value: 
+      objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 8258924384978689093, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
       propertyPath: controller
       value: 
@@ -416,6 +421,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 5460049587173434879, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
+      propertyPath: directController
+      value: 
+      objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 6618033663415726117, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_Name
       value: Siblings
@@ -447,6 +456,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: controller
+      value: 
+      objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
+      propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
@@ -658,6 +671,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 5460049587173434879, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
+      propertyPath: directController
+      value: 
+      objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 6618033663415726117, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_Name
       value: Children
@@ -801,6 +818,10 @@ PrefabInstance:
       objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 3067100846746954554, guid: fd155902da8049f4ca58bb935e1d8573, type: 3}
       propertyPath: controller
+      value: 
+      objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 3067100846746954554, guid: fd155902da8049f4ca58bb935e1d8573, type: 3}
+      propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 5089821879732314010, guid: fd155902da8049f4ca58bb935e1d8573, type: 3}

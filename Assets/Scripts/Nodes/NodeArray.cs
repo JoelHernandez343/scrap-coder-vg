@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class NodeArray : MonoBehaviour {
 
-    [SerializeField] public NodeController controller;
     [SerializeField] public NodeTransform ownTransform;
 
     [SerializeField] public List<NodeController> nodes;
 
     int borderOffset = 1;
+
+    public NodeController controller => ownTransform.controller;
 
     public int Count => nodes.Count;
 

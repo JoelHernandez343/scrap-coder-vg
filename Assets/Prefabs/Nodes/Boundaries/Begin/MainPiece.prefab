@@ -85,12 +85,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7466764253126666753}
-  controller: {fileID: 0}
   rectTransform: {fileID: 7466764253126666752}
   initHeight: 0
   initWidth: 0
   resizable: 1
   moveable: 0
+  directController: {fileID: 0}
+  pieceParent: {fileID: 2850428687301624555}
 --- !u!114 &7466764253126666753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +116,6 @@ MonoBehaviour:
   - {x: 12, y: -23}
   - {x: 8, y: -19}
   - {x: 0, y: -19}
-  controller: {fileID: 0}
   widthPointsRange:
     begin: 2
     end: 4
@@ -224,12 +224,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  controller: {fileID: 0}
   rectTransform: {fileID: 7466764253404176220}
   initHeight: 4
   initWidth: 7
   resizable: 0
   moveable: 1
+  directController: {fileID: 0}
+  pieceParent: {fileID: 2850428687301624555}
 --- !u!1 &7466764254513914417
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,12 +426,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7466764254513914445}
-  controller: {fileID: 0}
   rectTransform: {fileID: 7466764254513914446}
   initHeight: 19
   initWidth: 44
   resizable: 1
   moveable: 0
+  directController: {fileID: 0}
+  pieceParent: {fileID: 2850428687301624555}
 --- !u!114 &7466764254513914445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,12 +528,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  controller: {fileID: 0}
   rectTransform: {fileID: 7466764254849079728}
   initHeight: 19
   initWidth: 44
   resizable: 1
   moveable: 1
+  directController: {fileID: 0}
+  pieceParent: {fileID: 0}
 --- !u!114 &2850428687301624555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +564,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bottomZone
       objectReference: {fileID: 0}
+    - target: {fileID: 4821063590373823431, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
+      propertyPath: pieceParent
+      value: 
+      objectReference: {fileID: 2850428687301624555}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -686,6 +693,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: middleZone
       objectReference: {fileID: 0}
+    - target: {fileID: 4821063590373823431, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
+      propertyPath: pieceParent
+      value: 
+      objectReference: {fileID: 2850428687301624555}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_Pivot.x
       value: 0

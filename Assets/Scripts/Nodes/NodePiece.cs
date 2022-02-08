@@ -13,6 +13,8 @@ public class NodePiece : MonoBehaviour, INodeExpander {
 
     [SerializeField] NodeTransform ownTransform;
 
+    public NodeController controller => ownTransform.controller;
+
     public void SetPosition((int x, int y) position) {
         ownTransform.SetPosition(position);
     }

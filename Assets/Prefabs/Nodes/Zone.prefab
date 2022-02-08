@@ -108,12 +108,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7456343602923598073}
-  controller: {fileID: 0}
   rectTransform: {fileID: 5206846229017794663}
   initHeight: 0
   initWidth: 0
   resizable: 0
   moveable: 1
+  directController: {fileID: 0}
+  pieceParent: {fileID: 0}
 --- !u!114 &7456343602923598073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d1fc2610144064985f328560885012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
   collider: {fileID: 5588500258169809593}
   color: 0
+  ownTransform: {fileID: 4821063590373823431}

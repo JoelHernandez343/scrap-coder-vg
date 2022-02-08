@@ -6,13 +6,9 @@ public interface INodeExpander {
     void Expand(int dx = 0, int dy = 0);
 }
 
-
-
 public class NodeTransform : MonoBehaviour {
 
     [SerializeField] Component nodeExpander;
-
-    [SerializeField] public NodeController controller;
 
     [SerializeField] RectTransform rectTransform;
 
@@ -23,6 +19,11 @@ public class NodeTransform : MonoBehaviour {
     [SerializeField] bool moveable = true;
 
     public const int PixelsPerUnit = 24;
+
+
+    [SerializeField] NodeController directController;
+    [SerializeField] NodePiece pieceParent;
+    public NodeController controller => directController ?? pieceParent.controller;
 
     int _height;
     public int height {

@@ -18,12 +18,12 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     [SerializeField] new PolygonCollider2D collider;
     [SerializeField] List<Vector2> colliderPoints;
 
-    [SerializeField] NodeController controller;
-
     [SerializeField] Range widthPointsRange;
     [SerializeField] Range heightPointsRange;
 
     [SerializeField] NodeTransform ownTransform;
+
+    public NodeController controller => ownTransform.controller;
 
     void Awake() {
         SetDefaultCollider();

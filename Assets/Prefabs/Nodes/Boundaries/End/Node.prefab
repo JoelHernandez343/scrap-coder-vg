@@ -65,12 +65,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6150825404952637395}
-  controller: {fileID: 6150825404952637395}
   rectTransform: {fileID: 6150825404952637404}
   initHeight: 19
   initWidth: 44
   resizable: 1
   moveable: 1
+  directController: {fileID: 6150825404952637395}
+  pieceParent: {fileID: 0}
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97d9a59eae9883469f40a57aaf02835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodePartsPositioner: {fileID: 0}
   canvas: {fileID: 0}
   topZone: {fileID: 8768914725384907254}
   middleZone: {fileID: 8768914725032382775}
@@ -93,11 +93,13 @@ MonoBehaviour:
   - {fileID: 8768914725384907254}
   - {fileID: 8768914725032382775}
   - {fileID: 0}
-  zoneParentRefresher: {fileID: 0}
   siblings: {fileID: 1719250984619978579}
   ownTransform: {fileID: 6150825404952637394}
   mainPiece: {fileID: 1550180053781847382}
   mainText: {fileID: 6620584496687721742}
+  zoneRefresher: {fileID: 0}
+  partsPositioner: {fileID: 0}
+  selectorModifier: {fileID: 0}
 --- !u!1001 &6150825405774090806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,6 +199,10 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 5460049587173434879, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
+      propertyPath: directController
+      value: 
+      objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 6618033663415726117, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_Name
       value: Siblings
@@ -228,6 +234,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: controller
+      value: 
+      objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
+      propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
@@ -475,6 +485,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7842788364981981113, guid: ef767df6e3a8120438bf06bc1fd5e2a6, type: 3}
       propertyPath: controller
+      value: 
+      objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 7842788364981981113, guid: ef767df6e3a8120438bf06bc1fd5e2a6, type: 3}
+      propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
     m_RemovedComponents: []
