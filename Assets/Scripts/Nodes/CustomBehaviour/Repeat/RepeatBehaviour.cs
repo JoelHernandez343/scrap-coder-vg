@@ -13,6 +13,8 @@ public class RepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePositi
     [SerializeField] NodeArray children;
     [SerializeField] NodeArray siblings;
 
+    const int internalGap = 11;
+
     void INodeSelectorModifier.ModifySelectorFunc() {
         controller.selector[NodeZoneColor.Red, NodeZoneColor.Blue] = AddNodesToChildren;
         controller.selector[NodeZoneColor.Yellow, NodeZoneColor.Green] = AddNodesToChildren;
@@ -27,11 +29,12 @@ public class RepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePositi
     }
 
     void INodePositioner.SetPartsPosition(NodeArray toThisArray) {
+
         if (toThisArray == children) {
-            var dy = (children.height + 8) - edgePiece.height;
+            var dy = (children.height + internalGap) - edgePiece.height;
 
             if (children.Count == 0) {
-                dy += 8;
+                dy += internalGap;
             }
 
             edgePiece.Expand(dy: dy);
@@ -39,7 +42,6 @@ public class RepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePositi
 
             controller.ownTransform.Expand(dy: dy);
         }
-
 
         controller.parentArray?.SetPartsPosition(controller);
     }

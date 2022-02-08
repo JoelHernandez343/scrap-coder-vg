@@ -195,8 +195,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 2438962016398165710}
   rectTransform: {fileID: 2438962016398165709}
-  initHeight: 19
-  initWidth: 44
+  initHeight: 21
+  initWidth: 96
   resizable: 1
   moveable: 0
   directController: {fileID: 0}
@@ -227,11 +227,11 @@ MonoBehaviour:
     spriteIndex: 0
   ownTransform: {fileID: 2438962016398165705}
   widthPointsRange:
-    begin: 2
-    end: 3
+    begin: 4
+    end: 4
   heightPointsRange:
-    begin: 3
-    end: 5
+    begin: 2
+    end: 4
 --- !u!1 &2438962016735116592
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,8 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7046277744938051176}
   rectTransform: {fileID: 2438962016735116595}
-  initHeight: 19
-  initWidth: 44
+  initHeight: 21
+  initWidth: 96
   resizable: 1
   moveable: 1
   directController: {fileID: 0}

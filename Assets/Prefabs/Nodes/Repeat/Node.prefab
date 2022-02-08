@@ -67,10 +67,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 6150825404952637395}
+  nodeExpander: {fileID: 0}
   rectTransform: {fileID: 6150825404952637404}
-  initHeight: 19
-  initWidth: 44
+  initHeight: 45
+  initWidth: 96
   resizable: 1
   moveable: 1
   directController: {fileID: 6150825404952637395}
@@ -100,9 +100,9 @@ MonoBehaviour:
   ownTransform: {fileID: 6150825404952637394}
   mainPiece: {fileID: 4672922190033212407}
   mainText: {fileID: 6620584496687721742}
-  zoneRefresher: {fileID: 0}
-  partsPositioner: {fileID: 0}
-  selectorModifier: {fileID: 0}
+  zoneRefresher: {fileID: 103464346075557260}
+  partsPositioner: {fileID: 103464346075557260}
+  selectorModifier: {fileID: 103464346075557260}
 --- !u!114 &103464346075557260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 6150825404952637395}
     - target: {fileID: 7466764254513914444, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
       propertyPath: m_DynamicOccludee
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7466764254849079728, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
       propertyPath: m_Pivot.x
@@ -645,7 +645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_AnchoredPosition.y
