@@ -61,7 +61,7 @@ public class NodeZone : MonoBehaviour, INodeExpander {
         return controller.OnDrop(zone, this);
     }
 
-    void INodeExpander.Expand(int dx, int dy) {
+    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
         var vector = collider.size;
 
         vector.x += dx;

@@ -47,12 +47,11 @@ public class NodeController : MonoBehaviour, INodeExpander {
 
     [SerializeField] public NodeTransform ownTransform;
 
-    [SerializeField] NodeTransform mainPiece;
-    [SerializeField] NodeTransform mainText;
-
     [SerializeField] Component zoneRefresher;
     [SerializeField] Component partsPositioner;
     [SerializeField] Component selectorModifier;
+
+    [SerializeField] List<NodeTransform> componentParts;
 
     NodeController _controller;
     public NodeController controller {
@@ -211,9 +210,15 @@ public class NodeController : MonoBehaviour, INodeExpander {
         }
     }
 
-    void INodeExpander.Expand(int dx, int dy) {
-        mainPiece?.Expand(dx, dy);
-        siblings?.ownTransform.SetPositionByDelta(dy: -dy);
-        mainText?.SetFloatPositionByDelta(dy: -dy / 2f);
+    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
+        var index = componentParts.IndexOf(fromThistransform);
+
+        Debug.Assert(index != -1, $"This transform: {fromThistransform.gameObject.name} do not exist.");
+
+        componentParts[index].Expand(dx, dy);
+
+        for (var i = index + 1; i < componentParts.Count; ++i) {
+            componentParts[i].SetFloatPositionByDelta(dy: -dy);
+        }
     }
 }
