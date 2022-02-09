@@ -56,6 +56,9 @@ TextureImporter:
   - first:
       213: -5172894415875296280
     second: edge_side
+  - first:
+      213: -7779772245507925811
+    second: edge_side_bottom
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -518,6 +521,27 @@ TextureImporter:
       bones: []
       spriteID: 8e3b6299fef2638b0800000000000000
       internalID: -5172894415875296280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: edge_side_bottom
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 2
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 2, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc89e099c52b80490800000000000000
+      internalID: -7779772245507925811
       vertices: []
       indices: 
       edges: []

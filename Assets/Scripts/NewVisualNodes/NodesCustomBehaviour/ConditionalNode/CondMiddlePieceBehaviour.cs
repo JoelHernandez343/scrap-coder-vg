@@ -10,7 +10,7 @@ public class CondMiddlePieceBehaviour : MonoBehaviour, INodeExpander {
     [SerializeField] NodeTransform bottomZone;
     [SerializeField] new NodeTransform collider;
 
-    void INodeExpander.Expand(int dx, int dy) {
+    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
         asideShape.Expand(dx, dy);
         collider.Expand(dx, dy);
 
