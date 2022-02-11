@@ -319,6 +319,7 @@ MonoBehaviour:
   bottomZone: {fileID: 7151492744861318308}
   collider: {fileID: 2438962017248513693}
   unionSprite: {fileID: 2438962017508932569}
+  children: {fileID: 7334660404601716191}
   shape: {fileID: 2438962016398165705}
   ownTransform: {fileID: 3067100846746954554}
 --- !u!1 &2438962017248513664
@@ -801,3 +802,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
   m_PrefabInstance: {fileID: 3318041238570391584}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7334660404601716191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5460049587173434879, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
+  m_PrefabInstance: {fileID: 3318041238570391584}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

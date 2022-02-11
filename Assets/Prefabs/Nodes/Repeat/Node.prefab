@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: 103464346075557260}
+  - component: {fileID: 3538016440185425486}
   m_Layer: 5
   m_Name: Node
   m_TagString: Untagged
@@ -95,11 +95,11 @@ MonoBehaviour:
   - {fileID: 4463839067804374412}
   siblings: {fileID: 1719250984619978579}
   ownTransform: {fileID: 6150825404952637394}
-  zoneRefresher: {fileID: 103464346075557260}
-  partsPositioner: {fileID: 103464346075557260}
-  selectorModifier: {fileID: 103464346075557260}
+  zoneRefresher: {fileID: 3538016440185425486}
+  partsPositioner: {fileID: 3538016440185425486}
+  selectorModifier: {fileID: 3538016440185425486}
   componentParts: []
---- !u!114 &103464346075557260
+--- !u!114 &3538016440185425486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,14 +108,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6150825404952637405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0246eb19e50ecbe46b9d316692c485b9, type: 3}
+  m_Script: {fileID: 11500000, guid: f906a3dbcb6adad45a7e9f362c7ff697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 6150825404952637395}
-  edgePiece: {fileID: 5890871088794034476}
-  childrenZone: {fileID: 3236861116364236631}
-  children: {fileID: 3213528245339416660}
   siblings: {fileID: 1719250984619978579}
+  listOfChildren:
+  - piece: {fileID: 5890871088794034476}
+    children: {fileID: 3213528245339416660}
+    zone: {fileID: 3236861116364236631}
+  componentParts:
+  - {fileID: 4672922190033212407}
+  - {fileID: 5890871088794034476}
 --- !u!1001 &3174654618439851086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,6 +238,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7466764254849079728, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
   m_PrefabInstance: {fileID: 3174654618439851086}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4672922190033212407 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7842788364981981113, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
+  m_PrefabInstance: {fileID: 3174654618439851086}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8867216842198295349 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6269025193880862587, guid: d64b28a28e1e4ec45b6bdbe274d520d8, type: 3}
