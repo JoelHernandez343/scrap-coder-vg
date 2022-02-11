@@ -11,6 +11,7 @@ public class RobotController : MonoBehaviour
     [SerializeField] private Direction dirMovement, dirFacing;
     [SerializeField] private Action action;
     [SerializeField] private int steps;
+    private bool moving;
 
     private int rotateAux;
 
@@ -21,7 +22,7 @@ public class RobotController : MonoBehaviour
         movePoint.parent = null;
         action = Action.None;
         dirMovement = Direction.Down;
-        //move = false;
+        moving = false;
         rotate = 0;
         rotateAux = 0;
     }
@@ -35,6 +36,11 @@ public class RobotController : MonoBehaviour
             {
                 case 0:
                     dirMovement = dirFacing;
+                    if (!moving)
+                    {
+                        MovePoint(dirMovement);
+                        moving = true;
+                    }
                     Move(dirMovement);
                     break;
                 case 1:
@@ -58,6 +64,16 @@ public class RobotController : MonoBehaviour
     void Move(Direction dir)
     {
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
+        //MovePoint(dir);
+        if(Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
+        {
+            moving = false;
+            action = Action.None;
+        }
+    }
+
+    void MovePoint(Direction dir)
+    {
         if(Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
             //move = false;
@@ -79,7 +95,6 @@ public class RobotController : MonoBehaviour
                     break;
             }
         }
-
     }
     void Rotate(Direction dirF)
     {
