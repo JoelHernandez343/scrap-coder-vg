@@ -50,21 +50,26 @@ public class NodeShape : MonoBehaviour, INodeExpander {
         ownTransform.height += dy;
 
         // Width
-        for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
-            var point = shapePoints[i];
-            point.position.x += dx;
-            shapePoints[i] = point;
+        if (widthPointsRange.begin > -1) {
+            for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
+                var point = shapePoints[i];
+                point.position.x += dx;
+                shapePoints[i] = point;
 
-            line.SetPosition(i, point.position / pixelsPerUnit);
+                line.SetPosition(i, point.position / pixelsPerUnit);
+            }
         }
 
         // Height
-        for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
-            var point = shapePoints[i];
-            point.position.y -= dy;
-            shapePoints[i] = point;
+        if (heightPointsRange.begin > -1) {
+            for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
+                var point = shapePoints[i];
+                point.position.y -= dy;
+                shapePoints[i] = point;
 
-            line.SetPosition(i, point.position / pixelsPerUnit);
+                line.SetPosition(i, point.position / pixelsPerUnit);
+            }
         }
+
     }
 }
