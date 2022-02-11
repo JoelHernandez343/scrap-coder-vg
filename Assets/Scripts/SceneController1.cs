@@ -16,7 +16,9 @@ public class SceneController1 : MonoBehaviour
     {
         if (Input.GetButtonDown("Return"))
         {
+            SceneManager.UnloadScene("SampleScene");
             SceneManager.LoadScene("Menu");
+            
         }
     }
 }

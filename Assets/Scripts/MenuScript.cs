@@ -121,6 +121,10 @@ public class MenuScript : MonoBehaviour
             {
                 case 0:     /*        Nueva Partida      */
                     SceneManager.LoadScene("SampleScene");
+                    /*if (SceneManager.sceneLoaded("SampleScene"))
+                    {
+                        SceneManager.LoadScene("SampleScene");
+                    }*/
                     break;
                 case 1:     /*       Cargar Partida      */
                     SceneManager.LoadScene("NodesScene");

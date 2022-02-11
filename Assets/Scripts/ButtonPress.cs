@@ -8,33 +8,52 @@ public class ButtonPress : PowerScript
     [SerializeField] private Sprite[] sprites;
     private BoxCollider2D buttonTrigger;
     private SpriteRenderer spriteRenderer;
-    
+    [SerializeField] private int objectsInside;
+    [SerializeField] private int id;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        objectsInside = 0;
         power = false;
         buttonTrigger = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[0];
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
-        power = true;
-        spriteRenderer.sprite = sprites[1];
+        if (objectsInside == 0)
+            objectsInside++;
+        if (!power)
+        {
+            power = true;
+            General.evento_Energia(id);
+            spriteRenderer.sprite = sprites[1];
+        }
+        
+        
+        //General.evento_Energia(power);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        objectsInside++;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        power = false;
-        spriteRenderer.sprite = sprites[0];
+        objectsInside--;
+        if (power)
+        {
+            if (objectsInside < 1)
+            {
+                power = false;
+                General.evento_Energia(id);
+                spriteRenderer.sprite = sprites[0];
+            }
+        }
+       
     }
-
 }
