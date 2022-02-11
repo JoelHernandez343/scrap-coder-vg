@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier {
+public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier, INodePartsRefresher, IZoneParentRefresher {
 
     [System.Serializable]
     struct TupleNodeChildrenZone {
+        public NodeTransform piece;
         public NodeArray children;
         public NodeZone zone;
     }
@@ -14,6 +15,9 @@ public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier {
     [SerializeField] NodeArray siblings;
 
     [SerializeField] List<TupleNodeChildrenZone> listOfChildren;
+    [SerializeField] List<NodeTransform> componentParts;
+
+    const int internalGap = 10;
 
     void INodeSelectorModifier.ModifySelectorFunc() {
         controller.selector[NodeZoneColor.Red, NodeZoneColor.Blue] = AddNodesToChildren;
@@ -37,5 +41,38 @@ public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier {
         if (!wereAdded) {
             siblings.AddNodes(inZone.controller, toThisNode ?? controller);
         }
+    }
+
+    void INodePartsRefresher.RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta) {
+        var newDelta = delta ?? (0, 0);
+
+        var modified = listOfChildren.FindIndex(tuple => tuple.children == toThisArray);
+
+        var children = listOfChildren[modified].children;
+        var piece = listOfChildren[modified].piece;
+
+        if (children.previousCount == 0) {
+            newDelta.dy -= internalGap;
+        } else if (children.Count == 0) {
+            newDelta.dy += internalGap;
+        }
+
+        piece.Expand(dy: newDelta.dy);
+
+        var begin = componentParts.IndexOf(piece) + 1;
+        for (var i = begin; i < componentParts.Count; ++i) {
+            componentParts[i].SetPositionByDelta(dy: -newDelta.dy);
+        }
+
+        controller.ownTransform.Expand(dy: newDelta.dy);
+        controller.parentArray?.RefreshParts(controller, newDelta);
+    }
+
+    void IZoneParentRefresher.SetZonesAsParent(NodeArray array) {
+        var tuple = listOfChildren.Find(tuple => tuple.children == array);
+
+        tuple.zone.color = tuple.children.Count == 0
+            ? NodeZoneColor.Red
+            : NodeZoneColor.Yellow;
     }
 }
