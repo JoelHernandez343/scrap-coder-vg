@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - TriggerZone
+  - Lever
+  - Button
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Entities
-  - 
+  - DistortionEffect
   - 
   - 
   - 
@@ -45,9 +47,12 @@ TagManager:
   - name: Background
     uniqueID: 3849669569
     locked: 0
+  - name: Entities
+    uniqueID: 3830509229
+    locked: 0
   - name: Foreground
     uniqueID: 4025219963
     locked: 0
-  - name: Entities
-    uniqueID: 3830509229
+  - name: DistortionEffect
+    uniqueID: 167933897
     locked: 0
