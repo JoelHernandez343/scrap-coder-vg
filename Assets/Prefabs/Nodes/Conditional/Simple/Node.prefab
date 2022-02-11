@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: 103464346075557260}
+  - component: {fileID: 1297883735921447215}
   m_Layer: 5
   m_Name: Node
   m_TagString: Untagged
@@ -95,11 +95,11 @@ MonoBehaviour:
   - {fileID: 4463839067804374412}
   siblings: {fileID: 1719250984619978579}
   ownTransform: {fileID: 6150825404952637394}
-  zoneRefresher: {fileID: 103464346075557260}
-  partsPositioner: {fileID: 103464346075557260}
-  selectorModifier: {fileID: 103464346075557260}
+  zoneRefresher: {fileID: 1297883735921447215}
+  partsPositioner: {fileID: 1297883735921447215}
+  selectorModifier: {fileID: 1297883735921447215}
   componentParts: []
---- !u!114 &103464346075557260
+--- !u!114 &1297883735921447215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,14 +108,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6150825404952637405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0246eb19e50ecbe46b9d316692c485b9, type: 3}
+  m_Script: {fileID: 11500000, guid: f906a3dbcb6adad45a7e9f362c7ff697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 6150825404952637395}
-  edgePiece: {fileID: 5890871088794034476}
-  childrenZone: {fileID: 3236861116364236631}
-  children: {fileID: 3213528245339416660}
   siblings: {fileID: 1719250984619978579}
+  listOfChildren:
+  - piece: {fileID: 5890871088794034476}
+    children: {fileID: 3213528245339416660}
+    zone: {fileID: 3236861116364236631}
+  componentParts:
+  - {fileID: 4672922190033212407}
+  - {fileID: 5890871088794034476}
 --- !u!1001 &5416007114461515930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,6 +238,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 51897838845793636, guid: 5f4c55c56d34f864787c807caf7adc8a, type: 3}
   m_PrefabInstance: {fileID: 5416007114461515930}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4672922190033212407 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 860196596603667309, guid: 5f4c55c56d34f864787c807caf7adc8a, type: 3}
+  m_PrefabInstance: {fileID: 5416007114461515930}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8867216842198295349 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3469789843983217583, guid: 5f4c55c56d34f864787c807caf7adc8a, type: 3}
@@ -381,6 +396,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+      propertyPath: m_Sprites.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+      propertyPath: m_Sprites.Array.data[5]
+      value: 
+      objectReference: {fileID: -7779772245507925811, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+      propertyPath: m_Sprites.Array.data[11]
+      value: 
+      objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+    - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+      propertyPath: m_Sprites.Array.data[12]
+      value: 
+      objectReference: {fileID: 2970575540502949494, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+      propertyPath: m_Sprites.Array.data[13]
+      value: 
+      objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
     - target: {fileID: 5722514967340070158, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
       propertyPath: directController
       value: 

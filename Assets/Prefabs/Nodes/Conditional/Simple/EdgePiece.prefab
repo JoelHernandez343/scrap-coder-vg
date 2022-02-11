@@ -324,6 +324,7 @@ MonoBehaviour:
   bottomZone: {fileID: 5304311338300650613}
   collider: {fileID: 827370154093823564}
   unionSprite: {fileID: 827370154891113224}
+  children: {fileID: 5722514967340070158}
   shape: {fileID: 827370156003167768}
   ownTransform: {fileID: 14355454044382187}
 --- !u!1 &827370156003167843
@@ -415,6 +416,7 @@ SpriteShapeRenderer:
   - {fileID: -6275210630643476058, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
   - {fileID: -5172894415875296280, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
   - {fileID: -7481457433862403404, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+  - {fileID: -7779772245507925811, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
@@ -672,6 +674,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
   m_PrefabInstance: {fileID: 337641470545924337}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5722514967340070158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5460049587173434879, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
+  m_PrefabInstance: {fileID: 337641470545924337}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &827370155606648754
 PrefabInstance:
   m_ObjectHideFlags: 0
