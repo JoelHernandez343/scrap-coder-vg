@@ -9,7 +9,9 @@ public class NodePiece : MonoBehaviour, INodeExpander {
 
     [SerializeField] new NodeTransform collider;
     [SerializeField] NodeTransform unionSprite;
+    [SerializeField] NodeTransform children;
     [SerializeField] NodeTransform shape;
+    [SerializeField] NodeTransform text;
 
     [SerializeField] NodeTransform ownTransform;
 
@@ -27,8 +29,10 @@ public class NodePiece : MonoBehaviour, INodeExpander {
 
         shape?.Expand(dx, dy);
         collider?.Expand(dx, dy);
-        unionSprite?.SetPositionByDelta(dy: -dy);
 
+        unionSprite?.SetPositionByDelta(dy: -dy);
         bottomZone?.SetPositionByDelta(dy: -dy);
+        children?.SetPositionByDelta(dy: -dy);
+        text?.SetPositionByDelta(dy: -dy);
     }
 }
