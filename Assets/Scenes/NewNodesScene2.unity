@@ -179,6 +179,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2123671304}
     m_Modifications:
+    - target: {fileID: 6150825404952637395, guid: e73fbe8f158badf42a4bbe513c4f9aeb, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 2123671303}
     - target: {fileID: 6150825404952637404, guid: e73fbe8f158badf42a4bbe513c4f9aeb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
