@@ -20,6 +20,11 @@ public interface IZoneParentRefresher {
     void SetZonesAsParent(NodeArray array);
 }
 
+public interface INodePartsRefresher {
+    void RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
+}
+
+// It is going to deprecated
 public interface INodePositioner {
     void SetPartsPosition(NodeArray toThisArray);
 }
@@ -200,17 +205,19 @@ public class NodeController : MonoBehaviour, INodeExpander {
         }
     }
 
-    public void SetPartsPosition(NodeArray toThisArray) {
+    public void RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null) {
         if (toThisArray != siblings) {
-            if (partsPositioner is INodePositioner positioner) {
-                positioner.SetPartsPosition(toThisArray);
+            if (partsPositioner is INodePartsRefresher refresher) {
+                refresher.RefreshParts(toThisArray, delta);
             } else {
                 throw new System.NotImplementedException("SetPartsPosition method is not implemented");
             }
         }
     }
 
-    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
+    void INodeExpander.Expand(int dx, int dy) {
+        NodeTransform fromThistransform = null;
+
         var index = componentParts.IndexOf(fromThistransform);
 
         Debug.Assert(index != -1, $"This transform: {fromThistransform.gameObject.name} do not exist.");

@@ -61,7 +61,7 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
         controller.SetMiddleZone(false);
     }
 
-    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
+    void INodeExpander.Expand(int dx, int dy) {
 
         // Width
         for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {

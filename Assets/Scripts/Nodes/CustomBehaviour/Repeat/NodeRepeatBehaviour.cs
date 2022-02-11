@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePositioner, IZoneParentRefresher {
+public class NodeRepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePartsRefresher, IZoneParentRefresher {
 
     [SerializeField] NodeController controller;
 
@@ -13,7 +13,7 @@ public class RepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePositi
     [SerializeField] NodeArray children;
     [SerializeField] NodeArray siblings;
 
-    const int internalGap = 11;
+    const int internalGap = 10;
 
     void INodeSelectorModifier.ModifySelectorFunc() {
         controller.selector[NodeZoneColor.Red, NodeZoneColor.Blue] = AddNodesToChildren;
@@ -28,22 +28,25 @@ public class RepeatBehaviour : MonoBehaviour, INodeSelectorModifier, INodePositi
         }
     }
 
-    void INodePositioner.SetPartsPosition(NodeArray toThisArray) {
+    void INodePartsRefresher.RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta) {
+        var d = delta ?? (0, 0);
 
         if (toThisArray == children) {
-            var dy = (children.height + internalGap) - edgePiece.height;
+            Debug.Log($"[{controller.gameObject.name}] {toThisArray.previousCount}");
 
-            if (children.Count == 0) {
-                dy += internalGap;
+            if (toThisArray.previousCount == 0) {
+                d.dy -= internalGap;
+            } else if (toThisArray.previousCount > 0 && toThisArray.Count == 0) {
+                d.dy += internalGap;
             }
 
-            edgePiece.Expand(dy: dy);
-            siblings.ownTransform.SetPositionByDelta(dy: -dy);
+            edgePiece.Expand(dy: d.dy);
+            siblings.ownTransform.SetPositionByDelta(dy: -d.dy);
 
-            controller.ownTransform.Expand(dy: dy);
+            controller.ownTransform.Expand(dy: d.dy);
         }
 
-        controller.parentArray?.SetPartsPosition(controller);
+        controller.parentArray?.RefreshParts(controller, d);
     }
 
     void IZoneParentRefresher.SetZonesAsParent(NodeArray array) {

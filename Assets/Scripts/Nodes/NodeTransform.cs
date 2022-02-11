@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface INodeExpander {
-    void Expand(int dx = 0, int dy = 0, NodeTransform fromThisTransform = null);
+    void Expand(int dx = 0, int dy = 0);
 }
 
 public class NodeTransform : MonoBehaviour {
@@ -152,8 +152,6 @@ public class NodeTransform : MonoBehaviour {
         if (nodeExpander is INodeExpander expander) {
             expander.Expand(dx, dy);
         }
-
-        controller?.parentArray?.SetPartsPosition(controller);
     }
 
     public void ExpandByNewDimensions(int? newWidth = null, int? newHeight = null) {

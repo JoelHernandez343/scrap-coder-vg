@@ -32,9 +32,13 @@ public class NodeArray : MonoBehaviour {
     public (int x, int y) position => ownTransform.position;
     public (int fx, int fy) finalPosition => ownTransform.finalPosition;
 
+    public int previousCount { get; private set; }
+
     List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
         if (Count == 0) return new List<NodeController>();
+
+        var previousCount = Count;
 
         var lowerIndex =
             fromThisNode != null
@@ -46,8 +50,7 @@ public class NodeArray : MonoBehaviour {
         nodes.RemoveRange(lowerIndex, count);
 
         controller.RefreshZones(array: this, node: Last);
-        SetPartsPosition(Last);
-
+        RefreshParts(Last, previousCount: previousCount);
 
         return removedNodes;
     }
@@ -74,6 +77,8 @@ public class NodeArray : MonoBehaviour {
             return;
         }
 
+        var previousCount = Count;
+
         // Update hierarchy parent
         newNodes.ForEach(node => node.parentArray = this);
 
@@ -85,7 +90,7 @@ public class NodeArray : MonoBehaviour {
         nodes.InsertRange(index, newNodes);
 
         controller.RefreshZones(array: this, node: newNodes[0]);
-        SetPartsPosition(newNodes[0]);
+        RefreshParts(newNodes[0], previousCount: previousCount);
     }
 
     public void RefreshNodeZones(NodeController node = null) {
@@ -105,10 +110,15 @@ public class NodeArray : MonoBehaviour {
         }
     }
 
-    public void SetPartsPosition(NodeController node) {
+    public void RefreshParts(NodeController node, (int dx, int dy)? delta = null, int? previousCount = null) {
+        this.previousCount = previousCount ?? Count;
+
+        var dx = -ownTransform.width;
+        var dy = -ownTransform.height;
+
         if (node == null) {
             ownTransform.ExpandByNewDimensions(0, 0);
-            controller.SetPartsPosition(this);
+            controller.RefreshParts(this, (dx, dy));
             return;
         }
 
@@ -132,9 +142,17 @@ public class NodeArray : MonoBehaviour {
             : maxWidth
         );
 
+        dx = maxWidth - ownTransform.width;
+        dy = delta?.dy ?? -anchor.y - ownTransform.height;
+
         ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
 
-        controller.SetPartsPosition(this);
+        controller.RefreshParts(this, (dx, dy));
+    }
+
+    // It is going to deprecated
+    public void SetPartsPosition(NodeController controller) {
+        throw new System.NotImplementedException();
     }
 
 }

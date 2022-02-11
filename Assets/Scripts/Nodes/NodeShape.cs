@@ -45,7 +45,7 @@ public class NodeShape : MonoBehaviour, INodeExpander {
         spriteShapeController.RefreshSpriteShape();
     }
 
-    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
+    void INodeExpander.Expand(int dx, int dy) {
         ownTransform.width += dx;
         ownTransform.height += dy;
 

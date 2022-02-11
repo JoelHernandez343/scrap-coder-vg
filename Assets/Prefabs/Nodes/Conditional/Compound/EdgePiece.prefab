@@ -89,6 +89,7 @@ SpriteShapeRenderer:
   - {fileID: -6275210630643476058, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
   - {fileID: -5172894415875296280, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
   - {fileID: -7481457433862403404, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+  - {fileID: -7779772245507925811, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
@@ -272,7 +273,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -24}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7409257472122033712
@@ -772,7 +773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3
+      value: -21
       objectReference: {fileID: 0}
     - target: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

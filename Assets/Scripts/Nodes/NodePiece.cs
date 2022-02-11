@@ -23,7 +23,7 @@ public class NodePiece : MonoBehaviour, INodeExpander {
         ownTransform.SetPositionByDelta(dx, dy);
     }
 
-    void INodeExpander.Expand(int dx, int dy, NodeTransform fromThistransform) {
+    void INodeExpander.Expand(int dx, int dy) {
 
         shape?.Expand(dx, dy);
         collider?.Expand(dx, dy);

@@ -273,7 +273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637405, guid: 12ce32b70a41b3b459560e653065743f, type: 3}
       propertyPath: m_Name
-      value: Node (3)
+      value: Repeat
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12ce32b70a41b3b459560e653065743f, type: 3}
@@ -505,8 +505,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637405, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
       propertyPath: m_Name
-      value: Node (4)
+      value: Conditional
       objectReference: {fileID: 0}
+    - target: {fileID: 6523742215844154585, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
+      propertyPath: m_Sprites.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6523742215844154585, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
+      propertyPath: m_Sprites.Array.data[5]
+      value: 
+      objectReference: {fileID: -7779772245507925811, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - target: {fileID: 6523742215844154585, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
+      propertyPath: m_Sprites.Array.data[11]
+      value: 
+      objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+    - target: {fileID: 6523742215844154585, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
+      propertyPath: m_Sprites.Array.data[12]
+      value: 
+      objectReference: {fileID: 2970575540502949494, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - target: {fileID: 6523742215844154585, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
+      propertyPath: m_Sprites.Array.data[13]
+      value: 
+      objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de01ebc02f8d2f043bfa210c9e3e0e77, type: 3}
 --- !u!224 &849111325 stripped
@@ -686,7 +706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637405, guid: 9a6f4e3b1d4a9504097c48c22985c91b, type: 3}
       propertyPath: m_Name
-      value: Node (1)
+      value: Generic
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a6f4e3b1d4a9504097c48c22985c91b, type: 3}
@@ -791,7 +811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637405, guid: f4d81252bcbd36f4c82e8ff0685a6752, type: 3}
       propertyPath: m_Name
-      value: Node (2)
+      value: End
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4d81252bcbd36f4c82e8ff0685a6752, type: 3}
@@ -996,7 +1016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637405, guid: eadc9a3ad8933974690da485661edbbe, type: 3}
       propertyPath: m_Name
-      value: Node
+      value: Begin
       objectReference: {fileID: 0}
     - target: {fileID: 6150825405858193977, guid: eadc9a3ad8933974690da485661edbbe, type: 3}
       propertyPath: m_DynamicOccludee
