@@ -56,7 +56,7 @@ public class NodeArray : MonoBehaviour {
     }
 
     public void AddNodes(NodeController node, NodeController toThisNode = null) {
-        var newNodes = node.siblings.RemoveNodes();
+        var newNodes = node.siblings?.RemoveNodes() ?? new List<NodeController>();
         newNodes.Insert(0, node);
 
         AddRangeOfNodes(newNodes, toThisNode);
