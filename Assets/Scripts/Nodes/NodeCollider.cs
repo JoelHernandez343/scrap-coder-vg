@@ -34,7 +34,6 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        container.transform.SetAsLastSibling();
         HierarchyController.instance.SetOnTop(container.controller);
     }
 
@@ -42,7 +41,6 @@ public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
         controller.SetMiddleZone(true);
         controller.DetachFromParent();
 
-        container.transform.SetAsLastSibling();
         HierarchyController.instance.SetOnTop(container.controller);
 
         var (dx, dy) = (eventData.delta.x, eventData.delta.y);

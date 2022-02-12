@@ -109,6 +109,8 @@ public class NodeController : MonoBehaviour, INodeExpander {
         }
     }
 
+    public bool HasParent() => parentArray != null;
+
     public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
         if (controller != null && mainZones.Contains(ownZone)) {
             return controller.OnDrop(inZone, ownZone, this);
@@ -212,6 +214,10 @@ public class NodeController : MonoBehaviour, INodeExpander {
             } else {
                 throw new System.NotImplementedException("SetPartsPosition method is not implemented");
             }
+        }
+
+        if (!HasParent()) {
+            HierarchyController.instance.SetOnTop(this);
         }
     }
 

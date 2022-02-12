@@ -80,7 +80,10 @@ public class NodeArray : MonoBehaviour {
         var previousCount = Count;
 
         // Update hierarchy parent
-        newNodes.ForEach(node => node.parentArray = this);
+        newNodes.ForEach(node => {
+            node.parentArray = this;
+            node.ownTransform.ResetLevelZ();
+        });
 
         // Add to the nodes list right after fromThisNode
         var index = toThisNode != controller

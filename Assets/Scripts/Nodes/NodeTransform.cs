@@ -163,4 +163,9 @@ public class NodeTransform : MonoBehaviour {
 
         Expand(dx, dy);
     }
+
+    public void ResetLevelZ() {
+        var pos = transform.localPosition;
+        transform.localPosition = new Vector3(pos.x, pos.y, 0);
+    }
 }

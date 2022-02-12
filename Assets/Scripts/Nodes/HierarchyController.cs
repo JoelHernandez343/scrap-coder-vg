@@ -24,17 +24,18 @@ public class HierarchyController : MonoBehaviour {
 
     public void SetOnTop(NodeController controller) {
         controller = FindParent(controller);
+        controller.transform.SetAsLastSibling();
 
         var index = nodes.IndexOf(controller);
 
         if (index == -1) {
             nodes.Add(controller);
-            SetSortingOrder();
         } else if (index != nodes.Count - 1) {
             nodes.RemoveAt(index);
             nodes.Add(controller);
-            SetSortingOrder();
         }
+
+        SetSortingOrder();
     }
 
     public int IndexOf(NodeController controller) {
@@ -51,8 +52,14 @@ public class HierarchyController : MonoBehaviour {
 
     void SetSortingOrder() {
         for (int i = 0, order = initialOrder; i < nodes.Count; ++i, ++order) {
-            var sorter = nodes[i].GetComponent<UnityEngine.Rendering.SortingGroup>();
-            sorter.sortingOrder = order;
+            if (!nodes[i].HasParent()) {
+                var sorter = nodes[i].GetComponent<UnityEngine.Rendering.SortingGroup>();
+                var transform = nodes[i].GetComponent<RectTransform>();
+                var position = transform.localPosition;
+
+                sorter.sortingOrder = order;
+                transform.localPosition = new Vector3(position.x, position.y, -order);
+            }
         }
     }
 }
