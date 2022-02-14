@@ -155,10 +155,5 @@ namespace ScrapCoder.VisualNodes {
             controller.RefreshParts(this, (dx, dy));
         }
 
-        // It is going to deprecated
-        public void SetPartsPosition(NodeController controller) {
-            throw new System.NotImplementedException();
-        }
-
     }
 }
