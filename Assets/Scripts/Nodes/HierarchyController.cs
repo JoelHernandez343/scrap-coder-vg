@@ -2,64 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HierarchyController : MonoBehaviour {
+namespace ScrapCoder.VisualNodes {
 
-    [SerializeField] int initialOrder = 0;
+    public class HierarchyController : MonoBehaviour {
 
-    List<NodeController> nodes = new List<NodeController>();
+        [SerializeField] int initialOrder = 0;
 
-    public static HierarchyController instance {
-        private set;
-        get;
-    }
+        List<NodeController> nodes = new List<NodeController>();
 
-    void Awake() {
-        if (instance != null) {
-            Destroy(this.gameObject);
-            return;
+        public static HierarchyController instance {
+            private set;
+            get;
         }
 
-        instance = this;
-    }
+        void Awake() {
+            if (instance != null) {
+                Destroy(this.gameObject);
+                return;
+            }
 
-    public void SetOnTop(NodeController controller) {
-        controller = FindParent(controller);
-        controller.transform.SetAsLastSibling();
-
-        var index = nodes.IndexOf(controller);
-
-        if (index == -1) {
-            nodes.Add(controller);
-        } else if (index != nodes.Count - 1) {
-            nodes.RemoveAt(index);
-            nodes.Add(controller);
+            instance = this;
         }
 
-        SetSortingOrder();
-    }
+        public void SetOnTop(NodeController controller) {
+            controller = FindParent(controller);
+            controller.transform.SetAsLastSibling();
 
-    public int IndexOf(NodeController controller) {
-        return nodes.IndexOf(controller);
-    }
+            var index = nodes.IndexOf(controller);
 
-    NodeController FindParent(NodeController controller) {
-        while (controller.controller != null) {
-            controller = controller.controller;
+            if (index == -1) {
+                nodes.Add(controller);
+            } else if (index != nodes.Count - 1) {
+                nodes.RemoveAt(index);
+                nodes.Add(controller);
+            }
+
+            SetSortingOrder();
         }
 
-        return controller;
-    }
+        public int IndexOf(NodeController controller) {
+            return nodes.IndexOf(controller);
+        }
 
-    void SetSortingOrder() {
-        for (int i = 0, order = initialOrder; i < nodes.Count; ++i, ++order) {
-            if (!nodes[i].HasParent()) {
-                var sorter = nodes[i].GetComponent<UnityEngine.Rendering.SortingGroup>();
-                var transform = nodes[i].GetComponent<RectTransform>();
-                var position = transform.localPosition;
+        NodeController FindParent(NodeController controller) {
+            while (controller.controller != null) {
+                controller = controller.controller;
+            }
 
-                sorter.sortingOrder = order;
-                transform.localPosition = new Vector3(position.x, position.y, -order);
+            return controller;
+        }
+
+        void SetSortingOrder() {
+            for (int i = 0, order = initialOrder; i < nodes.Count; ++i, ++order) {
+                if (!nodes[i].HasParent()) {
+                    var sorter = nodes[i].GetComponent<UnityEngine.Rendering.SortingGroup>();
+                    var transform = nodes[i].GetComponent<RectTransform>();
+                    var position = transform.localPosition;
+
+                    sorter.sortingOrder = order;
+                    transform.localPosition = new Vector3(position.x, position.y, -order);
+                }
             }
         }
     }
+
 }

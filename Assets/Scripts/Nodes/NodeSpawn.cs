@@ -3,42 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
+namespace ScrapCoder.VisualNodes {
 
-    int spawnedNodes = 0;
-    NodeController spawnedNode;
+    public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
 
-    [SerializeField] Canvas canvas;
-    [SerializeField] NodeController nodeToSpawn;
-    [SerializeField] NodeTransform ownTransform;
+        int spawnedNodes = 0;
+        NodeController spawnedNode;
 
-    public void OnBeginDrag(PointerEventData eventData) {
-        var (dx, dy) = (eventData.delta.x, eventData.delta.y);
+        [SerializeField] Canvas canvas;
+        [SerializeField] NodeController nodeToSpawn;
+        [SerializeField] NodeTransform ownTransform;
 
-        spawnedNode = Instantiate(nodeToSpawn, canvas.transform);
+        public void OnBeginDrag(PointerEventData eventData) {
+            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
-        spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} (${spawnedNodes++})";
-        spawnedNode.ownTransform.SetPosition(ownTransform.position);
-        spawnedNode.canvas = canvas;
+            spawnedNode = Instantiate(nodeToSpawn, canvas.transform);
 
-        spawnedNode.SetMiddleZone(true);
-        spawnedNode.DetachFromParent();
+            spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} (${spawnedNodes++})";
+            spawnedNode.ownTransform.SetPosition(ownTransform.position);
+            spawnedNode.canvas = canvas;
 
-        spawnedNode.transform.SetAsLastSibling();
-        HierarchyController.instance.SetOnTop(spawnedNode);
-        spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
+            spawnedNode.SetMiddleZone(true);
+            spawnedNode.DetachFromParent();
+
+            spawnedNode.transform.SetAsLastSibling();
+            HierarchyController.instance.SetOnTop(spawnedNode);
+            spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
+        }
+
+        public void OnDrag(PointerEventData eventData) {
+            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
+
+            spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
+        }
+
+        public void OnEndDrag(PointerEventData eventData) {
+            spawnedNode.InvokeZones();
+            spawnedNode.SetMiddleZone(false);
+
+            spawnedNode = null;
+        }
     }
 
-    public void OnDrag(PointerEventData eventData) {
-        var (dx, dy) = (eventData.delta.x, eventData.delta.y);
-
-        spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
-    }
-
-    public void OnEndDrag(PointerEventData eventData) {
-        spawnedNode.InvokeZones();
-        spawnedNode.SetMiddleZone(false);
-
-        spawnedNode = null;
-    }
 }

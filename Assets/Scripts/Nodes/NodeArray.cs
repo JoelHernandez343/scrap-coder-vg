@@ -2,160 +2,163 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeArray : MonoBehaviour {
+namespace ScrapCoder.VisualNodes {
 
-    [SerializeField] public NodeTransform ownTransform;
+    public class NodeArray : MonoBehaviour {
 
-    [SerializeField] public List<NodeController> nodes;
+        [SerializeField] public NodeTransform ownTransform;
 
-    int borderOffset = 1;
+        [SerializeField] public List<NodeController> nodes;
 
-    public NodeController controller => ownTransform.controller;
+        int borderOffset = 1;
 
-    public int Count => nodes.Count;
+        public NodeController controller => ownTransform.controller;
 
-    public NodeController this[int index] => nodes[index];
+        public int Count => nodes.Count;
 
-    public NodeController Last => Count == 0 ? null : nodes[Count - 1];
+        public NodeController this[int index] => nodes[index];
 
-    public int width => ownTransform.width;
-    public int height => ownTransform.height;
+        public NodeController Last => Count == 0 ? null : nodes[Count - 1];
 
-    public int x => ownTransform.x;
-    public int y => ownTransform.y;
-    public int fx => ownTransform.fx;
-    public int fy => ownTransform.fy;
+        public int width => ownTransform.width;
+        public int height => ownTransform.height;
 
-    public int initWidth => ownTransform.initWidth;
-    public int initHeight => ownTransform.initHeight;
+        public int x => ownTransform.x;
+        public int y => ownTransform.y;
+        public int fx => ownTransform.fx;
+        public int fy => ownTransform.fy;
 
-    public (int x, int y) position => ownTransform.position;
-    public (int fx, int fy) finalPosition => ownTransform.finalPosition;
+        public int initWidth => ownTransform.initWidth;
+        public int initHeight => ownTransform.initHeight;
 
-    public int previousCount { get; private set; }
+        public (int x, int y) position => ownTransform.position;
+        public (int fx, int fy) finalPosition => ownTransform.finalPosition;
 
-    List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
+        public int previousCount { get; private set; }
 
-        if (Count == 0) return new List<NodeController>();
+        List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
-        var previousCount = Count;
+            if (Count == 0) return new List<NodeController>();
 
-        var lowerIndex =
-            fromThisNode != null
-            ? nodes.IndexOf(fromThisNode)
-            : 0;
+            var previousCount = Count;
 
-        var count = Count - lowerIndex;
-        var removedNodes = nodes.GetRange(lowerIndex, count);
-        nodes.RemoveRange(lowerIndex, count);
+            var lowerIndex =
+                fromThisNode != null
+                ? nodes.IndexOf(fromThisNode)
+                : 0;
 
-        controller.RefreshZones(array: this, node: Last);
-        RefreshParts(Last, previousCount: previousCount);
+            var count = Count - lowerIndex;
+            var removedNodes = nodes.GetRange(lowerIndex, count);
+            nodes.RemoveRange(lowerIndex, count);
 
-        return removedNodes;
-    }
+            controller.RefreshZones(array: this, node: Last);
+            RefreshParts(Last, previousCount: previousCount);
 
-    public void AddNodes(NodeController node, NodeController toThisNode = null) {
-        var newNodes = node.siblings?.RemoveNodes() ?? new List<NodeController>();
-        newNodes.Insert(0, node);
-
-        AddRangeOfNodes(newNodes, toThisNode);
-    }
-
-    public void AddNodesFromParent() {
-        var newNodes = controller.parentArray.RemoveNodes(controller);
-        newNodes.RemoveAt(0);
-
-        controller.ClearParent();
-
-        AddRangeOfNodes(newNodes, controller);
-    }
-
-    void AddRangeOfNodes(List<NodeController> newNodes, NodeController toThisNode) {
-        if (newNodes.Count == 0) {
-            controller.RefreshZones(array: this);
-            return;
+            return removedNodes;
         }
 
-        var previousCount = Count;
+        public void AddNodes(NodeController node, NodeController toThisNode = null) {
+            var newNodes = node.siblings?.RemoveNodes() ?? new List<NodeController>();
+            newNodes.Insert(0, node);
 
-        // Update hierarchy parent
-        newNodes.ForEach(node => {
-            node.parentArray = this;
-            node.ownTransform.ResetLevelZ();
-        });
-
-        // Add to the nodes list right after fromThisNode
-        var index = toThisNode != controller
-            ? nodes.IndexOf(toThisNode) + 1
-            : 0;
-
-        nodes.InsertRange(index, newNodes);
-
-        controller.RefreshZones(array: this, node: newNodes[0]);
-        RefreshParts(newNodes[0], previousCount: previousCount);
-    }
-
-    public void RefreshNodeZones(NodeController node = null) {
-        if (node == null) {
-            Debug.Assert(Count == -0, controller.gameObject.name);
-            return;
+            AddRangeOfNodes(newNodes, toThisNode);
         }
 
-        var begin = nodes.IndexOf(node);
+        public void AddNodesFromParent() {
+            var newNodes = controller.parentArray.RemoveNodes(controller);
+            newNodes.RemoveAt(0);
 
-        for (var i = begin; i < Count; ++i) {
-            if (nodes[i] != Last) {
-                nodes[i].SetZones(SetZone.asChild);
-            } else {
-                nodes[i].SetZones(SetZone.asLastChild);
+            controller.ClearParent();
+
+            AddRangeOfNodes(newNodes, controller);
+        }
+
+        void AddRangeOfNodes(List<NodeController> newNodes, NodeController toThisNode) {
+            if (newNodes.Count == 0) {
+                controller.RefreshZones(array: this);
+                return;
+            }
+
+            var previousCount = Count;
+
+            // Update hierarchy parent
+            newNodes.ForEach(node => {
+                node.parentArray = this;
+                node.ownTransform.ResetLevelZ();
+            });
+
+            // Add to the nodes list right after fromThisNode
+            var index = toThisNode != controller
+                ? nodes.IndexOf(toThisNode) + 1
+                : 0;
+
+            nodes.InsertRange(index, newNodes);
+
+            controller.RefreshZones(array: this, node: newNodes[0]);
+            RefreshParts(newNodes[0], previousCount: previousCount);
+        }
+
+        public void RefreshNodeZones(NodeController node = null) {
+            if (node == null) {
+                Debug.Assert(Count == -0, controller.gameObject.name);
+                return;
+            }
+
+            var begin = nodes.IndexOf(node);
+
+            for (var i = begin; i < Count; ++i) {
+                if (nodes[i] != Last) {
+                    nodes[i].SetZones(SetZone.asChild);
+                } else {
+                    nodes[i].SetZones(SetZone.asLastChild);
+                }
             }
         }
-    }
 
-    public void RefreshParts(NodeController node, (int dx, int dy)? delta = null, int? previousCount = null) {
-        this.previousCount = previousCount ?? Count;
+        public void RefreshParts(NodeController node, (int dx, int dy)? delta = null, int? previousCount = null) {
+            this.previousCount = previousCount ?? Count;
 
-        var dx = -ownTransform.width;
-        var dy = -ownTransform.height;
+            var dx = -ownTransform.width;
+            var dy = -ownTransform.height;
 
-        if (node == null) {
-            ownTransform.ExpandByNewDimensions(0, 0);
+            if (node == null) {
+                ownTransform.ExpandByNewDimensions(0, 0);
+                controller.RefreshParts(this, (dx, dy));
+                return;
+            }
+
+            var anchor = (x: 0, y: 0 + borderOffset);
+            var maxWidth = 0;
+            var begin = nodes.IndexOf(node);
+
+            if (begin > 0) {
+                anchor.x = nodes[begin - 1].ownTransform.x;
+                anchor.y = nodes[begin - 1].ownTransform.fy + borderOffset;
+            }
+
+            for (var i = begin; i < Count; ++i) {
+                nodes[i].ownTransform.SetPosition(anchor);
+                anchor.y = nodes[i].ownTransform.fy + borderOffset;
+            }
+
+            nodes.ForEach(n => maxWidth =
+                maxWidth < n.ownTransform.width
+                ? n.ownTransform.width
+                : maxWidth
+            );
+
+            dx = maxWidth - ownTransform.width;
+            dy = delta?.dy ?? -anchor.y - ownTransform.height;
+
+            ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
+
             controller.RefreshParts(this, (dx, dy));
-            return;
         }
 
-        var anchor = (x: 0, y: 0 + borderOffset);
-        var maxWidth = 0;
-        var begin = nodes.IndexOf(node);
-
-        if (begin > 0) {
-            anchor.x = nodes[begin - 1].ownTransform.x;
-            anchor.y = nodes[begin - 1].ownTransform.fy + borderOffset;
+        // It is going to deprecated
+        public void SetPartsPosition(NodeController controller) {
+            throw new System.NotImplementedException();
         }
 
-        for (var i = begin; i < Count; ++i) {
-            nodes[i].ownTransform.SetPosition(anchor);
-            anchor.y = nodes[i].ownTransform.fy + borderOffset;
-        }
-
-        nodes.ForEach(n => maxWidth =
-            maxWidth < n.ownTransform.width
-            ? n.ownTransform.width
-            : maxWidth
-        );
-
-        dx = maxWidth - ownTransform.width;
-        dy = delta?.dy ?? -anchor.y - ownTransform.height;
-
-        ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
-
-        controller.RefreshParts(this, (dx, dy));
     }
-
-    // It is going to deprecated
-    public void SetPartsPosition(NodeController controller) {
-        throw new System.NotImplementedException();
-    }
-
 }

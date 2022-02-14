@@ -2,37 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodePiece : MonoBehaviour, INodeExpander {
+namespace ScrapCoder.VisualNodes {
 
-    [SerializeField] NodeTransform middleZone;
-    [SerializeField] NodeTransform bottomZone;
+    public class NodePiece : MonoBehaviour, INodeExpander {
 
-    [SerializeField] new NodeTransform collider;
-    [SerializeField] NodeTransform unionSprite;
-    [SerializeField] NodeTransform children;
-    [SerializeField] NodeTransform shape;
-    [SerializeField] NodeTransform text;
+        [SerializeField] NodeTransform middleZone;
+        [SerializeField] NodeTransform bottomZone;
 
-    [SerializeField] NodeTransform ownTransform;
+        [SerializeField] new NodeTransform collider;
+        [SerializeField] NodeTransform unionSprite;
+        [SerializeField] NodeTransform children;
+        [SerializeField] NodeTransform shape;
+        [SerializeField] NodeTransform text;
 
-    public NodeController controller => ownTransform.controller;
+        [SerializeField] NodeTransform ownTransform;
 
-    public void SetPosition((int x, int y) position) {
-        ownTransform.SetPosition(position);
-    }
+        public NodeController controller => ownTransform.controller;
 
-    public void SetPositionByDelta(int dx = 0, int dy = 0) {
-        ownTransform.SetPositionByDelta(dx, dy);
-    }
+        public void SetPosition((int x, int y) position) {
+            ownTransform.SetPosition(position);
+        }
 
-    void INodeExpander.Expand(int dx, int dy) {
+        public void SetPositionByDelta(int dx = 0, int dy = 0) {
+            ownTransform.SetPositionByDelta(dx, dy);
+        }
 
-        shape?.Expand(dx, dy);
-        collider?.Expand(dx, dy);
+        void INodeExpander.Expand(int dx, int dy) {
 
-        unionSprite?.SetPositionByDelta(dy: -dy);
-        bottomZone?.SetPositionByDelta(dy: -dy);
-        children?.SetPositionByDelta(dy: -dy);
-        text?.SetPositionByDelta(dy: -dy);
+            shape?.Expand(dx, dy);
+            collider?.Expand(dx, dy);
+
+            unionSprite?.SetPositionByDelta(dy: -dy);
+            bottomZone?.SetPositionByDelta(dy: -dy);
+            children?.SetPositionByDelta(dy: -dy);
+            text?.SetPositionByDelta(dy: -dy);
+        }
     }
 }

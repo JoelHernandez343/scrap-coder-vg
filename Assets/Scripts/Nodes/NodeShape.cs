@@ -4,72 +4,74 @@ using UnityEngine;
 using System;
 using UnityEngine.U2D;
 
+namespace ScrapCoder.VisualNodes {
 
-[Serializable]
-public struct ShapePoint {
-    public Vector2 position;
-    public int spriteIndex;
-}
-
-public class NodeShape : MonoBehaviour, INodeExpander {
-
-    [SerializeField] public SpriteShapeController spriteShapeController;
-    [SerializeField] List<ShapePoint> shapePoints;
-
-    [SerializeField] NodeTransform ownTransform;
-
-    [SerializeField] Range widthPointsRange;
-    [SerializeField] Range heightPointsRange;
-
-    public Spline line => spriteShapeController?.spline;
-
-    int pixelsPerUnit;
-
-    void Awake() {
-        pixelsPerUnit = NodeTransform.PixelsPerUnit;
-
-        SetDefaultShape();
+    [Serializable]
+    public struct ShapePoint {
+        public Vector2 position;
+        public int spriteIndex;
     }
 
-    void SetDefaultShape() {
-        line.Clear();
+    public class NodeShape : MonoBehaviour, INodeExpander {
 
-        for (var i = 0; i < shapePoints.Count; ++i) {
-            var point = shapePoints[i];
+        [SerializeField] public SpriteShapeController spriteShapeController;
+        [SerializeField] List<ShapePoint> shapePoints;
 
-            line.InsertPointAt(i, point.position / pixelsPerUnit);
-            line.SetSpriteIndex(i, point.spriteIndex);
-            line.SetTangentMode(i, ShapeTangentMode.Linear);
+        [SerializeField] NodeTransform ownTransform;
+
+        [SerializeField] NodeRange widthPointsRange;
+        [SerializeField] NodeRange heightPointsRange;
+
+        public Spline line => spriteShapeController?.spline;
+
+        int pixelsPerUnit;
+
+        void Awake() {
+            pixelsPerUnit = NodeTransform.PixelsPerUnit;
+
+            SetDefaultShape();
         }
 
-        spriteShapeController.RefreshSpriteShape();
-    }
+        void SetDefaultShape() {
+            line.Clear();
 
-    void INodeExpander.Expand(int dx, int dy) {
-        ownTransform.width += dx;
-        ownTransform.height += dy;
-
-        // Width
-        if (widthPointsRange.begin > -1) {
-            for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
+            for (var i = 0; i < shapePoints.Count; ++i) {
                 var point = shapePoints[i];
-                point.position.x += dx;
-                shapePoints[i] = point;
 
-                line.SetPosition(i, point.position / pixelsPerUnit);
+                line.InsertPointAt(i, point.position / pixelsPerUnit);
+                line.SetSpriteIndex(i, point.spriteIndex);
+                line.SetTangentMode(i, ShapeTangentMode.Linear);
             }
+
+            spriteShapeController.RefreshSpriteShape();
         }
 
-        // Height
-        if (heightPointsRange.begin > -1) {
-            for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
-                var point = shapePoints[i];
-                point.position.y -= dy;
-                shapePoints[i] = point;
+        void INodeExpander.Expand(int dx, int dy) {
+            ownTransform.width += dx;
+            ownTransform.height += dy;
 
-                line.SetPosition(i, point.position / pixelsPerUnit);
+            // Width
+            if (widthPointsRange.begin > -1) {
+                for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
+                    var point = shapePoints[i];
+                    point.position.x += dx;
+                    shapePoints[i] = point;
+
+                    line.SetPosition(i, point.position / pixelsPerUnit);
+                }
             }
-        }
 
+            // Height
+            if (heightPointsRange.begin > -1) {
+                for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
+                    var point = shapePoints[i];
+                    point.position.y -= dy;
+                    shapePoints[i] = point;
+
+                    line.SetPosition(i, point.position / pixelsPerUnit);
+                }
+            }
+
+        }
     }
 }

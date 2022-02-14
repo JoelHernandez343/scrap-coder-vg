@@ -4,77 +4,79 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-[Serializable]
-public struct Range {
-    public int begin;
-    public int end;
-}
+namespace ScrapCoder.VisualNodes {
 
-
-public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, INodeExpander {
-
-    [SerializeField] NodeTransform container;
-
-    [SerializeField] new PolygonCollider2D collider;
-    [SerializeField] List<Vector2> colliderPoints;
-
-    [SerializeField] Range widthPointsRange;
-    [SerializeField] Range heightPointsRange;
-
-    [SerializeField] NodeTransform ownTransform;
-
-    public NodeController controller => ownTransform.controller;
-
-    void Awake() {
-        SetDefaultCollider();
+    [Serializable]
+    public struct NodeRange {
+        public int begin;
+        public int end;
     }
 
-    void SetDefaultCollider() {
-        collider.SetPath(0, colliderPoints);
-    }
+    public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, INodeExpander {
 
-    public void OnPointerDown(PointerEventData eventData) {
-        HierarchyController.instance.SetOnTop(container.controller);
-    }
+        [SerializeField] NodeTransform container;
 
-    public void OnBeginDrag(PointerEventData eventData) {
-        controller.SetMiddleZone(true);
-        controller.DetachFromParent();
+        [SerializeField] new PolygonCollider2D collider;
+        [SerializeField] List<Vector2> colliderPoints;
 
-        HierarchyController.instance.SetOnTop(container.controller);
+        [SerializeField] NodeRange widthPointsRange;
+        [SerializeField] NodeRange heightPointsRange;
 
-        var (dx, dy) = (eventData.delta.x, eventData.delta.y);
+        [SerializeField] NodeTransform ownTransform;
 
-        container.SetFloatPositionByDelta(dx, dy);
-    }
+        public NodeController controller => ownTransform.controller;
 
-    public void OnDrag(PointerEventData eventData) {
-        var (dx, dy) = (eventData.delta.x, eventData.delta.y);
-
-        container.SetFloatPositionByDelta(dx, dy);
-    }
-
-    public void OnEndDrag(PointerEventData eventData) {
-        controller.InvokeZones();
-        controller.SetMiddleZone(false);
-    }
-
-    void INodeExpander.Expand(int dx, int dy) {
-
-        // Width
-        for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
-            var point = colliderPoints[i];
-            point.x += dx;
-            colliderPoints[i] = point;
+        void Awake() {
+            SetDefaultCollider();
         }
 
-        // Height
-        for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
-            var point = colliderPoints[i];
-            point.y -= dy;
-            colliderPoints[i] = point;
+        void SetDefaultCollider() {
+            collider.SetPath(0, colliderPoints);
         }
 
-        collider.SetPath(0, colliderPoints);
+        public void OnPointerDown(PointerEventData eventData) {
+            HierarchyController.instance.SetOnTop(container.controller);
+        }
+
+        public void OnBeginDrag(PointerEventData eventData) {
+            controller.SetMiddleZone(true);
+            controller.DetachFromParent();
+
+            HierarchyController.instance.SetOnTop(container.controller);
+
+            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
+
+            container.SetFloatPositionByDelta(dx, dy);
+        }
+
+        public void OnDrag(PointerEventData eventData) {
+            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
+
+            container.SetFloatPositionByDelta(dx, dy);
+        }
+
+        public void OnEndDrag(PointerEventData eventData) {
+            controller.InvokeZones();
+            controller.SetMiddleZone(false);
+        }
+
+        void INodeExpander.Expand(int dx, int dy) {
+
+            // Width
+            for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
+                var point = colliderPoints[i];
+                point.x += dx;
+                colliderPoints[i] = point;
+            }
+
+            // Height
+            for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
+                var point = colliderPoints[i];
+                point.y -= dy;
+                colliderPoints[i] = point;
+            }
+
+            collider.SetPath(0, colliderPoints);
+        }
     }
 }

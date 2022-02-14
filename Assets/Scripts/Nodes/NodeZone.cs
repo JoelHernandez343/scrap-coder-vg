@@ -2,71 +2,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum NodeZoneColor {
-    Blue,
-    Red,
-    Green,
-    Yellow,
-}
+namespace ScrapCoder.VisualNodes {
 
-public enum SetZone {
-    asParent,
-    asChild,
-    asLastChild
-}
+    public enum ZoneColor {
+        Blue,
+        Red,
+        Green,
+        Yellow,
+    }
 
-public class NodeZone : MonoBehaviour, INodeExpander {
+    public enum SetZone {
+        asParent,
+        asChild,
+        asLastChild
+    }
 
-    [SerializeField] new BoxCollider2D collider;
-    [SerializeField] public NodeZoneColor color;
-    [SerializeField] NodeTransform ownTransform;
+    public class NodeZone : MonoBehaviour, INodeExpander {
 
-    public NodeController controller => ownTransform.controller;
+        [SerializeField] new BoxCollider2D collider;
+        [SerializeField] public ZoneColor color;
+        [SerializeField] NodeTransform ownTransform;
 
-    List<NodeZone> zones = new List<NodeZone>();
+        public NodeController controller => ownTransform.controller;
 
-    public void OnTriggerEnter2D(Collider2D collider) {
-        var zone = collider.GetComponent<NodeZone>();
+        List<NodeZone> zones = new List<NodeZone>();
 
-        if (zone?.tag == "TriggerZone") {
-            zones.Add(zone);
+        public void OnTriggerEnter2D(Collider2D collider) {
+            var zone = collider.GetComponent<NodeZone>();
+
+            if (zone?.tag == "TriggerZone") {
+                zones.Add(zone);
+            }
+        }
+
+        public void OnTriggerExit2D(Collider2D collider) {
+
+            var zone = collider.GetComponent<NodeZone>();
+
+            if (zone?.tag == "TriggerZone") {
+                zones.Remove(zone);
+            }
+        }
+
+        public bool Invoke() {
+            if (zones.Count == 0) {
+                return false;
+            }
+
+            zones.Sort((zoneA, zoneB) => {
+                var indexA = HierarchyController.instance.IndexOf(zoneA.controller);
+                var indexB = HierarchyController.instance.IndexOf(zoneB.controller);
+
+                return indexA.CompareTo(indexB);
+            });
+
+            return zones[zones.Count - 1].OnDrop(this);
+        }
+
+        public bool OnDrop(NodeZone zone) {
+            return controller.OnDrop(zone, this);
+        }
+
+        void INodeExpander.Expand(int dx, int dy) {
+            var vector = collider.size;
+
+            vector.x += dx;
+            vector.y += dy;
+
+            collider.size = vector;
         }
     }
 
-    public void OnTriggerExit2D(Collider2D collider) {
-
-        var zone = collider.GetComponent<NodeZone>();
-
-        if (zone?.tag == "TriggerZone") {
-            zones.Remove(zone);
-        }
-    }
-
-    public bool Invoke() {
-        if (zones.Count == 0) {
-            return false;
-        }
-
-        zones.Sort((zoneA, zoneB) => {
-            var indexA = HierarchyController.instance.IndexOf(zoneA.controller);
-            var indexB = HierarchyController.instance.IndexOf(zoneB.controller);
-
-            return indexA.CompareTo(indexB);
-        });
-
-        return zones[zones.Count - 1].OnDrop(this);
-    }
-
-    public bool OnDrop(NodeZone zone) {
-        return controller.OnDrop(zone, this);
-    }
-
-    void INodeExpander.Expand(int dx, int dy) {
-        var vector = collider.size;
-
-        vector.x += dx;
-        vector.y += dy;
-
-        collider.size = vector;
-    }
 }
