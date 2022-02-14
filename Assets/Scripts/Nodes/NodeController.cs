@@ -26,11 +26,6 @@ namespace ScrapCoder.VisualNodes {
         void RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
     }
 
-    // It is going to deprecated
-    public interface INodePositioner {
-        void SetPartsPosition(NodeArray toThisArray);
-    }
-
     public interface INodeSelectorModifier {
         void ModifySelectorFunc();
     }
