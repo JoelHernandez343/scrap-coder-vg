@@ -4,12 +4,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.U2D;
 
 namespace ScrapCoder.VisualNodes {
 
-    [Serializable]
+    [System.Serializable]
     public struct ShapePoint {
         public Vector2 position;
         public int spriteIndex;
