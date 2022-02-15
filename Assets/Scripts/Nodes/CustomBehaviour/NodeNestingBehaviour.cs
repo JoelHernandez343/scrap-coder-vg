@@ -11,8 +11,8 @@ namespace ScrapCoder.VisualNodes {
 
         [System.Serializable]
         struct TupleNodeChildrenZone {
-            public NodeTransform piece;
             public NodeArray children;
+            public NodePiece piece;
             public NodeZone zone;
         }
 
@@ -48,23 +48,25 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        (int dx, int dy) INodePartsRefresher.RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta) {
+        (int dx, int dy) INodePartsRefresher.RefreshParts(NodeArray fromThisArray, (int dx, int dy)? delta) {
             var newDelta = delta ?? (0, 0);
 
-            var modified = listOfChildren.FindIndex(tuple => tuple.children == toThisArray);
+            var modified = listOfChildren.FindIndex(tuple => tuple.children == fromThisArray);
 
             var children = listOfChildren[modified].children;
             var piece = listOfChildren[modified].piece;
 
-            if (children.previousCount == 0) {
-                newDelta.dy -= internalGap;
-            } else if (children.Count == 0) {
-                newDelta.dy += internalGap;
+            if (!piece.HasHorizontalArray(fromThisArray)) {
+                if (children.previousCount == 0) {
+                    newDelta.dy -= internalGap;
+                } else if (children.Count == 0) {
+                    newDelta.dy += internalGap;
+                }
             }
 
-            piece.Expand(dy: newDelta.dy);
+            piece.ownTransform.Expand(dy: newDelta.dy, fromThisArray: fromThisArray);
 
-            var begin = componentParts.IndexOf(piece) + 1;
+            var begin = componentParts.IndexOf(piece.ownTransform) + 1;
             for (var i = begin; i < componentParts.Count; ++i) {
                 componentParts[i].SetPositionByDelta(dy: -newDelta.dy);
             }

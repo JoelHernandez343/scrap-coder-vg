@@ -115,11 +115,11 @@ MonoBehaviour:
   controller: {fileID: 6150825404952637395}
   siblings: {fileID: 1719250984619978579}
   listOfChildren:
-  - piece: {fileID: 771120474081470334}
-    children: {fileID: 3213528245339416660}
+  - children: {fileID: 3213528245339416660}
+    piece: {fileID: 4749747581830769196}
     zone: {fileID: 3236861116364236631}
-  - piece: {fileID: 5890871088794034476}
-    children: {fileID: 5130680971813885061}
+  - children: {fileID: 5130680971813885061}
+    piece: {fileID: 1916699136733539454}
     zone: {fileID: 7386387226809750494}
   componentParts:
   - {fileID: 4672922190033212407}
@@ -607,6 +607,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4749747581830769196 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2200853277799244846, guid: 0098e77584583d94b8cd35e7fd88193e, type: 3}
+  m_PrefabInstance: {fileID: 6872913216242011650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7386387226809750494 stripped
