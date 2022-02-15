@@ -16,7 +16,6 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeTransform unionSprite;
         [SerializeField] NodeTransform children;
         [SerializeField] NodeTransform shape;
-        [SerializeField] NodeTransform text;
 
         [SerializeField] NodeTransform ownTransform;
 
