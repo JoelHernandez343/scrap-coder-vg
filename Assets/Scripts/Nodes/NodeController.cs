@@ -211,7 +211,7 @@ namespace ScrapCoder.VisualNodes {
             if (toThisArray != siblings) {
                 if (partsPositioner is INodePartsRefresher refresher) {
                     var newDelta = refresher.RefreshParts(toThisArray, delta);
-                    parentArray?.RefreshParts(controller, delta: newDelta);
+                    parentArray?.RefreshParts(this, delta: newDelta);
                 } else {
                     throw new System.NotImplementedException("SetPartsPosition method is not implemented");
                 }
