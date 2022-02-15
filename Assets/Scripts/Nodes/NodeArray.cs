@@ -13,6 +13,8 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public List<NodeController> nodes;
 
+        [SerializeField] NodeSprite associatedSprite;
+
         int borderOffset = 1;
 
         public NodeController controller => ownTransform.controller;
@@ -123,6 +125,12 @@ namespace ScrapCoder.VisualNodes {
 
             var dx = -ownTransform.width;
             var dy = -ownTransform.height;
+
+            if (Count == 0) {
+                associatedSprite?.show();
+            } else {
+                associatedSprite?.hide();
+            }
 
             if (node == null) {
                 ownTransform.ExpandByNewDimensions(0, 0);
