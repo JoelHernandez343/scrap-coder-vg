@@ -26,7 +26,7 @@ namespace ScrapCoder.VisualNodes {
     }
 
     public interface INodePartsRefresher {
-        void RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
+        (int dx, int dy) RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
     }
 
     public interface INodeSelectorModifier {
@@ -210,7 +210,8 @@ namespace ScrapCoder.VisualNodes {
         public void RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null) {
             if (toThisArray != siblings) {
                 if (partsPositioner is INodePartsRefresher refresher) {
-                    refresher.RefreshParts(toThisArray, delta);
+                    var newDelta = refresher.RefreshParts(toThisArray, delta);
+                    parentArray?.RefreshParts(controller, delta: newDelta);
                 } else {
                     throw new System.NotImplementedException("SetPartsPosition method is not implemented");
                 }

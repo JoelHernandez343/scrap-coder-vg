@@ -48,7 +48,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        void INodePartsRefresher.RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta) {
+        (int dx, int dy) INodePartsRefresher.RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta) {
             var newDelta = delta ?? (0, 0);
 
             var modified = listOfChildren.FindIndex(tuple => tuple.children == toThisArray);
@@ -70,7 +70,8 @@ namespace ScrapCoder.VisualNodes {
             }
 
             controller.ownTransform.Expand(dy: newDelta.dy);
-            controller.parentArray?.RefreshParts(controller, newDelta);
+
+            return newDelta;
         }
 
         void IZoneParentRefresher.SetZonesAsParent(NodeArray array) {
