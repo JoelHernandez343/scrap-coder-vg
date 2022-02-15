@@ -23,7 +23,7 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController controller => ownTransform.controller;
 
-        void INodeExpander.Expand(int dx, int dy) {
+        void INodeExpander.Expand(int dx, int dy, NodeArray toThisArray) {
 
             collider?.Expand(dx, dy);
             shape?.Expand(dx, dy);
