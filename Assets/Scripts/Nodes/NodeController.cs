@@ -202,7 +202,7 @@ namespace ScrapCoder.VisualNodes {
                 if (zoneRefresher is IZoneParentRefresher refresher) {
                     refresher.SetZonesAsParent(array);
                 } else {
-                    throw new ArgumentException($"This array {array.gameObject.name} is unkown");
+                    throw new ArgumentException($"This array {array.gameObject.name} is unknown");
                 }
             }
         }
