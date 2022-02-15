@@ -22,14 +22,6 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController controller => ownTransform.controller;
 
-        public void SetPosition((int x, int y) position) {
-            ownTransform.SetPosition(position);
-        }
-
-        public void SetPositionByDelta(int dx = 0, int dy = 0) {
-            ownTransform.SetPositionByDelta(dx, dy);
-        }
-
         void INodeExpander.Expand(int dx, int dy) {
 
             shape?.Expand(dx, dy);
