@@ -63,7 +63,7 @@ namespace ScrapCoder.VisualNodes {
             controller.SetMiddleZone(false);
         }
 
-        void INodeExpander.Expand(int dx, int dy) {
+        void INodeExpander.Expand(int dx, int dy, NodeArray _) {
 
             // Width
             for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {

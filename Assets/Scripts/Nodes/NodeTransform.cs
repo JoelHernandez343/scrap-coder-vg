@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public interface INodeExpander {
-        void Expand(int dx = 0, int dy = 0);
+        void Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null);
     }
 
     public class NodeTransform : MonoBehaviour {

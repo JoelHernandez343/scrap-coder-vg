@@ -66,7 +66,7 @@ namespace ScrapCoder.VisualNodes {
             return controller.OnDrop(zone, this);
         }
 
-        void INodeExpander.Expand(int dx, int dy) {
+        void INodeExpander.Expand(int dx, int dy, NodeArray _) {
             var vector = collider.size;
 
             vector.x += dx;

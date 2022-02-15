@@ -14,6 +14,8 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] new NodeTransform collider;
         [SerializeField] NodeTransform unionSprite;
+        [SerializeField] NodeTransform middleZone;
+        [SerializeField] NodeTransform bottomZone;
         [SerializeField] NodeTransform children;
         [SerializeField] NodeTransform shape;
 
@@ -23,8 +25,8 @@ namespace ScrapCoder.VisualNodes {
 
         void INodeExpander.Expand(int dx, int dy) {
 
-            shape?.Expand(dx, dy);
             collider?.Expand(dx, dy);
+            shape?.Expand(dx, dy);
 
             unionSprite?.SetPositionByDelta(dy: -dy);
             bottomZone?.SetPositionByDelta(dy: -dy);

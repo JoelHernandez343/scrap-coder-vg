@@ -16,7 +16,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeTransform text;
         [SerializeField] new NodeTransform collider;
 
-        void INodeExpander.Expand(int dx, int dy) {
+        void INodeExpander.Expand(int dx, int dy, NodeArray _) {
             collider.Expand(dx, dy);
             edgeShape.Expand(dx, dy);
 

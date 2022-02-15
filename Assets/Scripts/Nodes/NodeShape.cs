@@ -48,7 +48,7 @@ namespace ScrapCoder.VisualNodes {
             spriteShapeController.RefreshSpriteShape();
         }
 
-        void INodeExpander.Expand(int dx, int dy) {
+        void INodeExpander.Expand(int dx, int dy, NodeArray _) {
             ownTransform.width += dx;
             ownTransform.height += dy;
 
