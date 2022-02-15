@@ -30,7 +30,6 @@ namespace ScrapCoder.VisualNodes {
             unionSprite?.SetPositionByDelta(dy: -dy);
             bottomZone?.SetPositionByDelta(dy: -dy);
             children?.SetPositionByDelta(dy: -dy);
-            text?.SetPositionByDelta(dy: -dy);
         }
     }
 }
