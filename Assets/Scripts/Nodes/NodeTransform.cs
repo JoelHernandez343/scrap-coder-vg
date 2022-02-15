@@ -145,7 +145,7 @@ namespace ScrapCoder.VisualNodes {
             SetPositionByDelta(dx: intDx, dy: intDy, resetFloatPosition: false);
         }
 
-        public void Expand(int dx = 0, int dy = 0) {
+        public void Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null) {
             if (!resizable) {
                 throw new System.InvalidOperationException("This object is not resizable");
             }
@@ -154,7 +154,7 @@ namespace ScrapCoder.VisualNodes {
             height += dy;
 
             if (nodeExpander is INodeExpander expander) {
-                expander.Expand(dx, dy);
+                expander.Expand(dx, dy, fromThisArray);
             }
         }
 
