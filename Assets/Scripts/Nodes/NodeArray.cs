@@ -57,7 +57,7 @@ namespace ScrapCoder.VisualNodes {
             nodes.RemoveRange(lowerIndex, count);
 
             controller.RefreshZones(array: this, node: Last);
-            RefreshParts(Last, previousCount: previousCount);
+            AdjustParts(Last, previousCount: previousCount);
 
             return removedNodes;
         }
@@ -100,7 +100,7 @@ namespace ScrapCoder.VisualNodes {
             nodes.InsertRange(index, newNodes);
 
             controller.RefreshZones(array: this, node: newNodes[0]);
-            RefreshParts(newNodes[0], previousCount: previousCount);
+            AdjustParts(newNodes[0], previousCount: previousCount);
         }
 
         public void RefreshNodeZones(NodeController node = null) {
@@ -120,7 +120,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void RefreshParts(NodeController node, (int dx, int dy)? delta = null, int? previousCount = null) {
+        public void AdjustParts(NodeController node, (int dx, int dy)? delta = null, int? previousCount = null) {
             this.previousCount = previousCount ?? Count;
 
             var dx = -ownTransform.width;
@@ -134,7 +134,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (node == null) {
                 ownTransform.ExpandByNewDimensions(0, 0);
-                controller.RefreshParts(this, (dx, dy));
+                controller.AdjustParts(this, (dx, dy));
                 return;
             }
 
@@ -163,7 +163,7 @@ namespace ScrapCoder.VisualNodes {
 
             ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
 
-            controller.RefreshParts(this, (dx, dy));
+            controller.AdjustParts(this, (dx, dy));
         }
 
     }

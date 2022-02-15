@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier, INodePartsRefresher, IZoneParentRefresher {
+    public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier, INodePartsAdjuster, IZoneParentRefresher {
 
         [System.Serializable]
         struct TupleNodeChildrenZone {
@@ -48,7 +48,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        (int dx, int dy) INodePartsRefresher.RefreshParts(NodeArray fromThisArray, (int dx, int dy)? delta) {
+        (int dx, int dy) INodePartsAdjuster.AdjustParts(NodeArray fromThisArray, (int dx, int dy)? delta) {
             var newDelta = delta ?? (0, 0);
 
             var modified = listOfChildren.FindIndex(tuple => tuple.children == fromThisArray);

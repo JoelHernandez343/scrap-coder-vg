@@ -25,8 +25,8 @@ namespace ScrapCoder.VisualNodes {
         void SetZonesAsParent(NodeArray array);
     }
 
-    public interface INodePartsRefresher {
-        (int dx, int dy) RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
+    public interface INodePartsAdjuster {
+        (int dx, int dy) AdjustParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
     }
 
     public interface INodeSelectorModifier {
@@ -207,11 +207,11 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void RefreshParts(NodeArray toThisArray, (int dx, int dy)? delta = null) {
+        public void AdjustParts(NodeArray toThisArray, (int dx, int dy)? delta = null) {
             if (toThisArray != siblings) {
-                if (partsPositioner is INodePartsRefresher refresher) {
-                    var newDelta = refresher.RefreshParts(toThisArray, delta);
-                    parentArray?.RefreshParts(this, delta: newDelta);
+                if (partsPositioner is INodePartsAdjuster refresher) {
+                    var newDelta = refresher.AdjustParts(toThisArray, delta);
+                    parentArray?.AdjustParts(this, delta: newDelta);
                 } else {
                     throw new System.NotImplementedException("SetPartsPosition method is not implemented");
                 }
