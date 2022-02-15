@@ -33,7 +33,7 @@ namespace ScrapCoder.VisualNodes {
         void ModifySelectorFunc();
     }
 
-    public class NodeController : MonoBehaviour, INodeExpander {
+    public class NodeController : MonoBehaviour {
 
         public DropFuncSelector selector = new DropFuncSelector();
 
@@ -219,20 +219,6 @@ namespace ScrapCoder.VisualNodes {
 
             if (!HasParent()) {
                 HierarchyController.instance.SetOnTop(this);
-            }
-        }
-
-        void INodeExpander.Expand(int dx, int dy) {
-            NodeTransform fromThistransform = null;
-
-            var index = componentParts.IndexOf(fromThistransform);
-
-            Debug.Assert(index != -1, $"This transform: {fromThistransform.gameObject.name} do not exist.");
-
-            componentParts[index].Expand(dx, dy);
-
-            for (var i = index + 1; i < componentParts.Count; ++i) {
-                componentParts[i].SetFloatPositionByDelta(dy: -dy);
             }
         }
     }
