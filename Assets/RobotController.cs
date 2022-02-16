@@ -34,50 +34,43 @@ public class RobotController : MonoBehaviour
         {
             switch ((int)action)
             {
-                case 0:
+                case 0: // Walk
+                    /* First, he make sure the movement Direction is equals to the direction the robot is facing,
+                       then we check if the robot is moving or not, if not, move the point, now the robot will
+                       start moving and we will no longer move the point until moving is false again */
                     dirMovement = dirFacing;
                     if (!moving)
                     {
-                        MovePoint(dirMovement);
+                        MovePoint();
                         moving = true;
                     }
                     Move(dirMovement);
                     break;
                 case 1:
-                    Rotate(dirFacing);
-                    //dirMovement = dirFacing;
+                    Rotate();
                     break;
                 case 2:
                     break;
             }
             dirMovement = Direction.None;
-            //dirMovement = Direction.None;
-            //move = false;
         }
-        /*if(steps > 0)
-        {
-            move = MoveRobot(steps);
-            steps = 0;
-        }*/
     }
 
     void Move(Direction dir)
     {
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
-        //MovePoint(dir);
-        if(Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
+        if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
             moving = false;
             action = Action.None;
         }
     }
 
-    void MovePoint(Direction dir)
+    void MovePoint()
     {
-        if(Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
+        if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
-            //move = false;
-            switch ((int)dir)
+            switch ((int)dirMovement)
             {
                 case 0:
                     movePoint.position += new Vector3(-1, 0, 0);
@@ -96,19 +89,21 @@ public class RobotController : MonoBehaviour
             }
         }
     }
-    void Rotate(Direction dirF)
+    void Rotate()
     {
-        rotateAux = (int)dirF + rotate;
-        if(rotateAux == -1)
+        rotateAux = (int)dirFacing + rotate;
+        if (rotateAux == -1)
         {
             rotateAux = 3;
-        }else if (rotateAux > 3)
+        } else if (rotateAux > 3)
         {
             rotateAux = 0;
         }
         dirFacing = (Direction)rotateAux;
         action = Action.None;
     }
+}
+    
         /*  This function determines how many steps the Robot takes,
       the direction is determined by the direction the robot is facing*/
 
@@ -128,12 +123,5 @@ public class RobotController : MonoBehaviour
             case 2:
                 break;
         }
-    }
-
-    
-
-    void Walk()
-    {
-
     }*/
-}
+
