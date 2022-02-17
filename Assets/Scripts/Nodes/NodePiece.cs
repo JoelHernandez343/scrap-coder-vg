@@ -15,7 +15,7 @@ namespace ScrapCoder.VisualNodes {
             public NodeArray nodeArray;
         }
 
-        [SerializeField] List<TupleNodeTransformArray> horizontalElements;
+        [SerializeField] List<TupleNodeTransformArray> horizontalItems;
 
         [SerializeField] new NodeTransform collider;
         [SerializeField] NodeTransform unionSprite;
@@ -30,17 +30,17 @@ namespace ScrapCoder.VisualNodes {
 
         public bool HasHorizontalArray(NodeArray array) => GetIndexOfHorizontalArray(array) != -1;
 
-        int GetIndexOfHorizontalArray(NodeArray array) => horizontalElements.FindIndex(e => e.nodeArray == array);
+        int GetIndexOfHorizontalArray(NodeArray array) => horizontalItems.FindIndex(e => e.nodeArray == array);
 
         void INodeExpander.Expand(int dx, int dy, NodeArray toThisArray) {
 
             var modified = GetIndexOfHorizontalArray(toThisArray);
             if (modified != -1) {
-                for (var i = modified + 1; i < horizontalElements.Count; ++i) {
-                    horizontalElements[i].transform.SetPositionByDelta(dx: dx);
+                for (var i = modified + 1; i < horizontalItems.Count; ++i) {
+                    horizontalItems[i].transform.SetPositionByDelta(dx: dx);
                 }
 
-                horizontalElements.ForEach(e => e.transform.SetFloatPositionByDelta(dy: -dy / 2f));
+                horizontalItems.ForEach(e => e.transform.SetFloatPositionByDelta(dy: -dy / 2f));
             }
 
             collider?.Expand(dx, dy);
