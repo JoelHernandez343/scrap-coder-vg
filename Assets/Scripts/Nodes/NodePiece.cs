@@ -16,13 +16,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         [SerializeField] List<TupleNodeTransformArray> horizontalItems;
-
-        [SerializeField] new NodeTransform collider;
-        [SerializeField] NodeTransform unionSprite;
-        [SerializeField] NodeTransform middleZone;
-        [SerializeField] NodeTransform bottomZone;
-        [SerializeField] NodeTransform children;
-        [SerializeField] NodeTransform shape;
+        [SerializeField] List<NodeTransform> itemsBelow;
+        [SerializeField] List<NodeTransform> itemsToExpand;
 
         [SerializeField] public NodeTransform ownTransform;
 
@@ -39,16 +34,11 @@ namespace ScrapCoder.VisualNodes {
                 for (var i = modified + 1; i < horizontalItems.Count; ++i) {
                     horizontalItems[i].transform.SetPositionByDelta(dx: dx);
                 }
-
-                horizontalItems.ForEach(e => e.transform.SetFloatPositionByDelta(dy: -dy / 2f));
             }
 
-            collider?.Expand(dx, dy);
-            shape?.Expand(dx, dy);
-
-            unionSprite?.SetPositionByDelta(dy: -dy);
-            bottomZone?.SetPositionByDelta(dy: -dy);
-            children?.SetPositionByDelta(dy: -dy);
+            horizontalItems.ForEach(item => item.transform.SetFloatPositionByDelta(dy: -dy / 2f));
+            itemsToExpand.ForEach(item => item.Expand(dx, dy));
+            itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy));
         }
     }
 }

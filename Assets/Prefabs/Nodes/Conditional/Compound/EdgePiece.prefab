@@ -316,13 +316,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  middleZone: {fileID: 0}
-  bottomZone: {fileID: 2609030732725180326}
-  collider: {fileID: 7409257472702031263}
-  unionSprite: {fileID: 7409257472963023067}
-  children: {fileID: 2505098314370569949}
-  shape: {fileID: 7409257471916764619}
-  text: {fileID: 0}
+  horizontalItems: []
+  itemsBelow:
+  - {fileID: 7409257472963023067}
+  - {fileID: 2609030732725180326}
+  - {fileID: 2505098314370569949}
+  itemsToExpand:
+  - {fileID: 7409257471916764619}
+  - {fileID: 7409257472702031263}
   ownTransform: {fileID: 7897783888782704696}
 --- !u!1 &7409257472702031234
 GameObject:

@@ -320,12 +320,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  middleZone: {fileID: 0}
-  bottomZone: {fileID: 5304311338300650613}
-  collider: {fileID: 827370154093823564}
-  unionSprite: {fileID: 827370154891113224}
-  children: {fileID: 5722514967340070158}
-  shape: {fileID: 827370156003167768}
+  horizontalItems: []
+  itemsBelow:
+  - {fileID: 827370154891113224}
+  - {fileID: 5304311338300650613}
+  - {fileID: 5722514967340070158}
+  itemsToExpand:
+  - {fileID: 827370154093823564}
+  - {fileID: 827370156003167768}
   ownTransform: {fileID: 14355454044382187}
 --- !u!1 &827370156003167843
 GameObject:
