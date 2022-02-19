@@ -9,20 +9,11 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodeNestingBehaviour : MonoBehaviour, INodeSelectorModifier, INodePartsAdjuster, IZoneParentRefresher {
 
-        [System.Serializable]
-        struct TupleNodeChildrenZone {
-            public NodeArray children;
-            public NodePiece piece;
-            public NodeZone zone;
-        }
-
         [SerializeField] NodeController controller;
         [SerializeField] NodeArray siblings;
 
-        [SerializeField] List<TupleNodeChildrenZone> listOfChildren;
+        [SerializeField] List<NodeContainer> containers;
         [SerializeField] List<NodeTransform> componentParts;
-
-        const int internalGap = 10;
 
         void INodeSelectorModifier.ModifySelectorFunc() {
             controller.selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToChildren;
@@ -32,9 +23,9 @@ namespace ScrapCoder.VisualNodes {
         void AddNodesToChildren(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             var wereAdded = false;
 
-            foreach (var tuple in listOfChildren) {
-                var children = tuple.children;
-                var zone = tuple.zone;
+            foreach (var container in containers) {
+                var children = container.array;
+                var zone = container.zone;
 
                 if (ownZone == zone || ownZone.controller.parentArray == children) {
                     children.AddNodes(inZone.controller, toThisNode ?? controller);
@@ -51,35 +42,41 @@ namespace ScrapCoder.VisualNodes {
         (int dx, int dy) INodePartsAdjuster.AdjustParts(NodeArray fromThisArray, (int dx, int dy)? delta) {
             var newDelta = delta ?? (0, 0);
 
-            var modified = listOfChildren.FindIndex(tuple => tuple.children == fromThisArray);
+            var container = containers.Find(container => container.array == fromThisArray);
+            var children = container.array;
+            var pieceToExpand = container.pieceToExpand;
 
-            var children = listOfChildren[modified].children;
-            var piece = listOfChildren[modified].piece;
-
-            if (!piece.HasHorizontalArray(fromThisArray)) {
-                if (children.previousCount == 0) {
-                    newDelta.dy -= internalGap;
-                } else if (children.Count == 0) {
-                    newDelta.dy += internalGap;
-                }
+            if (children.previousCount == 0) {
+                newDelta.dy -= container.defaultHeight;
+                newDelta.dx -= container.defaultWidth;
+            } else if (children.Count == 0) {
+                newDelta.dy += container.defaultHeight;
+                newDelta.dx += container.defaultWidth;
             }
 
-            piece.ownTransform.Expand(dy: newDelta.dy, fromThisArray: fromThisArray);
+            newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
+            newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
 
-            var begin = componentParts.IndexOf(piece.ownTransform) + 1;
-            for (var i = begin; i < componentParts.Count; ++i) {
-                componentParts[i].SetPositionByDelta(dy: -newDelta.dy);
-            }
+            pieceToExpand.ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, fromThisArray);
 
-            controller.ownTransform.Expand(dy: newDelta.dy);
+            AdjustVerticalParts(pieceToExpand.ownTransform, newDelta);
 
             return newDelta;
         }
 
-        void IZoneParentRefresher.SetZonesAsParent(NodeArray array) {
-            var tuple = listOfChildren.Find(tuple => tuple.children == array);
+        void AdjustVerticalParts(NodeTransform pieceModified, (int dx, int dy) delta) {
+            var begin = componentParts.IndexOf(pieceModified) + 1;
 
-            tuple.zone.color = tuple.children.Count == 0
+            for (var i = begin; i < componentParts.Count; ++i) {
+                componentParts[i].SetPositionByDelta(dy: -delta.dy);
+                componentParts[i].Expand(dx: delta.dx);
+            }
+        }
+
+        void IZoneParentRefresher.SetZonesAsParent(NodeArray array) {
+            var container = containers.Find(container => container.array == array);
+
+            container.zone.color = container.array.Count == 0
                 ? ZoneColor.Red
                 : ZoneColor.Yellow;
         }

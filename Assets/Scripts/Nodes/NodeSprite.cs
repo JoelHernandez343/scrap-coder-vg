@@ -9,11 +9,16 @@ namespace ScrapCoder.VisualNodes {
     public class NodeSprite : MonoBehaviour {
         [SerializeField] NodeTransform ownTransform;
         [SerializeField] new SpriteRenderer renderer;
+        [SerializeField] bool hideable;
 
         public void hide() => toggleRender(false);
         public void show() => toggleRender(true);
 
-        void toggleRender(bool render) => renderer.enabled = render;
+        public void toggleRender(bool render) {
+            if (hideable) {
+                renderer.enabled = render;
+            }
+        }
     }
 
 }

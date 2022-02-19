@@ -24,10 +24,10 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] bool moveable = true;
 
         [SerializeField] NodeController directController;
-        [SerializeField] NodePiece pieceParent;
+        [SerializeField] NodeTransform indirectController;
 
         public const int PixelsPerUnit = 24;
-        public NodeController controller => directController ?? pieceParent.controller;
+        public NodeController controller => directController ?? indirectController.controller;
 
         int _height;
         public int height {

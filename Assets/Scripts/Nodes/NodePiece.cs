@@ -9,13 +9,8 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodePiece : MonoBehaviour, INodeExpander {
 
-        [System.Serializable]
-        struct TupleNodeTransformArray {
-            public NodeTransform transform;
-            public NodeArray nodeArray;
-        }
 
-        [SerializeField] List<TupleNodeTransformArray> horizontalItems;
+        [SerializeField] List<NodeTransform> horizontalItems;
         [SerializeField] List<NodeTransform> itemsBelow;
         [SerializeField] List<NodeTransform> itemsToExpand;
 
@@ -23,20 +18,22 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController controller => ownTransform.controller;
 
-        public bool HasHorizontalArray(NodeArray array) => GetIndexOfHorizontalArray(array) != -1;
+        public bool HasHorizontalArray(NodeArray array)
+            => GetIndexOfHorizontalArray(array) != -1;
 
-        int GetIndexOfHorizontalArray(NodeArray array) => horizontalItems.FindIndex(e => e.nodeArray == array);
+        int GetIndexOfHorizontalArray(NodeArray array)
+            => horizontalItems.FindIndex(item => item.GetComponent<NodeArray>() == array);
 
         void INodeExpander.Expand(int dx, int dy, NodeArray toThisArray) {
 
             var modified = GetIndexOfHorizontalArray(toThisArray);
             if (modified != -1) {
                 for (var i = modified + 1; i < horizontalItems.Count; ++i) {
-                    horizontalItems[i].transform.SetPositionByDelta(dx: dx);
+                    horizontalItems[i].SetPositionByDelta(dx: dx);
                 }
             }
 
-            horizontalItems.ForEach(item => item.transform.SetFloatPositionByDelta(dy: -dy / 2f));
+            horizontalItems.ForEach(item => item.SetFloatPositionByDelta(dy: -dy / 2f));
             itemsToExpand.ForEach(item => item.Expand(dx, dy));
             itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy));
         }

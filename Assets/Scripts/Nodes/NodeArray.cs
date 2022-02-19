@@ -10,38 +10,19 @@ namespace ScrapCoder.VisualNodes {
     public class NodeArray : MonoBehaviour {
 
         [SerializeField] public NodeTransform ownTransform;
-
-        [SerializeField] public List<NodeController> nodes;
-
-        [SerializeField] NodeSprite associatedSprite;
+        [SerializeField] public NodeContainer container;
+        [System.NonSerialized] public List<NodeController> nodes = new List<NodeController>();
 
         int borderOffset = 1;
 
         public NodeController controller => ownTransform.controller;
 
         public int Count => nodes.Count;
-
+        public int previousCount { get; private set; }
         public NodeController this[int index] => nodes[index];
-
         public NodeController Last => Count == 0 ? null : nodes[Count - 1];
 
-        public int width => ownTransform.width;
-        public int height => ownTransform.height;
-
-        public int x => ownTransform.x;
-        public int y => ownTransform.y;
-        public int fx => ownTransform.fx;
-        public int fy => ownTransform.fy;
-
-        public int initWidth => ownTransform.initWidth;
-        public int initHeight => ownTransform.initHeight;
-
-        public (int x, int y) position => ownTransform.position;
-        public (int fx, int fy) finalPosition => ownTransform.finalPosition;
-
-        public int previousCount { get; private set; }
-
-        List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
+        public List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
             if (Count == 0) return new List<NodeController>();
 
@@ -126,15 +107,13 @@ namespace ScrapCoder.VisualNodes {
             var dx = -ownTransform.width;
             var dy = -ownTransform.height;
 
-            if (Count == 0) {
-                associatedSprite?.show();
-            } else {
-                associatedSprite?.hide();
-            }
-
             if (node == null) {
                 ownTransform.ExpandByNewDimensions(0, 0);
-                controller.AdjustParts(this, (dx, dy));
+                if (container != null) {
+                    container.AdjustParts((dx, dy));
+                } else {
+                    controller.AdjustParts(this, (dx, dy));
+                }
                 return;
             }
 
@@ -163,7 +142,11 @@ namespace ScrapCoder.VisualNodes {
 
             ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
 
-            controller.AdjustParts(this, (dx, dy));
+            if (container != null) {
+                container.AdjustParts((dx, dy));
+            } else {
+                controller.AdjustParts(this, (dx, dy));
+            }
         }
 
     }

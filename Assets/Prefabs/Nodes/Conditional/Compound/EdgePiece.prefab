@@ -201,7 +201,7 @@ MonoBehaviour:
   resizable: 1
   moveable: 0
   directController: {fileID: 0}
-  pieceParent: {fileID: 2793215989596114282}
+  indirectController: {fileID: 7897783888782704696}
 --- !u!114 &7409257471916764620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +303,7 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   directController: {fileID: 0}
-  pieceParent: {fileID: 0}
+  indirectController: {fileID: 0}
 --- !u!114 &2793215989596114282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
   resizable: 1
   moveable: 0
   directController: {fileID: 0}
-  pieceParent: {fileID: 2793215989596114282}
+  indirectController: {fileID: 7897783888782704696}
 --- !u!114 &7409257472702031232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   resizable: 0
   moveable: 1
   directController: {fileID: 0}
-  pieceParent: {fileID: 2793215989596114282}
+  indirectController: {fileID: 7897783888782704696}
 --- !u!1001 &7409257471260509281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -581,6 +581,10 @@ PrefabInstance:
       propertyPath: pieceParent
       value: 
       objectReference: {fileID: 2793215989596114282}
+    - target: {fileID: 4821063590373823431, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
+      propertyPath: indirectController
+      value: 
+      objectReference: {fileID: 7897783888782704696}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -799,9 +803,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5460049587173434879, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
-      propertyPath: directController
+      propertyPath: indirectController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7897783888782704696}
     - target: {fileID: 6618033663415726117, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_Name
       value: Siblings

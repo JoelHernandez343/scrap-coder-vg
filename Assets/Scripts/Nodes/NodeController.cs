@@ -56,8 +56,6 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] Component partsPositioner;
         [SerializeField] Component selectorModifier;
 
-        [SerializeField] List<NodeTransform> componentParts;
-
         NodeController _controller;
         public NodeController controller {
             private set {
@@ -105,7 +103,13 @@ namespace ScrapCoder.VisualNodes {
 
         public void DetachFromParent() {
             if (controller != null) {
-                siblings.AddNodesFromParent();
+                if (siblings != null) {
+                    siblings.AddNodesFromParent();
+                } else {
+                    parentArray.RemoveNodes(this);
+                    RefreshZones();
+                    ClearParent();
+                }
             }
         }
 
@@ -134,9 +138,9 @@ namespace ScrapCoder.VisualNodes {
 
         void RefreshLastZone() {
             lastZone =
-                siblings.Count == 0
+                siblings?.Count == 0
                 ? bottomZone
-                : siblings.Last.bottomZone;
+                : siblings?.Last.bottomZone;
         }
 
         public void SetMiddleZone(bool enable) {
@@ -155,9 +159,9 @@ namespace ScrapCoder.VisualNodes {
             siblings.AddNodes(inZone.controller, toThisNode ?? this);
         }
 
-        public void RefreshZones(NodeArray array, NodeController node = null) {
+        public void RefreshZones(NodeArray array = null, NodeController node = null) {
             SetZones(SetZone.asParent, array);
-            array.RefreshNodeZones(node);
+            array?.RefreshNodeZones(node);
             RefreshLastZone();
         }
 
@@ -182,14 +186,14 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SetZonesAsParent(NodeArray array) {
-            if (array == siblings) {
+            if (array == siblings || array == null) {
                 topZone?.gameObject.SetActive(true);
 
                 if (topZone != null) {
                     topZone.color = ZoneColor.Blue;
                 }
 
-                if (array.Count == 0) {
+                if (array?.Count == 0) {
                     if (bottomZone != null) {
                         bottomZone.color = ZoneColor.Red;
                     }
@@ -207,10 +211,12 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void AdjustParts(NodeArray toThisArray, (int dx, int dy)? delta = null) {
+        public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
             if (toThisArray != siblings) {
                 if (partsPositioner is INodePartsAdjuster refresher) {
                     var newDelta = refresher.AdjustParts(toThisArray, delta);
+
+                    ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
                     parentArray?.AdjustParts(this, delta: newDelta);
                 } else {
                     throw new System.NotImplementedException("SetPartsPosition method is not implemented");
