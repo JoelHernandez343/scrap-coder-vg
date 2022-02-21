@@ -47,13 +47,15 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] List<NodeZone> mainZones;
 
-
         [SerializeField] public NodeArray siblings;
 
         [SerializeField] public NodeTransform ownTransform;
 
+        [SerializeField] List<NodeTransform> components;
+        [SerializeField] List<NodeContainer> containers;
+
         [SerializeField] Component zoneRefresher;
-        [SerializeField] Component partsPositioner;
+        [SerializeField] Component partsAdjuster;
         [SerializeField] Component selectorModifier;
 
         NodeController _controller;
@@ -90,26 +92,24 @@ namespace ScrapCoder.VisualNodes {
         public (int fx, int fy) finalPosition => ownTransform.finalPosition;
 
         void Awake() {
-            selector[ZoneColor.Blue, ZoneColor.Red] = OnBlueThenRed;
-            selector[ZoneColor.Red, ZoneColor.Blue] = OnRedThenBlue;
-            selector[ZoneColor.Yellow, ZoneColor.Green] = OnYellowThenGreen;
+            selector[ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone;
+            selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToArray;
+            selector[ZoneColor.Yellow, ZoneColor.Green] = AddNodesToArray;
 
-            if (selectorModifier is INodeSelectorModifier modifier) {
-                modifier.ModifySelectorFunc();
-            }
+            (selectorModifier as INodeSelectorModifier)?.ModifySelectorFunc();
         }
 
         public void ClearParent() => parentArray = null;
 
         public void DetachFromParent() {
-            if (controller != null) {
-                if (siblings != null) {
-                    siblings.AddNodesFromParent();
-                } else {
-                    parentArray.RemoveNodes(this);
-                    RefreshZones();
-                    ClearParent();
-                }
+            if (controller == null) return;
+
+            if (siblings != null) {
+                siblings.AddNodesFromParent();
+            } else {
+                parentArray.RemoveNodes(this);
+                RefreshZones();
+                ClearParent();
             }
         }
 
@@ -139,24 +139,28 @@ namespace ScrapCoder.VisualNodes {
         void RefreshLastZone() {
             lastZone =
                 siblings?.Count == 0
-                ? bottomZone
-                : siblings?.Last.bottomZone;
+                    ? bottomZone
+                    : siblings?.Last.bottomZone;
         }
 
         public void SetMiddleZone(bool enable) {
             middleZone?.gameObject.SetActive(enable);
         }
 
-        public void OnBlueThenRed(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
+        void AddNodesToIncommingZone(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             inZone.controller.OnDrop(ownZone, inZone);
         }
 
-        public void OnRedThenBlue(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
-            siblings.AddNodes(inZone.controller, toThisNode ?? this);
-        }
+        void AddNodesToArray(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
+            foreach (var container in containers) {
+                var children = container.array;
+                var zone = container.zone;
 
-        public void OnYellowThenGreen(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
-            siblings.AddNodes(inZone.controller, toThisNode ?? this);
+                if (ownZone == zone || ownZone.controller.parentArray == children) {
+                    children.AddNodes(inZone.controller, toThisNode ?? this);
+                    break;
+                }
+            }
         }
 
         public void RefreshZones(NodeArray array = null, NodeController node = null) {
@@ -188,43 +192,82 @@ namespace ScrapCoder.VisualNodes {
         void SetZonesAsParent(NodeArray array) {
             if (array == siblings || array == null) {
                 topZone?.gameObject.SetActive(true);
-
                 if (topZone != null) {
                     topZone.color = ZoneColor.Blue;
                 }
 
-                if (array?.Count == 0) {
-                    if (bottomZone != null) {
-                        bottomZone.color = ZoneColor.Red;
-                    }
-                } else {
-                    if (bottomZone != null) {
-                        bottomZone.color = ZoneColor.Yellow;
-                    }
-                }
-            } else {
-                if (zoneRefresher is IZoneParentRefresher refresher) {
-                    refresher.SetZonesAsParent(array);
-                } else {
-                    throw new ArgumentException($"This array {array.gameObject.name} is unknown");
-                }
+                SetContainerAsParent(array);
+                return;
             }
+
+            if (zoneRefresher is IZoneParentRefresher refresher) {
+                refresher.SetZonesAsParent(array);
+                return;
+            }
+
+            SetContainerAsParent(array);
+        }
+
+        void SetContainerAsParent(NodeArray array) {
+            if (array == null) return;
+
+            var container = containers.Find(container => container.array == array);
+
+            container.zone.color = array.Count == 0
+                ? ZoneColor.Red
+                : ZoneColor.Yellow;
         }
 
         public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
-            if (toThisArray != siblings) {
-                if (partsPositioner is INodePartsAdjuster refresher) {
-                    var newDelta = refresher.AdjustParts(toThisArray, delta);
-
-                    ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
-                    parentArray?.AdjustParts(this, delta: newDelta);
-                } else {
-                    throw new System.NotImplementedException("SetPartsPosition method is not implemented");
-                }
+            if (toThisArray == siblings) {
+                HierarchyController.instance.SetOnTop(this);
+                return;
             }
 
-            if (!HasParent()) {
+            var adjuster = partsAdjuster as INodePartsAdjuster;
+            var newDelta = adjuster?.AdjustParts(toThisArray, delta) ?? AdjustPiece(toThisArray, delta);
+
+            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
+
+            if (HasParent()) {
+                parentArray.AdjustParts(this, delta: newDelta);
+            } else {
                 HierarchyController.instance.SetOnTop(this);
+            }
+        }
+
+        (int dx, int dy) AdjustPiece(NodeArray array, (int dx, int dy) delta) {
+            var newDelta = delta;
+
+            var container = containers.Find(container => container.array == array);
+            var pieceToExpand = container.pieceToExpand;
+
+            if (pieceToExpand != null) {
+                if (array.previousCount == 0) {
+                    newDelta.dy -= container.defaultHeight;
+                    newDelta.dx -= container.defaultWidth;
+                } else if (array.Count == 0) {
+                    newDelta.dy += container.defaultHeight;
+                    newDelta.dx += container.defaultWidth;
+                }
+
+                newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
+                newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
+
+                pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, array);
+            }
+
+            AdjustComponents(pieceToExpand, newDelta);
+
+            return newDelta;
+        }
+
+        void AdjustComponents(NodeTransform pieceModified, (int dx, int dy) delta) {
+            var begin = components.IndexOf(pieceModified) + 1;
+
+            for (var i = begin; i < components.Count; ++i) {
+                components[i].SetPositionByDelta(dy: -delta.dy);
+                components[i].Expand(dx: delta.dx);
             }
         }
     }

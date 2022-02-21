@@ -204,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownTransform: {fileID: 5094133176233431961}
   renderer: {fileID: 1252333214848502964}
+  hideable: 0
 --- !u!1001 &4103558883992647683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,7 +258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 709708324002212038, guid: f1a66b1d82563ed4698f044de5a51bf2, type: 3}
       propertyPath: m_LocalRotation.w

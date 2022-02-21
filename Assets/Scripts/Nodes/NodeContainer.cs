@@ -12,7 +12,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public NodeArray array;
         [SerializeField] public NodeSprite sprite;
 
-        [SerializeField] public NodePiece pieceToExpand;
+        [SerializeField] public NodeTransform pieceToExpand;
         [SerializeField] public bool modifyWidthOfPiece;
         [SerializeField] public bool modifyHeightOfPiece;
 

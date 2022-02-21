@@ -203,10 +203,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownTransform: {fileID: 4242729548815962031}
   horizontalItems: []
   itemsBelow: []
-  itemsToExpand: []
-  ownTransform: {fileID: 4242729548815962031}
+  itemsToExpand:
+  - {fileID: 3578493614937401864}
+  - {fileID: 3578493615779422812}
 --- !u!1 &3578493615779422759
 GameObject:
   m_ObjectHideFlags: 0

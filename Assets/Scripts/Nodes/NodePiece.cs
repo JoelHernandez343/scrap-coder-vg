@@ -9,12 +9,11 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodePiece : MonoBehaviour, INodeExpander {
 
+        [SerializeField] public NodeTransform ownTransform;
 
         [SerializeField] List<NodeTransform> horizontalItems;
         [SerializeField] List<NodeTransform> itemsBelow;
         [SerializeField] List<NodeTransform> itemsToExpand;
-
-        [SerializeField] public NodeTransform ownTransform;
 
         public NodeController controller => ownTransform.controller;
 

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: 1297883735921447215}
   m_Layer: 5
   m_Name: Node
   m_TagString: Untagged
@@ -87,36 +86,23 @@ MonoBehaviour:
   canvas: {fileID: 0}
   topZone: {fileID: 8867216842198295349}
   middleZone: {fileID: 3236861116283297686}
-  bottomZone: {fileID: 4463839067804374412}
-  lastZone: {fileID: 4463839067804374412}
+  bottomZone: {fileID: 9175232537047350868}
+  lastZone: {fileID: 9175232537047350868}
   mainZones:
   - {fileID: 8867216842198295349}
   - {fileID: 3236861116283297686}
-  - {fileID: 4463839067804374412}
-  siblings: {fileID: 1719250984619978579}
+  - {fileID: 9175232537047350868}
+  siblings: {fileID: 6874822035889829926}
   ownTransform: {fileID: 6150825404952637394}
-  zoneRefresher: {fileID: 1297883735921447215}
-  partsPositioner: {fileID: 1297883735921447215}
-  selectorModifier: {fileID: 1297883735921447215}
---- !u!114 &1297883735921447215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6150825404952637405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f906a3dbcb6adad45a7e9f362c7ff697, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 6150825404952637395}
-  siblings: {fileID: 1719250984619978579}
-  containers:
-  - {fileID: 1567358778771623895}
-  componentParts:
+  components:
   - {fileID: 4672922190033212407}
   - {fileID: 5890871088794034476}
+  containers:
+  - {fileID: 1567358778771623895}
+  - {fileID: 7115746196565049201}
+  zoneRefresher: {fileID: 0}
+  partsAdjuster: {fileID: 0}
+  selectorModifier: {fileID: 0}
 --- !u!1001 &5416007114461515930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -227,7 +213,7 @@ PrefabInstance:
     - target: {fileID: 6839249603086409549, guid: 5f4c55c56d34f864787c807caf7adc8a, type: 3}
       propertyPath: pieceToExpand
       value: 
-      objectReference: {fileID: 1916699136733539454}
+      objectReference: {fileID: 5890871088794034476}
     - target: {fileID: 7995256800850387028, guid: 5f4c55c56d34f864787c807caf7adc8a, type: 3}
       propertyPath: directController
       value: 
@@ -428,20 +414,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1916699136733539454 stripped
+--- !u!114 &7115746196565049201 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5434419282291502777, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3689469858238496182, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
   m_PrefabInstance: {fileID: 5905226533974852295}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b7093b18190a61409f37a620e0526a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4463839067804374412 stripped
+--- !u!114 &9175232537047350868 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7782547559326013259, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3361775904154483859, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
   m_PrefabInstance: {fileID: 5905226533974852295}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -450,9 +436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d1fc2610144064985f328560885012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1719250984619978579 stripped
+--- !u!114 &6874822035889829926 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5057425384644799892, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1052665875308870369, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
   m_PrefabInstance: {fileID: 5905226533974852295}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
