@@ -66,13 +66,15 @@ namespace ScrapCoder.VisualNodes {
             return controller.OnDrop(zone, this);
         }
 
-        void INodeExpander.Expand(int dx, int dy, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
             var vector = collider.size;
 
             vector.x += dx;
             vector.y += dy;
 
             collider.size = vector;
+
+            return (dx, dy);
         }
     }
 

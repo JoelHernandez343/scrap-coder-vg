@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public interface INodeExpander {
-        void Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null);
+        (int dx, int dy) Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null);
     }
 
     public class NodeTransform : MonoBehaviour {
@@ -19,6 +19,9 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public int initHeight;
         [SerializeField] public int initWidth;
+
+        [SerializeField] int minHeight = 0;
+        [SerializeField] int minWidth = 0;
 
         [SerializeField] bool resizable = true;
         [SerializeField] bool moveable = true;
@@ -36,7 +39,7 @@ namespace ScrapCoder.VisualNodes {
                     throw new System.InvalidOperationException("This object is not resizable");
                 }
 
-                if (value < initHeight) {
+                if (value < minHeight) {
                     throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
                 }
 
@@ -53,7 +56,7 @@ namespace ScrapCoder.VisualNodes {
                     throw new System.InvalidOperationException("This object is not resizable");
                 }
 
-                if (value < initWidth) {
+                if (value < minWidth) {
                     throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
                 }
 
@@ -77,6 +80,8 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        public Vector2 relativeOrigin;
+
         public int fx => x + width;
         public int fy => y - height;
 
@@ -88,9 +93,15 @@ namespace ScrapCoder.VisualNodes {
             floatPosition = (0, 0);
         }
 
+        public void ResetPositionToRelativeOrigin() {
+            SetPosition(((int)relativeOrigin.x, (int)relativeOrigin.y));
+        }
+
         void Awake() {
             width = initWidth;
             height = initHeight;
+
+            relativeOrigin = new Vector2(position.x, position.y);
         }
 
         public void SetPosition((int x, int y) position, bool resetFloatPosition = true) {
@@ -145,7 +156,7 @@ namespace ScrapCoder.VisualNodes {
             SetPositionByDelta(dx: intDx, dy: intDy, resetFloatPosition: false);
         }
 
-        public void Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null) {
+        public (int dx, int dy) Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null) {
             if (!resizable) {
                 throw new System.InvalidOperationException("This object is not resizable");
             }
@@ -154,8 +165,10 @@ namespace ScrapCoder.VisualNodes {
             height += dy;
 
             if (nodeExpander is INodeExpander expander) {
-                expander.Expand(dx, dy, fromThisArray);
+                (dx, dy) = expander.Expand(dx, dy, fromThisArray);
             }
+
+            return (dx, dy);
         }
 
         public void ExpandByNewDimensions(int? newWidth = null, int? newHeight = null) {

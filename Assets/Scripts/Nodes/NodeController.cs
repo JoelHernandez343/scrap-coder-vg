@@ -115,6 +115,15 @@ namespace ScrapCoder.VisualNodes {
 
         public bool HasParent() => parentArray != null;
 
+        public NodeController getLastParent() {
+            var controller = this;
+            while (controller.HasParent()) {
+                controller = controller.controller;
+            }
+
+            return controller;
+        }
+
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (controller != null && mainZones.Contains(ownZone)) {
                 return controller.OnDrop(inZone, ownZone, this);
@@ -243,14 +252,6 @@ namespace ScrapCoder.VisualNodes {
             var pieceToExpand = container.pieceToExpand;
 
             if (pieceToExpand != null) {
-                if (array.previousCount == 0) {
-                    newDelta.dy -= container.defaultHeight;
-                    newDelta.dx -= container.defaultWidth;
-                } else if (array.Count == 0) {
-                    newDelta.dy += container.defaultHeight;
-                    newDelta.dx += container.defaultWidth;
-                }
-
                 newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
                 newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
 

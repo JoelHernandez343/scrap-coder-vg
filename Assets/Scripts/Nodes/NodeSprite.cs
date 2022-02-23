@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public class NodeSprite : MonoBehaviour {
-        [SerializeField] NodeTransform ownTransform;
+        [SerializeField] public NodeTransform ownTransform;
         [SerializeField] new SpriteRenderer renderer;
         [SerializeField] bool hideable;
 

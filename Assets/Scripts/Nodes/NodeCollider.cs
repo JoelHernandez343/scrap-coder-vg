@@ -17,8 +17,6 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, INodeExpander {
 
-        [SerializeField] NodeTransform container;
-
         [SerializeField] new PolygonCollider2D collider;
         [SerializeField] List<Vector2> colliderPoints;
 
@@ -38,24 +36,24 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnPointerDown(PointerEventData eventData) {
-            HierarchyController.instance.SetOnTop(container.controller);
+            HierarchyController.instance.SetOnTop(controller);
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
             controller.SetMiddleZone(true);
             controller.DetachFromParent();
 
-            HierarchyController.instance.SetOnTop(container.controller);
+            HierarchyController.instance.SetOnTop(controller);
 
             var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
-            container.SetFloatPositionByDelta(dx, dy);
+            controller.ownTransform.SetFloatPositionByDelta(dx, dy);
         }
 
         public void OnDrag(PointerEventData eventData) {
             var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
-            container.SetFloatPositionByDelta(dx, dy);
+            controller.ownTransform.SetFloatPositionByDelta(dx, dy);
         }
 
         public void OnEndDrag(PointerEventData eventData) {
@@ -63,7 +61,7 @@ namespace ScrapCoder.VisualNodes {
             controller.SetMiddleZone(false);
         }
 
-        void INodeExpander.Expand(int dx, int dy, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
 
             // Width
             for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
@@ -80,6 +78,8 @@ namespace ScrapCoder.VisualNodes {
             }
 
             collider.SetPath(0, colliderPoints);
+
+            return (dx, dy);
         }
     }
 }

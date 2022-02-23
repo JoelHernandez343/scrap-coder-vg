@@ -30,8 +30,23 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void AdjustParts((int dx, int dy) delta) {
+            var newDelta = CalculateDelta(delta);
+
             sprite?.toggleRender(array.Count == 0);
-            controller.AdjustParts(array, delta);
+            ownTransform.Expand(newDelta.dx, newDelta.dy);
+            controller.AdjustParts(array, newDelta);
+        }
+
+        (int dx, int dy) CalculateDelta((int dx, int dy) delta) {
+            if (array.previousCount == 0) {
+                delta.dy -= defaultHeight;
+                delta.dx -= defaultWidth;
+            } else if (array.Count == 0) {
+                delta.dy += defaultHeight;
+                delta.dx += defaultWidth;
+            }
+
+            return delta;
         }
     }
 }

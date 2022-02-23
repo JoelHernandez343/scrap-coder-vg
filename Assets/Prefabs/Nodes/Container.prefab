@@ -58,6 +58,7 @@ MonoBehaviour:
   initWidth: 0
   resizable: 1
   moveable: 1
+  centralizable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 0}
 --- !u!114 &5177636434978128433
@@ -188,6 +189,7 @@ MonoBehaviour:
   initWidth: 0
   resizable: 1
   moveable: 1
+  centralizable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 1020040377345113106}
 --- !u!114 &449421557564414003
