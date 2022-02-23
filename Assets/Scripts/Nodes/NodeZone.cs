@@ -33,7 +33,7 @@ namespace ScrapCoder.VisualNodes {
         public void OnTriggerEnter2D(Collider2D collider) {
             var zone = collider.GetComponent<NodeZone>();
 
-            if (zone?.tag == "TriggerZone") {
+            if (zone?.tag == "TriggerZone" && zone.controller.getLastParent() != controller.getLastParent()) {
                 zones.Add(zone);
             }
         }
@@ -42,7 +42,7 @@ namespace ScrapCoder.VisualNodes {
 
             var zone = collider.GetComponent<NodeZone>();
 
-            if (zone?.tag == "TriggerZone") {
+            if (zone?.tag == "TriggerZone" && zone.controller.getLastParent() != controller.getLastParent()) {
                 zones.Remove(zone);
             }
         }
