@@ -42,7 +42,7 @@ namespace ScrapCoder.VisualNodes {
 
             var zone = collider.GetComponent<NodeZone>();
 
-            if (zone?.tag == "TriggerZone" && zone.controller.getLastParent() != controller.getLastParent()) {
+            if (zone?.tag == "TriggerZone") {
                 zones.Remove(zone);
             }
         }
