@@ -94,7 +94,7 @@ namespace ScrapCoder.VisualNodes {
                 return (delta, "all");
             }
 
-            modified.ResetPositionToRelativeOrigin();
+            modified.ResetYToRelative();
             var position = new Vector2(modified.x, modified.y);
             var diff = modified.relativeOrigin - position;
             delta += (int)diff.y;

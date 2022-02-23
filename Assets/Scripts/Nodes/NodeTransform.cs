@@ -93,8 +93,14 @@ namespace ScrapCoder.VisualNodes {
             floatPosition = (0, 0);
         }
 
-        public void ResetPositionToRelativeOrigin() {
-            SetPosition(((int)relativeOrigin.x, (int)relativeOrigin.y));
+        void ResetXToRelative() {
+            var x = (int)relativeOrigin.x;
+            SetPosition(x, y);
+        }
+
+        public void ResetYToRelative() {
+            var y = (int)relativeOrigin.y;
+            SetPosition(x, y);
         }
 
         void Awake() {
