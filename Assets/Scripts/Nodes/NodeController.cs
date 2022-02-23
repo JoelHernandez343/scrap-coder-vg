@@ -255,7 +255,7 @@ namespace ScrapCoder.VisualNodes {
                 newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
                 newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
 
-                pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, array);
+                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, array);
             }
 
             AdjustComponents(pieceToExpand, newDelta);
