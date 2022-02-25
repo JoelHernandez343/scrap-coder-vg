@@ -66,10 +66,14 @@ MonoBehaviour:
   rectTransform: {fileID: 6150825404952637404}
   initHeight: 19
   initWidth: 44
+  minHeight: 0
+  minWidth: 0
   resizable: 1
   moveable: 1
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: -2
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0

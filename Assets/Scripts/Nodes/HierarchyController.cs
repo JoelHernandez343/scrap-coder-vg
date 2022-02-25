@@ -56,14 +56,19 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SetSortingOrder() {
-            for (int i = 0, order = initialOrder; i < nodes.Count; ++i, ++order) {
+            for (int i = 0, order = initialOrder, zOrder = initialOrder; i < nodes.Count; ++i, ++order) {
                 if (!nodes[i].HasParent()) {
-                    var sorter = nodes[i].GetComponent<UnityEngine.Rendering.SortingGroup>();
-                    var transform = nodes[i].GetComponent<RectTransform>();
+                    var node = nodes[i];
+
+                    var sorter = node.GetComponent<UnityEngine.Rendering.SortingGroup>();
+                    var transform = node.GetComponent<RectTransform>();
                     var position = transform.localPosition;
 
                     sorter.sortingOrder = order;
-                    transform.localPosition = new Vector3(position.x, position.y, -order);
+                    transform.localPosition = new Vector3(position.x, position.y, zOrder);
+
+                    Debug.Log(zOrder);
+                    zOrder += node.ownTransform.zLevels;
                 }
             }
         }
