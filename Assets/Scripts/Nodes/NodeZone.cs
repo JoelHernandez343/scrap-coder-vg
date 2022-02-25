@@ -53,13 +53,13 @@ namespace ScrapCoder.VisualNodes {
             }
 
             zones.Sort((zoneA, zoneB) => {
-                var indexA = HierarchyController.instance.IndexOf(zoneA.controller);
-                var indexB = HierarchyController.instance.IndexOf(zoneB.controller);
+                var zA = zoneA.transform.position.z;
+                var zB = zoneB.transform.position.z;
 
-                return indexA.CompareTo(indexB);
+                return zA.CompareTo(zB);
             });
 
-            return zones[zones.Count - 1].OnDrop(this);
+            return zones[0].OnDrop(this);
         }
 
         public bool OnDrop(NodeZone zone) {
