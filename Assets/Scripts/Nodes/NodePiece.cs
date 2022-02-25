@@ -40,16 +40,6 @@ namespace ScrapCoder.VisualNodes {
                 dy = centerHorizontalItems(horizontalItems[modified], dy);
             }
 
-
-            // horizontalItems.ForEach(item => {
-            //     var container = item.GetComponent<NodeContainer>();
-
-            //     if (container == null) {
-            //         item.SetFloatPositionByDelta(dy: -dy / 2f);
-            //     } else {
-            //         container.sprite.ownTransform.SetFloatPositionByDelta(dy: -dy / 2f);
-            //     }
-            // });
             itemsToExpand.ForEach(item => item.Expand(dx, dy));
             itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy));
 

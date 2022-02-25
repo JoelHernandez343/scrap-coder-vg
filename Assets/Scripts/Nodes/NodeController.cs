@@ -77,20 +77,6 @@ namespace ScrapCoder.VisualNodes {
             get => _parentArray;
         }
 
-        // public int width => ownTransform.width;
-        // public int height => ownTransform.height;
-
-        // public int x => ownTransform.x;
-        // public int y => ownTransform.y;
-        // public int fx => ownTransform.fx;
-        // public int fy => ownTransform.fy;
-
-        // public int initWidth => ownTransform.initWidth;
-        // public int initHeight => ownTransform.initHeight;
-
-        // public (int x, int y) position => ownTransform.position;
-        // public (int fx, int fy) finalPosition => ownTransform.finalPosition;
-
         void Awake() {
             selector[ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone;
             selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToArray;

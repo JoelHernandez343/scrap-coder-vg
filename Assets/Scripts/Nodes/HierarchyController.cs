@@ -67,7 +67,6 @@ namespace ScrapCoder.VisualNodes {
                     sorter.sortingOrder = order;
                     transform.localPosition = new Vector3(position.x, position.y, zOrder);
 
-                    Debug.Log(zOrder);
                     zOrder += node.ownTransform.zLevels;
                 }
             }
