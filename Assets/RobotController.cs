@@ -12,6 +12,7 @@ public class RobotController : MonoBehaviour
     [SerializeField] private Action action;
     [SerializeField] private int steps;
     private bool moving;
+    private Animator anim;
 
     private int rotateAux;
 
@@ -19,6 +20,7 @@ public class RobotController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         movePoint.parent = null;
         action = Action.None;
         dirMovement = Direction.Down;
@@ -30,6 +32,7 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AnimationSet();
         if (action != Action.None)
         {
             switch ((int)action)
@@ -39,6 +42,7 @@ public class RobotController : MonoBehaviour
                        then we check if the robot is moving or not, if not, move the point, now the robot will
                        start moving and we will no longer move the point until moving is false again */
                     dirMovement = dirFacing;
+                    AnimationSet();
                     if (!moving)
                     {
                         MovePoint();
@@ -101,6 +105,12 @@ public class RobotController : MonoBehaviour
         }
         dirFacing = (Direction)rotateAux;
         action = Action.None;
+    }
+
+    private void AnimationSet()
+    {
+        anim.SetInteger("action", (int)action);
+        anim.SetInteger("dir", (int)dirFacing);
     }
 }
     

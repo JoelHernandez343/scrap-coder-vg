@@ -1961,6 +1961,7 @@ GameObject:
   - component: {fileID: 763964381}
   - component: {fileID: 763964382}
   - component: {fileID: 763964384}
+  - component: {fileID: 763964385}
   m_Layer: 0
   m_Name: Copper
   m_TagString: Untagged
@@ -2108,13 +2109,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a049acb71f18955448aa06da254bdf34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1
   movePoint: {fileID: 1876408159}
   dirMovement: 0
   dirFacing: 0
-  action: 1
+  action: 0
   steps: 0
   rotate: 1
+--- !u!95 &763964385
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763964378}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 16ffb41dbc175b04196c8833b01fa799, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &791089971
 GameObject:
   m_ObjectHideFlags: 0
