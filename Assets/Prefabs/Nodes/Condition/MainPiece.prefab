@@ -27,7 +27,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3578493614937401877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3578493615446874534}
@@ -87,10 +87,14 @@ MonoBehaviour:
   rectTransform: {fileID: 3578493614937401878}
   initHeight: 0
   initWidth: 0
+  minHeight: 0
+  minWidth: 0
   resizable: 1
   moveable: 0
   directController: {fileID: 0}
   indirectController: {fileID: 4242729548815962031}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
 --- !u!114 &3578493614937401879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b6cb1377dd08648a7d866068e15279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
   collider: {fileID: 3578493614937401865}
   colliderPoints:
   - {x: 0, y: -6}
@@ -187,10 +190,14 @@ MonoBehaviour:
   rectTransform: {fileID: 3578493615446874534}
   initHeight: 19
   initWidth: 44
+  minHeight: 0
+  minWidth: 0
   resizable: 1
   moveable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 0}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
 --- !u!114 &8194541093650006781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,10 +402,14 @@ MonoBehaviour:
   rectTransform: {fileID: 3578493615779422808}
   initHeight: 19
   initWidth: 44
+  minHeight: 0
+  minWidth: 0
   resizable: 1
   moveable: 0
   directController: {fileID: 0}
   indirectController: {fileID: 4242729548815962031}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
 --- !u!114 &3578493615779422811
 MonoBehaviour:
   m_ObjectHideFlags: 0

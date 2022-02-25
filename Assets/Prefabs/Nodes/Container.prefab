@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333539247553637882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7070279304372327025}
@@ -56,11 +56,14 @@ MonoBehaviour:
   rectTransform: {fileID: 4093386343709591165}
   initHeight: 0
   initWidth: 0
+  minHeight: 0
+  minWidth: 0
   resizable: 1
   moveable: 1
-  centralizable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 0}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: -1
 --- !u!114 &5177636434978128433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,11 +190,14 @@ MonoBehaviour:
   rectTransform: {fileID: 7070279304372327025}
   initHeight: 0
   initWidth: 0
+  minHeight: 0
+  minWidth: 0
   resizable: 1
   moveable: 1
-  centralizable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 1020040377345113106}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
 --- !u!114 &449421557564414003
 MonoBehaviour:
   m_ObjectHideFlags: 0

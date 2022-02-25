@@ -29,6 +29,12 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeController directController;
         [SerializeField] NodeTransform indirectController;
 
+        public Vector2 relativeOrigin;
+
+        [SerializeField] int localZLevels;
+        [System.NonSerialized] public int maxZlevels;
+        public int zLevels => localZLevels + maxZlevels;
+
         public const int PixelsPerUnit = 24;
         public NodeController controller => directController ?? indirectController.controller;
 
@@ -79,8 +85,6 @@ namespace ScrapCoder.VisualNodes {
                 rectTransform.anchoredPosition = position;
             }
         }
-
-        public Vector2 relativeOrigin;
 
         public int fx => x + width;
         public int fy => y - height;

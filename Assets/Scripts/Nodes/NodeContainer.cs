@@ -32,6 +32,8 @@ namespace ScrapCoder.VisualNodes {
         public void AdjustParts((int dx, int dy) delta) {
             var newDelta = CalculateDelta(delta);
 
+            RecalculateZLevels();
+
             sprite?.toggleRender(array.Count == 0);
             ownTransform.Expand(newDelta.dx, newDelta.dy);
             controller.AdjustParts(array, newDelta);
@@ -47,6 +49,10 @@ namespace ScrapCoder.VisualNodes {
             }
 
             return delta;
+        }
+
+        void RecalculateZLevels() {
+            ownTransform.maxZlevels = array.ownTransform.zLevels;
         }
     }
 }

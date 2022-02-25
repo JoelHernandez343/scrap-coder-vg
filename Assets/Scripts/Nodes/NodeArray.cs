@@ -142,6 +142,8 @@ namespace ScrapCoder.VisualNodes {
 
             ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
 
+            RecalculateZLevels();
+
             if (container != null) {
                 container.AdjustParts((dx, dy));
             } else {
@@ -149,5 +151,16 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        void RecalculateZLevels() {
+            var maxZlevels = 0;
+            foreach (var node in nodes) {
+                var tf = node.ownTransform;
+                maxZlevels = tf.zLevels < maxZlevels
+                    ? tf.zLevels
+                    : maxZlevels;
+            }
+
+            ownTransform.maxZlevels = maxZlevels;
+        }
     }
 }

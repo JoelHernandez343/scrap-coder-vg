@@ -77,19 +77,19 @@ namespace ScrapCoder.VisualNodes {
             get => _parentArray;
         }
 
-        public int width => ownTransform.width;
-        public int height => ownTransform.height;
+        // public int width => ownTransform.width;
+        // public int height => ownTransform.height;
 
-        public int x => ownTransform.x;
-        public int y => ownTransform.y;
-        public int fx => ownTransform.fx;
-        public int fy => ownTransform.fy;
+        // public int x => ownTransform.x;
+        // public int y => ownTransform.y;
+        // public int fx => ownTransform.fx;
+        // public int fy => ownTransform.fy;
 
-        public int initWidth => ownTransform.initWidth;
-        public int initHeight => ownTransform.initHeight;
+        // public int initWidth => ownTransform.initWidth;
+        // public int initHeight => ownTransform.initHeight;
 
-        public (int x, int y) position => ownTransform.position;
-        public (int fx, int fy) finalPosition => ownTransform.finalPosition;
+        // public (int x, int y) position => ownTransform.position;
+        // public (int fx, int fy) finalPosition => ownTransform.finalPosition;
 
         void Awake() {
             selector[ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone;
@@ -237,6 +237,7 @@ namespace ScrapCoder.VisualNodes {
             var newDelta = adjuster?.AdjustParts(toThisArray, delta) ?? AdjustPiece(toThisArray, delta);
 
             ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
+            RecalculateZLevels();
 
             if (HasParent()) {
                 parentArray.AdjustParts(this, delta: newDelta);
@@ -270,6 +271,18 @@ namespace ScrapCoder.VisualNodes {
                 components[i].SetPositionByDelta(dy: -delta.dy);
                 components[i].Expand(dx: delta.dx);
             }
+        }
+
+        void RecalculateZLevels() {
+            var maxZlevels = 0;
+            foreach (var container in containers) {
+                var tf = container.ownTransform;
+                maxZlevels = tf.zLevels < maxZlevels
+                    ? tf.zLevels
+                    : maxZlevels;
+            }
+
+            ownTransform.maxZlevels = maxZlevels;
         }
     }
 
