@@ -141,7 +141,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetMiddleZone(bool enable) {
-            middleZone?.gameObject.SetActive(enable);
+            middleZone?.SetActive(enable);
         }
 
         void AddNodesToIncommingZone(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {

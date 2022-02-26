@@ -30,6 +30,10 @@ namespace ScrapCoder.VisualNodes {
 
         List<NodeZone> zones = new List<NodeZone>();
 
+        public void SetActive(bool enable) {
+            gameObject.SetActive(enable);
+        }
+
         public void OnTriggerEnter2D(Collider2D collider) {
             var zone = collider.GetComponent<NodeZone>();
 

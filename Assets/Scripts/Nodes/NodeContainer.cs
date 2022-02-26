@@ -12,6 +12,8 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public NodeArray array;
         [SerializeField] public NodeSprite sprite;
 
+        [SerializeField] bool toggleZone = false;
+
         [SerializeField] public NodeTransform pieceToExpand;
         [SerializeField] public bool modifyWidthOfPiece;
         [SerializeField] public bool modifyHeightOfPiece;
@@ -34,6 +36,7 @@ namespace ScrapCoder.VisualNodes {
 
             RecalculateZLevels();
 
+            if (toggleZone) zone?.SetActive(array.Count == 0);
             sprite?.toggleRender(array.Count == 0);
             ownTransform.Expand(newDelta.dx, newDelta.dy);
             controller.AdjustParts(array, newDelta);
