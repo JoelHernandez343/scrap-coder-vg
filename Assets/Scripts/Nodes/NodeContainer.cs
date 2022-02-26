@@ -21,6 +21,8 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public int defaultHeight;
         [SerializeField] public int defaultWidth;
 
+        [SerializeField] public TypeOfNode acceptedNodes;
+
         [SerializeField] public NodeTransform ownTransform;
 
         public NodeController controller => ownTransform.controller;

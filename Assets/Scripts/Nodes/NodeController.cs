@@ -8,6 +8,13 @@ using System;
 
 namespace ScrapCoder.VisualNodes {
 
+    public enum TypeOfNode {
+        All,
+        Condition,
+        Instruction,
+        Value
+    }
+
     public class DropFuncSelector {
         Action<NodeZone, NodeZone, NodeController>[,] funcs =
             new Action<NodeZone, NodeZone, NodeController>[
@@ -50,6 +57,8 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public NodeArray siblings;
 
         [SerializeField] public NodeTransform ownTransform;
+
+        [SerializeField] public TypeOfNode type;
 
         [SerializeField] List<NodeTransform> components;
         [SerializeField] List<NodeContainer> containers;
@@ -154,7 +163,9 @@ namespace ScrapCoder.VisualNodes {
                 var zone = container.zone;
 
                 if (ownZone == zone || ownZone.controller.parentArray == children) {
-                    children.AddNodes(inZone.controller, toThisNode ?? this);
+                    if (container.acceptedNodes == TypeOfNode.All || container.acceptedNodes == inZone.controller.type) {
+                        children.AddNodes(inZone.controller, toThisNode ?? this);
+                    }
                     break;
                 }
             }
