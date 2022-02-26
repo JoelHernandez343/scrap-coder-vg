@@ -3,6 +3,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
@@ -33,7 +34,7 @@ namespace ScrapCoder.VisualNodes {
         public void OnTriggerEnter2D(Collider2D collider) {
             var zone = collider.GetComponent<NodeZone>();
 
-            if (zone?.tag == "TriggerZone" && zone.controller.getLastParent() != controller.getLastParent()) {
+            if (zone?.tag == "TriggerZone") {
                 zones.Add(zone);
             }
         }
@@ -52,14 +53,22 @@ namespace ScrapCoder.VisualNodes {
                 return false;
             }
 
-            zones.Sort((zoneA, zoneB) => {
+            var validZones = zones
+                .Where(zone => zone.controller.lastController != controller.lastController)
+                .ToList();
+
+            if (validZones.Count == 0) {
+                return false;
+            }
+
+            validZones.Sort((zoneA, zoneB) => {
                 var zA = zoneA.transform.position.z;
                 var zB = zoneB.transform.position.z;
 
                 return zA.CompareTo(zB);
             });
 
-            return zones[0].OnDrop(this);
+            return validZones[0].OnDrop(this);
         }
 
         public bool OnDrop(NodeZone zone) {

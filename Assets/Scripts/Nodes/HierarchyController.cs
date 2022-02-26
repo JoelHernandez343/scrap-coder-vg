@@ -28,7 +28,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetOnTop(NodeController controller) {
-            controller = FindParent(controller);
+            controller = controller.lastController;
             controller.transform.SetAsLastSibling();
 
             var index = nodes.IndexOf(controller);
@@ -45,14 +45,6 @@ namespace ScrapCoder.VisualNodes {
 
         public int IndexOf(NodeController controller) {
             return nodes.IndexOf(controller);
-        }
-
-        NodeController FindParent(NodeController controller) {
-            while (controller.controller != null) {
-                controller = controller.controller;
-            }
-
-            return controller;
         }
 
         void SetSortingOrder() {

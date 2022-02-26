@@ -77,6 +77,17 @@ namespace ScrapCoder.VisualNodes {
             get => _parentArray;
         }
 
+        public NodeController lastController {
+            get {
+                var controller = this;
+                while (controller.HasParent()) {
+                    controller = controller.controller;
+                }
+
+                return controller;
+            }
+        }
+
         void Awake() {
             selector[ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone;
             selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToArray;
@@ -100,15 +111,6 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public bool HasParent() => parentArray != null;
-
-        public NodeController getLastParent() {
-            var controller = this;
-            while (controller.HasParent()) {
-                controller = controller.controller;
-            }
-
-            return controller;
-        }
 
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (controller != null && mainZones.Contains(ownZone)) {
