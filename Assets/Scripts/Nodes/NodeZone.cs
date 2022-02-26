@@ -3,7 +3,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
@@ -53,9 +52,7 @@ namespace ScrapCoder.VisualNodes {
                 return false;
             }
 
-            var validZones = zones
-                .Where(zone => zone.controller.lastController != controller.lastController)
-                .ToList();
+            var validZones = zones.FindAll(zone => zone.controller.lastController != controller.lastController);
 
             if (validZones.Count == 0) {
                 return false;
