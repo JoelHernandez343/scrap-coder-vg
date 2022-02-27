@@ -103,7 +103,7 @@ RectTransform:
   m_GameObject: {fileID: 6150825404952637405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 8797743147771710180}
   - {fileID: 6887730464535420151}
@@ -143,10 +143,14 @@ MonoBehaviour:
   rectTransform: {fileID: 6150825404952637404}
   initHeight: 0
   initWidth: 0
+  minHeight: 0
+  minWidth: 0
   resizable: 0
   moveable: 0
   directController: {fileID: 0}
-  pieceParent: {fileID: 0}
+  indirectController: {fileID: 0}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
 --- !u!1 &7847095422085181342
 GameObject:
   m_ObjectHideFlags: 0

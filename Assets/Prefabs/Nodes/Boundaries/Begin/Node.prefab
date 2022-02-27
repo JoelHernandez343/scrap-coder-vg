@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 6150825404952637405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 6150825405522631109}
   m_Father: {fileID: 0}
@@ -88,11 +88,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   topZone: {fileID: 0}
-  middleZone: {fileID: 3613679235895182253}
+  middleZone: {fileID: 0}
   bottomZone: {fileID: 2043934476168216280}
   lastZone: {fileID: 2043934476168216280}
   mainZones:
-  - {fileID: 3613679235895182253}
+  - {fileID: 0}
   - {fileID: 2043934476168216280}
   siblings: {fileID: 4350825533790206122}
   ownTransform: {fileID: 6150825404952637394}
@@ -231,17 +231,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3613679235895182253 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 64466046873895896, guid: 0e42d76425cf93b42959918e5901b2ba, type: 3}
-  m_PrefabInstance: {fileID: 3657865837567721589}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0d1fc2610144064985f328560885012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &128721500972171261 stripped
