@@ -22,7 +22,7 @@ namespace ScrapCoder.VisualNodes {
 
             spawnedNode = Instantiate(nodeToSpawn, canvas.transform);
 
-            spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} (${spawnedNodes++})";
+            spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} ({spawnedNodes++})";
             spawnedNode.ownTransform.SetPosition(ownTransform.position);
             spawnedNode.canvas = canvas;
 
