@@ -7,7 +7,7 @@ public class RobotController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform movePoint;
     [SerializeField] private enum Direction { Left, Up, Right, Down, None }
-    [SerializeField] private enum Action { Walk, Rotate, Interact, None }
+    [SerializeField] private enum Action { Walk, RotateLeft, RotateRight, Interact, None }
     [SerializeField] private Direction dirMovement, dirFacing;
     [SerializeField] private Action action;
     [SerializeField] private int steps;
@@ -20,6 +20,7 @@ public class RobotController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SendInstruction.sendInstruction += getInstruction;
         anim = GetComponent<Animator>();
         movePoint.parent = null;
         action = Action.None;
@@ -29,6 +30,10 @@ public class RobotController : MonoBehaviour
         rotateAux = 0;
     }
 
+    private void OnDestroy()
+    {
+        SendInstruction.sendInstruction += getInstruction;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -51,9 +56,12 @@ public class RobotController : MonoBehaviour
                     Move(dirMovement);
                     break;
                 case 1:
+                    rotate = -1;
                     Rotate();
                     break;
                 case 2:
+                    rotate = 1;
+                    Rotate();
                     break;
             }
             dirMovement = Direction.None;
@@ -67,7 +75,13 @@ public class RobotController : MonoBehaviour
         {
             moving = false;
             action = Action.None;
+            finishAction();
         }
+    }
+
+    private void finishAction()
+    {
+        SendInstruction.finishInstruction(1);
     }
 
     void MovePoint()
@@ -105,12 +119,27 @@ public class RobotController : MonoBehaviour
         }
         dirFacing = (Direction)rotateAux;
         action = Action.None;
+        SendInstruction.finishInstruction(1);
     }
 
     private void AnimationSet()
     {
         anim.SetInteger("action", (int)action);
         anim.SetInteger("dir", (int)dirFacing);
+    }
+
+    private void getInstruction(int actionR)
+    {
+        print("Recibiendo " + actionR);
+        if(actionR != -1)
+        {
+            action = (Action)actionR;
+        }
+        else
+        {
+            print("finished");
+        }
+        
     }
 }
     
