@@ -159,13 +159,11 @@ namespace ScrapCoder.VisualNodes {
 
         void AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
             foreach (var container in containers) {
-                var children = container.array;
-                var zone = container.zone;
-
-                if (ownZone == zone || ownZone.controller.parentArray == children) {
-                    if (container.acceptedNodes == TypeOfNode.All || container.acceptedNodes == inZone.controller.type) {
-                        children.AddNodes(inZone.controller, toThisNode ?? this);
-                    }
+                if (
+                    ownZone == container.zone ||
+                    ownZone.controller.parentArray == container.array
+                ) {
+                    container.AddNodes(inZone.controller, toThisNode);
                     break;
                 }
             }

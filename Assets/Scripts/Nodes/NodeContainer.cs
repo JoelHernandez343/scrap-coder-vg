@@ -59,5 +59,13 @@ namespace ScrapCoder.VisualNodes {
         void RecalculateZLevels() {
             ownTransform.maxZlevels = array.ownTransform.zLevels;
         }
+
+        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null) {
+            toThisNode ??= controller;
+
+            if (acceptedNodes == TypeOfNode.All || acceptedNodes == nodeToAdd.type) {
+                array.AddNodes(nodeToAdd, toThisNode);
+            }
+        }
     }
 }

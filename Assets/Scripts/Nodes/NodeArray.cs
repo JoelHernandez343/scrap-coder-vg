@@ -109,11 +109,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (node == null) {
                 ownTransform.ExpandByNewDimensions(0, 0);
-                if (container != null) {
-                    container.AdjustParts((dx, dy));
-                } else {
-                    controller.AdjustParts(this, (dx, dy));
-                }
+                container.AdjustParts((dx, dy));
                 return;
             }
 
@@ -144,11 +140,7 @@ namespace ScrapCoder.VisualNodes {
 
             RecalculateZLevels();
 
-            if (container != null) {
-                container.AdjustParts((dx, dy));
-            } else {
-                controller.AdjustParts(this, (dx, dy));
-            }
+            container.AdjustParts((dx, dy));
         }
 
         void RecalculateZLevels() {
