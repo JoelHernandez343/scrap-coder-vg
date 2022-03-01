@@ -11,10 +11,10 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] new SpriteRenderer renderer;
         [SerializeField] bool hideable;
 
-        public void hide() => toggleRender(false);
-        public void show() => toggleRender(true);
+        public void Hide() => ToggleRender(false);
+        public void Show() => ToggleRender(true);
 
-        public void toggleRender(bool render) {
+        public void ToggleRender(bool render) {
             if (hideable) {
                 renderer.enabled = render;
             }
