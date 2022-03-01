@@ -99,8 +99,8 @@ namespace ScrapCoder.VisualNodes {
 
         void Awake() {
             selector[ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone;
-            selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToArray;
-            selector[ZoneColor.Yellow, ZoneColor.Green] = AddNodesToArray;
+            selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToContainer;
+            selector[ZoneColor.Yellow, ZoneColor.Green] = AddNodesToContainer;
 
             (selectorModifier as INodeSelectorModifier)?.ModifySelectorFunc();
         }
@@ -157,7 +157,7 @@ namespace ScrapCoder.VisualNodes {
             inZone.controller.OnDrop(ownZone, inZone);
         }
 
-        void AddNodesToArray(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
+        void AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
             foreach (var container in containers) {
                 var children = container.array;
                 var zone = container.zone;
