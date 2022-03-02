@@ -92,6 +92,10 @@ namespace ScrapCoder.VisualNodes {
 
             var begin = nodes.IndexOf(node);
 
+            if (begin > 0) {
+                nodes[begin - 1].SetZones(SetZone.asChild);
+            }
+
             for (var i = begin; i < Count; ++i) {
                 if (nodes[i] != Last) {
                     nodes[i].SetZones(SetZone.asChild);
