@@ -8,16 +8,10 @@ using UnityEngine.U2D;
 
 namespace ScrapCoder.VisualNodes {
 
-    [System.Serializable]
-    public struct ShapePoint {
-        public Vector2 position;
-        public int spriteIndex;
-    }
-
     public class NodeShape : MonoBehaviour, INodeExpander {
 
         [SerializeField] public SpriteShapeController spriteShapeController;
-        [SerializeField] List<ShapePoint> shapePoints;
+        [SerializeField] public List<ShapePoint> shapePoints;
 
         [SerializeField] NodeTransform ownTransform;
 
