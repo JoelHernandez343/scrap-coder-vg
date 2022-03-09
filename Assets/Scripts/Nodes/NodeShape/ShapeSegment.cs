@@ -115,7 +115,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (next < generatedPairs.Count) return next;
 
-            var generatedPosition = random.NextRange(minSeparation, maxSeparation) + prevStep;
+            var generatedPosition = (sign) * random.NextRange(minSeparation, maxSeparation) + prevStep;
 
             var generatedPair = new GeneratedPair {
                 firstPoint = new GeneratedPoint {
