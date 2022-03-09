@@ -219,6 +219,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteShapeController: {fileID: 7409257471916764622}
+  ownTransform: {fileID: 7409257471916764619}
+  widthPointsRange:
+    begin: 4
+    end: 4
+  heightPointsRange:
+    begin: 2
+    end: 4
+  horizontalRangeTemplate:
+    initialStartIndex: 4
+    initialEndIndex: 4
+    isExpandable: 1
+  verticalRangeTemplate:
+    initialStartIndex: 2
+    initialEndIndex: 4
+    isExpandable: 1
+  spriteSize:
+    x: 8
+    y: 8
+  segmentTemplates: []
   shapePoints:
   - position: {x: 6, y: 0}
     spriteIndex: 1
@@ -230,13 +249,6 @@ MonoBehaviour:
     spriteIndex: 2
   - position: {x: 84, y: -15}
     spriteIndex: 0
-  ownTransform: {fileID: 7409257471916764619}
-  widthPointsRange:
-    begin: 4
-    end: 4
-  heightPointsRange:
-    begin: 2
-    end: 4
 --- !u!1 &7409257472122033714
 GameObject:
   m_ObjectHideFlags: 0

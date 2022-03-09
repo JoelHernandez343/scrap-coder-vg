@@ -489,6 +489,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteShapeController: {fileID: 6816909608325137546}
+  ownTransform: {fileID: 6816909608325137551}
+  widthPointsRange:
+    begin: 2
+    end: 3
+  heightPointsRange:
+    begin: 3
+    end: 6
+  horizontalRangeTemplate:
+    initialStartIndex: 2
+    initialEndIndex: 3
+    isExpandable: 1
+  verticalRangeTemplate:
+    initialStartIndex: 3
+    initialEndIndex: 6
+    isExpandable: 1
+  spriteSize:
+    x: 8
+    y: 8
+  segmentTemplates: []
   shapePoints:
   - position: {x: 4, y: -4}
     spriteIndex: 2
@@ -508,13 +527,6 @@ MonoBehaviour:
     spriteIndex: 1
   - position: {x: 4, y: -20}
     spriteIndex: 0
-  ownTransform: {fileID: 6816909608325137551}
-  widthPointsRange:
-    begin: 2
-    end: 3
-  heightPointsRange:
-    begin: 3
-    end: 6
 --- !u!1 &8971275148267144384
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,13 +726,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteShapeController: {fileID: 6480354448024597065}
-  shapePoints:
-  - position: {x: 6, y: 0}
-    spriteIndex: 1
-  - position: {x: 6, y: -2}
-    spriteIndex: 2
-  - position: {x: 6, y: -8}
-    spriteIndex: 0
   ownTransform: {fileID: 1986122178746448657}
   widthPointsRange:
     begin: -1
@@ -728,6 +733,25 @@ MonoBehaviour:
   heightPointsRange:
     begin: 2
     end: 2
+  horizontalRangeTemplate:
+    initialStartIndex: 0
+    initialEndIndex: 0
+    isExpandable: 0
+  verticalRangeTemplate:
+    initialStartIndex: 2
+    initialEndIndex: 2
+    isExpandable: 1
+  spriteSize:
+    x: 8
+    y: 8
+  segmentTemplates: []
+  shapePoints:
+  - position: {x: 6, y: 0}
+    spriteIndex: 1
+  - position: {x: 6, y: -2}
+    spriteIndex: 2
+  - position: {x: 6, y: -8}
+    spriteIndex: 0
 --- !u!1001 &1256665513912017003
 PrefabInstance:
   m_ObjectHideFlags: 0
