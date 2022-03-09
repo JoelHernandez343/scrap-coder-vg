@@ -36,10 +36,6 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] NodeTransform ownTransform;
 
-        // Deprecated
-        [SerializeField] NodeRange widthPointsRange;
-        [SerializeField] NodeRange heightPointsRange;
-
         [SerializeField] ShapePointRangeTemplate horizontalRangeTemplate;
         [SerializeField] ShapePointRangeTemplate verticalRangeTemplate;
 
