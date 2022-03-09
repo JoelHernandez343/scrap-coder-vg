@@ -108,7 +108,7 @@ namespace ScrapCoder.VisualNodes {
             for (var i = 0; i < shapePoints.Count; ++i) {
                 var point = shapePoints[i];
 
-                line.InsertPointAt(i, point.position / pixelsPerUnit);
+                line.InsertPointAt(i, point.position.unityVector / pixelsPerUnit);
                 line.SetSpriteIndex(i, point.spriteIndex);
                 line.SetTangentMode(i, ShapeTangentMode.Linear);
             }

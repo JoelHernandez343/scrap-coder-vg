@@ -7,12 +7,6 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    [System.Serializable]
-    public class ShapePoint {
-        public Vector2 position;
-        public int spriteIndex;
-    }
-
     public class ShapeSegment {
 
         // Internal types
@@ -170,14 +164,14 @@ namespace ScrapCoder.VisualNodes {
 
             return new List<ShapePoint> {
             new ShapePoint {
-                position = new Vector2 {
+                position = new Utils.Vector2D {
                     [axis] = firstStep + pair.firstPoint.step,
                     [oppositeAxis] = firstPoint.position[oppositeAxis]
                 },
                 spriteIndex = pair.firstPoint.sprite
             },
             new ShapePoint {
-                position = new Vector2 {
+                position = new Utils.Vector2D {
                     [axis] = firstStep + pair.finalPoint.step,
                     [oppositeAxis] = firstPoint.position[oppositeAxis]
                 },
