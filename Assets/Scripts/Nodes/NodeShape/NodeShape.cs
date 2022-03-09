@@ -116,51 +116,19 @@ namespace ScrapCoder.VisualNodes {
             spriteShapeController.RefreshSpriteShape();
         }
 
-        (int dx, int dy) Expand(int dx, int dy, NodeArray _) {
-            ownTransform.width += dx;
-            ownTransform.height += dy;
-
-            // Width
-            if (widthPointsRange.begin > -1) {
-                for (var i = widthPointsRange.begin; i <= widthPointsRange.end; ++i) {
-                    var point = shapePoints[i];
-                    point.position.x += dx;
-                    shapePoints[i] = point;
-
-                    line.SetPosition(i, point.position / pixelsPerUnit);
-                }
-            }
-
-            // Height
-            if (heightPointsRange.begin > -1) {
-                for (var i = heightPointsRange.begin; i <= heightPointsRange.end; ++i) {
-                    var point = shapePoints[i];
-                    point.position.y -= dy;
-                    shapePoints[i] = point;
-
-                    line.SetPosition(i, point.position / pixelsPerUnit);
-                }
-            }
-
-            return (dx, dy);
-        }
-
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
             int[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {
                 var range = ranges[axis];
                 var isExpandable = range.isExpandable;
+                var sign = axis == 0 ? 1 : -1;
 
                 if (!isExpandable) continue;
 
-                shapePoints.ForEach(point => Debug.Log($"BEFORE {point.position.x} {point.position.y}"));
-
-                // for (var pointIndex = shapePoints.IndexOf(range.start); shapePoints[pointIndex - 1] != range.end; ++pointIndex) {
-                //     shapePoints[pointIndex].position[axis] += delta[axis];
-                // }
-
-                shapePoints.ForEach(point => Debug.Log($"AFTER {point.position.x} {point.position.y}"));
+                for (var pointIndex = shapePoints.IndexOf(range.start); shapePoints[pointIndex - 1] != range.end; ++pointIndex) {
+                    shapePoints[pointIndex].position[axis] += (sign) * delta[axis];
+                }
             }
             // ChangeSegments();
             RenderShape();
