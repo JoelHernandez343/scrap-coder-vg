@@ -20,10 +20,10 @@ namespace ScrapCoder.Utils {
         public float Next => (float)random.NextDouble();
 
 
-        public int NextRange(int begin, int limit) {
-            var generated = Mathf.FloorToInt(Next * (limit + 1 - begin));
+        public int NextRange(int start, int limit) {
+            var generated = Mathf.FloorToInt(Next * (limit + 1 - start));
 
-            return generated + begin;
+            return generated + start;
         }
     }
 }
