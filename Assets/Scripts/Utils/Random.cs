@@ -8,24 +8,17 @@ using UnityEngine;
 namespace ScrapCoder.Utils {
     public class Random {
 
-        int seed;
-        int calls;
-        System.Random random;
-
-        public Random(int seed, int calls = 0) {
-            random = new System.Random(seed);
-
-            for (var i = 0; i < calls; ++i) {
-                random.NextDouble();
-            }
-        }
-
-        public float Next {
+        // Lazy and other variables
+        System.Random _random;
+        System.Random random {
             get {
-                calls++;
-                return (float)random.NextDouble();
+                _random ??= new System.Random((new System.Random()).Next());
+                return _random;
             }
         }
+
+        public float Next => (float)random.NextDouble();
+
 
         public int NextRange(int begin, int limit) {
             var generated = Mathf.FloorToInt(Next * (limit + 1 - begin));

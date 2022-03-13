@@ -92,7 +92,6 @@ namespace ScrapCoder.VisualNodes {
             int finalIndex,
             int normalSprite,
             int rangeSpriteLimit,
-            Utils.Random random = null,
             Utils.Vector2D spriteSize = null,
             int minSeparation = 6,
             int maxSeparation = 10
@@ -101,7 +100,7 @@ namespace ScrapCoder.VisualNodes {
             finalPoint = shape.shapePoints[finalIndex];
 
             this.spriteSize = spriteSize ?? new Utils.Vector2D { x = 8, y = 8 };
-            this.random = random ?? new Utils.Random((new System.Random()).Next());
+            this.random = new Utils.Random();
 
             this.normalSprite = normalSprite;
             this.rangeSpriteLimit = rangeSpriteLimit;
