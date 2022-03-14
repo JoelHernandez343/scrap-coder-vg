@@ -30,8 +30,6 @@ namespace ScrapCoder.VisualNodes {
         ShapePoint firstPoint;
         ShapePoint finalPoint;
 
-        Utils.Random random;
-
         List<GeneratedPair> generatedPairs = new List<GeneratedPair>();
 
         int lastRenderedPair = -1;
@@ -100,7 +98,6 @@ namespace ScrapCoder.VisualNodes {
             finalPoint = shape.shapePoints[finalIndex];
 
             this.spriteSize = spriteSize ?? new Utils.Vector2D { x = 8, y = 8 };
-            this.random = new Utils.Random();
 
             this.normalSprite = normalSprite;
             this.rangeSpriteLimit = rangeSpriteLimit;
@@ -114,12 +111,12 @@ namespace ScrapCoder.VisualNodes {
 
             if (next < generatedPairs.Count) return next;
 
-            var generatedPosition = (sign) * random.NextRange(minSeparation, maxSeparation) + prevStep;
+            var generatedPosition = (sign) * Utils.Random.NextRange(minSeparation, maxSeparation) + prevStep;
 
             var generatedPair = new GeneratedPair {
                 firstPoint = new GeneratedPoint {
                     step = generatedPosition,
-                    sprite = random.NextRange(normalSprite, rangeSpriteLimit)
+                    sprite = Utils.Random.NextRange(normalSprite, rangeSpriteLimit)
                 },
                 finalPoint = new GeneratedPoint {
                     step = generatedPosition + (sign) * (int)spriteSize[axis],

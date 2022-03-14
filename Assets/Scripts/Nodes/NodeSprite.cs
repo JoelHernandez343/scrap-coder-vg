@@ -22,20 +22,13 @@ namespace ScrapCoder.VisualNodes {
         int selectedSprite {
             set { _selectedSprite = value; }
             get {
-                _selectedSprite ??= random.NextRange(0, availableSprites.Count - 1);
+                _selectedSprite ??= Utils.Random.NextRange(0, availableSprites.Count - 1);
 
                 return (int)_selectedSprite;
             }
         }
 
         // Lazy and other variables
-        Utils.Random _random;
-        Utils.Random random {
-            get {
-                _random ??= new Utils.Random();
-                return _random;
-            }
-        }
 
         // Methods
         void Awake() {
