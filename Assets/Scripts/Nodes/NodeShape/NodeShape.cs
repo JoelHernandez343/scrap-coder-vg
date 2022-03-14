@@ -94,6 +94,7 @@ namespace ScrapCoder.VisualNodes {
                 isExpandable: verticalRangeTemplate.isExpandable
             );
 
+            ChangeSegments();
             RenderShape();
         }
 
@@ -126,7 +127,8 @@ namespace ScrapCoder.VisualNodes {
                     shapePoints[pointIndex].position[axis] += (sign) * delta[axis];
                 }
             }
-            // ChangeSegments();
+
+            ChangeSegments();
             RenderShape();
 
             return (dx, dy);
