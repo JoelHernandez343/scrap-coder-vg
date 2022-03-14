@@ -81,7 +81,7 @@ namespace ScrapCoder.VisualNodes {
             ? 0
             : generatedPairs[lastRenderedPair].finalPoint.step + (sign) * (int)spriteSize[axis] / 2;
 
-        int finalStep => (int)realFinalPoint.position[axis] - (sign) * (int)spriteSize[axis];
+        int finalStep => (int)realFinalPoint.position[axis] - (sign) * ((int)spriteSize[axis] + 1);
 
         // Constructor
         public ShapeSegment(
