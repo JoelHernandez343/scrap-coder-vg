@@ -9,13 +9,21 @@ public class RobotInstructions : MonoBehaviour
     [SerializeField] private int cont = 0;
     void Start()
     {
-        SendInstruction.finishInstruction += newInstruction;
         newInstruction(0);
     }
 
-    private void OnDestroy()
+    private void Awake()
     {
         SendInstruction.finishInstruction += newInstruction;
+    }
+    private void OnDestroy()
+    {
+        SendInstruction.finishInstruction -= newInstruction;
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2);
     }
 
     private void newInstruction(int finished)
@@ -23,8 +31,16 @@ public class RobotInstructions : MonoBehaviour
         print("Mandando " +cont);
         if(cont <= actions.Length-1)
         {
-            SendInstruction.sendInstruction((int)actions[cont]);
-            cont++;
+            if (SendInstruction.sendInstruction != null)
+            {
+                SendInstruction.sendInstruction((int)actions[cont]);
+                cont++;
+            }
+            else
+            {
+                print("no suscriptors");
+            }
+            
         }
     }
 }

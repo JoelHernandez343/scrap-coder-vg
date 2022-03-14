@@ -8,10 +8,12 @@ public class DoorControl : MonoBehaviour
     [SerializeField] private bool[] source;
     [SerializeField] private bool power;
     private Animator anim;
+    [SerializeField] private BoxCollider2D coll;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        coll = GetComponent<BoxCollider2D>();
         powerSources = source.Length;
         power = true;
 
@@ -53,10 +55,12 @@ public class DoorControl : MonoBehaviour
         if (power)
         {
             anim.SetBool("Power", true);
+            coll.enabled = false;
         }
         else
         {
             anim.SetBool("Power", false);
+            coll.enabled = true;
         }
     }
 }

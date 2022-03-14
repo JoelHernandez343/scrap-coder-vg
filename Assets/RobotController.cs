@@ -20,32 +20,40 @@ public class RobotController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SendInstruction.sendInstruction += getInstruction;
         anim = GetComponent<Animator>();
         movePoint.parent = null;
-        action = Action.None;
         dirMovement = Direction.Down;
         moving = false;
         rotate = 0;
         rotateAux = 0;
     }
 
-    private void OnDestroy()
+    private void Awake()
     {
         SendInstruction.sendInstruction += getInstruction;
+        action = Action.None;
+        print("suscribed");
+    }
+
+    private void OnDestroy()
+    {
+        SendInstruction.sendInstruction -= getInstruction;
     }
     // Update is called once per frame
     void Update()
     {
+        //print((int)action);
         AnimationSet();
         if (action != Action.None)
         {
+            
             switch ((int)action)
             {
                 case 0: // Walk
                     /* First, he make sure the movement Direction is equals to the direction the robot is facing,
                        then we check if the robot is moving or not, if not, move the point, now the robot will
                        start moving and we will no longer move the point until moving is false again */
+                    print("Caminar");
                     dirMovement = dirFacing;
                     AnimationSet();
                     if (!moving)
@@ -134,6 +142,7 @@ public class RobotController : MonoBehaviour
         if(actionR != -1)
         {
             action = (Action)actionR;
+            print((int)action);
         }
         else
         {
