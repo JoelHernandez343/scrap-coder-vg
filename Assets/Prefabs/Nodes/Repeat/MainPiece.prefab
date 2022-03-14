@@ -213,10 +213,18 @@ SpriteShapeRenderer:
   m_ShapeTexture: {fileID: 2800000, guid: 685c5ec1c0132ca46b961d2cf0963f76, type: 3}
   m_Sprites:
   - {fileID: -2794774793428964250, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: -4017403286846450815, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: -7618398745848318846, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
   - {fileID: -4561210578716621461, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: 6808605602077548532, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: -8321328034656035476, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: 1203017632040710275, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
   - {fileID: 7871576719562037732, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
-  - {fileID: 7871576719562037732, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: -2101191147135844891, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: -8215868442120543556, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
   - {fileID: 4988807376855699994, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: 6499059360395948799, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+  - {fileID: -3181121196496293814, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
   - {fileID: -6020720312278164695, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
   - {fileID: -1767087961585986998, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
   - {fileID: 2264394607353686855, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
@@ -228,8 +236,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 1.9999995, y: -0.50000024, z: -0.00035025}
-    m_Extent: {x: 2.0000002, y: 0.50000024, z: 0.00035025}
+    m_Center: {x: 1.9999995, y: -0.50000024, z: -0.00035065}
+    m_Extent: {x: 2.0000002, y: 0.50000024, z: 0.00035065}
 --- !u!114 &7466764254513914447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +270,7 @@ MonoBehaviour:
       height: 1
       bevelCutoff: 0
       bevelSize: 0
-      spriteIndex: 1
+      spriteIndex: 3
       corner: 1
       m_CornerMode: 1
     - position: {x: 0.6666665, y: -0.16666692, z: 0.00025965177}
@@ -302,17 +310,17 @@ MonoBehaviour:
       height: 1
       bevelCutoff: 0
       bevelSize: 0
-      spriteIndex: 2
+      spriteIndex: 4
       corner: 1
       m_CornerMode: 1
-    - position: {x: 0.6666661, y: -0.8333336, z: 0}
+    - position: {x: 0.66190714, y: -0.83333266, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
       height: 1
       bevelCutoff: 0
       bevelSize: 0
-      spriteIndex: 1
+      spriteIndex: 3
       corner: 1
       m_CornerMode: 1
   m_SpriteShape: {fileID: 11400000, guid: 992b2b6ec56568c4e8b7a262bba800a9, type: 2}
@@ -380,12 +388,36 @@ MonoBehaviour:
   spriteSize:
     x: 8
     y: 8
-  segmentTemplates: []
+  segmentTemplates:
+  - normalSprite: 0
+    rangeSpriteLimit: 2
+    minSeparation: 6
+    maxSeparation: 10
+    firstIndex: 1
+    finalIndex: 2
+  - normalSprite: 0
+    rangeSpriteLimit: 2
+    minSeparation: 6
+    maxSeparation: 10
+    firstIndex: 2
+    finalIndex: 3
+  - normalSprite: 0
+    rangeSpriteLimit: 2
+    minSeparation: 6
+    maxSeparation: 10
+    firstIndex: 3
+    finalIndex: 4
+  - normalSprite: 0
+    rangeSpriteLimit: 2
+    minSeparation: 6
+    maxSeparation: 10
+    firstIndex: 6
+    finalIndex: 0
   shapePoints:
   - position:
       x: 4
       y: -4
-    spriteIndex: 1
+    spriteIndex: 3
   - position:
       x: 16
       y: -4
@@ -401,11 +433,11 @@ MonoBehaviour:
   - position:
       x: 25
       y: -20
-    spriteIndex: 2
+    spriteIndex: 4
   - position:
       x: 16
       y: -20
-    spriteIndex: 1
+    spriteIndex: 3
   - position:
       x: 4
       y: -20
