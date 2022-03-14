@@ -13,6 +13,7 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] List<NodeTransform> horizontalItems;
         [SerializeField] List<NodeTransform> itemsBelow;
+        [SerializeField] List<NodeTransform> itemsToTheRight;
         [SerializeField] List<NodeTransform> itemsToExpand;
 
         public NodeController controller => ownTransform.controller;
@@ -42,6 +43,7 @@ namespace ScrapCoder.VisualNodes {
 
             itemsToExpand.ForEach(item => item.Expand(dx, dy));
             itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy));
+            itemsToTheRight.ForEach(item => item.SetPositionByDelta(dx: dx));
 
             return (dx, dy);
         }

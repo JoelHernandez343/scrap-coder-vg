@@ -39,7 +39,9 @@ namespace ScrapCoder.VisualNodes {
 
         // Methods
         void Awake() {
-            renderer.sprite = availableSprites[selectedSprite];
+            if (availableSprites.Count != 0) {
+                renderer.sprite = availableSprites[selectedSprite];
+            }
         }
 
         void Hide() => ToggleRender(false);
