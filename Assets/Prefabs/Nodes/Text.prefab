@@ -108,8 +108,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280688667
-  m_fontColor: {r: 0.105882354, g: 0.1254902, b: 0.14901961, a: 1}
+    rgba: 4281348660
+  m_fontColor: {r: 0.20392157, g: 0.19607843, b: 0.1882353, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -184,9 +184,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  controller: {fileID: 0}
   rectTransform: {fileID: 8574254898219661924}
   initHeight: 0
   initWidth: 0
+  minHeight: 0
+  minWidth: 0
   resizable: 0
   moveable: 1
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
