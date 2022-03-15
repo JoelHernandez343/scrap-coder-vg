@@ -108,6 +108,7 @@ MonoBehaviour:
   - {fileID: 968605115431716455}
   - {fileID: 7431806807875578522}
   - {fileID: 7069270878415370373}
+  - {fileID: 2698101089188948741}
   zoneRefresher: {fileID: 0}
   partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
@@ -269,6 +270,17 @@ MonoBehaviour:
 --- !u!114 &968605115431716455 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 411305163798255857, guid: 8717324973fad824c9bfadad1df0daf5, type: 3}
+  m_PrefabInstance: {fileID: 631650628914224790}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7093b18190a61409f37a620e0526a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2698101089188948741 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3293686325947282835, guid: 8717324973fad824c9bfadad1df0daf5, type: 3}
   m_PrefabInstance: {fileID: 631650628914224790}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

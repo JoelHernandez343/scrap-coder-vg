@@ -126,8 +126,8 @@ MonoBehaviour:
   - {x: 18, y: -34}
   - {x: 0, y: -34}
   widthPointsRange:
-    begin: 4
-    end: 5
+    begin: 6
+    end: 7
   heightPointsRange:
     begin: 5
     end: 9
@@ -507,8 +507,8 @@ MonoBehaviour:
   spriteShapeController: {fileID: 6816909608325137546}
   ownTransform: {fileID: 6816909608325137551}
   horizontalRangeTemplate:
-    initialStartIndex: 2
-    initialEndIndex: 3
+    initialStartIndex: 4
+    initialEndIndex: 5
     isExpandable: 1
   verticalRangeTemplate:
     initialStartIndex: 3
