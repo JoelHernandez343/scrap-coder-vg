@@ -105,6 +105,7 @@ MonoBehaviour:
   containers:
   - {fileID: 1567358778771623895}
   - {fileID: 7115746196565049201}
+  - {fileID: 5655742085502523055}
   zoneRefresher: {fileID: 0}
   partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
@@ -274,6 +275,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7093b18190a61409f37a620e0526a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5655742085502523055 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 384141533066905141, guid: 5f4c55c56d34f864787c807caf7adc8a, type: 3}
+  m_PrefabInstance: {fileID: 5416007114461515930}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7093b18190a61409f37a620e0526a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5905226533974852295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -379,12 +391,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
       propertyPath: m_Sprites.Array.size
-      value: 14
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
       propertyPath: m_Sprites.Array.data[5]
       value: 
-      objectReference: {fileID: -7779772245507925811, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+      objectReference: {fileID: -1020875144365324943, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
     - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
       propertyPath: m_Sprites.Array.data[11]
       value: 
@@ -392,7 +404,7 @@ PrefabInstance:
     - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
       propertyPath: m_Sprites.Array.data[12]
       value: 
-      objectReference: {fileID: 2970575540502949494, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+      objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
     - target: {fileID: 827370156003167774, guid: 12522c3ac550a384cbd00cbdfc12cb7c, type: 3}
       propertyPath: m_Sprites.Array.data[13]
       value: 
