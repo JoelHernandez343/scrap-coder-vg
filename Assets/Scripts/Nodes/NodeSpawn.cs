@@ -29,7 +29,6 @@ namespace ScrapCoder.VisualNodes {
             spawnedNode.SetMiddleZone(true);
             spawnedNode.DetachFromParent();
 
-            spawnedNode.transform.SetAsLastSibling();
             HierarchyController.instance.SetOnTop(spawnedNode);
             spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
         }
