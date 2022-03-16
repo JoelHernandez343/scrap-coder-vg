@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: -6597854605687844029
     second: generic
+  - first:
+      213: -8070577524028168948
+    second: condition_2
+  - first:
+      213: -5274691425799770326
+    second: conditional_2
+  - first:
+      213: -6487682804634884975
+    second: repeat_2
+  - first:
+      213: -5924802017407687567
+    second: generic_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -107,11 +119,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 18
+        y: 50
         width: 28
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -127,12 +139,12 @@ TextureImporter:
       name: conditional
       rect:
         serializedVersion: 2
-        x: 34
-        y: 18
+        x: 2
+        y: 34
         width: 28
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -149,11 +161,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 2
+        y: 18
         width: 28
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -169,6 +181,90 @@ TextureImporter:
       name: generic
       rect:
         serializedVersion: 2
+        x: 2
+        y: 2
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3431d4c6136bf64a0800000000000000
+      internalID: -6597854605687844029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: condition_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 50
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c05ac0c608c8fff80800000000000000
+      internalID: -8070577524028168948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: conditional_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 34
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2fe76148188cc6b0800000000000000
+      internalID: -5274691425799770326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repeat_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 18
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 194e356ccde17f5a0800000000000000
+      internalID: -6487682804634884975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: generic_2
+      rect:
+        serializedVersion: 2
         x: 34
         y: 2
         width: 28
@@ -180,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3431d4c6136bf64a0800000000000000
-      internalID: -6597854605687844029
+      spriteID: 174a5e3c4ffd6cda0800000000000000
+      internalID: -5924802017407687567
       vertices: []
       indices: 
       edges: []
