@@ -5,28 +5,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
 
 namespace ScrapCoder.VisualNodes {
 
-    [Serializable]
-    public struct NodeRange {
-        public int begin;
-        public int end;
-    }
-
     public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, INodeExpander {
 
+        // Internal types
+        [System.Serializable]
+        struct NodeRange {
+            public int begin;
+            public int end;
+        }
+
+        // Editor variables
         [SerializeField] new PolygonCollider2D collider;
-        [SerializeField] List<Vector2> colliderPoints;
 
         [SerializeField] NodeRange widthPointsRange;
         [SerializeField] NodeRange heightPointsRange;
 
         [SerializeField] NodeTransform ownTransform;
 
+        // State variables
+        [SerializeField] List<Vector2> colliderPoints;
+
+        // Lazy and other variables
         public NodeController controller => ownTransform.controller;
 
+        // Methods
         void Awake() {
             SetDefaultCollider();
         }
