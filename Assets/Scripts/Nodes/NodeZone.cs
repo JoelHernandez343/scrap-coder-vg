@@ -22,13 +22,16 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodeZone : MonoBehaviour, INodeExpander {
 
+        // Editor variables
         [SerializeField] new BoxCollider2D collider;
         [SerializeField] public ZoneColor color;
         [SerializeField] NodeTransform ownTransform;
 
-        public NodeController controller => ownTransform.controller;
-
+        // State variables
         List<NodeZone> zones = new List<NodeZone>();
+
+        // Lazy and other variables
+        public NodeController controller => ownTransform.controller;
 
         public void SetActive(bool enable) {
             gameObject.SetActive(enable);
