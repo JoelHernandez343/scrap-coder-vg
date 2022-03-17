@@ -15,7 +15,7 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] Component nodeExpander;
 
-        [SerializeField] RectTransform rectTransform;
+        [SerializeField] public RectTransform rectTransform;
 
         [SerializeField] public int initHeight;
         [SerializeField] public int initWidth;
@@ -71,20 +71,39 @@ namespace ScrapCoder.VisualNodes {
             get => _width;
         }
 
-        public int x => (int)rectTransform.anchoredPosition.x;
-        public int y => (int)rectTransform.anchoredPosition.y;
-
-        public (int x, int y) position {
-            get => (x, y);
+        Utils.Vector2D _position;
+        public Utils.Vector2D position {
+            get => _position;
             private set {
                 if (this.position == value) {
                     return;
                 }
 
-                var position = new Vector2(value.x, value.y);
-                rectTransform.anchoredPosition = position;
+                _position.tuple = (value.x, value.y);
+
+                rectTransform.anchoredPosition = _position.unityVector;
             }
         }
+
+        Utils.FloatVector2D floatPosition;
+
+        // Lazy and other variables
+        UnityEngine.Rendering.SortingGroup _sorter;
+        public UnityEngine.Rendering.SortingGroup sorter {
+            get {
+                _sorter ??= controller.lastController.GetComponent<UnityEngine.Rendering.SortingGroup>();
+
+                return _sorter;
+            }
+        }
+
+        public int zLevels => localZLevels + maxZlevels;
+
+        public const int PixelsPerUnit = 24;
+        public NodeController controller => directController ?? indirectController.controller;
+
+        public int x => (int)rectTransform.anchoredPosition.x;
+        public int y => (int)rectTransform.anchoredPosition.y;
 
         public int fx => x + width;
         public int fy => y - height;

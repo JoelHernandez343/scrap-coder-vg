@@ -49,12 +49,12 @@ namespace ScrapCoder.VisualNodes {
 
         void SetSortingOrder() {
             for (int i = 0, order = initialOrder, zOrder = initialOrder; i < nodes.Count; ++i, ++order) {
-                if (!nodes[i].HasParent()) {
+                if (!nodes[i].hasParent) {
                     var node = nodes[i];
 
-                    var sorter = node.GetComponent<UnityEngine.Rendering.SortingGroup>();
-                    var transform = node.GetComponent<RectTransform>();
+                    var transform = node.ownTransform.rectTransform;
                     var position = transform.localPosition;
+                    var sorter = node.ownTransform.sorter;
 
                     sorter.sortingOrder = order;
                     transform.localPosition = new Vector3(position.x, position.y, zOrder);
