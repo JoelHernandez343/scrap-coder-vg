@@ -43,9 +43,7 @@ namespace ScrapCoder.VisualNodes {
             SetSortingOrder();
         }
 
-        public int IndexOf(NodeController controller) {
-            return nodes.IndexOf(controller);
-        }
+        public int IndexOf(NodeController controller) => nodes.IndexOf(controller);
 
         void SetSortingOrder() {
             for (int i = 0, order = initialOrder, zOrder = initialOrder; i < nodes.Count; ++i, ++order) {
