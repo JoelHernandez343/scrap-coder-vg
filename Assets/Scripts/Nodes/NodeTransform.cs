@@ -37,37 +37,37 @@ namespace ScrapCoder.VisualNodes {
         // State Variables
         [System.NonSerialized] public int maxZlevels;
 
-        int _height;
+        int? _height;
         public int height {
             set {
-                if (!resizable && value != initHeight) {
-                    throw new System.InvalidOperationException("This object is not resizable");
-                }
+                if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
 
-                if (value < minHeight) {
-                    throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
-                }
+                if (value < minHeight) throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
 
                 _height = value;
             }
 
-            get => _height;
+            get {
+                _height ??= initHeight;
+
+                return (int)_height;
+            }
         }
 
-        int _width;
+        int? _width;
         public int width {
             set {
-                if (!resizable && value != initWidth) {
-                    throw new System.InvalidOperationException("This object is not resizable");
-                }
+                if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
 
-                if (value < minWidth) {
-                    throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
-                }
+                if (value < minWidth) throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
 
                 _width = value;
             }
-            get => _width;
+            get {
+                _width ??= initWidth;
+
+                return (int)_width;
+            }
         }
 
         Utils.Vector2D _position = new Utils.Vector2D();
@@ -112,6 +112,7 @@ namespace ScrapCoder.VisualNodes {
 
         public (int x, int y) finalPosition => (fx, fy);
 
+        // Methods
         void ResetFloatPosition() {
             floatPosition.tuple = (0, 0);
         }
@@ -127,8 +128,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void Awake() {
-            width = initWidth;
-            height = initHeight;
+            // width = initWidth;
+            // height = initHeight;
 
             relativeOrigin = new Utils.Vector2D {
                 x = position.x,
