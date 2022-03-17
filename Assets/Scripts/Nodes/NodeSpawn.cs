@@ -12,7 +12,7 @@ namespace ScrapCoder.VisualNodes {
 
         // Editor variables
         [SerializeField] Canvas canvas;
-        [SerializeField] NodeController nodeToSpawn;
+        [SerializeField] NodeType nodeToSpawn;
         [SerializeField] NodeTransform ownTransform;
 
         // State variables
@@ -34,9 +34,10 @@ namespace ScrapCoder.VisualNodes {
                 out newPosition
             );
 
-            spawnedNode = Instantiate(nodeToSpawn, canvas.transform);
+            var nodeController = NodeDictionaryController.instance[nodeToSpawn];
+            spawnedNode = Instantiate(nodeController, canvas.transform);
 
-            spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} ({spawnedNodes++})";
+            spawnedNode.gameObject.name = $"{nodeController.gameObject.name} ({spawnedNodes++})";
             spawnedNode.ownTransform.SetPosition((
                 (int)newPosition.x - (spawnedNode.ownTransform.width * pixelScale) / 2,
                 (int)newPosition.y + (spawnedNode.ownTransform.initHeight * pixelScale) / 2

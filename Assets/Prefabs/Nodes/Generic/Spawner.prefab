@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7183977061572412604}
+  - component: {fileID: 486517903982837517}
   - component: {fileID: 3283651911690254621}
   - component: {fileID: 1996117259491082024}
   m_Layer: 0
@@ -18,20 +18,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7183977061572412604
-Transform:
+--- !u!224 &486517903982837517
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4455079881794426649}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6150825404952637404}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!60 &3283651911690254621
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -58,8 +63,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 26, y: 0}
-      - {x: 26, y: -14}
+      - {x: 96, y: 0}
+      - {x: 96, y: -14}
       - {x: 0, y: -14}
 --- !u!114 &1996117259491082024
 MonoBehaviour:
@@ -74,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
-  nodeToSpawn: {fileID: 6150825404952637395, guid: 9a6f4e3b1d4a9504097c48c22985c91b, type: 3}
+  nodeToSpawn: 4
   ownTransform: {fileID: 2011535008465815685}
 --- !u!1 &6150825404952637405
 GameObject:
@@ -107,7 +112,7 @@ RectTransform:
   m_Children:
   - {fileID: 8797743147771710180}
   - {fileID: 6887730464535420151}
-  - {fileID: 7183977061572412604}
+  - {fileID: 486517903982837517}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -149,7 +154,9 @@ MonoBehaviour:
   moveable: 0
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  relativeOrigin: {x: 0, y: 0}
+  relativeOrigin:
+    x: 0
+    y: 0
   localZLevels: 0
 --- !u!1 &7847095422085181342
 GameObject:
@@ -227,7 +234,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c21cce81e1d39c6448b773b004dada52, type: 3}
+  m_Sprite: {fileID: 2873453964865190243, guid: c21cce81e1d39c6448b773b004dada52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
