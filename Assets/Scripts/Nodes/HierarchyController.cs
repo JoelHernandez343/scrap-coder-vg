@@ -9,10 +9,13 @@ namespace ScrapCoder.VisualNodes {
 
     public class HierarchyController : MonoBehaviour {
 
+        // Editor variables
         [SerializeField] int initialOrder = 0;
 
+        // State variables
         List<NodeController> nodes = new List<NodeController>();
 
+        // Lazy and other variables
         public static HierarchyController instance {
             private set;
             get;
