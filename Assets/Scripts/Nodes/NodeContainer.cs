@@ -8,6 +8,8 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public class NodeContainer : MonoBehaviour {
+
+        // Editor variables
         [SerializeField] public NodeZone zone;
         [SerializeField] public NodeArray array;
         [SerializeField] public NodeSprite sprite;
@@ -25,10 +27,12 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeTransform ownTransform;
 
+        // Lazy and other variables
         public NodeController controller => ownTransform.controller;
 
         public int Count => array.Count;
 
+        // Methods
         public void Clear() {
             array.RefreshNodeZones(array[0]);
         }
