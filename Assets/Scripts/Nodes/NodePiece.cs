@@ -9,19 +9,20 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodePiece : MonoBehaviour, INodeExpander {
 
-        [SerializeField] public NodeTransform ownTransform;
+        // Editor variables
+        [SerializeField] NodeTransform ownTransform;
 
         [SerializeField] List<NodeTransform> horizontalItems;
         [SerializeField] List<NodeTransform> itemsBelow;
         [SerializeField] List<NodeTransform> itemsToTheRight;
         [SerializeField] List<NodeTransform> itemsToExpand;
 
-        public NodeController controller => ownTransform.controller;
+        // State variables
+        int? previousMaxHeight;
 
-        int maxHeight = 0;
-
+        // Methods
         void Start() {
-            maxHeight = getMaxHeight();
+            previousMaxHeight ??= getMaxHeight();
         }
 
         public bool HasHorizontalArray(NodeArray array)
@@ -64,22 +65,22 @@ namespace ScrapCoder.VisualNodes {
 
         int getMaxHeight() {
             var maxHeight = 0;
-            foreach (var item in horizontalItems) {
-                maxHeight = item.height > maxHeight ? item.height : maxHeight;
-            }
+
+            horizontalItems.ForEach(item => maxHeight = item.height > maxHeight ? item.height : maxHeight);
+
             return maxHeight;
         }
 
         (int delta, string center) calHorizontalDelta(NodeTransform modified, int dy) {
             var currentMaxHeight = getMaxHeight();
-            var delta = currentMaxHeight - maxHeight;
+            var delta = currentMaxHeight - (int)previousMaxHeight;
 
             if (delta == 0) {
                 modified.SetFloatPositionByDelta(dy: dy / 2f);
                 return (0, "nothing");
             }
 
-            maxHeight = currentMaxHeight;
+            previousMaxHeight = currentMaxHeight;
 
             if (delta < 0) {
                 modified.SetFloatPositionByDelta(dy: dy / 2f);
@@ -88,7 +89,7 @@ namespace ScrapCoder.VisualNodes {
 
             modified.ResetYToRelative();
             var position = new Vector2(modified.x, modified.y);
-            var diff = modified.relativeOrigin - position;
+            var diff = modified.relativeOrigin.unityVector - position;
             delta += (int)diff.y;
 
             return (delta, "all_wo_max");
