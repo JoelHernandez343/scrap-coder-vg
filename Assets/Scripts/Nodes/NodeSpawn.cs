@@ -10,13 +10,18 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
 
-        int spawnedNodes = 0;
-        NodeController spawnedNode;
-
+        // Editor variables
         [SerializeField] Canvas canvas;
         [SerializeField] NodeController nodeToSpawn;
         [SerializeField] NodeTransform ownTransform;
 
+        // State variables
+        int spawnedNodes = 0;
+
+        // Lazy and other variables
+        NodeController spawnedNode;
+
+        // Methods
         public void OnBeginDrag(PointerEventData eventData) {
             var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
