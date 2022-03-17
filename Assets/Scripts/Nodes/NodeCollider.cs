@@ -56,9 +56,11 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnDrag(PointerEventData eventData) {
-            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
+            if (eventData.dragging) {
+                var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
-            controller.ownTransform.SetFloatPositionByDelta(dx, dy);
+                controller.ownTransform.SetFloatPositionByDelta(dx, dy);
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
