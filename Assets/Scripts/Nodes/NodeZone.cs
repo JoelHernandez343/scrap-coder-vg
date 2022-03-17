@@ -7,19 +7,6 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public enum ZoneColor {
-        Blue,
-        Red,
-        Green,
-        Yellow,
-    }
-
-    public enum SetZone {
-        asParent,
-        asChild,
-        asLastChild
-    }
-
     public class NodeZone : MonoBehaviour, INodeExpander {
 
         // Editor variables
