@@ -8,11 +8,11 @@ using UnityEngine;
 namespace ScrapCoder.Utils {
 
     [System.Serializable]
-    public class Vector2D {
-        public int x;
-        public int y;
+    public class FloatVector2D {
+        public float x;
+        public float y;
 
-        public int this[int index] {
+        public float this[int index] {
             get {
                 if (index == 0) return x;
                 if (index == 1) return y;
@@ -34,7 +34,7 @@ namespace ScrapCoder.Utils {
             }
         }
 
-        public (int x, int y) tuple {
+        public (float x, float y) tuple {
             get => (x, y);
             set {
                 x = value.x;
@@ -45,9 +45,12 @@ namespace ScrapCoder.Utils {
         public Vector2 unityVector {
             get => new Vector2 { x = x, y = y };
             set {
-                x = (int)value.x;
-                y = (int)value.y;
+                x = value.x;
+                y = value.y;
             }
         }
+
+        public int intX => (int)x;
+        public int intY => (int)y;
     }
 }
