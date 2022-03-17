@@ -20,15 +20,27 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables
         NodeController spawnedNode;
+        const int pixelScale = 2;
 
         // Methods
         public void OnBeginDrag(PointerEventData eventData) {
             var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
+            var newPosition = new Vector2();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.GetComponent<RectTransform>(),
+                eventData.position,
+                canvas.worldCamera,
+                out newPosition
+            );
+
             spawnedNode = Instantiate(nodeToSpawn, canvas.transform);
 
             spawnedNode.gameObject.name = $"{nodeToSpawn.gameObject.name} ({spawnedNodes++})";
-            spawnedNode.ownTransform.SetPosition(ownTransform.position);
+            spawnedNode.ownTransform.SetPosition((
+                (int)newPosition.x - (spawnedNode.ownTransform.width * pixelScale) / 2,
+                (int)newPosition.y + (spawnedNode.ownTransform.initHeight * pixelScale) / 2
+            ));
             spawnedNode.canvas = canvas;
 
             spawnedNode.SetMiddleZone(true);
