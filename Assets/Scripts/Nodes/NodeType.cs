@@ -8,11 +8,13 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public enum NodeType {
-        Repeat = 0,
-        Conditional = 1,
-        ElseConditional = 2,
-        ConditionAnd = 3,
-        Generic = 4,
+        Begin = 0,
+        End = 1,
+        Repeat = 2,
+        Conditional = 3,
+        ElseConditional = 4,
+        ConditionAnd = 5,
+        Generic = 6,
     }
 
 }
