@@ -9,19 +9,25 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodeArray : MonoBehaviour {
 
+        // Editor variables
         [SerializeField] public NodeTransform ownTransform;
         [SerializeField] public NodeContainer container;
-        [System.NonSerialized] public List<NodeController> nodes = new List<NodeController>();
 
+        // State Variables
+        [System.NonSerialized] public List<NodeController> nodes = new List<NodeController>();
+        public int previousCount { get; private set; }
+
+        // Lazy and other variables
         int borderOffset = 1;
 
         public NodeController controller => ownTransform.controller;
 
         public int Count => nodes.Count;
-        public int previousCount { get; private set; }
+
         public NodeController this[int index] => nodes[index];
         public NodeController Last => Count == 0 ? null : nodes[Count - 1];
 
+        // Methods
         public List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
             if (Count == 0) return new List<NodeController>();
