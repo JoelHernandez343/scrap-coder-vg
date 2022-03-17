@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ScrapCoder.Utils {
 
     [System.Serializable]
-    public class Vector2D {
+    public struct Vector2D {
         public int x;
         public int y;
 

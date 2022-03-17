@@ -90,7 +90,7 @@ namespace ScrapCoder.VisualNodes {
             int finalIndex,
             int normalSprite,
             int rangeSpriteLimit,
-            Utils.Vector2D spriteSize = null,
+            Utils.Vector2D? spriteSize = null,
             int minSeparation = 6,
             int maxSeparation = 10
         ) {
