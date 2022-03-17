@@ -14,7 +14,6 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] List<Sprite> availableSprites;
 
-        // State Variables
         [SerializeField] bool hideable;
 
         // Lazy state variables
@@ -27,8 +26,6 @@ namespace ScrapCoder.VisualNodes {
                 return (int)_selectedSprite;
             }
         }
-
-        // Lazy and other variables
 
         // Methods
         void Awake() {
