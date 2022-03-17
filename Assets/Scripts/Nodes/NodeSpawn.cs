@@ -13,7 +13,6 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] Canvas canvas;
         [SerializeField] NodeType nodeToSpawn;
-        [SerializeField] NodeTransform ownTransform;
 
         // State variables
         int spawnedNodes = 0;
