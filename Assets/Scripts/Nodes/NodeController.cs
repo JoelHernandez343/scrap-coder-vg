@@ -15,19 +15,6 @@ namespace ScrapCoder.VisualNodes {
         Value
     }
 
-    public class DropFuncSelector {
-        Action<NodeZone, NodeZone, NodeController>[,] funcs =
-            new Action<NodeZone, NodeZone, NodeController>[
-                Enum.GetNames(typeof(ZoneColor)).Length,
-                Enum.GetNames(typeof(ZoneColor)).Length
-            ];
-
-        public Action<NodeZone, NodeZone, NodeController> this[ZoneColor first, ZoneColor second] {
-            get => funcs[(int)first, (int)second];
-            set => funcs[(int)first, (int)second] = value;
-        }
-    }
-
     public interface IZoneParentRefresher {
         void SetZonesAsParent(NodeArray array);
     }
@@ -37,13 +24,26 @@ namespace ScrapCoder.VisualNodes {
     }
 
     public interface INodeSelectorModifier {
-        void ModifySelectorFunc();
+        void ModifySelectorFunc(NodeController.DropFuncSelector selector);
     }
 
     public class NodeController : MonoBehaviour {
 
-        public DropFuncSelector selector = new DropFuncSelector();
+        // Internal types
+        public class DropFuncSelector {
+            Action<NodeZone, NodeZone, NodeController>[,] funcs =
+                new Action<NodeZone, NodeZone, NodeController>[
+                    Enum.GetNames(typeof(ZoneColor)).Length,
+                    Enum.GetNames(typeof(ZoneColor)).Length
+                ];
 
+            public Action<NodeZone, NodeZone, NodeController> this[ZoneColor first, ZoneColor second] {
+                get => funcs[(int)first, (int)second];
+                set => funcs[(int)first, (int)second] = value;
+            }
+        }
+
+        // Editor variables
         [SerializeField] public Canvas canvas;
 
         [SerializeField] NodeZone topZone;
@@ -67,29 +67,43 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] Component partsAdjuster;
         [SerializeField] Component selectorModifier;
 
-        NodeController _controller;
-        public NodeController controller {
-            private set {
-                _controller = value;
-
-                transform.SetParent(parentArray?.transform ?? canvas.transform);
-            }
-            get => _controller;
-        }
-
+        // State variables
         NodeArray _parentArray;
         public NodeArray parentArray {
             set {
                 _parentArray = value;
-                controller = parentArray?.controller;
+
+                transform.SetParent(parentArray?.transform ?? canvas.transform);
             }
             get => _parentArray;
         }
 
+        // Lazy and other variables
+        public NodeController controller => parentArray?.controller;
+
+        DropFuncSelector _selector;
+        DropFuncSelector selector {
+            get {
+                if (_selector == null) {
+                    _selector = new DropFuncSelector() {
+                        [ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone,
+                        [ZoneColor.Red, ZoneColor.Blue] = AddNodesToContainer,
+                        [ZoneColor.Yellow, ZoneColor.Green] = AddNodesToContainer
+                    };
+
+                    (selectorModifier as INodeSelectorModifier)?.ModifySelectorFunc(_selector);
+                }
+
+                return _selector;
+            }
+        }
+
+        public bool hasParent => parentArray != null;
+
         public NodeController lastController {
             get {
                 var controller = this;
-                while (controller.HasParent()) {
+                while (controller.hasParent) {
                     controller = controller.controller;
                 }
 
@@ -97,14 +111,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        void Awake() {
-            selector[ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone;
-            selector[ZoneColor.Red, ZoneColor.Blue] = AddNodesToContainer;
-            selector[ZoneColor.Yellow, ZoneColor.Green] = AddNodesToContainer;
-
-            (selectorModifier as INodeSelectorModifier)?.ModifySelectorFunc();
-        }
-
+        // Methods
         public void ClearParent() => parentArray = null;
 
         public void DetachFromParent() {
@@ -118,8 +125,6 @@ namespace ScrapCoder.VisualNodes {
                 ClearParent();
             }
         }
-
-        public bool HasParent() => parentArray != null;
 
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (controller != null && mainZones.Contains(ownZone)) {
@@ -236,7 +241,7 @@ namespace ScrapCoder.VisualNodes {
             ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
             RecalculateZLevels();
 
-            if (HasParent()) {
+            if (hasParent) {
                 parentArray.AdjustParts(this, delta: newDelta);
             } else {
                 HierarchyController.instance.SetOnTop(this);
