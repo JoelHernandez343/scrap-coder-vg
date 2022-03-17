@@ -13,6 +13,7 @@ namespace ScrapCoder.VisualNodes {
 
     public class NodeTransform : MonoBehaviour {
 
+        // Editor variables
         [SerializeField] Component nodeExpander;
 
         [SerializeField] public RectTransform rectTransform;
@@ -29,14 +30,12 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeController directController;
         [SerializeField] NodeTransform indirectController;
 
-        public Vector2 relativeOrigin;
+        [SerializeField] public Utils.Vector2D relativeOrigin;
 
         [SerializeField] int localZLevels;
-        [System.NonSerialized] public int maxZlevels;
-        public int zLevels => localZLevels + maxZlevels;
 
-        public const int PixelsPerUnit = 24;
-        public NodeController controller => directController ?? indirectController.controller;
+        // State Variables
+        [System.NonSerialized] public int maxZlevels;
 
         int _height;
         public int height {
@@ -71,21 +70,24 @@ namespace ScrapCoder.VisualNodes {
             get => _width;
         }
 
-        Utils.Vector2D _position;
+        Utils.Vector2D _position = new Utils.Vector2D();
         public Utils.Vector2D position {
-            get => _position;
-            private set {
-                if (this.position == value) {
-                    return;
-                }
+            get {
+                _position.unityVector = rectTransform.anchoredPosition;
 
-                _position.tuple = (value.x, value.y);
+                return _position;
+            }
+            set {
+                if (this.position.x == value.x && this.position.y == value.y) return;
+
+                _position.x = value.x;
+                _position.y = value.y;
 
                 rectTransform.anchoredPosition = _position.unityVector;
             }
         }
 
-        Utils.FloatVector2D floatPosition;
+        Utils.FloatVector2D floatPosition = new Utils.FloatVector2D();
 
         // Lazy and other variables
         UnityEngine.Rendering.SortingGroup _sorter;
@@ -102,18 +104,16 @@ namespace ScrapCoder.VisualNodes {
         public const int PixelsPerUnit = 24;
         public NodeController controller => directController ?? indirectController.controller;
 
-        public int x => (int)rectTransform.anchoredPosition.x;
-        public int y => (int)rectTransform.anchoredPosition.y;
+        public int x => position.x;
+        public int y => position.y;
 
         public int fx => x + width;
         public int fy => y - height;
 
         public (int x, int y) finalPosition => (fx, fy);
 
-        (float x, float y) floatPosition;
-
         void ResetFloatPosition() {
-            floatPosition = (0, 0);
+            floatPosition.tuple = (0, 0);
         }
 
         void ResetXToRelative() {
@@ -130,14 +130,22 @@ namespace ScrapCoder.VisualNodes {
             width = initWidth;
             height = initHeight;
 
-            relativeOrigin = new Vector2(position.x, position.y);
+            relativeOrigin = new Utils.Vector2D {
+                x = position.x,
+                y = position.y
+            };
+        }
+
+        void ChangePosition(int x, int y) {
+            position = new Utils.Vector2D { x = x, y = y };
         }
 
         public void SetPosition((int x, int y) position, bool resetFloatPosition = true) {
             if (!moveable) {
                 throw new System.InvalidOperationException("This object is not moveable");
             }
-            this.position = position;
+
+            ChangePosition(position.x, position.y);
 
             if (resetFloatPosition) ResetFloatPosition();
         }
@@ -147,10 +155,7 @@ namespace ScrapCoder.VisualNodes {
                 throw new System.InvalidOperationException("This object is not moveable");
             }
 
-            var ix = x ?? this.x;
-            var iy = y ?? this.y;
-
-            this.position = (ix, iy);
+            ChangePosition(x ?? this.x, y ?? this.y);
 
             if (resetFloatPosition) ResetFloatPosition();
         }
@@ -159,7 +164,8 @@ namespace ScrapCoder.VisualNodes {
             if (!moveable) {
                 throw new System.InvalidOperationException("This object is not moveable");
             }
-            position = (x + dx, y + dy);
+
+            ChangePosition(x + dx, y + dy);
 
             if (resetFloatPosition) ResetFloatPosition();
         }
@@ -172,12 +178,12 @@ namespace ScrapCoder.VisualNodes {
             var intDy = 0;
 
             if (floatPosition.x >= 1 || -floatPosition.x >= 1) {
-                intDx = (int)floatPosition.x;
+                intDx = floatPosition.intX;
 
                 floatPosition.x -= intDx;
             }
             if (floatPosition.y >= 1 || -floatPosition.y >= 1) {
-                intDy = (int)floatPosition.y;
+                intDy = floatPosition.intY;
 
                 floatPosition.y -= intDy;
             }
