@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: Edge
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -45
+    m_End: 45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 1101670372832972571, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: -8508403112308751150, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: -5497547298214413006, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: -2597157446280975508, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+  - m_Start: 45
+    m_End: 135
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -5172894415875296280, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: -1020875144365324943, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: 2685536252115957730, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: -7481457433862403404, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+    - {fileID: -7779772245507925811, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+  - m_Start: -135
+    m_End: -45
+    m_Order: 0
+    m_Sprites: []
+  - m_Start: 135
+    m_End: 225
+    m_Order: 0
+    m_Sprites: []
+  m_FillTexture: {fileID: 2800000, guid: 015c2aff3b03d5149b338ad36f9d5491, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 2970575540502949494, guid: f1752777abb35024888b8c0a15fd2ec5, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  m_FillOffset: 0
+  m_UseSpriteBorders: 1
