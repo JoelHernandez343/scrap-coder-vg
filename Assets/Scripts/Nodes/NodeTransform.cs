@@ -70,26 +70,14 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        Utils.Vector2D _position = new Utils.Vector2D();
-        public Utils.Vector2D position {
-            get {
-                _position.unityVector = rectTransform.anchoredPosition;
-
-                return _position;
-            }
-            set {
-                if (this.position.x == value.x && this.position.y == value.y) return;
-
-                _position.x = value.x;
-                _position.y = value.y;
-
-                rectTransform.anchoredPosition = _position.unityVector;
-            }
-        }
-
         Utils.FloatVector2D floatPosition = new Utils.FloatVector2D();
 
         // Lazy and other variables
+        public Utils.Vector2D position {
+            get => new Utils.Vector2D { unityVector = rectTransform.anchoredPosition };
+            set => rectTransform.anchoredPosition = value.unityVector;
+        }
+
         UnityEngine.Rendering.SortingGroup _sorter;
         public UnityEngine.Rendering.SortingGroup sorter {
             get {
