@@ -8,13 +8,6 @@ using System;
 
 namespace ScrapCoder.VisualNodes {
 
-    public enum TypeOfNode {
-        All,
-        Condition,
-        Instruction,
-        Value
-    }
-
     public interface IZoneParentRefresher {
         void SetZonesAsParent(NodeArray array);
     }
@@ -58,7 +51,7 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeTransform ownTransform;
 
-        [SerializeField] public TypeOfNode type;
+        [SerializeField] public NodeCategory type;
 
         [SerializeField] List<NodeTransform> components;
         [SerializeField] List<NodeContainer> containers;

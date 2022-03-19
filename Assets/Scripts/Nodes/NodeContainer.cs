@@ -23,7 +23,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public int defaultHeight;
         [SerializeField] public int defaultWidth;
 
-        [SerializeField] public TypeOfNode acceptedNodes;
+        [SerializeField] public NodeCategory acceptedCategory;
 
         [SerializeField] public NodeTransform ownTransform;
 
@@ -67,7 +67,7 @@ namespace ScrapCoder.VisualNodes {
         public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null) {
             toThisNode ??= controller;
 
-            if (acceptedNodes == TypeOfNode.All || acceptedNodes == nodeToAdd.type) {
+            if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.type) {
                 array.AddNodes(nodeToAdd, toThisNode);
             }
         }
