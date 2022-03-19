@@ -51,7 +51,8 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeTransform ownTransform;
 
-        [SerializeField] public NodeCategory type;
+        [SerializeField] public NodeType type;
+        [SerializeField] public NodeCategory category;
 
         [SerializeField] List<NodeTransform> components;
         [SerializeField] List<NodeContainer> containers;

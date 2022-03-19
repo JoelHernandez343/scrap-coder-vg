@@ -67,7 +67,7 @@ namespace ScrapCoder.VisualNodes {
         public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null) {
             toThisNode ??= controller;
 
-            if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.type) {
+            if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
                 array.AddNodes(nodeToAdd, toThisNode);
             }
         }
