@@ -225,6 +225,7 @@ namespace ScrapCoder.VisualNodes {
 
         public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
             if (toThisArray == siblings) {
+                RecalculateZLevels();
                 HierarchyController.instance.SetOnTop(this);
                 return;
             }
