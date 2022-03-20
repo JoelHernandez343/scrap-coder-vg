@@ -88,8 +88,8 @@ namespace ScrapCoder.VisualNodes {
             }
 
             modified.ResetYToRelative();
-            var position = new Vector2(modified.x, modified.y);
-            var diff = modified.relativeOrigin.unityVector - position;
+
+            var diff = modified.relativeOrigin - modified.position;
             delta += (int)diff.y;
 
             return (delta, "all_wo_max");

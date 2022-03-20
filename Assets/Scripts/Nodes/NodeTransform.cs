@@ -30,7 +30,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeController directController;
         [SerializeField] NodeTransform indirectController;
 
-        [SerializeField] public Utils.Vector2D relativeOrigin;
+        [SerializeField] public Vector2 relativeOrigin;
 
         [SerializeField] int localZLevels;
 
@@ -73,9 +73,9 @@ namespace ScrapCoder.VisualNodes {
         Utils.FloatVector2D floatPosition = new Utils.FloatVector2D();
 
         // Lazy and other variables
-        public Utils.Vector2D position {
-            get => new Utils.Vector2D { unityVector = rectTransform.anchoredPosition };
-            set => rectTransform.anchoredPosition = value.unityVector;
+        public Vector2 position {
+            get => rectTransform.anchoredPosition;
+            set => rectTransform.anchoredPosition = value;
         }
 
         UnityEngine.Rendering.SortingGroup _sorter;
@@ -92,15 +92,14 @@ namespace ScrapCoder.VisualNodes {
         public const int PixelsPerUnit = 24;
         public NodeController controller => directController ?? indirectController.controller;
 
-        public int x => position.x;
-        public int y => position.y;
+        public int x => (int)position.x;
+        public int y => (int)position.y;
 
         public int fx => x + width;
         public int fy => y - height;
 
         public (int x, int y) finalPosition => (fx, fy);
 
-        // Methods
         void ResetFloatPosition() {
             floatPosition.tuple = (0, 0);
         }
@@ -116,17 +115,13 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void Awake() {
-            // width = initWidth;
-            // height = initHeight;
-
-            relativeOrigin = new Utils.Vector2D {
-                x = position.x,
-                y = position.y
-            };
+            relativeOrigin = position;
         }
 
         void ChangePosition(int x, int y) {
-            position = new Utils.Vector2D { x = x, y = y };
+            // if (movingSmooth) throw new System.InvalidOperationException("Cannot change positio while moving smooth");
+
+            position = new Vector2 { x = x, y = y };
         }
 
         public void SetPosition((int x, int y) position, bool resetFloatPosition = true) {
