@@ -200,7 +200,7 @@ namespace ScrapCoder.VisualNodes {
             Expand(dx, dy);
         }
 
-        public void ResetLevelZ() {
+        public void ResetZPosition() {
             var pos = transform.localPosition;
             transform.localPosition = new Vector3(pos.x, pos.y, 0);
         }

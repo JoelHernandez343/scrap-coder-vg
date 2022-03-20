@@ -76,7 +76,7 @@ namespace ScrapCoder.VisualNodes {
             // Update hierarchy parent
             newNodes.ForEach(node => {
                 node.parentArray = this;
-                node.ownTransform.ResetLevelZ();
+                node.ownTransform.ResetZPosition();
             });
 
             // Add to the nodes list right after fromThisNode
