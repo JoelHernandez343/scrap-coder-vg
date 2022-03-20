@@ -120,6 +120,11 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        public void Eject() {
+            RefreshZones();
+            ClearParent();
+        }
+
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (controller != null && mainZones.Contains(ownZone)) {
                 return controller.OnDrop(inZone, ownZone, this);

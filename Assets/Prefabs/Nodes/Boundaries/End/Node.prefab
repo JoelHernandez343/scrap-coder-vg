@@ -72,9 +72,7 @@ MonoBehaviour:
   moveable: 1
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
-  relativeOrigin:
-    x: 0
-    y: 0
+  relativeOrigin: {x: 0, y: 0}
   localZLevels: -2
 --- !u!114 &6150825404952637395
 MonoBehaviour:
@@ -97,7 +95,8 @@ MonoBehaviour:
   - {fileID: 8768914725384907254}
   siblings: {fileID: 0}
   ownTransform: {fileID: 6150825404952637394}
-  type: 2
+  type: 1
+  category: 2
   components:
   - {fileID: 1550180053781847382}
   containers: []

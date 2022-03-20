@@ -27,6 +27,8 @@ namespace ScrapCoder.VisualNodes {
         public NodeController this[int index] => nodes[index];
         public NodeController Last => Count == 0 ? null : nodes[Count - 1];
 
+        bool acceptEnd => controller.siblings == this;
+
         // Methods
         public List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
@@ -84,6 +86,13 @@ namespace ScrapCoder.VisualNodes {
                 ? nodes.IndexOf(toThisNode) + 1
                 : 0;
 
+            PurifyNodes(newNodes, index);
+
+            if (newNodes.Count == 0) {
+                controller.RefreshZones(array: this);
+                return;
+            }
+
             nodes.InsertRange(index, newNodes);
 
             controller.RefreshZones(array: this, node: newNodes[0]);
@@ -91,10 +100,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void RefreshNodeZones(NodeController node = null) {
-            if (node == null) {
-                Debug.Assert(Count == -0, controller.gameObject.name);
-                return;
-            }
+            if (node == null) return;
 
             var begin = nodes.IndexOf(node);
 
@@ -163,6 +169,22 @@ namespace ScrapCoder.VisualNodes {
             }
 
             ownTransform.maxZlevels = maxZlevels;
+        }
+
+        void PurifyNodes(List<NodeController> newNodes, int indexToInsert) {
+            var areInsertedToEnd = indexToInsert == Count;
+
+            for (var i = 0; i < newNodes.Count; ++i) {
+                var node = newNodes[i];
+
+                if (node.type == NodeType.End) {
+                    if (areInsertedToEnd && i == newNodes.Count - 1 && acceptEnd) break;
+
+                    newNodes.RemoveAt(i);
+                    node.Eject();
+                    i--;
+                }
+            }
         }
     }
 }
