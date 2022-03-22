@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DoorControl : MonoBehaviour
 {
-    [SerializeField] private int powerSources = 1;
+    [SerializeField] private int powerSources = 1, id;
     [SerializeField] private bool[] source;
     [SerializeField] private bool power;
     private Animator anim;
@@ -29,23 +29,6 @@ public class DoorControl : MonoBehaviour
         General.evento_Energia -= OpenOrClose;
     }
 
-    // Update is called once per frame
-    /*void FixedUpdate()
-    {
-        power = true;
-        for(int i=0; i < powerSources; i++)
-            power = power & activador[i].GetComponent<PowerScript>().power;
-        if (power)
-        {
-            anim.SetBool("Power", true);
-        }
-        else
-        {
-            anim.SetBool("Power", false);
-        }
-
-    }*/
-
     private void OpenOrClose(int id)
     {
         power = true;
@@ -55,12 +38,16 @@ public class DoorControl : MonoBehaviour
         if (power)
         {
             anim.SetBool("Power", true);
+            anim.SetBool("Crop", true);
             coll.enabled = false;
+            HideWallComs.hide(id);
         }
         else
         {
             anim.SetBool("Power", false);
+            anim.SetBool("Crop", false);
             coll.enabled = true;
+            HideWallComs.hide(id);
         }
     }
 }

@@ -13,3 +13,8 @@ public static class SendInstruction
     public static Action<int> sendInstruction;
     public static Action<int> finishInstruction;
 }
+
+public static class HideWallComs
+{
+    public static Action<int> hide;
+}
