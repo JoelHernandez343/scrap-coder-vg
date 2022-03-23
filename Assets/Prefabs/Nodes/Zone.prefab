@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5206846229017794663}
   - component: {fileID: 9058990923369532398}
   - component: {fileID: 5111225946254829304}
-  - component: {fileID: 5588500258169809593}
+  - component: {fileID: 5050744033300232350}
   - component: {fileID: 4821063590373823431}
   - component: {fileID: 7456343602923598073}
   m_Layer: 5
@@ -69,8 +69,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &5588500258169809593
-BoxCollider2D:
+--- !u!60 &5050744033300232350
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,9 +92,12 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 30, y: 30}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0}
+      - {x: 12, y: 0}
+      - {x: 12, y: -6}
+      - {x: 0, y: -6}
 --- !u!114 &4821063590373823431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,10 +114,14 @@ MonoBehaviour:
   rectTransform: {fileID: 5206846229017794663}
   initHeight: 0
   initWidth: 0
+  minHeight: 0
+  minWidth: 0
   resizable: 0
   moveable: 1
   directController: {fileID: 0}
-  pieceParent: {fileID: 0}
+  indirectController: {fileID: 0}
+  relativeOrigin: {x: 0, y: 0}
+  localZLevels: 0
 --- !u!114 &7456343602923598073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +134,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d1fc2610144064985f328560885012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 5588500258169809593}
-  color: 0
+  collider: {fileID: 5050744033300232350}
   ownTransform: {fileID: 4821063590373823431}
+  widthPointsRange:
+    begin: 0
+    end: 0
+    isExpandable: 0
+  heightPointsRange:
+    begin: 0
+    end: 0
+    isExpandable: 0
+  color: 0
