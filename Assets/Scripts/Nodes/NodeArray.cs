@@ -45,6 +45,9 @@ namespace ScrapCoder.VisualNodes {
             var removedNodes = nodes.GetRange(lowerIndex, count);
             nodes.RemoveRange(lowerIndex, count);
 
+            // Remove this nodes from hierarchy avoiding unwanted repositions
+            removedNodes.ForEach(node => node.ClearParent());
+
             controller.RefreshZones(array: this, node: Last);
             AdjustParts(Last, previousCount: previousCount);
 
