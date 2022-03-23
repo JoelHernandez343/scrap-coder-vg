@@ -11,18 +11,27 @@ namespace ScrapCoder.VisualNodes {
 
         // Editor variables
         [SerializeField] new BoxCollider2D collider;
-        [SerializeField] public ZoneColor color;
         [SerializeField] NodeTransform ownTransform;
 
         // State variables
+        [SerializeField] ZoneColor color;
+
         List<NodeZone> zones = new List<NodeZone>();
 
+        bool isActive = true;
+
         // Lazy and other variables
+        public ZoneColor zoneColor {
+            private set => color = value;
+            get => color;
+        }
+
         public NodeController controller => ownTransform.controller;
 
-        public void SetActive(bool enable) {
-            gameObject.SetActive(enable);
-        }
+        // Methods
+        public void SetActive(bool isActive) => this.isActive = isActive;
+
+        public void SetZoneColor(ZoneColor color) => this.zoneColor = color;
 
         public void OnTriggerEnter2D(Collider2D collider) {
             var zone = collider.GetComponent<NodeZone>();
@@ -46,7 +55,10 @@ namespace ScrapCoder.VisualNodes {
                 return false;
             }
 
-            var validZones = zones.FindAll(zone => zone.controller.lastController != controller.lastController);
+            var validZones = zones.FindAll(zone =>
+                zone.isActive &&
+                zone.controller.lastController != controller.lastController
+            );
 
             if (validZones.Count == 0) {
                 return false;

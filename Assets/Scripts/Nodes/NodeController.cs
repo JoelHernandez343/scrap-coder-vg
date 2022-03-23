@@ -130,7 +130,7 @@ namespace ScrapCoder.VisualNodes {
                 return controller.OnDrop(inZone, ownZone, this);
             }
 
-            var dropFunc = selector[ownZone.color, inZone.color];
+            var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
 
             if (dropFunc != null) {
                 dropFunc(inZone, ownZone, toThisNode);
@@ -190,21 +190,14 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SetZonesAsChild(bool isLast = false) {
-            topZone?.gameObject.SetActive(false);
-
-            if (bottomZone != null) {
-                bottomZone.color = isLast
-                    ? ZoneColor.Red
-                    : ZoneColor.Yellow;
-            }
+            topZone?.SetActive(false);
+            bottomZone?.SetZoneColor(isLast ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
         void SetZonesAsParent(NodeArray array) {
             if (array == siblings || array == null) {
-                topZone?.gameObject.SetActive(true);
-                if (topZone != null) {
-                    topZone.color = ZoneColor.Blue;
-                }
+                topZone?.SetActive(true);
+                topZone?.SetZoneColor(ZoneColor.Blue);
 
                 SetContainerAsParent(array);
                 return;
@@ -223,9 +216,7 @@ namespace ScrapCoder.VisualNodes {
 
             var container = containers.Find(container => container.array == array);
 
-            container.zone.color = array.Count == 0
-                ? ZoneColor.Red
-                : ZoneColor.Yellow;
+            container.zone.SetZoneColor(array.Count == 0 ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
         public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
