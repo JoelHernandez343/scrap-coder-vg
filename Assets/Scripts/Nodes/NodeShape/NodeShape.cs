@@ -43,10 +43,49 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] List<ShapeSegmentTemplate> segmentTemplates;
 
-        // State Variables
-        [SerializeField] public List<ShapePoint> shapePoints;
+        [SerializeField] Utils.Vector2D initialPointPosition;
 
+        // State Variables
         List<ShapeSegment> segments = new List<ShapeSegment>();
+
+        List<ShapePoint> _shapePoints;
+        public List<ShapePoint> shapePoints {
+            get {
+                if (_shapePoints == null) {
+
+                    var original = new List<ShapePoint>();
+
+                    for (var i = 0; i < line.GetPointCount(); ++i) {
+                        var position = line.GetPosition(i);
+
+                        original.Add(new ShapePoint {
+                            position = new Utils.Vector2D {
+                                x = (int)System.Math.Round(position.x * NodeTransform.PixelsPerUnit),
+                                y = (int)System.Math.Round(position.y * NodeTransform.PixelsPerUnit),
+                            },
+                            spriteIndex = line.GetSpriteIndex(i)
+                        });
+                    }
+
+                    var start = original.FindIndex(point
+                        => point.position.x == initialPointPosition.x &&
+                            point.position.y == initialPointPosition.y
+                    );
+
+                    _shapePoints = new List<ShapePoint>();
+
+                    for (var i = start; i < original.Count; ++i) {
+                        _shapePoints.Add(original[i]);
+                    }
+
+                    for (var i = 0; i < start; ++i) {
+                        _shapePoints.Add(original[i]);
+                    }
+                }
+
+                return _shapePoints;
+            }
+        }
 
         ShapePointRange horizontalRange;
         ShapePointRange verticalRange;

@@ -97,9 +97,7 @@ MonoBehaviour:
   moveable: 0
   directController: {fileID: 0}
   indirectController: {fileID: 6184268965340604796}
-  relativeOrigin:
-    x: 0
-    y: 0
+  relativeOrigin: {x: 0, y: 0}
   localZLevels: 0
 --- !u!114 &6816909607499926724
 MonoBehaviour:
@@ -117,23 +115,12 @@ MonoBehaviour:
   widthPointsRange:
     begin: 6
     end: 7
+    isExpandable: 1
   heightPointsRange:
     begin: 2
     end: 11
+    isExpandable: 1
   ownTransform: {fileID: 6816909607499926747}
-  colliderPoints:
-  - {x: 0, y: 0}
-  - {x: 11, y: 0}
-  - {x: 11, y: -10}
-  - {x: 18, y: -10}
-  - {x: 22, y: -14}
-  - {x: 26, y: -10}
-  - {x: 96, y: -10}
-  - {x: 96, y: -34}
-  - {x: 26, y: -34}
-  - {x: 22, y: -38}
-  - {x: 18, y: -34}
-  - {x: 0, y: -34}
 --- !u!1 &6816909607988182902
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,9 +196,7 @@ MonoBehaviour:
   moveable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  relativeOrigin:
-    x: 0
-    y: 0
+  relativeOrigin: {x: 0, y: 0}
   localZLevels: 0
 --- !u!114 &2200853277799244846
 MonoBehaviour:
@@ -494,9 +479,7 @@ MonoBehaviour:
   moveable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 6184268965340604796}
-  relativeOrigin:
-    x: 0
-    y: 0
+  relativeOrigin: {x: 0, y: 0}
   localZLevels: 0
 --- !u!114 &6816909608325137544
 MonoBehaviour:
@@ -548,6 +531,9 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 8
     finalIndex: 0
+  initialPointPosition:
+    x: 4
+    y: -4
   shapePoints:
   - position:
       x: 4
@@ -772,9 +758,7 @@ MonoBehaviour:
   moveable: 0
   directController: {fileID: 0}
   indirectController: {fileID: 6184268965340604796}
-  relativeOrigin:
-    x: 0
-    y: 0
+  relativeOrigin: {x: 0, y: 0}
   localZLevels: 0
 --- !u!114 &8049425251424880795
 MonoBehaviour:
@@ -802,6 +786,9 @@ MonoBehaviour:
     x: 8
     y: 8
   segmentTemplates: []
+  initialPointPosition:
+    x: 6
+    y: 0
   shapePoints:
   - position:
       x: 6
