@@ -29,6 +29,19 @@ namespace ScrapCoder.VisualNodes {
 
         bool acceptEnd => controller.siblings == this;
 
+        int currentMaxWidth {
+            get {
+                var maxWidth = 0;
+                nodes.ForEach(node => maxWidth =
+                    maxWidth < node.ownTransform.width
+                        ? node.ownTransform.width
+                        : maxWidth
+                );
+
+                return maxWidth;
+            }
+        }
+
         // Methods
         public List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
@@ -49,7 +62,7 @@ namespace ScrapCoder.VisualNodes {
             removedNodes.ForEach(node => node.ClearParent());
 
             controller.RefreshZones(array: this, node: Last);
-            AdjustParts(Last, previousCount: previousCount);
+            AdjustParts(previousCount: previousCount);
 
             return removedNodes;
         }
@@ -58,7 +71,7 @@ namespace ScrapCoder.VisualNodes {
             var newNodes = node.siblings?.RemoveNodes() ?? new List<NodeController>();
             newNodes.Insert(0, node);
 
-            AddRangeOfNodes(newNodes, toThisNode);
+            AddRangeOfNodes(newNodes, toThisNode, smooth: true);
         }
 
         public void AddNodesFromParent() {
@@ -67,10 +80,10 @@ namespace ScrapCoder.VisualNodes {
 
             controller.ClearParent();
 
-            AddRangeOfNodes(newNodes, controller);
+            AddRangeOfNodes(newNodes, controller, smooth: false);
         }
 
-        void AddRangeOfNodes(List<NodeController> newNodes, NodeController toThisNode) {
+        void AddRangeOfNodes(List<NodeController> newNodes, NodeController toThisNode, bool smooth = false) {
             if (newNodes.Count == 0) {
                 controller.RefreshZones(array: this);
                 return;
@@ -89,7 +102,7 @@ namespace ScrapCoder.VisualNodes {
                 ? nodes.IndexOf(toThisNode) + 1
                 : 0;
 
-            PurifyNodes(newNodes, index);
+            RemoveEndNodes(newNodes, index);
 
             if (newNodes.Count == 0) {
                 controller.RefreshZones(array: this);
@@ -99,7 +112,7 @@ namespace ScrapCoder.VisualNodes {
             nodes.InsertRange(index, newNodes);
 
             controller.RefreshZones(array: this, node: newNodes[0]);
-            AdjustParts(newNodes[0], previousCount: previousCount);
+            AdjustParts(newNodes: newNodes, smooth: smooth, previousCount: previousCount);
         }
 
         public void RefreshNodeZones(NodeController node = null) {
@@ -120,46 +133,84 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void AdjustParts(NodeController node, (int dx, int dy)? delta = null, int? previousCount = null) {
-            this.previousCount = previousCount ?? Count;
+        // Adjust when one node is changed
+        public void AdjustParts(NodeController changedNode, int? dx = null, int? dy = null, bool smooth = false) {
+            this.previousCount = Count;
 
-            var dx = -ownTransform.width;
-            var dy = -ownTransform.height;
-
-            if (node == null) {
-                ownTransform.ExpandByNewDimensions(0, 0);
-                RecalculateZLevels();
-                container.AdjustParts((dx, dy));
+            if (changedNode == Last) {
+                Adjust(dy);
                 return;
             }
 
-            var anchor = (x: 0, y: 0 + borderOffset);
-            var maxWidth = 0;
-            var begin = nodes.IndexOf(node);
+            var nodeIndex = nodes.IndexOf(changedNode);
+            var (afterNode, afterNodes) = SetOwnership(nodeIndex + 1, Count);
 
-            if (begin > 0) {
-                anchor.x = nodes[begin - 1].ownTransform.x;
-                anchor.y = nodes[begin - 1].ownTransform.fy + borderOffset;
-            }
-
-            for (var i = begin; i < Count; ++i) {
-                nodes[i].ownTransform.SetPosition(anchor);
-                anchor.y = nodes[i].ownTransform.fy + borderOffset;
-            }
-
-            nodes.ForEach(n => maxWidth =
-                maxWidth < n.ownTransform.width
-                ? n.ownTransform.width
-                : maxWidth
+            afterNode.ownTransform.SetPositionByDelta(
+                dy: -dy,
+                smooth: smooth,
+                endingCallBack: BuildCallBack(afterNodes, smooth)
             );
+            if (!smooth) RevertHierarchy(afterNodes);
 
-            dx = maxWidth - ownTransform.width;
-            dy = delta?.dy ?? -anchor.y - ownTransform.height;
+            Adjust(dy);
+        }
 
-            ownTransform.ExpandByNewDimensions(maxWidth, -anchor.y);
+        // Adjust when remove nodes
+        void AdjustParts(int? previousCount = null) {
+            this.previousCount = previousCount ?? Count;
 
+            int previousY = (Last?.ownTransform.fy + borderOffset) ?? 0;
+            int dy = -previousY - ownTransform.height;
+
+            Adjust(dy);
+        }
+
+        // Adjust when adding nodes
+        void AdjustParts(List<NodeController> newNodes, bool smooth = false, int? previousCount = null) {
+
+            smooth = false;
+
+            this.previousCount = previousCount ?? Count;
+
+            var firstNode = newNodes[0];
+            var lastNode = newNodes[newNodes.Count - 1];
+
+            var firstIndex = nodes.IndexOf(firstNode);
+            var lastIndex = nodes.IndexOf(lastNode);
+
+            var previousY = firstIndex == 0 ? borderOffset : nodes[firstIndex - 1].ownTransform.fy + borderOffset;
+
+            var dy = 0;
+            newNodes.ForEach(node => dy += node.ownTransform.height - borderOffset);
+
+            var (newNodesParent, newNodesOwnership) = SetOwnership(firstIndex, lastIndex + 1);
+            newNodesParent.ownTransform.SetPosition(
+                x: 0,
+                y: previousY,
+                smooth: smooth,
+                endingCallBack: BuildCallBack(newNodesOwnership, smooth)
+            );
+            if (!smooth) RevertHierarchy(newNodesOwnership);
+
+            if (lastNode != Last) {
+                var (afterNode, afterNodes) = SetOwnership(lastIndex + 1, Count);
+                afterNode.ownTransform.SetPositionByDelta(
+                    dy: -dy,
+                    smooth: smooth,
+                    endingCallBack: BuildCallBack(newNodesOwnership, smooth)
+                );
+                if (!smooth) RevertHierarchy(afterNodes);
+            }
+
+            Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0));
+        }
+
+        void Adjust(int? dy = null) {
+            int dx = currentMaxWidth - ownTransform.width;
+
+            ownTransform.Expand(dx, dy ?? 0);
             RecalculateZLevels();
-            container.AdjustParts((dx, dy));
+            container.AdjustParts((dx, dy ?? 0));
         }
 
         void RecalculateZLevels() {
@@ -174,7 +225,7 @@ namespace ScrapCoder.VisualNodes {
             ownTransform.maxZlevels = maxZlevels;
         }
 
-        void PurifyNodes(List<NodeController> newNodes, int indexToInsert) {
+        void RemoveEndNodes(List<NodeController> newNodes, int indexToInsert) {
             var areInsertedToEnd = indexToInsert == Count;
 
             for (var i = 0; i < newNodes.Count; ++i) {
@@ -188,6 +239,33 @@ namespace ScrapCoder.VisualNodes {
                     i--;
                 }
             }
+        }
+
+        (NodeController owner, List<NodeController> ownership) SetOwnership(int start, int end) {
+            var owner = nodes[start];
+            var ownership = new List<NodeController>();
+
+            for (var i = start + 1; i < end; ++i) {
+                nodes[i].temporalParent = owner;
+                ownership.Add(nodes[i]);
+            }
+
+            return (owner, ownership);
+        }
+
+        void RevertHierarchy(List<NodeController> nodes) {
+            nodes.ForEach(node => {
+                node.parentArray = this;
+                node.ownTransform.ResetZPosition();
+            });
+        }
+
+        System.Action BuildCallBack(List<NodeController> nodes, bool smooth) {
+            if (!smooth) return null;
+
+            System.Action cb = () => RevertHierarchy(nodes);
+
+            return cb;
         }
     }
 }
