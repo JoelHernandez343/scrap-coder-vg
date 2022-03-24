@@ -36,15 +36,15 @@ namespace ScrapCoder.VisualNodes {
             var modified = GetIndexOfHorizontalArray(toThisArray);
             if (modified != -1) {
                 for (var i = modified + 1; i < horizontalItems.Count; ++i) {
-                    horizontalItems[i].SetPositionByDelta(dx: dx);
+                    horizontalItems[i].SetPositionByDelta(dx: dx, smooth: true);
                 }
 
                 dy = centerHorizontalItems(horizontalItems[modified], dy);
             }
 
             itemsToExpand.ForEach(item => item.Expand(dx, dy));
-            itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy));
-            itemsToTheRight.ForEach(item => item.SetPositionByDelta(dx: dx));
+            itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy, smooth: true));
+            itemsToTheRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: true));
 
             return (dx, dy);
         }
@@ -55,7 +55,7 @@ namespace ScrapCoder.VisualNodes {
             if (center != "nothing") {
                 horizontalItems.ForEach(item => {
                     if (center == "all" || item != modified) {
-                        item.SetFloatPositionByDelta(dy: -delta / 2f);
+                        item.SetFloatPositionByDelta(dy: -delta / 2f, smooth: true);
                     }
                 });
             }
@@ -75,22 +75,24 @@ namespace ScrapCoder.VisualNodes {
             var currentMaxHeight = getMaxHeight();
             var delta = currentMaxHeight - (int)previousMaxHeight;
 
+            // If modified is not the longest, then nothing more will be centered
             if (delta == 0) {
-                modified.SetFloatPositionByDelta(dy: dy / 2f);
+                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: true);
                 return (0, "nothing");
             }
 
             previousMaxHeight = currentMaxHeight;
 
+            // The longest decreased
             if (delta < 0) {
-                modified.SetFloatPositionByDelta(dy: dy / 2f);
+                // Adjust itself to itself, then center all to the new longest if any
+                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: true);
                 return (delta, "all");
             }
 
-            modified.ResetYToRelative();
-
-            var diff = modified.relativeOrigin - modified.position;
-            delta += (int)diff.y;
+            // The longest increased, then all must be centered except itself
+            // Longest returns to its original place
+            modified.ResetYToRelative(smooth: true);
 
             return (delta, "all_wo_max");
         }

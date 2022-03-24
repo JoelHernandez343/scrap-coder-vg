@@ -75,6 +75,12 @@ namespace ScrapCoder.VisualNodes {
         // Lazy and other variables
         public NodeController controller => parentArray?.controller;
 
+        public NodeController temporalParent {
+            set {
+                transform.SetParent(value?.transform ?? canvas.transform);
+            }
+        }
+
         DropFuncSelector _selector;
         DropFuncSelector selector {
             get {
@@ -233,7 +239,7 @@ namespace ScrapCoder.VisualNodes {
             RecalculateZLevels();
 
             if (hasParent) {
-                parentArray.AdjustParts(this, delta: newDelta);
+                parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: true);
             } else {
                 HierarchyController.instance.SetOnTop(this);
             }
@@ -261,7 +267,7 @@ namespace ScrapCoder.VisualNodes {
             var begin = components.IndexOf(pieceModified) + 1;
 
             for (var i = begin; i < components.Count; ++i) {
-                components[i].SetPositionByDelta(dy: -delta.dy);
+                components[i].SetPositionByDelta(dy: -delta.dy, smooth: true);
                 components[i].Expand(dx: delta.dx);
             }
         }
