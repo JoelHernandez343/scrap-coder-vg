@@ -68,6 +68,12 @@ namespace ScrapCoder.VisualNodes {
 
         public Spline line => spriteShapeController?.spline;
 
+        bool expandingSmoothly = false;
+        float dampingTime = 0.03f;
+        Vector2 currentDelta = Vector2.zero;
+        Vector2 velocity = Vector2.zero;
+        Vector2 destinationDelta = Vector2.zero;
+
         // Methods
         void Awake() {
             segmentTemplates.ForEach(t => {
@@ -99,6 +105,10 @@ namespace ScrapCoder.VisualNodes {
 
             ChangeSegments();
             RenderShape();
+        }
+
+        void Update() {
+            if (expandingSmoothly) ExpandSmoothly();
         }
 
         List<ShapePoint> GetShape() {
@@ -148,22 +158,13 @@ namespace ScrapCoder.VisualNodes {
         }
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
-            int[] delta = { dx, dy };
 
-            for (int axis = 0; axis < ranges.Count; ++axis) {
-                var range = ranges[axis];
-                var isExpandable = range.isExpandable;
-                var sign = axis == 0 ? 1 : -1;
+            destinationDelta.x += dx;
+            destinationDelta.y += dy;
 
-                if (!isExpandable) continue;
+            expandingSmoothly = true;
 
-                for (var pointIndex = shapePoints.IndexOf(range.start); shapePoints[pointIndex - 1] != range.end; ++pointIndex) {
-                    shapePoints[pointIndex].position[axis] += (sign) * delta[axis];
-                }
-            }
-
-            ChangeSegments();
-            RenderShape();
+            // Expand(dx, dy);
 
             return (dx, dy);
         }
@@ -173,7 +174,7 @@ namespace ScrapCoder.VisualNodes {
                 var (pointsToAdd, pointsToRemove) = segment.TryChange();
 
                 if (pointsToAdd != null) {
-                    var start = shapePoints.IndexOf(segment.realFinalPoint);
+                    var start = points.IndexOf(segment.realFinalPoint);
                     start += segment.direction == "forward" ? 0 : 1;
 
                     points.InsertRange(start, pointsToAdd);
@@ -181,9 +182,67 @@ namespace ScrapCoder.VisualNodes {
                     var start = points.IndexOf(segment.realFinalPoint);
                     start += segment.direction == "forward" ? -removed : 1;
 
-                    shapePoints.RemoveRange(start, removed);
+                    points.RemoveRange(start, removed);
                 }
             }
+        }
+
+        void ResetExpandingSmoothly() {
+            expandingSmoothly = false;
+            currentDelta = destinationDelta = Vector2.zero;
+        }
+
+        void ExpandSmoothly() {
+            if (this.currentDelta == destinationDelta) {
+                ResetExpandingSmoothly();
+            }
+
+            var newDelta = Vector2.SmoothDamp(
+                current: this.currentDelta,
+                target: destinationDelta,
+                currentVelocity: ref velocity,
+                smoothTime: dampingTime
+            );
+
+            newDelta.x = this.currentDelta.x < destinationDelta.x
+                ? (int)System.Math.Ceiling(newDelta.x)
+                : (int)System.Math.Floor(newDelta.x);
+            newDelta.y = this.currentDelta.y < destinationDelta.y
+                ? (int)System.Math.Ceiling(newDelta.y)
+                : (int)System.Math.Floor(newDelta.y);
+
+            var currentDelta = newDelta - this.currentDelta;
+
+            Expand((int)System.Math.Round(currentDelta.x), (int)System.Math.Round(currentDelta.y));
+
+            this.currentDelta = newDelta;
+
+            if (this.currentDelta == destinationDelta) {
+                ResetExpandingSmoothly();
+            }
+        }
+
+        void Expand(int dx, int dy) {
+            if (dx == 0 && dy == 0) {
+                return;
+            }
+
+            int[] delta = { dx, dy };
+
+            for (int axis = 0; axis < ranges.Count; ++axis) {
+                var range = ranges[axis];
+                var isExpandable = range.isExpandable;
+                var sign = axis == 0 ? 1 : -1;
+
+                if (!isExpandable) continue;
+
+                for (var pointIndex = points.IndexOf(range.start); points[pointIndex - 1] != range.end; ++pointIndex) {
+                    points[pointIndex].position[axis] += (sign) * delta[axis];
+                }
+            }
+
+            ChangeSegments();
+            RenderShape();
         }
     }
 }
