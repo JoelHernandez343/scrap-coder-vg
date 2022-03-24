@@ -74,18 +74,16 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables
         public Vector2 position {
-            get => rectTransform.anchoredPosition;
+            get => new Vector2 {
+                x = (int)rectTransform.anchoredPosition.x,
+                y = (int)rectTransform.anchoredPosition.y,
+            };
             set => rectTransform.anchoredPosition = value;
         }
 
         UnityEngine.Rendering.SortingGroup _sorter;
-        public UnityEngine.Rendering.SortingGroup sorter {
-            get {
-                _sorter ??= controller.lastController.GetComponent<UnityEngine.Rendering.SortingGroup>();
-
-                return _sorter;
-            }
-        }
+        public UnityEngine.Rendering.SortingGroup sorter
+            => _sorter ??= controller.lastController.GetComponent<UnityEngine.Rendering.SortingGroup>();
 
         public int zLevels => localZLevels + maxZlevels;
 
