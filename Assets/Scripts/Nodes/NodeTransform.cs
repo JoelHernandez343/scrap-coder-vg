@@ -75,8 +75,8 @@ namespace ScrapCoder.VisualNodes {
         // Lazy and other variables
         public Vector2 position {
             get => new Vector2 {
-                x = (int)rectTransform.anchoredPosition.x,
-                y = (int)rectTransform.anchoredPosition.y,
+                x = (int)System.Math.Round(rectTransform.anchoredPosition.x),
+                y = (int)System.Math.Round(rectTransform.anchoredPosition.y),
             };
             set => rectTransform.anchoredPosition = value;
         }
@@ -98,79 +98,156 @@ namespace ScrapCoder.VisualNodes {
 
         public (int x, int y) finalPosition => (fx, fy);
 
+        bool movingSmoothly = false;
+        float dampingTime = 0.03f;
+        Vector2 velocity = Vector2.zero;
+
+        Vector2? _destination;
+        public Vector2 destination {
+            set => _destination = value;
+            get => _destination ??= position;
+        }
+
+        System.Action endingCallBack = null;
+
+        // Methods
+        void Update() {
+            if (movingSmoothly) MoveSmoothly();
+        }
+
+        void MoveSmoothly() {
+            if (position == destination) {
+                ResetMovingSmoothly();
+                return;
+            }
+
+            var newPosition = Vector2.SmoothDamp(
+                current: position,
+                target: destination,
+                currentVelocity: ref velocity,
+                smoothTime: dampingTime
+            );
+
+            position = new Vector2 {
+                x = position.x < destination.x
+                    ? (int)System.Math.Ceiling(newPosition.x)
+                    : (int)System.Math.Floor(newPosition.x),
+                y = position.y < destination.y
+                    ? (int)System.Math.Ceiling(newPosition.y)
+                    : (int)System.Math.Floor(newPosition.y)
+            };
+
+            if (position == destination) {
+                ResetMovingSmoothly();
+            }
+        }
+
+        void ResetMovingSmoothly() {
+            destination = position;
+
+            if (endingCallBack != null) {
+                endingCallBack();
+                endingCallBack = null;
+            }
+
+            movingSmoothly = false;
+        }
+
         void ResetFloatPosition() {
             floatPosition.tuple = (0, 0);
         }
 
         void ResetXToRelative() {
-            var x = (int)relativeOrigin.x;
+            var x = (int)System.Math.Round(relativeOrigin.x);
             SetPosition(x, y);
         }
 
-        public void ResetYToRelative() {
-            var y = (int)relativeOrigin.y;
-            SetPosition(x, y);
+        public void ResetYToRelative(bool smooth = false) {
+            var y = (int)System.Math.Round(relativeOrigin.y);
+            SetPosition(x, y, smooth: smooth);
         }
 
         void Awake() {
             relativeOrigin = position;
         }
 
-        void ChangePosition(int x, int y) {
-            // if (movingSmooth) throw new System.InvalidOperationException("Cannot change positio while moving smooth");
+        void MoveToPosition(int? x = null, int? y = null) {
+            position = new Vector2 {
+                x = x ?? this.x,
+                y = y ?? this.y
+            };
 
-            position = new Vector2 { x = x, y = y };
+            ResetMovingSmoothly();
         }
 
-        public void SetPosition((int x, int y) position, bool resetFloatPosition = true) {
-            if (!moveable) {
-                throw new System.InvalidOperationException("This object is not moveable");
-            }
+        void MoveToPositionSmoothly(int? x = null, int? y = null, System.Action endingCallBack = null) {
+            destination = new Vector2 {
+                x = x ?? destination.x,
+                y = y ?? destination.y
+            };
 
-            ChangePosition(position.x, position.y);
+            this.endingCallBack = endingCallBack;
+            movingSmoothly = true;
+        }
+
+        public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallBack = null) {
+            if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
+
+            if (x == null && y == null) return;
+
+            if (smooth) {
+                MoveToPositionSmoothly(x, y, endingCallBack);
+            } else {
+                MoveToPosition(x, y);
+            }
 
             if (resetFloatPosition) ResetFloatPosition();
         }
 
-        public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true) {
-            if (!moveable) {
-                throw new System.InvalidOperationException("This object is not moveable");
+        public void SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallBack = null) {
+
+            int?[] delta = { dx, dy };
+            int?[] change = { null, null };
+
+            for (var axis = 0; axis < 2; ++axis) {
+                if (delta[axis] == null) continue;
+
+                change[axis] = smooth
+                    ? (int)System.Math.Round(destination[axis] + (int)delta[axis])
+                    : (int)System.Math.Round(position[axis] + (int)delta[axis]);
             }
 
-            ChangePosition(x ?? this.x, y ?? this.y);
-
-            if (resetFloatPosition) ResetFloatPosition();
+            SetPosition(
+                x: change[0],
+                y: change[1],
+                resetFloatPosition: resetFloatPosition,
+                smooth: smooth,
+                endingCallBack: endingCallBack
+            );
         }
 
-        public void SetPositionByDelta(int dx = 0, int dy = 0, bool resetFloatPosition = true) {
-            if (!moveable) {
-                throw new System.InvalidOperationException("This object is not moveable");
+        public void SetFloatPositionByDelta(float? dx = null, float? dy = null, bool smooth = false) {
+            float?[] delta = { dx, dy };
+
+            int?[] intDelta = new int?[2];
+
+            for (var axis = 0; axis < 2; ++axis) {
+                if (delta[axis] == null) continue;
+
+                floatPosition[axis] += (float)delta[axis];
+
+                if (floatPosition[axis] >= 1 || -floatPosition[axis] >= 1) {
+                    intDelta[axis] = floatPosition.getInt(axis);
+                    floatPosition[axis] -= floatPosition.getInt(axis);
+                }
             }
 
-            ChangePosition(x + dx, y + dy);
-
-            if (resetFloatPosition) ResetFloatPosition();
-        }
-
-        public void SetFloatPositionByDelta(float dx = 0f, float dy = 0f) {
-            floatPosition.x += dx;
-            floatPosition.y += dy;
-
-            var intDx = 0;
-            var intDy = 0;
-
-            if (floatPosition.x >= 1 || -floatPosition.x >= 1) {
-                intDx = floatPosition.intX;
-
-                floatPosition.x -= intDx;
-            }
-            if (floatPosition.y >= 1 || -floatPosition.y >= 1) {
-                intDy = floatPosition.intY;
-
-                floatPosition.y -= intDy;
-            }
-
-            SetPositionByDelta(dx: intDx, dy: intDy, resetFloatPosition: false);
+            SetPositionByDelta(
+                dx: intDelta[0],
+                dy: intDelta[1],
+                resetFloatPosition: false,
+                smooth: smooth
+            );
         }
 
         public (int dx, int dy) Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null) {
