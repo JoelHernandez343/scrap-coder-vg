@@ -70,7 +70,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        Utils.FloatVector2D floatPosition = new Utils.FloatVector2D();
+        Utils.FloatVector2D floatPosition = new Utils.FloatVector2D { x = 0, y = 0 };
 
         // Lazy and other variables
         public Vector2 position {
