@@ -79,11 +79,13 @@ MonoBehaviour:
   zone: {fileID: 6507249500039758612}
   array: {fileID: 8823356131819177318}
   sprite: {fileID: 449421557564414003}
+  toggleZone: 0
   pieceToExpand: {fileID: 0}
   modifyWidthOfPiece: 0
   modifyHeightOfPiece: 1
   defaultHeight: 10
   defaultWidth: 0
+  acceptedCategory: 0
   ownTransform: {fileID: 1020040377345113106}
 --- !u!1 &2412287878916260188
 GameObject:
@@ -212,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownTransform: {fileID: 5094133176233431961}
   renderer: {fileID: 1252333214848502964}
+  availableSprites: []
   hideable: 0
 --- !u!1001 &4103558883992647683
 PrefabInstance:
@@ -415,11 +418,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
