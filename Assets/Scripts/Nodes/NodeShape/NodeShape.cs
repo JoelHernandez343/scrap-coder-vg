@@ -24,8 +24,8 @@ namespace ScrapCoder.VisualNodes {
             public bool isExpandable;
 
             public ShapePointRange(NodeShape shape, int initialStartIndex, int initialEndIndex, bool isExpandable) {
-                start = shape.shapePoints[initialStartIndex];
-                end = shape.shapePoints[initialEndIndex];
+                start = shape.points[initialStartIndex];
+                end = shape.points[initialEndIndex];
 
                 this.isExpandable = isExpandable;
             }
@@ -48,8 +48,8 @@ namespace ScrapCoder.VisualNodes {
         // State Variables
         List<ShapeSegment> segments = new List<ShapeSegment>();
 
-        List<ShapePoint> _shapePoints;
-        public List<ShapePoint> shapePoints => _shapePoints ??= GetShape();
+        List<ShapePoint> _points;
+        public List<ShapePoint> points => _points ??= GetShape();
 
         ShapePointRange horizontalRange;
         ShapePointRange verticalRange;
@@ -136,8 +136,8 @@ namespace ScrapCoder.VisualNodes {
         void RenderShape() {
             line.Clear();
 
-            for (var i = 0; i < shapePoints.Count; ++i) {
-                var point = shapePoints[i];
+            for (var i = 0; i < points.Count; ++i) {
+                var point = points[i];
 
                 line.InsertPointAt(i, point.position.unityVector / pixelsPerUnit);
                 line.SetSpriteIndex(i, point.spriteIndex);
@@ -176,9 +176,9 @@ namespace ScrapCoder.VisualNodes {
                     var start = shapePoints.IndexOf(segment.realFinalPoint);
                     start += segment.direction == "forward" ? 0 : 1;
 
-                    shapePoints.InsertRange(start, pointsToAdd);
+                    points.InsertRange(start, pointsToAdd);
                 } else if (pointsToRemove is int removed) {
-                    var start = shapePoints.IndexOf(segment.realFinalPoint);
+                    var start = points.IndexOf(segment.realFinalPoint);
                     start += segment.direction == "forward" ? -removed : 1;
 
                     shapePoints.RemoveRange(start, removed);
