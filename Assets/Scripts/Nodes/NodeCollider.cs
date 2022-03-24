@@ -29,14 +29,7 @@ namespace ScrapCoder.VisualNodes {
         List<Vector2> colliderPoints
             => _colliderPoints ??= new List<Vector2>(collider.GetPath(0));
 
-        // Methods
-        void Awake() {
-            SetDefaultCollider();
-        }
-
-        void SetDefaultCollider() {
-            collider.SetPath(0, colliderPoints);
-        }
+        bool isDragging = false;
 
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTop(controller);
@@ -51,10 +44,12 @@ namespace ScrapCoder.VisualNodes {
             var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
             controller.ownTransform.SetFloatPositionByDelta(dx, dy);
+
+            isDragging = true;
         }
 
         public void OnDrag(PointerEventData eventData) {
-            if (eventData.dragging) {
+            if (eventData.dragging && isDragging) {
                 var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
                 controller.ownTransform.SetFloatPositionByDelta(dx, dy);
@@ -64,6 +59,8 @@ namespace ScrapCoder.VisualNodes {
         public void OnEndDrag(PointerEventData eventData) {
             controller.InvokeZones();
             controller.SetMiddleZone(false);
+
+            isDragging = false;
         }
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
