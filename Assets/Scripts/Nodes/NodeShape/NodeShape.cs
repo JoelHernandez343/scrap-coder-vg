@@ -48,8 +48,8 @@ namespace ScrapCoder.VisualNodes {
         // State Variables
         List<ShapeSegment> segments = new List<ShapeSegment>();
 
-        List<ShapePoint> _shapePoints;
-        public List<ShapePoint> shapePoints => _shapePoints ??= GetShape();
+        List<ShapePoint> _points;
+        public List<ShapePoint> points => _points ??= GetShape();
 
         ShapePointRange horizontalRange;
         ShapePointRange verticalRange;

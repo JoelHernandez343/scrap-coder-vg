@@ -94,8 +94,8 @@ namespace ScrapCoder.VisualNodes {
             int minSeparation = 6,
             int maxSeparation = 10
         ) {
-            firstPoint = shape.shapePoints[firstIndex];
-            finalPoint = shape.shapePoints[finalIndex];
+            firstPoint = shape.points[firstIndex];
+            finalPoint = shape.points[finalIndex];
 
             this.spriteSize = spriteSize ?? new Utils.Vector2D { x = 8, y = 8 };
 
