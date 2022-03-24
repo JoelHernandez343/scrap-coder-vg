@@ -22,7 +22,7 @@ namespace ScrapCoder.VisualNodes {
         const int pixelScale = 2;
 
         RectTransform _canvasTransform;
-        RectTransform canvasTransform => _canvasTransform ??= GetComponent<RectTransform>();
+        RectTransform canvasTransform => _canvasTransform ??= canvas.GetComponent<RectTransform>();
 
         // Methods
         public void OnBeginDrag(PointerEventData eventData) {
