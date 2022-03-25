@@ -98,8 +98,8 @@ namespace ScrapCoder.VisualNodes {
 
         public (int x, int y) finalPosition => (fx, fy);
 
-        bool movingSmoothly = false;
-        float dampingTime = 0.03f;
+        public bool isMovingSmoothly = false;
+        float dampingTime = 0.1f;
         Vector2 velocity = Vector2.zero;
 
         Vector2? _destination;
@@ -108,11 +108,11 @@ namespace ScrapCoder.VisualNodes {
             get => _destination ??= position;
         }
 
-        System.Action endingCallBack = null;
+        System.Action endingCallBack;
 
         // Methods
-        void Update() {
-            if (movingSmoothly) MoveSmoothly();
+        void FixedUpdate() {
+            if (isMovingSmoothly) MoveSmoothly();
         }
 
         void MoveSmoothly() {
@@ -150,7 +150,7 @@ namespace ScrapCoder.VisualNodes {
                 endingCallBack = null;
             }
 
-            movingSmoothly = false;
+            isMovingSmoothly = false;
         }
 
         void ResetFloatPosition() {
@@ -165,6 +165,10 @@ namespace ScrapCoder.VisualNodes {
         public void ResetYToRelative(bool smooth = false) {
             var y = (int)System.Math.Round(relativeOrigin.y);
             SetPosition(x, y, smooth: smooth);
+        }
+
+        public void RefreshPosition() {
+            MoveToPosition(x: x, y: y);
         }
 
         void Awake() {
@@ -187,7 +191,7 @@ namespace ScrapCoder.VisualNodes {
             };
 
             this.endingCallBack = endingCallBack;
-            movingSmoothly = true;
+            isMovingSmoothly = true;
         }
 
         public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallBack = null) {

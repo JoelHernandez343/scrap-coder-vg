@@ -36,6 +36,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
+            if (ownTransform.isMovingSmoothly) return;
+
             controller.SetMiddleZone(true);
             controller.DetachFromParent();
 
@@ -49,6 +51,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnDrag(PointerEventData eventData) {
+            if (ownTransform.isMovingSmoothly) return;
+
             if (eventData.dragging && isDragging) {
                 var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
@@ -57,10 +61,12 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnEndDrag(PointerEventData eventData) {
-            controller.InvokeZones();
-            controller.SetMiddleZone(false);
+            if (isDragging) {
+                controller.InvokeZones();
+                controller.SetMiddleZone(false);
 
-            isDragging = false;
+                isDragging = false;
+            }
         }
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {

@@ -150,7 +150,7 @@ namespace ScrapCoder.VisualNodes {
                 smooth: smooth,
                 endingCallBack: BuildCallBack(afterNodes, smooth)
             );
-            if (!smooth) RevertHierarchy(afterNodes);
+            if (!smooth) RevertOwnership(afterNodes);
 
             Adjust(dy);
         }
@@ -167,9 +167,6 @@ namespace ScrapCoder.VisualNodes {
 
         // Adjust when adding nodes
         void AdjustParts(List<NodeController> newNodes, bool smooth = false, int? previousCount = null) {
-
-            smooth = false;
-
             this.previousCount = previousCount ?? Count;
 
             var firstNode = newNodes[0];
@@ -190,22 +187,24 @@ namespace ScrapCoder.VisualNodes {
                 smooth: smooth,
                 endingCallBack: BuildCallBack(newNodesOwnership, smooth)
             );
-            if (!smooth) RevertHierarchy(newNodesOwnership);
+            if (!smooth) RevertOwnership(newNodesOwnership);
 
             if (lastNode != Last) {
                 var (afterNode, afterNodes) = SetOwnership(lastIndex + 1, Count);
                 afterNode.ownTransform.SetPositionByDelta(
                     dy: -dy,
                     smooth: smooth,
-                    endingCallBack: BuildCallBack(newNodesOwnership, smooth)
+                    endingCallBack: BuildCallBack(afterNodes, smooth)
                 );
-                if (!smooth) RevertHierarchy(afterNodes);
+                if (!smooth) RevertOwnership(afterNodes);
             }
 
             Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0));
         }
 
         void Adjust(int? dy = null) {
+            OrderNodes();
+
             int dx = currentMaxWidth - ownTransform.width;
 
             ownTransform.Expand(dx, dy ?? 0);
@@ -253,19 +252,27 @@ namespace ScrapCoder.VisualNodes {
             return (owner, ownership);
         }
 
-        void RevertHierarchy(List<NodeController> nodes) {
+        void RevertOwnership(List<NodeController> nodes) {
             nodes.ForEach(node => {
                 node.parentArray = this;
                 node.ownTransform.ResetZPosition();
+                node.ownTransform.RefreshPosition();
             });
         }
 
         System.Action BuildCallBack(List<NodeController> nodes, bool smooth) {
             if (!smooth) return null;
 
-            System.Action cb = () => RevertHierarchy(nodes);
+            System.Action cb = () => {
+                RevertOwnership(nodes);
+                OrderNodes();
+            };
 
             return cb;
+        }
+
+        void OrderNodes() {
+            nodes.ForEach(node => node.ownTransform.rectTransform.SetAsLastSibling());
         }
     }
 }

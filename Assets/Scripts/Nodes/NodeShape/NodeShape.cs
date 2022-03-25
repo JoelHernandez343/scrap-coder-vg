@@ -69,7 +69,7 @@ namespace ScrapCoder.VisualNodes {
         public Spline line => spriteShapeController?.spline;
 
         bool expandingSmoothly = false;
-        float dampingTime = 0.03f;
+        float dampingTime = 0.1f;
         Vector2 currentDelta = Vector2.zero;
         Vector2 velocity = Vector2.zero;
         Vector2 destinationDelta = Vector2.zero;
@@ -107,7 +107,7 @@ namespace ScrapCoder.VisualNodes {
             RenderShape();
         }
 
-        void Update() {
+        void FixedUpdate() {
             if (expandingSmoothly) ExpandSmoothly();
         }
 
