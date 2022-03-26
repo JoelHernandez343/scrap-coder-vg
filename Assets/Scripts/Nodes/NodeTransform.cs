@@ -98,17 +98,11 @@ namespace ScrapCoder.VisualNodes {
 
         public (int x, int y) finalPosition => (fx, fy);
 
-        public bool isMovingSmoothly = false;
-        float dampingTime = 0.1f;
-        Vector2 velocity = Vector2.zero;
+        public bool isMovingSmoothly => smoothDamp.isSmoothing;
 
-        Vector2? _destination;
-        public Vector2 destination {
-            set => _destination = value;
-            get => _destination ??= position;
-        }
+        Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
-        System.Action endingCallBack;
+        System.Action endingCallback;
 
         // Methods
         void FixedUpdate() {
@@ -116,41 +110,16 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void MoveSmoothly() {
-            if (position == destination) {
-                ResetMovingSmoothly();
-                return;
+            if (!isMovingSmoothly) return;
+
+            position += smoothDamp.NextDelta();
+
+            if (!isMovingSmoothly) {
+                if (endingCallback != null) {
+                    endingCallback();
+                    endingCallback = null;
+                }
             }
-
-            var newPosition = Vector2.SmoothDamp(
-                current: position,
-                target: destination,
-                currentVelocity: ref velocity,
-                smoothTime: dampingTime
-            );
-
-            position = new Vector2 {
-                x = position.x < destination.x
-                    ? (int)System.Math.Ceiling(newPosition.x)
-                    : (int)System.Math.Floor(newPosition.x),
-                y = position.y < destination.y
-                    ? (int)System.Math.Ceiling(newPosition.y)
-                    : (int)System.Math.Floor(newPosition.y)
-            };
-
-            if (position == destination) {
-                ResetMovingSmoothly();
-            }
-        }
-
-        void ResetMovingSmoothly() {
-            destination = position;
-
-            if (endingCallBack != null) {
-                endingCallBack();
-                endingCallBack = null;
-            }
-
-            isMovingSmoothly = false;
         }
 
         void ResetFloatPosition() {
@@ -181,26 +150,22 @@ namespace ScrapCoder.VisualNodes {
                 y = y ?? this.y
             };
 
-            ResetMovingSmoothly();
+            smoothDamp.Reset(
+                resetX: x == null,
+                resetY: y == null
+            );
+
+            endingCallback = null;
         }
 
-        void MoveToPositionSmoothly(int? x = null, int? y = null, System.Action endingCallBack = null) {
-            destination = new Vector2 {
-                x = x ?? destination.x,
-                y = y ?? destination.y
-            };
-
-            this.endingCallBack = endingCallBack;
-            isMovingSmoothly = true;
-        }
-
-        public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallBack = null) {
+        public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
             if (x == null && y == null) return;
 
             if (smooth) {
-                MoveToPositionSmoothly(x, y, endingCallBack);
+                smoothDamp.SetDestination(position, x, y);
+                this.endingCallback = endingCallback;
             } else {
                 MoveToPosition(x, y);
             }
@@ -208,26 +173,25 @@ namespace ScrapCoder.VisualNodes {
             if (resetFloatPosition) ResetFloatPosition();
         }
 
-        public void SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallBack = null) {
+        public void SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+            if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-            int?[] delta = { dx, dy };
-            int?[] change = { null, null };
+            if (dx == null && dy == null) return;
 
-            for (var axis = 0; axis < 2; ++axis) {
-                if (delta[axis] == null) continue;
+            if (smooth) {
+                smoothDamp.AddDeltaToDestination(dx, dy);
+                this.endingCallback = endingCallback;
+            } else {
+                int?[] change = { x + dx, y + dy };
 
-                change[axis] = smooth
-                    ? (int)System.Math.Round(destination[axis] + (int)delta[axis])
-                    : (int)System.Math.Round(position[axis] + (int)delta[axis]);
+                SetPosition(
+                    x: change[0],
+                    y: change[1],
+                    resetFloatPosition: resetFloatPosition
+                );
             }
 
-            SetPosition(
-                x: change[0],
-                y: change[1],
-                resetFloatPosition: resetFloatPosition,
-                smooth: smooth,
-                endingCallBack: endingCallBack
-            );
+            if (resetFloatPosition) ResetFloatPosition();
         }
 
         public void SetFloatPositionByDelta(float? dx = null, float? dy = null, bool smooth = false) {
@@ -279,9 +243,13 @@ namespace ScrapCoder.VisualNodes {
             Expand(dx, dy);
         }
 
-        public void ResetZPosition() {
+        public void ResetRenderOrder() {
+            // Reset Z
             var pos = transform.localPosition;
             transform.localPosition = new Vector3(pos.x, pos.y, 0);
+
+            // Reset Sorting order
+            sorter.sortingOrder = 0;
         }
     }
 }

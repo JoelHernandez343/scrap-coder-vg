@@ -94,7 +94,6 @@ namespace ScrapCoder.VisualNodes {
             // Update hierarchy parent
             newNodes.ForEach(node => {
                 node.parentArray = this;
-                node.ownTransform.ResetZPosition();
             });
 
             // Add to the nodes list right after fromThisNode
@@ -148,7 +147,7 @@ namespace ScrapCoder.VisualNodes {
             afterNode.ownTransform.SetPositionByDelta(
                 dy: -dy,
                 smooth: smooth,
-                endingCallBack: BuildCallBack(afterNodes, smooth)
+                endingCallback: BuildCallBack(afterNodes, smooth)
             );
             if (!smooth) RevertOwnership(afterNodes);
 
@@ -185,7 +184,7 @@ namespace ScrapCoder.VisualNodes {
                 x: 0,
                 y: previousY,
                 smooth: smooth,
-                endingCallBack: BuildCallBack(newNodesOwnership, smooth)
+                endingCallback: BuildCallBack(newNodesOwnership, smooth)
             );
             if (!smooth) RevertOwnership(newNodesOwnership);
 
@@ -194,17 +193,17 @@ namespace ScrapCoder.VisualNodes {
                 afterNode.ownTransform.SetPositionByDelta(
                     dy: -dy,
                     smooth: smooth,
-                    endingCallBack: BuildCallBack(afterNodes, smooth)
+                    endingCallback: BuildCallBack(afterNodes, smooth)
                 );
                 if (!smooth) RevertOwnership(afterNodes);
             }
+
+            if (!smooth) OrderNodes(nodes);
 
             Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0));
         }
 
         void Adjust(int? dy = null) {
-            OrderNodes();
-
             int dx = currentMaxWidth - ownTransform.width;
 
             ownTransform.Expand(dx, dy ?? 0);
@@ -249,30 +248,32 @@ namespace ScrapCoder.VisualNodes {
                 ownership.Add(nodes[i]);
             }
 
+            ownership.Insert(0, owner);
+
             return (owner, ownership);
         }
 
         void RevertOwnership(List<NodeController> nodes) {
             nodes.ForEach(node => {
                 node.parentArray = this;
-                node.ownTransform.ResetZPosition();
                 node.ownTransform.RefreshPosition();
+                node.ownTransform.ResetRenderOrder();
             });
         }
 
         System.Action BuildCallBack(List<NodeController> nodes, bool smooth) {
             if (!smooth) return null;
 
-            System.Action cb = () => {
-                RevertOwnership(nodes);
-                OrderNodes();
-            };
+            System.Action cb = () => RevertOwnership(nodes);
 
             return cb;
         }
 
-        void OrderNodes() {
-            nodes.ForEach(node => node.ownTransform.rectTransform.SetAsLastSibling());
+        void OrderNodes(List<NodeController> nodes, bool modifyZ = false) {
+            nodes.ForEach(node => {
+                node.ownTransform.ResetRenderOrder();
+                node.ownTransform.rectTransform.SetAsLastSibling();
+            });
         }
     }
 }

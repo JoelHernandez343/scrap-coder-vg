@@ -404,9 +404,7 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 6
     finalIndex: 0
-  initialPointPosition:
-    x: 4
-    y: -4
+  initialPointPosition: {x: 4, y: -4}
 --- !u!1 &7466764254849079731
 GameObject:
   m_ObjectHideFlags: 0

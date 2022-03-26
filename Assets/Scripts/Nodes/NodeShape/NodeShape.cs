@@ -68,11 +68,9 @@ namespace ScrapCoder.VisualNodes {
 
         public Spline line => spriteShapeController?.spline;
 
-        bool expandingSmoothly = false;
-        float dampingTime = 0.1f;
-        Vector2 currentDelta = Vector2.zero;
-        Vector2 velocity = Vector2.zero;
-        Vector2 destinationDelta = Vector2.zero;
+        Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
+
+        bool expandingSmoothly => smoothDamp.isSmoothing;
 
         // Methods
         void Awake() {
@@ -108,7 +106,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void FixedUpdate() {
-            if (expandingSmoothly) ExpandSmoothly();
+            if (smoothDamp.isSmoothing) ExpandSmoothly();
         }
 
         List<ShapePoint> GetShape() {
@@ -159,17 +157,10 @@ namespace ScrapCoder.VisualNodes {
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
 
-            int[] delta = { dx, dy };
-
-            for (var axis = 0; axis < 2; ++axis) {
-                if (!ranges[axis].isExpandable) continue;
-
-                destinationDelta[axis] += delta[axis];
-            }
-
-            expandingSmoothly = true;
-
-            // Expand(dx, dy);
+            smoothDamp.AddDeltaToDestination(
+                dx: ranges[0].isExpandable ? dx : (int?)null,
+                dy: ranges[1].isExpandable ? dy : (int?)null
+            );
 
             return (dx, dy);
         }
@@ -192,49 +183,13 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        void ResetExpandingSmoothly() {
-            currentDelta = destinationDelta = Vector2.zero;
-
-            expandingSmoothly = false;
-        }
-
         void ExpandSmoothly() {
-            if (this.currentDelta == destinationDelta) {
-                ResetExpandingSmoothly();
-                return;
-            }
-
-            var newDelta = Vector2.SmoothDamp(
-                current: this.currentDelta,
-                target: destinationDelta,
-                currentVelocity: ref velocity,
-                smoothTime: dampingTime
-            );
-
-            newDelta.x = this.currentDelta.x < destinationDelta.x
-                ? (int)System.Math.Ceiling(newDelta.x)
-                : (int)System.Math.Floor(newDelta.x);
-            newDelta.y = this.currentDelta.y < destinationDelta.y
-                ? (int)System.Math.Ceiling(newDelta.y)
-                : (int)System.Math.Floor(newDelta.y);
-
-            var currentDelta = newDelta - this.currentDelta;
-
-            currentDelta = new Vector2 {
-                x = (int)System.Math.Round(currentDelta.x),
-                y = (int)System.Math.Round(currentDelta.y)
-            };
+            var delta = smoothDamp.NextDelta();
 
             Expand(
-                dx: (int)System.Math.Round(currentDelta.x),
-                dy: (int)System.Math.Round(currentDelta.y)
+                dx: (int)System.Math.Round(delta.x),
+                dy: (int)System.Math.Round(delta.y)
             );
-
-            this.currentDelta = newDelta;
-
-            if (this.currentDelta == destinationDelta) {
-                ResetExpandingSmoothly();
-            }
         }
 
         void Expand(int dx, int dy) {
