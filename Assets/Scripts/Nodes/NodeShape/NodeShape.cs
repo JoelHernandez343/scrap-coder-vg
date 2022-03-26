@@ -159,8 +159,13 @@ namespace ScrapCoder.VisualNodes {
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
 
-            destinationDelta.x += dx;
-            destinationDelta.y += dy;
+            int[] delta = { dx, dy };
+
+            for (var axis = 0; axis < 2; ++axis) {
+                if (!ranges[axis].isExpandable) continue;
+
+                destinationDelta[axis] += delta[axis];
+            }
 
             expandingSmoothly = true;
 
@@ -188,13 +193,15 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void ResetExpandingSmoothly() {
-            expandingSmoothly = false;
             currentDelta = destinationDelta = Vector2.zero;
+
+            expandingSmoothly = false;
         }
 
         void ExpandSmoothly() {
             if (this.currentDelta == destinationDelta) {
                 ResetExpandingSmoothly();
+                return;
             }
 
             var newDelta = Vector2.SmoothDamp(
@@ -213,7 +220,15 @@ namespace ScrapCoder.VisualNodes {
 
             var currentDelta = newDelta - this.currentDelta;
 
-            Expand((int)System.Math.Round(currentDelta.x), (int)System.Math.Round(currentDelta.y));
+            currentDelta = new Vector2 {
+                x = (int)System.Math.Round(currentDelta.x),
+                y = (int)System.Math.Round(currentDelta.y)
+            };
+
+            Expand(
+                dx: (int)System.Math.Round(currentDelta.x),
+                dy: (int)System.Math.Round(currentDelta.y)
+            );
 
             this.currentDelta = newDelta;
 
