@@ -151,10 +151,12 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+        public Vector2 SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-            if (x == null && y == null) return;
+            if (x == null && y == null) return Vector2.zero;
+
+            var delta = new Vector2 { x = x ?? 0, y = y ?? 0 } - position; ;
 
             if (smooth) {
                 smoothDamp.SetDestination(
@@ -163,17 +165,21 @@ namespace ScrapCoder.VisualNodes {
                     destinationY: y,
                     endingCallback: endingCallback
                 );
+
+
             } else {
                 MoveToPosition(x, y);
             }
 
             if (resetFloatPosition) ResetFloatPosition();
+
+            return delta;
         }
 
-        public void SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+        public Vector2 SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-            if (dx == null && dy == null) return;
+            if (dx == null && dy == null) return Vector2.zero;
 
             if (smooth) {
                 smoothDamp.AddDeltaToDestination(
@@ -192,6 +198,8 @@ namespace ScrapCoder.VisualNodes {
             }
 
             if (resetFloatPosition) ResetFloatPosition();
+
+            return new Vector2 { x = dx ?? 0, y = dy ?? 0 };
         }
 
         public void SetFloatPositionByDelta(float? dx = null, float? dy = null, bool smooth = false) {
