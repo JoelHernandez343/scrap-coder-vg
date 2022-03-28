@@ -110,24 +110,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 7466764253126666783}
-  colliderPoints:
-  - {x: 0, y: 0}
-  - {x: 8, y: 0}
-  - {x: 12, y: -4}
-  - {x: 16, y: 0}
-  - {x: 44, y: 0}
-  - {x: 44, y: -19}
-  - {x: 16, y: -19}
-  - {x: 12, y: -23}
-  - {x: 8, y: -19}
-  - {x: 0, y: -19}
-  - {x: 0, y: -19}
   widthPointsRange:
     begin: 4
     end: 5
+    isExpandable: 1
   heightPointsRange:
     begin: 5
     end: 9
+    isExpandable: 1
   ownTransform: {fileID: 7466764253126666782}
 --- !u!1 &7466764254513914417
 GameObject:
@@ -399,31 +389,9 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 5
     finalIndex: 0
-  shapePoints:
-  - position:
-      x: 4
-      y: -4
-    spriteIndex: 3
-  - position:
-      x: 16
-      y: -4
-    spriteIndex: 0
-  - position:
-      x: 40
-      y: -4
-    spriteIndex: 0
-  - position:
-      x: 40
-      y: -15
-    spriteIndex: 0
-  - position:
-      x: 16
-      y: -15
-    spriteIndex: 3
-  - position:
-      x: 4
-      y: -15
-    spriteIndex: 0
+  initialPointPosition:
+    x: 4
+    y: -4
 --- !u!1 &7466764254849079731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,11 +1045,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1380,6 +1348,14 @@ PrefabInstance:
       propertyPath: indirectController
       value: 
       objectReference: {fileID: 7842788364981981113}
+    - target: {fileID: 5050744033300232350, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5050744033300232350, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1446,11 +1422,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 9
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -11
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

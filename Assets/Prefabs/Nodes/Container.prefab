@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4093386343709591165}
+  - component: {fileID: 7692091485620265625}
   - component: {fileID: 1020040377345113106}
   - component: {fileID: 5177636434978128433}
   m_Layer: 0
@@ -40,6 +41,17 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -24}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!210 &7692091485620265625
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333539247553637882}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!114 &1020040377345113106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,11 +91,13 @@ MonoBehaviour:
   zone: {fileID: 6507249500039758612}
   array: {fileID: 8823356131819177318}
   sprite: {fileID: 449421557564414003}
+  toggleZone: 0
   pieceToExpand: {fileID: 0}
   modifyWidthOfPiece: 0
   modifyHeightOfPiece: 1
   defaultHeight: 10
   defaultWidth: 0
+  acceptedCategory: 0
   ownTransform: {fileID: 1020040377345113106}
 --- !u!1 &2412287878916260188
 GameObject:
@@ -212,6 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownTransform: {fileID: 5094133176233431961}
   renderer: {fileID: 1252333214848502964}
+  availableSprites: []
   hideable: 0
 --- !u!1001 &4103558883992647683
 PrefabInstance:
@@ -415,11 +430,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5206846229017794663, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

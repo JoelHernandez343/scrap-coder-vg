@@ -8,13 +8,6 @@ using System;
 
 namespace ScrapCoder.VisualNodes {
 
-    public enum TypeOfNode {
-        All,
-        Condition,
-        Instruction,
-        Value
-    }
-
     public interface IZoneParentRefresher {
         void SetZonesAsParent(NodeArray array);
     }
@@ -58,7 +51,8 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeTransform ownTransform;
 
-        [SerializeField] public TypeOfNode type;
+        [SerializeField] public NodeType type;
+        [SerializeField] public NodeCategory category;
 
         [SerializeField] List<NodeTransform> components;
         [SerializeField] List<NodeContainer> containers;
@@ -80,6 +74,12 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables
         public NodeController controller => parentArray?.controller;
+
+        public NodeController temporalParent {
+            set {
+                transform.SetParent(value?.transform ?? canvas.transform);
+            }
+        }
 
         DropFuncSelector _selector;
         DropFuncSelector selector {
@@ -126,12 +126,17 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        public void Eject() {
+            RefreshZones();
+            ClearParent();
+        }
+
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (controller != null && mainZones.Contains(ownZone)) {
                 return controller.OnDrop(inZone, ownZone, this);
             }
 
-            var dropFunc = selector[ownZone.color, inZone.color];
+            var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
 
             if (dropFunc != null) {
                 dropFunc(inZone, ownZone, toThisNode);
@@ -191,21 +196,14 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SetZonesAsChild(bool isLast = false) {
-            topZone?.gameObject.SetActive(false);
-
-            if (bottomZone != null) {
-                bottomZone.color = isLast
-                    ? ZoneColor.Red
-                    : ZoneColor.Yellow;
-            }
+            topZone?.SetActive(false);
+            bottomZone?.SetZoneColor(isLast ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
         void SetZonesAsParent(NodeArray array) {
             if (array == siblings || array == null) {
-                topZone?.gameObject.SetActive(true);
-                if (topZone != null) {
-                    topZone.color = ZoneColor.Blue;
-                }
+                topZone?.SetActive(true);
+                topZone?.SetZoneColor(ZoneColor.Blue);
 
                 SetContainerAsParent(array);
                 return;
@@ -224,13 +222,12 @@ namespace ScrapCoder.VisualNodes {
 
             var container = containers.Find(container => container.array == array);
 
-            container.zone.color = array.Count == 0
-                ? ZoneColor.Red
-                : ZoneColor.Yellow;
+            container.zone.SetZoneColor(array.Count == 0 ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
         public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
             if (toThisArray == siblings) {
+                RecalculateZLevels();
                 HierarchyController.instance.SetOnTop(this);
                 return;
             }
@@ -242,7 +239,7 @@ namespace ScrapCoder.VisualNodes {
             RecalculateZLevels();
 
             if (hasParent) {
-                parentArray.AdjustParts(this, delta: newDelta);
+                parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: true);
             } else {
                 HierarchyController.instance.SetOnTop(this);
             }
@@ -270,7 +267,7 @@ namespace ScrapCoder.VisualNodes {
             var begin = components.IndexOf(pieceModified) + 1;
 
             for (var i = begin; i < components.Count; ++i) {
-                components[i].SetPositionByDelta(dy: -delta.dy);
+                components[i].SetPositionByDelta(dy: -delta.dy, smooth: true);
                 components[i].Expand(dx: delta.dx);
             }
         }

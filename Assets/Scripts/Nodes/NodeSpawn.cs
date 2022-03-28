@@ -21,26 +21,29 @@ namespace ScrapCoder.VisualNodes {
         NodeController spawnedNode;
         const int pixelScale = 2;
 
+        RectTransform _canvasTransform;
+        RectTransform canvasTransform => _canvasTransform ??= canvas.GetComponent<RectTransform>();
+
         // Methods
         public void OnBeginDrag(PointerEventData eventData) {
             var (dx, dy) = (eventData.delta.x, eventData.delta.y);
 
             var newPosition = new Vector2();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.GetComponent<RectTransform>(),
-                eventData.position,
-                canvas.worldCamera,
-                out newPosition
+                rect: canvasTransform,
+                screenPoint: eventData.position,
+                cam: canvas.worldCamera,
+                localPoint: out newPosition
             );
 
             var nodeController = NodeDictionaryController.instance[nodeToSpawn];
             spawnedNode = Instantiate(nodeController, canvas.transform);
 
             spawnedNode.gameObject.name = $"{nodeController.gameObject.name} ({spawnedNodes++})";
-            spawnedNode.ownTransform.SetPosition((
-                (int)newPosition.x - (spawnedNode.ownTransform.width * pixelScale) / 2,
-                (int)newPosition.y + (spawnedNode.ownTransform.initHeight * pixelScale) / 2
-            ));
+            spawnedNode.ownTransform.SetPosition(
+                x: (int)newPosition.x - (spawnedNode.ownTransform.width * pixelScale) / 2,
+                y: (int)newPosition.y + (spawnedNode.ownTransform.initHeight * pixelScale) / 2
+            );
             spawnedNode.canvas = canvas;
 
             spawnedNode.SetMiddleZone(true);

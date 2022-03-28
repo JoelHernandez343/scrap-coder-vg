@@ -112,25 +112,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 827370154093823565}
-  colliderPoints:
-  - {x: 0, y: 0}
-  - {x: 11, y: 0}
-  - {x: 11, y: -10}
-  - {x: 18, y: -10}
-  - {x: 22, y: -14}
-  - {x: 26, y: -10}
-  - {x: 96, y: -10}
-  - {x: 96, y: -21}
-  - {x: 16, y: -21}
-  - {x: 12, y: -25}
-  - {x: 8, y: -21}
-  - {x: 0, y: -21}
   widthPointsRange:
     begin: 6
     end: 7
+    isExpandable: 1
   heightPointsRange:
     begin: 2
     end: 11
+    isExpandable: 1
   ownTransform: {fileID: 827370154093823564}
 --- !u!1 &827370155669190113
 GameObject:
@@ -479,6 +468,9 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 3
     finalIndex: 4
+  initialPointPosition:
+    x: 6
+    y: 0
   shapePoints:
   - position:
       x: 6

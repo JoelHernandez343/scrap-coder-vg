@@ -30,7 +30,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeController directController;
         [SerializeField] NodeTransform indirectController;
 
-        [SerializeField] public Utils.Vector2D relativeOrigin;
+        [SerializeField] public Vector2 relativeOrigin;
 
         [SerializeField] int localZLevels;
 
@@ -70,126 +70,160 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        Utils.Vector2D _position = new Utils.Vector2D();
-        public Utils.Vector2D position {
-            get {
-                _position.unityVector = rectTransform.anchoredPosition;
-
-                return _position;
-            }
-            set {
-                if (this.position.x == value.x && this.position.y == value.y) return;
-
-                _position.x = value.x;
-                _position.y = value.y;
-
-                rectTransform.anchoredPosition = _position.unityVector;
-            }
-        }
-
-        Utils.FloatVector2D floatPosition = new Utils.FloatVector2D();
+        Utils.FloatVector2D floatPosition = new Utils.FloatVector2D { x = 0, y = 0 };
 
         // Lazy and other variables
-        UnityEngine.Rendering.SortingGroup _sorter;
-        public UnityEngine.Rendering.SortingGroup sorter {
-            get {
-                _sorter ??= controller.lastController.GetComponent<UnityEngine.Rendering.SortingGroup>();
-
-                return _sorter;
-            }
+        public Vector2 position {
+            get => new Vector2 {
+                x = (int)System.Math.Round(rectTransform.anchoredPosition.x),
+                y = (int)System.Math.Round(rectTransform.anchoredPosition.y),
+            };
+            set => rectTransform.anchoredPosition = value;
         }
+
+        UnityEngine.Rendering.SortingGroup _sorter;
+        public UnityEngine.Rendering.SortingGroup sorter
+            => _sorter ??= GetComponent<UnityEngine.Rendering.SortingGroup>();
 
         public int zLevels => localZLevels + maxZlevels;
 
         public const int PixelsPerUnit = 24;
         public NodeController controller => directController ?? indirectController.controller;
 
-        public int x => position.x;
-        public int y => position.y;
+        public int x => (int)position.x;
+        public int y => (int)position.y;
 
         public int fx => x + width;
         public int fy => y - height;
 
         public (int x, int y) finalPosition => (fx, fy);
 
+        public bool isMovingSmoothly => smoothDamp.isWorking;
+
+        Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
+
         // Methods
+        void FixedUpdate() {
+            if (isMovingSmoothly) MoveSmoothly();
+        }
+
+        void MoveSmoothly() {
+            var (delta, endingCallback) = smoothDamp.NextDelta();
+
+            position += delta;
+
+            if (!isMovingSmoothly && endingCallback != null) {
+                endingCallback();
+            }
+        }
+
         void ResetFloatPosition() {
             floatPosition.tuple = (0, 0);
         }
 
         void ResetXToRelative() {
-            var x = (int)relativeOrigin.x;
+            var x = (int)System.Math.Round(relativeOrigin.x);
             SetPosition(x, y);
         }
 
-        public void ResetYToRelative() {
-            var y = (int)relativeOrigin.y;
-            SetPosition(x, y);
+        public void ResetYToRelative(bool smooth = false) {
+            var y = (int)System.Math.Round(relativeOrigin.y);
+            SetPosition(x, y, smooth: smooth);
+        }
+
+        public void RefreshPosition() {
+            MoveToPosition(x: x, y: y);
         }
 
         void Awake() {
-            // width = initWidth;
-            // height = initHeight;
+            relativeOrigin = position;
+        }
 
-            relativeOrigin = new Utils.Vector2D {
-                x = position.x,
-                y = position.y
+        void MoveToPosition(int? x = null, int? y = null) {
+            position = new Vector2 {
+                x = x ?? this.x,
+                y = y ?? this.y
             };
+
+            smoothDamp.Reset(
+                resetX: x == null,
+                resetY: y == null
+            );
         }
 
-        void ChangePosition(int x, int y) {
-            position = new Utils.Vector2D { x = x, y = y };
-        }
+        public Vector2 SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+            if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-        public void SetPosition((int x, int y) position, bool resetFloatPosition = true) {
-            if (!moveable) {
-                throw new System.InvalidOperationException("This object is not moveable");
+            if (x == null && y == null) return Vector2.zero;
+
+            var delta = new Vector2 { x = x ?? 0, y = y ?? 0 } - position; ;
+
+            if (smooth) {
+                smoothDamp.SetDestination(
+                    origin: position,
+                    destinationX: x,
+                    destinationY: y,
+                    endingCallback: endingCallback
+                );
+
+
+            } else {
+                MoveToPosition(x, y);
             }
-
-            ChangePosition(position.x, position.y);
 
             if (resetFloatPosition) ResetFloatPosition();
+
+            return delta;
         }
 
-        public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true) {
-            if (!moveable) {
-                throw new System.InvalidOperationException("This object is not moveable");
-            }
+        public Vector2 SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+            if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-            ChangePosition(x ?? this.x, y ?? this.y);
+            if (dx == null && dy == null) return Vector2.zero;
+
+            if (smooth) {
+                smoothDamp.AddDeltaToDestination(
+                    dx: dx,
+                    dy: dy,
+                    endingCallback: endingCallback
+                );
+            } else {
+                int?[] change = { x + dx, y + dy };
+
+                SetPosition(
+                    x: change[0],
+                    y: change[1],
+                    resetFloatPosition: resetFloatPosition
+                );
+            }
 
             if (resetFloatPosition) ResetFloatPosition();
+
+            return new Vector2 { x = dx ?? 0, y = dy ?? 0 };
         }
 
-        public void SetPositionByDelta(int dx = 0, int dy = 0, bool resetFloatPosition = true) {
-            if (!moveable) {
-                throw new System.InvalidOperationException("This object is not moveable");
+        public void SetFloatPositionByDelta(float? dx = null, float? dy = null, bool smooth = false) {
+            float?[] delta = { dx, dy };
+
+            int?[] intDelta = new int?[2];
+
+            for (var axis = 0; axis < 2; ++axis) {
+                if (delta[axis] == null) continue;
+
+                floatPosition[axis] += (float)delta[axis];
+
+                if (floatPosition[axis] >= 1 || -floatPosition[axis] >= 1) {
+                    intDelta[axis] = floatPosition.getInt(axis);
+                    floatPosition[axis] -= floatPosition.getInt(axis);
+                }
             }
 
-            ChangePosition(x + dx, y + dy);
-
-            if (resetFloatPosition) ResetFloatPosition();
-        }
-
-        public void SetFloatPositionByDelta(float dx = 0f, float dy = 0f) {
-            floatPosition.x += dx;
-            floatPosition.y += dy;
-
-            var intDx = 0;
-            var intDy = 0;
-
-            if (floatPosition.x >= 1 || -floatPosition.x >= 1) {
-                intDx = floatPosition.intX;
-
-                floatPosition.x -= intDx;
-            }
-            if (floatPosition.y >= 1 || -floatPosition.y >= 1) {
-                intDy = floatPosition.intY;
-
-                floatPosition.y -= intDy;
-            }
-
-            SetPositionByDelta(dx: intDx, dy: intDy, resetFloatPosition: false);
+            SetPositionByDelta(
+                dx: intDelta[0],
+                dy: intDelta[1],
+                resetFloatPosition: false,
+                smooth: smooth
+            );
         }
 
         public (int dx, int dy) Expand(int dx = 0, int dy = 0, NodeArray fromThisArray = null) {
@@ -217,9 +251,13 @@ namespace ScrapCoder.VisualNodes {
             Expand(dx, dy);
         }
 
-        public void ResetLevelZ() {
+        public void ResetRenderOrder() {
+            // Reset Z
             var pos = transform.localPosition;
             transform.localPosition = new Vector3(pos.x, pos.y, 0);
+
+            // Reset Sorting order
+            sorter.sortingOrder = 0;
         }
     }
 }

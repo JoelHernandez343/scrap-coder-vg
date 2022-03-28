@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ScrapCoder.Utils {
 
     [System.Serializable]
-    public class FloatVector2D {
+    public struct FloatVector2D {
         public float x;
         public float y;
 
@@ -52,5 +52,12 @@ namespace ScrapCoder.Utils {
 
         public int intX => (int)x;
         public int intY => (int)y;
+
+        public int getInt(int index) {
+            if (index == 0) return (int)x;
+            if (index == 1) return (int)y;
+
+            throw new System.ArgumentOutOfRangeException($"Does not exists this index: {index}");
+        }
     }
 }

@@ -15,6 +15,12 @@ namespace ScrapCoder.VisualNodes {
         // State variables
         List<NodeController> nodes = new List<NodeController>();
 
+        public int? _lastZOrder;
+        public int lastZOrder {
+            get => _lastZOrder ??= -initialOrder;
+            private set => _lastZOrder = value;
+        }
+
         // Lazy and other variables
         public static HierarchyController instance {
             private set;
@@ -61,6 +67,7 @@ namespace ScrapCoder.VisualNodes {
                     transform.localPosition = new Vector3(position.x, position.y, zOrder);
 
                     zOrder += node.ownTransform.zLevels;
+                    lastZOrder = zOrder;
                 }
             }
         }

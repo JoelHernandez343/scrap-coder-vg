@@ -10,19 +10,39 @@ namespace ScrapCoder.VisualNodes {
     public class NodeZone : MonoBehaviour, INodeExpander {
 
         // Editor variables
-        [SerializeField] new BoxCollider2D collider;
-        [SerializeField] public ZoneColor color;
+        [SerializeField] new PolygonCollider2D collider;
         [SerializeField] NodeTransform ownTransform;
 
+        [SerializeField] NodeRange widthPointsRange;
+        [SerializeField] NodeRange heightPointsRange;
+
         // State variables
+        [SerializeField] ZoneColor color;
+
         List<NodeZone> zones = new List<NodeZone>();
 
+        bool isActive = true;
+
         // Lazy and other variables
+        public ZoneColor zoneColor {
+            private set => color = value;
+            get => color;
+        }
+
+        List<NodeRange> _ranges;
+        List<NodeRange> ranges
+            => _ranges ??= new List<NodeRange> { widthPointsRange, heightPointsRange };
+
+        List<Vector2> _colliderPoints;
+        List<Vector2> colliderPoints
+            => _colliderPoints ??= new List<Vector2>(collider.GetPath(0));
+
         public NodeController controller => ownTransform.controller;
 
-        public void SetActive(bool enable) {
-            gameObject.SetActive(enable);
-        }
+        // Methods
+        public void SetActive(bool isActive) => this.isActive = isActive;
+
+        public void SetZoneColor(ZoneColor color) => this.zoneColor = color;
 
         public void OnTriggerEnter2D(Collider2D collider) {
             var zone = collider.GetComponent<NodeZone>();
@@ -46,7 +66,10 @@ namespace ScrapCoder.VisualNodes {
                 return false;
             }
 
-            var validZones = zones.FindAll(zone => zone.controller.lastController != controller.lastController);
+            var validZones = zones.FindAll(zone =>
+                zone.isActive &&
+                zone.controller.lastController != controller.lastController
+            );
 
             if (validZones.Count == 0) {
                 return false;
@@ -67,12 +90,24 @@ namespace ScrapCoder.VisualNodes {
         }
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
-            var vector = collider.size;
+            int[] delta = { dx, dy };
 
-            vector.x += dx;
-            vector.y += dy;
+            for (int axis = 0; axis < ranges.Count; ++axis) {
+                var range = ranges[axis];
+                var isExpandable = range.isExpandable;
 
-            collider.size = vector;
+                var sign = axis == 0 ? 1 : -1;
+
+                if (!isExpandable) continue;
+
+                for (var i = range.begin; i <= range.end; ++i) {
+                    var point = colliderPoints[i];
+                    point[axis] += (sign) * delta[axis];
+                    colliderPoints[i] = point;
+                }
+            }
+
+            collider.SetPath(0, colliderPoints);
 
             return (dx, dy);
         }

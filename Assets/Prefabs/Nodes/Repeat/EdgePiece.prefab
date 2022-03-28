@@ -246,6 +246,9 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 1
     finalIndex: 2
+  initialPointPosition:
+    x: 6
+    y: 0
   shapePoints:
   - position:
       x: 6
@@ -479,25 +482,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 2438962017248513692}
-  colliderPoints:
-  - {x: 0, y: 0}
-  - {x: 11, y: 0}
-  - {x: 11, y: -10}
-  - {x: 18, y: -10}
-  - {x: 22, y: -14}
-  - {x: 26, y: -10}
-  - {x: 96, y: -10}
-  - {x: 96, y: -21}
-  - {x: 16, y: -21}
-  - {x: 12, y: -25}
-  - {x: 8, y: -21}
-  - {x: 0, y: -21}
   widthPointsRange:
     begin: 6
     end: 7
+    isExpandable: 1
   heightPointsRange:
     begin: 2
     end: 11
+    isExpandable: 1
   ownTransform: {fileID: 2438962017248513693}
 --- !u!1 &3981553031659181678
 GameObject:
@@ -726,6 +718,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -7006739419520550184, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+    - target: {fileID: 2884818788424502178, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+      propertyPath: indirectController
+      value: 
+      objectReference: {fileID: 3067100846746954554}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: availableSprites.Array.size
       value: 2
@@ -984,6 +980,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -5536547068929043085, guid: 4108d2ec8045eac4a822f8805ee04e5b, type: 3}
+    - target: {fileID: 2884818788424502178, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+      propertyPath: indirectController
+      value: 
+      objectReference: {fileID: 3067100846746954554}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: availableSprites.Array.size
       value: 2
