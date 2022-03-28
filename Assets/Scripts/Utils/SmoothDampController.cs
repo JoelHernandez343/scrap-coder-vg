@@ -11,11 +11,14 @@ namespace ScrapCoder.Utils {
         Vector2 currentDelta = Vector2.zero;
         Vector2 destinationDelta = Vector2.zero;
 
-        public bool isSmoothing => !(currentDelta == destinationDelta);
+        public bool isWorking => !(currentDelta == destinationDelta);
+        public bool isFinished => !isWorking;
 
         float dampingTime;
 
         Vector2 velocity = Vector2.zero;
+
+        System.Action endingCallback;
 
         public SmoothDampController(float dampingTime) {
             this.dampingTime = dampingTime;
@@ -31,12 +34,17 @@ namespace ScrapCoder.Utils {
                 destinationDelta[axis] = 0;
 
             }
+
+            if (isFinished) {
+                endingCallback = null;
+            }
         }
 
-        public Vector2 NextDelta() {
-            if (currentDelta == destinationDelta) {
+        public (Vector2 delta, System.Action endingCallback) NextDelta() {
+            if (isFinished) {
+                var ecb = this.endingCallback;
                 Reset();
-                return Vector2.zero;
+                return (delta: Vector2.zero, endingCallback: ecb);
             }
 
             var newValue = new Vector2();
@@ -65,12 +73,14 @@ namespace ScrapCoder.Utils {
 
             currentDelta = newValue;
 
+            var endingCallback = isFinished ? this.endingCallback : (System.Action)null;
+
             Reset(
                 resetX: destinationDelta.x == currentDelta.x,
                 resetY: destinationDelta.y == currentDelta.y
             );
 
-            return newDelta;
+            return (delta: newDelta, endingCallback: endingCallback);
         }
 
         Vector2 RoundVector(Vector2 vector) => new Vector2 {
@@ -78,7 +88,7 @@ namespace ScrapCoder.Utils {
             y = (int)System.Math.Round(vector.y),
         };
 
-        public void SetDestination(Vector2 origin, int? destinationX, int? destinationY) {
+        public void SetDestination(Vector2 origin, int? destinationX = null, int? destinationY = null, System.Action endingCallback = null) {
             if (destinationX == null && destinationY == null) return;
 
             Reset(
@@ -92,9 +102,13 @@ namespace ScrapCoder.Utils {
             };
 
             destinationDelta = RoundVector(final - origin);
+
+            this.endingCallback = endingCallback;
         }
 
-        public void AddDeltaToDestination(int? dx, int? dy) {
+        public void AddDeltaToDestination(int? dx = null, int? dy = null, System.Action endingCallback = null) {
+            if (dx == null && dy == null) return;
+
             if (dx is int Dx) {
                 destinationDelta.x += Dx;
             }
@@ -102,6 +116,8 @@ namespace ScrapCoder.Utils {
             if (dy is int Dy) {
                 destinationDelta.y += Dy;
             }
+
+            this.endingCallback = endingCallback;
         }
     }
 }
