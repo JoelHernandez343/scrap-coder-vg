@@ -83,7 +83,7 @@ namespace ScrapCoder.VisualNodes {
 
         UnityEngine.Rendering.SortingGroup _sorter;
         public UnityEngine.Rendering.SortingGroup sorter
-            => _sorter ??= controller.lastController.GetComponent<UnityEngine.Rendering.SortingGroup>();
+            => _sorter ??= GetComponent<UnityEngine.Rendering.SortingGroup>();
 
         public int zLevels => localZLevels + maxZlevels;
 
