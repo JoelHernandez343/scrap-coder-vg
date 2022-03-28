@@ -42,7 +42,22 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        Utils.SmoothDampController auxiliarSmoothDamp = new Utils.SmoothDampController(0.1f);
+
         // Methods
+        void FixedUpdate() {
+            if (auxiliarSmoothDamp.isWorking) UpdateSmoothDamp();
+        }
+
+        void UpdateSmoothDamp() {
+            var (_, endingCallback) = auxiliarSmoothDamp.NextDelta();
+
+            // If finished, execute callback
+            if (auxiliarSmoothDamp.isFinished && endingCallback != null) {
+                endingCallback();
+            }
+        }
+
         public List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
 
             if (Count == 0) return new List<NodeController>();
@@ -92,9 +107,7 @@ namespace ScrapCoder.VisualNodes {
             var previousCount = Count;
 
             // Update hierarchy parent
-            newNodes.ForEach(node => {
-                node.parentArray = this;
-            });
+            newNodes.ForEach(node => node.parentArray = this);
 
             // Add to the nodes list right after fromThisNode
             var index = toThisNode != controller
@@ -136,20 +149,29 @@ namespace ScrapCoder.VisualNodes {
         public void AdjustParts(NodeController changedNode, int? dx = null, int? dy = null, bool smooth = false) {
             this.previousCount = Count;
 
-            if (changedNode == Last) {
-                Adjust(dy);
-                return;
+            // Set the changed node on top others
+            changedNode.ownTransform.sorter.sortingOrder = 2;
+
+            // Move down the nest siblings
+            if (changedNode != Last) {
+                var nodeIndex = nodes.IndexOf(changedNode);
+
+                MoveChunkOfNodesByDelta(
+                    startIndex: nodeIndex + 1,
+                    endIndex: Count - 1,
+                    dy: -dy,
+                    smooth: smooth
+                );
             }
-
-            var nodeIndex = nodes.IndexOf(changedNode);
-            var (afterNode, afterNodes) = SetOwnership(nodeIndex + 1, Count);
-
-            afterNode.ownTransform.SetPositionByDelta(
-                dy: -dy,
-                smooth: smooth,
-                endingCallback: BuildCallBack(afterNodes, smooth)
-            );
-            if (!smooth) RevertOwnership(afterNodes);
+            if (smooth) {
+                // If smooth, add callback when changedNode finish expanding to reverse top
+                auxiliarSmoothDamp.AddDeltaToDestination(
+                    dy: dy,
+                    endingCallback: (() => changedNode.ownTransform.sorter.sortingOrder = 0)
+                );
+            } else {
+                changedNode.ownTransform.sorter.sortingOrder = 0;
+            }
 
             Adjust(dy);
         }
@@ -179,28 +201,81 @@ namespace ScrapCoder.VisualNodes {
             var dy = 0;
             newNodes.ForEach(node => dy += node.ownTransform.height - borderOffset);
 
-            var (newNodesParent, newNodesOwnership) = SetOwnership(firstIndex, lastIndex + 1);
-            newNodesParent.ownTransform.SetPosition(
+            var changeOfPosition = MoveChunkOfNodes(
+                startIndex: firstIndex,
+                endIndex: lastIndex,
                 x: 0,
                 y: previousY,
-                smooth: smooth,
-                endingCallback: BuildCallBack(newNodesOwnership, smooth)
+                smooth: smooth
             );
-            if (!smooth) RevertOwnership(newNodesOwnership);
+
+            var maxChange = changeOfPosition;
 
             if (lastNode != Last) {
-                var (afterNode, afterNodes) = SetOwnership(lastIndex + 1, Count);
-                afterNode.ownTransform.SetPositionByDelta(
+                var changeOfScrollDown = MoveChunkOfNodesByDelta(
+                    startIndex: lastIndex + 1,
+                    endIndex: Count - 1,
                     dy: -dy,
-                    smooth: smooth,
-                    endingCallback: BuildCallBack(afterNodes, smooth)
+                    smooth: smooth
                 );
-                if (!smooth) RevertOwnership(afterNodes);
+
+                // Calculate the max change in order to add callback for order nodes
+                if (changeOfScrollDown.magnitude > changeOfPosition.magnitude) {
+                    maxChange = changeOfScrollDown;
+                }
             }
 
-            if (!smooth) OrderNodes(nodes);
+            if (smooth) {
+                // When the last change finish, then order nodes
+                auxiliarSmoothDamp.AddDeltaToDestination(
+                    dx: (int)System.Math.Round(maxChange.x),
+                    dy: (int)System.Math.Round(maxChange.y),
+                    endingCallback: () => OrderNodes()
+                );
+            } else {
+                OrderNodes();
+            }
+
 
             Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0));
+        }
+
+        Vector2 MoveChunkOfNodes(int startIndex, int endIndex, int? x = null, int? y = null, bool smooth = false) {
+            return MoveChunk(startIndex, endIndex, x, y, smooth, false);
+        }
+
+        Vector2 MoveChunkOfNodesByDelta(int startIndex, int endIndex, int? dx = null, int? dy = null, bool smooth = false) {
+            return MoveChunk(startIndex, endIndex, dx, dy, smooth, true);
+        }
+
+        Vector2 MoveChunk(int startIndex, int endIndex, int? x, int? y, bool smooth, bool isByDelta) {
+            var (owner, ownership) = SetOwnership(startIndex, endIndex + 1);
+
+            System.Action endingCallback = () => RevertOwnership(ownership);
+
+            Vector2 change;
+
+            if (isByDelta) {
+                change = owner.ownTransform.SetPositionByDelta(
+                    dx: x,
+                    dy: y,
+                    smooth: smooth,
+                    endingCallback: smooth ? endingCallback : (System.Action)null
+                );
+            } else {
+                change = owner.ownTransform.SetPosition(
+                    x: x,
+                    y: y,
+                    smooth: smooth,
+                    endingCallback: smooth ? endingCallback : (System.Action)null
+                );
+            }
+
+            if (!smooth) {
+                endingCallback();
+            }
+
+            return change;
         }
 
         void Adjust(int? dy = null) {
@@ -261,15 +336,7 @@ namespace ScrapCoder.VisualNodes {
             });
         }
 
-        System.Action BuildCallBack(List<NodeController> nodes, bool smooth) {
-            if (!smooth) return null;
-
-            System.Action cb = () => RevertOwnership(nodes);
-
-            return cb;
-        }
-
-        void OrderNodes(List<NodeController> nodes, bool modifyZ = false) {
+        void OrderNodes() {
             nodes.ForEach(node => {
                 node.ownTransform.ResetRenderOrder();
                 node.ownTransform.rectTransform.SetAsLastSibling();
