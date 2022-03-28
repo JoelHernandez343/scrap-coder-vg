@@ -70,7 +70,7 @@ namespace ScrapCoder.VisualNodes {
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
-        bool expandingSmoothly => smoothDamp.isSmoothing;
+        bool expandingSmoothly => smoothDamp.isWorking;
 
         // Methods
         void Awake() {
@@ -106,7 +106,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void FixedUpdate() {
-            if (smoothDamp.isSmoothing) ExpandSmoothly();
+            if (smoothDamp.isWorking) ExpandSmoothly();
         }
 
         List<ShapePoint> GetShape() {
@@ -184,7 +184,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void ExpandSmoothly() {
-            var delta = smoothDamp.NextDelta();
+            var (delta, _) = smoothDamp.NextDelta();
 
             Expand(
                 dx: (int)System.Math.Round(delta.x),
