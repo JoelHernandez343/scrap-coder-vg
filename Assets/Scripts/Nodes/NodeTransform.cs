@@ -98,11 +98,9 @@ namespace ScrapCoder.VisualNodes {
 
         public (int x, int y) finalPosition => (fx, fy);
 
-        public bool isMovingSmoothly => smoothDamp.isSmoothing;
+        public bool isMovingSmoothly => smoothDamp.isWorking;
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
-
-        System.Action endingCallback;
 
         // Methods
         void FixedUpdate() {
@@ -110,15 +108,12 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void MoveSmoothly() {
-            if (!isMovingSmoothly) return;
+            var (delta, endingCallback) = smoothDamp.NextDelta();
 
-            position += smoothDamp.NextDelta();
+            position += delta;
 
-            if (!isMovingSmoothly) {
-                if (endingCallback != null) {
-                    endingCallback();
-                    endingCallback = null;
-                }
+            if (!isMovingSmoothly && endingCallback != null) {
+                endingCallback();
             }
         }
 
@@ -154,8 +149,6 @@ namespace ScrapCoder.VisualNodes {
                 resetX: x == null,
                 resetY: y == null
             );
-
-            endingCallback = null;
         }
 
         public void SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
@@ -164,8 +157,12 @@ namespace ScrapCoder.VisualNodes {
             if (x == null && y == null) return;
 
             if (smooth) {
-                smoothDamp.SetDestination(position, x, y);
-                this.endingCallback = endingCallback;
+                smoothDamp.SetDestination(
+                    origin: position,
+                    destinationX: x,
+                    destinationY: y,
+                    endingCallback: endingCallback
+                );
             } else {
                 MoveToPosition(x, y);
             }
@@ -179,8 +176,11 @@ namespace ScrapCoder.VisualNodes {
             if (dx == null && dy == null) return;
 
             if (smooth) {
-                smoothDamp.AddDeltaToDestination(dx, dy);
-                this.endingCallback = endingCallback;
+                smoothDamp.AddDeltaToDestination(
+                    dx: dx,
+                    dy: dy,
+                    endingCallback: endingCallback
+                );
             } else {
                 int?[] change = { x + dx, y + dy };
 
