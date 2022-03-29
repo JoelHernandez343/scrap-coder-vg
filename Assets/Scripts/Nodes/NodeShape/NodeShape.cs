@@ -101,6 +101,7 @@ namespace ScrapCoder.VisualNodes {
                 isExpandable: verticalRangeTemplate.isExpandable
             );
 
+            RenderShape();
             ChangeSegments();
             RenderShape();
         }
