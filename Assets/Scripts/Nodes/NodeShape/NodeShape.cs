@@ -155,12 +155,16 @@ namespace ScrapCoder.VisualNodes {
             spriteShapeController.RefreshSpriteShape();
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
 
-            smoothDamp.AddDeltaToDestination(
-                dx: ranges[0].isExpandable ? dx : (int?)null,
-                dy: ranges[1].isExpandable ? dy : (int?)null
-            );
+            if (smooth) {
+                smoothDamp.AddDeltaToDestination(
+                    dx: ranges[0].isExpandable ? dx : (int?)null,
+                    dy: ranges[1].isExpandable ? dy : (int?)null
+                );
+            } else {
+                Expand(dx: dx, dy: dy);
+            }
 
             return (dx, dy);
         }

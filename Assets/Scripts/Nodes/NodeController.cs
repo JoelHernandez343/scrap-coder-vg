@@ -118,9 +118,9 @@ namespace ScrapCoder.VisualNodes {
             if (controller == null) return;
 
             if (siblings != null) {
-                siblings.AddNodesFromParent();
+                siblings.AddNodesFromParent(smooth: true);
             } else {
-                parentArray.RemoveNodes(this);
+                parentArray.RemoveNodes(fromThisNode: this, smooth: true);
                 RefreshZones();
                 ClearParent();
             }
@@ -167,13 +167,17 @@ namespace ScrapCoder.VisualNodes {
             inZone.controller.OnDrop(ownZone, inZone);
         }
 
+        void AddNodeToContainerDirectly(NodeContainer container, NodeController nodeToAdd) {
+            container.AddNodes(nodeToAdd: nodeToAdd, toThisNode: container.Last, smooth: false);
+        }
+
         void AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
             foreach (var container in containers) {
                 if (
                     ownZone == container.zone ||
                     ownZone.controller.parentArray == container.array
                 ) {
-                    container.AddNodes(inZone.controller, toThisNode);
+                    container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
                     break;
                 }
             }
@@ -225,7 +229,7 @@ namespace ScrapCoder.VisualNodes {
             container.zone.SetZoneColor(array.Count == 0 ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
-        public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
+        public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta, bool smooth = false) {
             if (toThisArray == siblings) {
                 RecalculateZLevels();
                 HierarchyController.instance.SetOnTop(this);
@@ -233,19 +237,19 @@ namespace ScrapCoder.VisualNodes {
             }
 
             var adjuster = partsAdjuster as INodePartsAdjuster;
-            var newDelta = adjuster?.AdjustParts(toThisArray, delta) ?? AdjustPiece(toThisArray, delta);
+            var newDelta = adjuster?.AdjustParts(toThisArray, delta) ?? AdjustPiece(toThisArray, delta, smooth: smooth);
 
-            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
+            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
             RecalculateZLevels();
 
             if (hasParent) {
-                parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: true);
+                parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
             } else {
                 HierarchyController.instance.SetOnTop(this);
             }
         }
 
-        (int dx, int dy) AdjustPiece(NodeArray array, (int dx, int dy) delta) {
+        (int dx, int dy) AdjustPiece(NodeArray array, (int dx, int dy) delta, bool smooth = false) {
             var newDelta = delta;
 
             var container = containers.Find(container => container.array == array);
@@ -255,20 +259,20 @@ namespace ScrapCoder.VisualNodes {
                 newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
                 newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
 
-                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, array);
+                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth, fromThisArray: array);
             }
 
-            AdjustComponents(pieceToExpand, newDelta);
+            AdjustComponents(pieceModified: pieceToExpand, delta: newDelta, smooth: smooth);
 
             return newDelta;
         }
 
-        void AdjustComponents(NodeTransform pieceModified, (int dx, int dy) delta) {
+        void AdjustComponents(NodeTransform pieceModified, (int dx, int dy) delta, bool smooth = false) {
             var begin = components.IndexOf(pieceModified) + 1;
 
             for (var i = begin; i < components.Count; ++i) {
-                components[i].SetPositionByDelta(dy: -delta.dy, smooth: true);
-                components[i].Expand(dx: delta.dx);
+                components[i].SetPositionByDelta(dy: -delta.dy, smooth: smooth);
+                components[i].Expand(dx: delta.dx, smooth: smooth);
             }
         }
 

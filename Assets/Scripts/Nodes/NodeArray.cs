@@ -58,7 +58,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public List<NodeController> RemoveNodes(NodeController fromThisNode = null) {
+        public List<NodeController> RemoveNodes(NodeController fromThisNode = null, bool smooth = false) {
 
             if (Count == 0) return new List<NodeController>();
 
@@ -77,20 +77,20 @@ namespace ScrapCoder.VisualNodes {
             removedNodes.ForEach(node => node.ClearParent());
 
             controller.RefreshZones(array: this, node: Last);
-            AdjustParts(previousCount: previousCount);
+            AdjustParts(previousCount: previousCount, smooth: smooth);
 
             return removedNodes;
         }
 
-        public void AddNodes(NodeController node, NodeController toThisNode = null) {
-            var newNodes = node.siblings?.RemoveNodes() ?? new List<NodeController>();
+        public void AddNodes(NodeController node, NodeController toThisNode = null, bool smooth = false) {
+            var newNodes = node.siblings?.RemoveNodes(smooth: smooth) ?? new List<NodeController>();
             newNodes.Insert(0, node);
 
-            AddRangeOfNodes(newNodes, toThisNode, smooth: true);
+            AddRangeOfNodes(newNodes, toThisNode, smooth: smooth);
         }
 
-        public void AddNodesFromParent() {
-            var newNodes = controller.parentArray.RemoveNodes(controller);
+        public void AddNodesFromParent(bool smooth = false) {
+            var newNodes = controller.parentArray.RemoveNodes(controller, smooth: smooth);
             newNodes.RemoveAt(0);
 
             controller.ClearParent();
@@ -173,17 +173,17 @@ namespace ScrapCoder.VisualNodes {
                 changedNode.ownTransform.sorter.sortingOrder = 0;
             }
 
-            Adjust(dy);
+            Adjust(dy, smooth: smooth);
         }
 
         // Adjust when remove nodes
-        void AdjustParts(int? previousCount = null) {
+        void AdjustParts(int? previousCount = null, bool smooth = false) {
             this.previousCount = previousCount ?? Count;
 
             int previousY = (Last?.ownTransform.fy + borderOffset) ?? 0;
             int dy = -previousY - ownTransform.height;
 
-            Adjust(dy);
+            Adjust(dy, smooth: smooth);
         }
 
         // Adjust when adding nodes
@@ -237,7 +237,7 @@ namespace ScrapCoder.VisualNodes {
             }
 
 
-            Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0));
+            Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0), smooth: smooth);
         }
 
         Vector2 MoveChunkOfNodes(int startIndex, int endIndex, int? x = null, int? y = null, bool smooth = false) {
@@ -278,12 +278,12 @@ namespace ScrapCoder.VisualNodes {
             return change;
         }
 
-        void Adjust(int? dy = null) {
+        void Adjust(int? dy = null, bool smooth = false) {
             int dx = currentMaxWidth - ownTransform.width;
 
             ownTransform.Expand(dx, dy ?? 0);
             RecalculateZLevels();
-            container.AdjustParts((dx, dy ?? 0));
+            container.AdjustParts(delta: (dx, dy ?? 0), smooth: smooth);
         }
 
         void RecalculateZLevels() {

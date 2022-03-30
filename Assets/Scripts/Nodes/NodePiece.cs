@@ -31,31 +31,31 @@ namespace ScrapCoder.VisualNodes {
         int GetIndexOfHorizontalArray(NodeArray array)
             => horizontalItems.FindIndex(item => item.GetComponent<NodeContainer>()?.array == array);
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray toThisArray) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray toThisArray) {
 
             var modified = GetIndexOfHorizontalArray(toThisArray);
             if (modified != -1) {
                 for (var i = modified + 1; i < horizontalItems.Count; ++i) {
-                    horizontalItems[i].SetPositionByDelta(dx: dx, smooth: true);
+                    horizontalItems[i].SetPositionByDelta(dx: dx, smooth: smooth);
                 }
 
-                dy = centerHorizontalItems(horizontalItems[modified], dy);
+                dy = centerHorizontalItems(horizontalItems[modified], dy, smooth: smooth);
             }
 
-            itemsToExpand.ForEach(item => item.Expand(dx, dy));
-            itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy, smooth: true));
-            itemsToTheRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: true));
+            itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
+            itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy, smooth: smooth));
+            itemsToTheRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: smooth));
 
             return (dx, dy);
         }
 
-        int centerHorizontalItems(NodeTransform modified, int dy) {
-            var (delta, center) = calHorizontalDelta(modified, dy);
+        int centerHorizontalItems(NodeTransform modified, int dy, bool smooth) {
+            var (delta, center) = calHorizontalDelta(modified, dy, smooth);
 
             if (center != "nothing") {
                 horizontalItems.ForEach(item => {
                     if (center == "all" || item != modified) {
-                        item.SetFloatPositionByDelta(dy: -delta / 2f, smooth: true);
+                        item.SetFloatPositionByDelta(dy: -delta / 2f, smooth: smooth);
                     }
                 });
             }
@@ -71,13 +71,13 @@ namespace ScrapCoder.VisualNodes {
             return maxHeight;
         }
 
-        (int delta, string center) calHorizontalDelta(NodeTransform modified, int dy) {
+        (int delta, string center) calHorizontalDelta(NodeTransform modified, int dy, bool smooth) {
             var currentMaxHeight = getMaxHeight();
             var delta = currentMaxHeight - (int)previousMaxHeight;
 
             // If modified is not the longest, then nothing more will be centered
             if (delta == 0) {
-                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: true);
+                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: smooth);
                 return (0, "nothing");
             }
 
@@ -86,13 +86,13 @@ namespace ScrapCoder.VisualNodes {
             // The longest decreased
             if (delta < 0) {
                 // Adjust itself to itself, then center all to the new longest if any
-                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: true);
+                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: smooth);
                 return (delta, "all");
             }
 
             // The longest increased, then all must be centered except itself
             // Longest returns to its original place
-            modified.ResetYToRelative(smooth: true);
+            modified.ResetYToRelative(smooth: smooth);
 
             return (delta, "all_wo_max");
         }

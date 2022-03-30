@@ -32,20 +32,22 @@ namespace ScrapCoder.VisualNodes {
 
         public int Count => array.Count;
 
+        public NodeController Last => array.Last;
+
         // Methods
         public void Clear() {
             array.RefreshNodeZones(array[0]);
         }
 
-        public void AdjustParts((int dx, int dy) delta) {
+        public void AdjustParts((int dx, int dy) delta, bool smooth = false) {
             var newDelta = CalculateDelta(delta);
 
             RecalculateZLevels();
 
             if (toggleZone) zone?.SetActive(array.Count == 0);
             sprite?.ToggleRender(array.Count == 0);
-            ownTransform.Expand(newDelta.dx, newDelta.dy);
-            controller.AdjustParts(array, newDelta);
+            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
+            controller.AdjustParts(array, newDelta, smooth: smooth);
         }
 
         (int dx, int dy) CalculateDelta((int dx, int dy) delta) {
@@ -64,11 +66,11 @@ namespace ScrapCoder.VisualNodes {
             ownTransform.maxZlevels = array.ownTransform.zLevels;
         }
 
-        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null) {
+        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
             toThisNode ??= controller;
 
             if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
-                array.AddNodes(nodeToAdd, toThisNode);
+                array.AddNodes(node: nodeToAdd, toThisNode: toThisNode, smooth: smooth);
             }
         }
     }

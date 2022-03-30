@@ -69,7 +69,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
             int[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {
