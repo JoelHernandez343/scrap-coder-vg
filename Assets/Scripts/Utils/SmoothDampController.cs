@@ -117,6 +117,10 @@ namespace ScrapCoder.Utils {
                 destinationDelta.y += Dy;
             }
 
+            if (this.endingCallback != null) {
+                this.endingCallback();
+            }
+
             this.endingCallback = endingCallback;
         }
     }
