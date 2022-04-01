@@ -19,6 +19,7 @@ namespace ScrapCoder.UI {
         [SerializeField] GameObject removerParent;
 
         [SerializeField] List<VisualNodes.NodeTransform> itemsToExpand;
+        [SerializeField] UnityEngine.U2D.SpriteShapeRenderer backgroundShapeRenderer;
 
         [SerializeField] int initWidth;
 
@@ -260,10 +261,12 @@ namespace ScrapCoder.UI {
 
         void InputManagment.IInputHandler.LoseFocus() {
             cursorAnimator.SetBool("isActive", false);
+            backgroundShapeRenderer.enabled = false;
         }
 
         void InputManagment.IInputHandler.GetFocus() {
             cursorAnimator.SetBool("isActive", true);
+            backgroundShapeRenderer.enabled = true;
         }
 
         bool InputManagment.IInputHandler.HasFocus() {

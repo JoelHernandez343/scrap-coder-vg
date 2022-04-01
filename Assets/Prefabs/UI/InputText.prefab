@@ -192,6 +192,7 @@ MonoBehaviour:
   itemsToExpand:
   - {fileID: 2828579621147156603}
   - {fileID: 3094906590913309701}
+  backgroundShapeRenderer: {fileID: 7884168718159729666}
   initWidth: 37
 --- !u!114 &1710887688963449602
 MonoBehaviour:
@@ -414,7 +415,7 @@ SpriteShapeRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8692680952554736680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 0
