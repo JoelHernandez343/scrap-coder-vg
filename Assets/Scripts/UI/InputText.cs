@@ -8,7 +8,9 @@ namespace ScrapCoder.UI {
 
         // Editor variables
         [SerializeField] TextMeshPro textMeshPro;
+
         [SerializeField] VisualNodes.NodeTransform cursorSprite;
+        [SerializeField] VisualNodes.NodeTransform background;
 
         // State variables
         int cursor = 0;
@@ -19,8 +21,14 @@ namespace ScrapCoder.UI {
             set => textMeshPro.text = value;
         }
 
+        int? _previousTextWidth;
+        int previousTextWidth {
+            get => _previousTextWidth ??= currentTextWidth;
+            set => _previousTextWidth = value;
+        }
+
         // Lazy and other variables
-        int lastRight {
+        int currentTextWidth {
             get {
                 if (textMeshPro.textInfo.characterCount == 0) return 0;
 
@@ -56,7 +64,8 @@ namespace ScrapCoder.UI {
         const KeyCode shiftLeft = KeyCode.LeftShift;
         const KeyCode shiftRight = KeyCode.RightShift;
 
-        const int letterWidth = 8;
+        const int lettersOffset = 6;
+        const int originX = 2;
 
         // Methods
         void Start() {
@@ -105,7 +114,7 @@ namespace ScrapCoder.UI {
 
             text = text.Remove(cursor - 1, 1);
 
-            ExpandTextBox();
+            Expand();
             MoveCursor(-1);
         }
 
@@ -116,17 +125,53 @@ namespace ScrapCoder.UI {
                 text = text.Insert(cursor, character);
             }
 
-            ExpandTextBox();
+            Expand();
             MoveCursor(1);
         }
 
-        void ExpandTextBox() {
-            var previousRight = lastRight;
-            textMeshPro.ForceMeshUpdate();
-            var currentRight = lastRight;
+        void Expand() {
+            // Store old width
+            previousTextWidth = currentTextWidth;
 
-            var dx = currentRight - previousRight;
-            textTransform.Expand(dx: dx);
+            // Refresh text dimensions
+            textMeshPro.ForceMeshUpdate();
+
+            var textDelta = ExpandTextBox();
+            var delta = ExpandBackground(textDelta);
+
+            // Update previous width
+            previousTextWidth = currentTextWidth;
+
+            // Update parents with delta
+        }
+
+        int ExpandBackground(int textDelta) {
+            var delta = 0;
+            var initWidth = background.initWidth - lettersOffset;
+
+            var previous = previousTextWidth;
+            var current = currentTextWidth;
+
+            if (previous < initWidth && current <= initWidth) {
+                delta = 0;
+            } else if (previous <= initWidth && current > initWidth) {
+                delta = current - initWidth;
+            } else if (previous >= initWidth && current > initWidth) {
+                delta = textDelta;
+            } else if (previous >= initWidth && current <= initWidth) {
+                delta = initWidth - previous;
+            }
+
+            background.Expand(dx: delta);
+
+            return delta;
+        }
+
+        int ExpandTextBox() {
+            var textDelta = currentTextWidth - previousTextWidth;
+            textTransform.Expand(dx: textDelta);
+
+            return textDelta;
         }
 
         void MoveCursor(int delta) {
@@ -143,10 +188,10 @@ namespace ScrapCoder.UI {
 
         void RenderCursor() {
             if (cursor == 0) {
-                cursorSprite.SetPosition(x: -2);
+                cursorSprite.SetPosition(x: originX);
             } else {
                 var x = (int)System.Math.Round(textMeshPro.textInfo.characterInfo[cursor - 1].topRight.x);
-                cursorSprite.SetPosition(x: x - 2);
+                cursorSprite.SetPosition(x: x - 2 + originX);
             }
         }
     }
