@@ -259,11 +259,11 @@ namespace ScrapCoder.UI {
         }
 
         void InputManagment.IInputHandler.LoseFocus() {
-            cursorSprite.gameObject.SetActive(false);
+            cursorAnimator.SetBool("isActive", false);
         }
 
         void InputManagment.IInputHandler.GetFocus() {
-            cursorSprite.gameObject.SetActive(true);
+            cursorAnimator.SetBool("isActive", true);
         }
 
         bool InputManagment.IInputHandler.HasFocus() {
