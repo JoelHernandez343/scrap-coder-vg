@@ -15,7 +15,9 @@ namespace ScrapCoder.UI {
         [SerializeField] VisualNodes.NodeTransform cursorSprite;
         [SerializeField] Animator cursorAnimator;
 
-        [SerializeField] VisualNodes.NodeTransform background;
+        [SerializeField] List<VisualNodes.NodeTransform> itemsToExpand;
+
+        [SerializeField] int initWidth;
 
         // State variables
         int cursor = 0;
@@ -69,8 +71,9 @@ namespace ScrapCoder.UI {
         const KeyCode shiftLeft = KeyCode.LeftShift;
         const KeyCode shiftRight = KeyCode.RightShift;
 
-        const int lettersOffset = 6;
-        const int originX = 2;
+        const int lettersOffset = 8;
+        const int cursorLeftOffset = 2;
+        const int textLeftOffset = 4;
 
         // Methods
         void Start() {
@@ -142,7 +145,9 @@ namespace ScrapCoder.UI {
             textMeshPro.ForceMeshUpdate();
 
             var textDelta = ExpandTextBox();
-            var delta = ExpandBackground(textDelta);
+            var delta = CalculateDelta(textDelta);
+
+            itemsToExpand.ForEach(item => item?.Expand(dx: delta, smooth: true));
 
             // Update previous width
             previousTextWidth = currentTextWidth;
@@ -150,9 +155,9 @@ namespace ScrapCoder.UI {
             // Update parents with delta
         }
 
-        int ExpandBackground(int textDelta) {
+        int CalculateDelta(int textDelta) {
             var delta = 0;
-            var initWidth = background.initWidth - lettersOffset;
+            var initWidth = this.initWidth - lettersOffset;
 
             var previous = previousTextWidth;
             var current = currentTextWidth;
@@ -167,8 +172,6 @@ namespace ScrapCoder.UI {
                 delta = initWidth - previous;
             }
 
-            background.Expand(dx: delta, smooth: true);
-
             return delta;
         }
 
@@ -177,6 +180,11 @@ namespace ScrapCoder.UI {
             textTransform.Expand(dx: textDelta);
 
             return textDelta;
+        }
+
+        void MoveCursorTo(int position) {
+            var delta = position - cursor;
+            MoveCursor(delta);
         }
 
         void MoveCursor(int delta) {
@@ -192,25 +200,52 @@ namespace ScrapCoder.UI {
         }
 
         void RenderCursor() {
+            Vector2 delta;
+
             if (cursor == 0) {
-                cursorSprite.SetPosition(
-                    x: originX,
+                delta = cursorSprite.SetPosition(
+                    x: cursorLeftOffset,
                     y: cursorSprite.y,
                     smooth: true,
                     endingCallback: () => cursorAnimator.SetBool("isMoving", false)
                 );
             } else {
                 var x = (int)System.Math.Round(textMeshPro.textInfo.characterInfo[cursor - 1].topRight.x);
-                cursorSprite.SetPosition(
-                    x: x - 2 + originX,
+                delta = cursorSprite.SetPosition(
+                    x: x + cursorLeftOffset,
                     y: cursorSprite.y,
                     smooth: true,
                     endingCallback: () => cursorAnimator.SetBool("isMoving", false)
                 );
             }
 
-            // Change state AFTER possible previous callback is called
-            cursorAnimator.SetBool("isMoving", true);
+            // Change state AFTER possible previous callback is called if were transition
+            if (delta != Vector2.zero) {
+                cursorAnimator.SetBool("isMoving", true);
+            }
+        }
+
+        public void Click(float x) {
+            if (text == "") return;
+
+            if (x <= cursorLeftOffset) {
+                MoveCursorTo(0);
+            }
+
+            for (var i = 0; i < textMeshPro.textInfo.characterCount; ++i) {
+                var info = textMeshPro.textInfo.characterInfo[i];
+                var left = info.topLeft.x + textLeftOffset;
+                var right = info.topRight.x + textLeftOffset;
+
+                var middle = (right - left) / 2 + left;
+
+                if (x < middle) {
+                    MoveCursorTo(i);
+                    return;
+                }
+            }
+
+            MoveCursorTo(text.Length);
         }
     }
 }

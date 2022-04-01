@@ -104,6 +104,11 @@ namespace ScrapCoder.Utils {
             destinationDelta = RoundVector(final - origin);
 
             this.endingCallback = endingCallback;
+
+            if (isFinished) {
+                Reset();
+                if (endingCallback != null) endingCallback();
+            }
         }
 
         public void AddDeltaToDestination(int? dx = null, int? dy = null, System.Action endingCallback = null) {
@@ -122,6 +127,11 @@ namespace ScrapCoder.Utils {
             }
 
             this.endingCallback = endingCallback;
+
+            if (isFinished) {
+                Reset();
+                if (endingCallback != null) endingCallback();
+            }
         }
     }
 }
