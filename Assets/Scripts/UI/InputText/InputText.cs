@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 namespace ScrapCoder.UI {
     public class InputText : MonoBehaviour, InputManagment.IInputHandler {
 
@@ -14,6 +15,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] VisualNodes.NodeTransform cursorSprite;
         [SerializeField] Animator cursorAnimator;
+
+        [SerializeField] GameObject removerParent;
 
         [SerializeField] List<VisualNodes.NodeTransform> itemsToExpand;
 
@@ -76,10 +79,6 @@ namespace ScrapCoder.UI {
         const int textLeftOffset = 4;
 
         // Methods
-        void Start() {
-            InputManagment.InputManager.instance.SetFocusOn(this);
-        }
-
         void InputManagment.IInputHandler.HandleInput() {
 
             if (!Input.anyKeyDown) return;
@@ -246,6 +245,29 @@ namespace ScrapCoder.UI {
             }
 
             MoveCursorTo(text.Length);
+        }
+
+        void InputManagment.IInputHandler.GetRemoverOwnership(GameObject remover) {
+            remover.transform.SetParent(removerParent.transform);
+            remover.SetActive(true);
+
+            var removerRectTransfrom = remover.GetComponent<RectTransform>();
+            var localPosition = removerRectTransfrom.localPosition;
+            localPosition.z = 0;
+
+            removerRectTransfrom.localPosition = localPosition;
+        }
+
+        void InputManagment.IInputHandler.LoseFocus() {
+            cursorSprite.gameObject.SetActive(false);
+        }
+
+        void InputManagment.IInputHandler.GetFocus() {
+            cursorSprite.gameObject.SetActive(true);
+        }
+
+        bool InputManagment.IInputHandler.HasFocus() {
+            return InputManagment.InputController.instance.handlerWithFocus == (InputManagment.IInputHandler)this;
         }
     }
 }

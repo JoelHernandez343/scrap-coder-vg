@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1106407978331434986
 RectTransform:
   m_ObjectHideFlags: 0
@@ -188,6 +188,7 @@ MonoBehaviour:
   textMeshPro: {fileID: 6324660468261621179}
   cursorSprite: {fileID: 4408461147876864117}
   cursorAnimator: {fileID: 1220465824648432430}
+  removerParent: {fileID: 6599529701237877967}
   itemsToExpand:
   - {fileID: 2828579621147156603}
   - {fileID: 3094906590913309701}
@@ -215,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3056932508174486343}
   m_Layer: 0
-  m_Name: disposable
+  m_Name: remover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

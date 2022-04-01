@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace ScrapCoder.UI {
-    public class InputCollider : MonoBehaviour, IPointerDownHandler {
+    public class InputTextCollider : MonoBehaviour, IPointerDownHandler {
         // Editor variables
         [SerializeField] Camera mainCamera;
         [SerializeField] InputText inputText;
@@ -19,6 +19,10 @@ namespace ScrapCoder.UI {
 
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
+            if (!(inputText as InputManagment.IInputHandler).HasFocus()) {
+                InputManagment.InputController.instance.SetFocusOn(inputText);
+            }
+
             var clickPosition = new Vector2();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rect: ownTransform.rectTransform,
