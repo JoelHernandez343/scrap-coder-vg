@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1106407978331434986}
   - component: {fileID: 3229005340004779005}
   - component: {fileID: 4408461147876864117}
+  - component: {fileID: 1220465824648432430}
   m_Layer: 5
   m_Name: cursorSprite
   m_TagString: Untagged
@@ -112,6 +113,25 @@ MonoBehaviour:
   indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
   localZLevels: 0
+--- !u!95 &1220465824648432430
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335168732062796041}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7d206d5beec000448a4495a2ed042978, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3500322027183536215
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 6324660468261621179}
   cursorSprite: {fileID: 4408461147876864117}
+  cursorAnimator: {fileID: 1220465824648432430}
   background: {fileID: 2828579621147156603}
 --- !u!114 &1710887688963449602
 MonoBehaviour:
@@ -228,7 +249,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

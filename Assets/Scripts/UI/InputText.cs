@@ -10,6 +10,8 @@ namespace ScrapCoder.UI {
         [SerializeField] TextMeshPro textMeshPro;
 
         [SerializeField] VisualNodes.NodeTransform cursorSprite;
+        [SerializeField] Animator cursorAnimator;
+
         [SerializeField] VisualNodes.NodeTransform background;
 
         // State variables
@@ -162,7 +164,7 @@ namespace ScrapCoder.UI {
                 delta = initWidth - previous;
             }
 
-            background.Expand(dx: delta);
+            background.Expand(dx: delta, smooth: true);
 
             return delta;
         }
@@ -188,11 +190,24 @@ namespace ScrapCoder.UI {
 
         void RenderCursor() {
             if (cursor == 0) {
-                cursorSprite.SetPosition(x: originX);
+                cursorSprite.SetPosition(
+                    x: originX,
+                    y: cursorSprite.y,
+                    smooth: true,
+                    endingCallback: () => cursorAnimator.SetBool("isMoving", false)
+                );
             } else {
                 var x = (int)System.Math.Round(textMeshPro.textInfo.characterInfo[cursor - 1].topRight.x);
-                cursorSprite.SetPosition(x: x - 2 + originX);
+                cursorSprite.SetPosition(
+                    x: x - 2 + originX,
+                    y: cursorSprite.y,
+                    smooth: true,
+                    endingCallback: () => cursorAnimator.SetBool("isMoving", false)
+                );
             }
+
+            // Change state AFTER possible previous callback is called
+            cursorAnimator.SetBool("isMoving", true);
         }
     }
 }
