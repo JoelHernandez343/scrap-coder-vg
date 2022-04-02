@@ -10,12 +10,13 @@ namespace ScrapCoder.VisualNodes {
     public class ColliderExpander : MonoBehaviour, INodeExpander {
 
         // Editor variables
-        [SerializeField] PolygonCollider2D polygonCollider;
-
         [SerializeField] NodeRange widthPointsRange;
         [SerializeField] NodeRange heightPointsRange;
 
         // Lazy and other variables
+        PolygonCollider2D _polygonCollider;
+        PolygonCollider2D polygonCollider => _polygonCollider ??= GetComponent<PolygonCollider2D>();
+
         List<NodeRange> _ranges;
         List<NodeRange> ranges
             => _ranges ??= new List<NodeRange> { widthPointsRange, heightPointsRange };
