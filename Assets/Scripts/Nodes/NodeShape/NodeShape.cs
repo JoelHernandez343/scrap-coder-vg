@@ -66,6 +66,8 @@ namespace ScrapCoder.VisualNodes {
         SpriteShapeController _spriteShapeController;
         SpriteShapeController spriteShapeController => _spriteShapeController ??= GetComponent<SpriteShapeController>();
 
+        SpriteShapeRenderer _spriteShapeRenderer;
+        SpriteShapeRenderer spriteShapeRenderer => _spriteShapeRenderer ??= GetComponent<SpriteShapeRenderer>();
 
         int pixelsPerUnit => NodeTransform.PixelsPerUnit;
 
@@ -220,6 +222,10 @@ namespace ScrapCoder.VisualNodes {
 
             ChangeSegments();
             RenderShape();
+        }
+
+        public void SetVisible(bool visible) {
+            spriteShapeRenderer.enabled = visible;
         }
     }
 }

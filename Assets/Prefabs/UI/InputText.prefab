@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  rectTransform: {fileID: 1106407978331434986}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -192,7 +191,7 @@ MonoBehaviour:
   itemsToExpand:
   - {fileID: 2828579621147156603}
   - {fileID: 3094906590913309701}
-  backgroundShapeRenderer: {fileID: 7884168718159729666}
+  backgroundShape: {fileID: 3261834392640994741}
   initWidth: 37
 --- !u!114 &1710887688963449602
 MonoBehaviour:
@@ -206,7 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0621a06486067488cbc25733f58e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownTransform: {fileID: 4480714173860206791}
 --- !u!1 &6599529701237877967
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +321,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6378236259032520230}
-  rectTransform: {fileID: 8861892017257936334}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -346,7 +343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2acd7e571fc8bc74c845fc86a262f055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  polygonCollider: {fileID: 1783627480055363994}
   widthPointsRange:
     begin: 1
     end: 2
@@ -551,7 +547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 3261834392640994741}
-  rectTransform: {fileID: 8365831008910103709}
   initHeight: 0
   initWidth: 37
   minHeight: 0
@@ -574,8 +569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteShapeController: {fileID: 7973476556103849202}
-  ownTransform: {fileID: 2828579621147156603}
   horizontalRangeTemplate:
     initialStartIndex: 2
     initialEndIndex: 3
@@ -717,16 +710,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4480714173860206791 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
-  m_PrefabInstance: {fileID: 3500322028173489935}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5075129276698217832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
