@@ -224,7 +224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 4852056780200370325}
-  rectTransform: {fileID: 4852056780200370326}
   initHeight: 24
   initWidth: 96
   minHeight: 0
@@ -247,8 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteShapeController: {fileID: 4852056780200370327}
-  ownTransform: {fileID: 4852056780200370322}
   horizontalRangeTemplate:
     initialStartIndex: 2
     initialEndIndex: 3
@@ -355,7 +352,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 235436920443682867}
-  rectTransform: {fileID: 4852056780401908584}
   initHeight: 24
   initWidth: 96
   minHeight: 0
@@ -378,7 +374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownTransform: {fileID: 5196484501645938017}
   horizontalItems:
   - {fileID: 122208681236095550}
   - {fileID: 482949145917976739}
@@ -478,7 +473,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 4852056781025683673}
-  rectTransform: {fileID: 4852056781025683672}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -501,7 +495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b6cb1377dd08648a7d866068e15279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 4852056781025683655}
   widthPointsRange:
     begin: 4
     end: 5
@@ -510,7 +503,6 @@ MonoBehaviour:
     begin: 5
     end: 9
     isExpandable: 1
-  ownTransform: {fileID: 4852056781025683654}
 --- !u!1001 &580632486505832299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1153,6 +1145,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4852056780401908584}
     m_Modifications:
+    - target: {fileID: 1408878628305825294, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
+      propertyPath: widthPointsRange.isExpandable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4068508182213290400, guid: 1664029198f10f647aeaaf1d9a473ca8, type: 3}
       propertyPath: m_Name
       value: middleZone
