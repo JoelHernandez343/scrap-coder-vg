@@ -10,9 +10,6 @@ namespace ScrapCoder.VisualNodes {
     public class NodeZone : MonoBehaviour, INodeExpander {
 
         // Editor variables
-        [SerializeField] new PolygonCollider2D collider;
-        [SerializeField] NodeTransform ownTransform;
-
         [SerializeField] NodeRange widthPointsRange;
         [SerializeField] NodeRange heightPointsRange;
 
@@ -24,6 +21,12 @@ namespace ScrapCoder.VisualNodes {
         bool isActive = true;
 
         // Lazy and other variables
+        PolygonCollider2D _polygonCollider;
+        PolygonCollider2D polygonCollider => _polygonCollider ??= GetComponent<PolygonCollider2D>();
+
+        NodeTransform _ownTransform;
+        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         public ZoneColor zoneColor {
             private set => color = value;
             get => color;
@@ -35,7 +38,7 @@ namespace ScrapCoder.VisualNodes {
 
         List<Vector2> _colliderPoints;
         List<Vector2> colliderPoints
-            => _colliderPoints ??= new List<Vector2>(collider.GetPath(0));
+            => _colliderPoints ??= new List<Vector2>(polygonCollider.GetPath(0));
 
         public NodeController controller => ownTransform.controller;
 
@@ -107,7 +110,7 @@ namespace ScrapCoder.VisualNodes {
                 }
             }
 
-            collider.SetPath(0, colliderPoints);
+            polygonCollider.SetPath(0, colliderPoints);
 
             return (dx, dy);
         }

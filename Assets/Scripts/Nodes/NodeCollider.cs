@@ -11,14 +11,16 @@ namespace ScrapCoder.VisualNodes {
     public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, INodeExpander {
 
         // Editor variables
-        [SerializeField] new PolygonCollider2D collider;
-
         [SerializeField] NodeRange widthPointsRange;
         [SerializeField] NodeRange heightPointsRange;
 
-        [SerializeField] NodeTransform ownTransform;
-
         // Lazy and other variables
+        PolygonCollider2D _polygonCollider;
+        PolygonCollider2D polygonCollider => _polygonCollider ??= GetComponent<PolygonCollider2D>();
+
+        NodeTransform _ownTransform;
+        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         public NodeController controller => ownTransform.controller;
 
         List<NodeRange> _ranges;
@@ -27,7 +29,7 @@ namespace ScrapCoder.VisualNodes {
 
         List<Vector2> _colliderPoints;
         List<Vector2> colliderPoints
-            => _colliderPoints ??= new List<Vector2>(collider.GetPath(0));
+            => _colliderPoints ??= new List<Vector2>(polygonCollider.GetPath(0));
 
         bool isDragging = false;
 
@@ -87,7 +89,7 @@ namespace ScrapCoder.VisualNodes {
                 }
             }
 
-            collider.SetPath(0, colliderPoints);
+            polygonCollider.SetPath(0, colliderPoints);
 
             return (dx, dy);
         }

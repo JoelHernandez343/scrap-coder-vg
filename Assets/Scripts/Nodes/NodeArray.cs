@@ -10,7 +10,6 @@ namespace ScrapCoder.VisualNodes {
     public class NodeArray : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] public NodeTransform ownTransform;
         [SerializeField] public NodeContainer container;
 
         // State Variables
@@ -19,6 +18,9 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables
         int borderOffset = 1;
+
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         public NodeController controller => ownTransform.controller;
 

@@ -49,8 +49,6 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeArray siblings;
 
-        [SerializeField] public NodeTransform ownTransform;
-
         [SerializeField] public NodeType type;
         [SerializeField] public NodeCategory category;
 
@@ -73,6 +71,9 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // Lazy and other variables
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         public NodeController controller => parentArray?.controller;
 
         public NodeController temporalParent {

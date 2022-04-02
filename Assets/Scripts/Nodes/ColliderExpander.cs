@@ -8,11 +8,14 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public class ColliderExpander : MonoBehaviour, INodeExpander {
+
+        // Editor variables
         [SerializeField] PolygonCollider2D polygonCollider;
 
         [SerializeField] NodeRange widthPointsRange;
         [SerializeField] NodeRange heightPointsRange;
 
+        // Lazy and other variables
         List<NodeRange> _ranges;
         List<NodeRange> ranges
             => _ranges ??= new List<NodeRange> { widthPointsRange, heightPointsRange };

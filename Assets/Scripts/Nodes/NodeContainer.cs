@@ -25,9 +25,10 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeCategory acceptedCategory;
 
-        [SerializeField] public NodeTransform ownTransform;
-
         // Lazy and other variables
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         public NodeController controller => ownTransform.controller;
 
         public int Count => array.Count;

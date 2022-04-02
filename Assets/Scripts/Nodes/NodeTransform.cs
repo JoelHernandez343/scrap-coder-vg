@@ -16,8 +16,6 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] Component nodeExpander;
 
-        [SerializeField] public RectTransform rectTransform;
-
         [SerializeField] public int initHeight;
         [SerializeField] public int initWidth;
 
@@ -72,7 +70,10 @@ namespace ScrapCoder.VisualNodes {
 
         Utils.FloatVector2D floatPosition = new Utils.FloatVector2D { x = 0, y = 0 };
 
-        // Lazy and other variables
+        // Lazy and other variables<
+        RectTransform _rectTransform;
+        public RectTransform rectTransform => _rectTransform ??= GetComponent<RectTransform>();
+
         public Vector2 position {
             get => new Vector2 {
                 x = (int)System.Math.Round(rectTransform.anchoredPosition.x),

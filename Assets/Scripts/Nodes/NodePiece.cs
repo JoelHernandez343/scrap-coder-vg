@@ -10,8 +10,6 @@ namespace ScrapCoder.VisualNodes {
     public class NodePiece : MonoBehaviour, INodeExpander {
 
         // Editor variables
-        [SerializeField] NodeTransform ownTransform;
-
         [SerializeField] List<NodeTransform> horizontalItems;
         [SerializeField] List<NodeTransform> itemsBelow;
         [SerializeField] List<NodeTransform> itemsToTheRight;
@@ -19,6 +17,10 @@ namespace ScrapCoder.VisualNodes {
 
         // State variables
         int? previousMaxHeight;
+
+        // Lazy variables
+        NodeTransform _ownTransform;
+        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         // Methods
         void Start() {

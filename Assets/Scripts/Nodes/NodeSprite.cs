@@ -9,14 +9,17 @@ namespace ScrapCoder.VisualNodes {
     public class NodeSprite : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] public NodeTransform ownTransform;
-        [SerializeField] new SpriteRenderer renderer;
-
         [SerializeField] List<Sprite> availableSprites;
 
         [SerializeField] bool hideable;
 
         // Lazy state variables
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        SpriteRenderer _spriteRenderer;
+        SpriteRenderer spriteRenderer => _spriteRenderer ??= GetComponent<SpriteRenderer>();
+
         int? _selectedSprite;
         int selectedSprite {
             set { _selectedSprite = value; }
@@ -30,7 +33,7 @@ namespace ScrapCoder.VisualNodes {
         // Methods
         void Awake() {
             if (availableSprites.Count != 0) {
-                renderer.sprite = availableSprites[selectedSprite];
+                spriteRenderer.sprite = availableSprites[selectedSprite];
             }
         }
 
@@ -39,7 +42,7 @@ namespace ScrapCoder.VisualNodes {
 
         public void ToggleRender(bool render) {
             if (hideable) {
-                renderer.enabled = render;
+                spriteRenderer.enabled = render;
             }
         }
     }

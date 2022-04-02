@@ -8,8 +8,9 @@ using UnityEngine;
 namespace ScrapCoder.UI {
     public class ExpandableText : MonoBehaviour, VisualNodes.INodeExpander {
 
-        // Editor variables
-        [SerializeField] VisualNodes.NodeTransform ownTransform;
+        // Lazy variables
+        VisualNodes.NodeTransform _ownTransform;
+        VisualNodes.NodeTransform ownTransform => _ownTransform ??= GetComponent<VisualNodes.NodeTransform>();
 
         // Methods
         (int dx, int dy) VisualNodes.INodeExpander.Expand(int dx, int dy, bool smooth, VisualNodes.NodeArray _) {

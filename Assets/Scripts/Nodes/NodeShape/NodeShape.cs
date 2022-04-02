@@ -32,10 +32,6 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // Editor variables
-        [SerializeField] SpriteShapeController spriteShapeController;
-
-        [SerializeField] NodeTransform ownTransform;
-
         [SerializeField] ShapePointRangeTemplate horizontalRangeTemplate;
         [SerializeField] ShapePointRangeTemplate verticalRangeTemplate;
 
@@ -63,6 +59,13 @@ namespace ScrapCoder.VisualNodes {
                 return _ranges;
             }
         }
+
+        NodeTransform _ownTransform;
+        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        SpriteShapeController _spriteShapeController;
+        SpriteShapeController spriteShapeController => _spriteShapeController ??= GetComponent<SpriteShapeController>();
+
 
         int pixelsPerUnit => NodeTransform.PixelsPerUnit;
 
