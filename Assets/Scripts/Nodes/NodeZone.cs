@@ -17,9 +17,6 @@ namespace ScrapCoder.VisualNodes {
         bool isActive = true;
 
         // Lazy and other variables
-        PolygonCollider2D _polygonCollider;
-        PolygonCollider2D polygonCollider => _polygonCollider ??= GetComponent<PolygonCollider2D>();
-
         NodeTransform _ownTransform;
         NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
