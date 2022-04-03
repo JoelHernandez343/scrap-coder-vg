@@ -19,12 +19,22 @@ namespace ScrapCoder.UI {
         IPointerClickHandler {
 
         // Editor variables
+        // Shapes
         [SerializeField] NodeShape normalState;
         [SerializeField] NodeShape overState;
         [SerializeField] NodeShape pressedState;
         [SerializeField] NodeShape deactivatedState;
 
+        // Sprites
+        [SerializeField] NodeSprite normalStateSprite;
+        [SerializeField] NodeSprite overStateSprite;
+        [SerializeField] NodeSprite pressedStateSprite;
+        [SerializeField] NodeSprite deactivatedStateSprite;
+
         [SerializeField] ButtonController buttonController;
+
+        // Lazy variables
+        bool usingSimpleSprites => buttonController.usingSimpleSprites;
 
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
@@ -53,10 +63,22 @@ namespace ScrapCoder.UI {
         }
 
         void SetStateVisible(string state) {
+            SetSpriteStateVisible(usingSimpleSprites ? state : "nothing");
+            SetShapeStateVisible(usingSimpleSprites ? "nothing" : state);
+        }
+
+        void SetShapeStateVisible(string state) {
             normalState.SetVisible(state == "normal");
             overState.SetVisible(state == "over");
             pressedState.SetVisible(state == "pressed");
             deactivatedState.SetVisible(state == "deactivated");
+        }
+
+        void SetSpriteStateVisible(string state) {
+            normalStateSprite.SetVisible(state == "normal");
+            overStateSprite.SetVisible(state == "over");
+            pressedStateSprite.SetVisible(state == "pressed");
+            deactivatedStateSprite.SetVisible(state == "deactivated");
         }
     }
 }
