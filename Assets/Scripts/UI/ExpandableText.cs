@@ -23,8 +23,8 @@ namespace ScrapCoder.UI {
             ? (int)System.Math.Round(lastCharacterInfo.topRight.x)
             : 0;
 
-        VisualNodes.NodeTransform _ownTransform;
-        VisualNodes.NodeTransform ownTransform => _ownTransform ??= GetComponent<VisualNodes.NodeTransform>();
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         TextMeshPro _textMeshPro;
         TextMeshPro textMeshPro => _textMeshPro ??= GetComponent<TextMeshPro>();

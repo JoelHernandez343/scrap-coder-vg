@@ -68,7 +68,9 @@ namespace ScrapCoder.UI {
             var itemsToExpand = buttonCollider.transformShapes;
 
             itemsToExpand.Add(buttonCollider.ownTransform);
-            itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
+            itemsToExpand.ForEach(item => item.Expand(dx: dx, smooth: smooth));
+
+            expandableText.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);
 
             return (dx, dy);
         }
