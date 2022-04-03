@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8287493900053466001}
   - component: {fileID: 7446158247027931828}
   - component: {fileID: 1062028846624124872}
+  - component: {fileID: 1024231459686797363}
+  - component: {fileID: 9143980122744722598}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -183,15 +185,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 0}
-  rectTransform: {fileID: 8574254898219661924}
+  nodeExpander: {fileID: 1024231459686797363}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
-  resizable: 0
+  resizable: 1
   moveable: 1
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
   localZLevels: 0
+--- !u!114 &1024231459686797363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8574254898219661927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f0621a06486067488cbc25733f58e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &9143980122744722598
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8574254898219661927}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

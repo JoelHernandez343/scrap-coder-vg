@@ -36,6 +36,17 @@ namespace ScrapCoder.UI {
         // Lazy variables
         bool usingSimpleSprites => buttonController.usingSimpleSprites;
 
+        List<NodeTransform> _transformShapes;
+        public List<NodeTransform> transformShapes => _transformShapes ??= new List<NodeTransform> {
+            normalState.ownTransform,
+            overState.ownTransform,
+            pressedState.ownTransform,
+            deactivatedState.ownTransform
+        };
+
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
             SetStateVisible("pressed");

@@ -61,7 +61,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         NodeTransform _ownTransform;
-        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         SpriteShapeController _spriteShapeController;
         SpriteShapeController spriteShapeController => _spriteShapeController ??= GetComponent<SpriteShapeController>();
