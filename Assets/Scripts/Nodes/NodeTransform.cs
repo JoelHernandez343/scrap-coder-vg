@@ -22,8 +22,8 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] int minHeight = 0;
         [SerializeField] int minWidth = 0;
 
-        [SerializeField] bool resizable = true;
-        [SerializeField] bool moveable = true;
+        [SerializeField] public bool resizable = true;
+        [SerializeField] public bool moveable = true;
 
         [SerializeField] NodeController directController;
         [SerializeField] NodeTransform indirectController;
