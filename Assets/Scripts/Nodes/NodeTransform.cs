@@ -152,7 +152,14 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        public Vector2 SetPosition(int? x = null, int? y = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+        public Vector2 SetPosition(
+            int? x = null,
+            int? y = null,
+            bool resetFloatPosition = true,
+            bool smooth = false,
+            System.Action endingCallback = null,
+            bool cancelPreviousCallback = false
+        ) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
             if (x == null && y == null) return Vector2.zero;
@@ -164,7 +171,8 @@ namespace ScrapCoder.VisualNodes {
                     origin: position,
                     destinationX: x,
                     destinationY: y,
-                    endingCallback: endingCallback
+                    endingCallback: endingCallback,
+                    cancelPreviousCallback: cancelPreviousCallback
                 );
 
 
@@ -177,7 +185,14 @@ namespace ScrapCoder.VisualNodes {
             return delta;
         }
 
-        public Vector2 SetPositionByDelta(int? dx = null, int? dy = null, bool resetFloatPosition = true, bool smooth = false, System.Action endingCallback = null) {
+        public Vector2 SetPositionByDelta(
+            int? dx = null,
+            int? dy = null,
+            bool resetFloatPosition = true,
+            bool smooth = false,
+            System.Action endingCallback = null,
+            bool cancelPreviousCallback = false
+        ) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
             if (dx == null && dy == null) return Vector2.zero;
@@ -186,7 +201,8 @@ namespace ScrapCoder.VisualNodes {
                 smoothDamp.AddDeltaToDestination(
                     dx: dx,
                     dy: dy,
-                    endingCallback: endingCallback
+                    endingCallback: endingCallback,
+                    cancelPreviousCallback: cancelPreviousCallback
                 );
             } else {
                 int?[] change = { x + dx, y + dy };
