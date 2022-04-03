@@ -20,7 +20,6 @@ namespace ScrapCoder.UI {
         // Methods
         void Start() {
             SetActive(activated);
-            Debug.Log("wut");
         }
 
         public void AddListener(System.Action listener) => listeners.Add(listener);
