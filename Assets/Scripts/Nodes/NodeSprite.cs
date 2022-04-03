@@ -37,12 +37,9 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        void Hide() => ToggleRender(false);
-        void Show() => ToggleRender(true);
-
-        public void ToggleRender(bool render) {
+        public void SetVisible(bool visible) {
             if (hideable) {
-                spriteRenderer.enabled = render;
+                spriteRenderer.enabled = visible;
             }
         }
     }

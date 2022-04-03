@@ -46,7 +46,7 @@ namespace ScrapCoder.VisualNodes {
             RecalculateZLevels();
 
             if (toggleZone) zone?.SetActive(array.Count == 0);
-            sprite?.ToggleRender(array.Count == 0);
+            sprite?.SetVisible(array.Count == 0);
             ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
             controller.AdjustParts(array, newDelta, smooth: smooth);
         }
