@@ -17,6 +17,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] ExpandableText expandableText;
 
+        [SerializeField] List<NodeTransform> itemsToExpand;
+
         // State variable
         [SerializeField] bool activated = true;
 
@@ -47,7 +49,9 @@ namespace ScrapCoder.UI {
 
         public bool RemoveListener(System.Action listener) => listeners.Remove(listener);
 
-        public void OnClick() => listeners.ForEach(listener => listener());
+        public void OnClick() {
+            listeners.ForEach(listener => listener());
+        }
 
         public void SetActive(bool active) {
             activated = active;
@@ -65,9 +69,7 @@ namespace ScrapCoder.UI {
         }
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
-            var itemsToExpand = buttonCollider.transformShapes;
 
-            itemsToExpand.Add(buttonCollider.ownTransform);
             itemsToExpand.ForEach(item => item.Expand(dx: dx, smooth: smooth));
 
             expandableText.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);

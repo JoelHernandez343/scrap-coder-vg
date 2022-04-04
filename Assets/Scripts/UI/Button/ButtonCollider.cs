@@ -19,33 +19,20 @@ namespace ScrapCoder.UI {
         IPointerClickHandler {
 
         // Editor variables
-        // Shapes
-        [SerializeField] NodeShape normalState;
-        [SerializeField] NodeShape overState;
-        [SerializeField] NodeShape pressedState;
-        [SerializeField] NodeShape deactivatedState;
-
-        // Sprites
-        [SerializeField] NodeSprite normalStateSprite;
-        [SerializeField] NodeSprite overStateSprite;
-        [SerializeField] NodeSprite pressedStateSprite;
-        [SerializeField] NodeSprite deactivatedStateSprite;
+        [SerializeField] ButtonVisualState normalState;
+        [SerializeField] ButtonVisualState overState;
+        [SerializeField] ButtonVisualState pressedState;
+        [SerializeField] ButtonVisualState deactivatedState;
 
         [SerializeField] ButtonController buttonController;
 
         // Lazy variables
         bool usingSimpleSprites => buttonController.usingSimpleSprites;
 
-        List<NodeTransform> _transformShapes;
-        public List<NodeTransform> transformShapes => _transformShapes ??= new List<NodeTransform> {
-            normalState.ownTransform,
-            overState.ownTransform,
-            pressedState.ownTransform,
-            deactivatedState.ownTransform
-        };
-
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        bool over;
 
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
@@ -53,14 +40,16 @@ namespace ScrapCoder.UI {
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
-            SetStateVisible("normal");
+            SetStateVisible(over ? "over" : "normal");
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
+            over = true;
             SetStateVisible("over");
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
+            over = false;
             SetStateVisible("normal");
         }
 
@@ -74,22 +63,10 @@ namespace ScrapCoder.UI {
         }
 
         void SetStateVisible(string state) {
-            SetSpriteStateVisible(usingSimpleSprites ? state : "nothing");
-            SetShapeStateVisible(usingSimpleSprites ? "nothing" : state);
-        }
-
-        void SetShapeStateVisible(string state) {
-            normalState.SetVisible(state == "normal");
-            overState.SetVisible(state == "over");
-            pressedState.SetVisible(state == "pressed");
-            deactivatedState.SetVisible(state == "deactivated");
-        }
-
-        void SetSpriteStateVisible(string state) {
-            normalStateSprite.SetVisible(state == "normal");
-            overStateSprite.SetVisible(state == "over");
-            pressedStateSprite.SetVisible(state == "pressed");
-            deactivatedStateSprite.SetVisible(state == "deactivated");
+            normalState.SetVisible(state == "normal", usingSimpleSprites ? "sprite" : "shape");
+            overState.SetVisible(state == "over", usingSimpleSprites ? "sprite" : "shape");
+            pressedState.SetVisible(state == "pressed", usingSimpleSprites ? "sprite" : "shape");
+            deactivatedState.SetVisible(state == "deactivated", usingSimpleSprites ? "sprite" : "shape");
         }
     }
 }
