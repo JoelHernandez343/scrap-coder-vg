@@ -39,7 +39,7 @@ namespace ScrapCoder.UI {
 
         // Lazy variables
         NodeTransform _ownTransform;
-        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         const int lettersOffset = 8;
 
@@ -49,7 +49,7 @@ namespace ScrapCoder.UI {
 
             SetActive(activated);
             ownTransform.resizable = !usingSimpleSprites;
-            ExpandByText(false);
+            // ExpandByText(false);
         }
 
         public void AddListener(System.Action listener) => listeners.Add(listener);
@@ -65,7 +65,7 @@ namespace ScrapCoder.UI {
             buttonCollider.SetActive(active);
         }
 
-        void ExpandByText(bool smooth) {
+        public void ExpandByText(bool smooth = false) {
             var delta = expandableText.ChangeText(
                 newText: text,
                 minWidth: 0,
