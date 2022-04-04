@@ -15,7 +15,7 @@ namespace ScrapCoder.Utils {
         public static int Next => generator.Next();
 
         // State variables
-        public int seed;
+        public int seed { private set; get; }
 
         // Lazy and other variables
         System.Random randGen;

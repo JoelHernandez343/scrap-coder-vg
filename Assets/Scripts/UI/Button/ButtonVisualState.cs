@@ -47,6 +47,11 @@ namespace ScrapCoder.UI {
                 spriteState.SetVisible(visible);
             }
         }
+
+        public void SetSeed(int seed) {
+            shapeState.InitializeSegments(seed: seed);
+            shapeSpritesState.ForEach(sprite => sprite.SetSeed(seed: seed));
+        }
     }
 
 }

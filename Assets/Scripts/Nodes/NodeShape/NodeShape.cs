@@ -52,13 +52,7 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables
         List<ShapePointRange> _ranges;
-        List<ShapePointRange> ranges {
-            get {
-                _ranges ??= new List<ShapePointRange> { horizontalRange, verticalRange };
-
-                return _ranges;
-            }
-        }
+        List<ShapePointRange> ranges => _ranges ??= new List<ShapePointRange> { horizontalRange, verticalRange };
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
@@ -79,35 +73,7 @@ namespace ScrapCoder.VisualNodes {
 
         // Methods
         void Awake() {
-            segmentTemplates.ForEach(t => {
-                segments.Add(new ShapeSegment(
-                    shape: this,
-                    firstIndex: t.firstIndex,
-                    finalIndex: t.finalIndex,
-                    normalSprite: t.normalSprite,
-                    rangeSpriteLimit: t.rangeSpriteLimit,
-                    spriteSize: spriteSize,
-                    minSeparation: t.minSeparation,
-                    maxSeparation: t.maxSeparation
-                ));
-            });
-
-            horizontalRange = new ShapePointRange(
-                shape: this,
-                initialStartIndex: horizontalRangeTemplate.initialStartIndex,
-                initialEndIndex: horizontalRangeTemplate.initialEndIndex,
-                isExpandable: horizontalRangeTemplate.isExpandable
-            );
-
-            verticalRange = new ShapePointRange(
-                shape: this,
-                initialStartIndex: verticalRangeTemplate.initialStartIndex,
-                initialEndIndex: verticalRangeTemplate.initialEndIndex,
-                isExpandable: verticalRangeTemplate.isExpandable
-            );
-
-            ChangeSegments();
-            RenderShape();
+            InitializeSegments();
         }
 
         void FixedUpdate() {
@@ -226,6 +192,44 @@ namespace ScrapCoder.VisualNodes {
 
         public void SetVisible(bool visible) {
             spriteShapeRenderer.enabled = visible;
+        }
+
+        public void InitializeSegments(int? seed = null) {
+            segments.Clear();
+
+            segmentTemplates.ForEach(t => {
+                segments.Add(new ShapeSegment(
+                    shape: this,
+                    firstIndex: t.firstIndex,
+                    finalIndex: t.finalIndex,
+                    normalSprite: t.normalSprite,
+                    rangeSpriteLimit: t.rangeSpriteLimit,
+                    spriteSize: spriteSize,
+                    minSeparation: t.minSeparation,
+                    maxSeparation: t.maxSeparation,
+                    rand: new Utils.Random(seed)
+                ));
+            });
+
+            CreateRanges();
+            ChangeSegments();
+            RenderShape();
+        }
+
+        void CreateRanges() {
+            horizontalRange = new ShapePointRange(
+                shape: this,
+                initialStartIndex: horizontalRangeTemplate.initialStartIndex,
+                initialEndIndex: horizontalRangeTemplate.initialEndIndex,
+                isExpandable: horizontalRangeTemplate.isExpandable
+            );
+
+            verticalRange = new ShapePointRange(
+                shape: this,
+                initialStartIndex: verticalRangeTemplate.initialStartIndex,
+                initialEndIndex: verticalRangeTemplate.initialEndIndex,
+                isExpandable: verticalRangeTemplate.isExpandable
+            );
         }
     }
 }

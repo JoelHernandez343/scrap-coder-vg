@@ -3046,6 +3046,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e16db7c694c15448bfa95e0fa4eecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  states:
+  - {fileID: 1887603858759387834}
+  - {fileID: 786090648346929845}
+  - {fileID: 5714872295220378971}
+  - {fileID: 573477633886979789}
   buttonCollider: {fileID: 6307453423335967475}
   usingSimpleSprites: 0
   expandableText: {fileID: 7931235076216798391}
