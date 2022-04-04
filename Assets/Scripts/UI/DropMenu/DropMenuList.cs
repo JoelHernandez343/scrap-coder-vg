@@ -43,6 +43,8 @@ namespace ScrapCoder.UI {
         }
 
         void SetButtons() {
+            if (buttons.Count == 0) return;
+
             var anchor = Vector2Int.zero;
             var newWidth = 0;
             var newHeight = 0;
