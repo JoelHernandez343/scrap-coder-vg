@@ -19,7 +19,7 @@ namespace ScrapCoder.UI {
         [SerializeField] Transform buttonsContainer;
 
         // State variables
-        [System.NonSerialized] public List<ButtonController> buttons;
+        [System.NonSerialized] public List<ButtonController> buttons = new List<ButtonController>();
 
         // Lazy variables
         NodeTransform _ownTransform;
@@ -36,7 +36,7 @@ namespace ScrapCoder.UI {
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
 
             itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
-            itemsToRight.ForEach(item => item.SetPositionByDelta(dx: dx, dy: -dy, smooth: smooth));
+            itemsToRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: smooth));
             itemsBelow.ForEach(item => item.SetPositionByDelta(dy: -dy, smooth: smooth));
 
             return (dx, dy);

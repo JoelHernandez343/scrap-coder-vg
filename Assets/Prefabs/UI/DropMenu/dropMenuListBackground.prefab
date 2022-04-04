@@ -175,7 +175,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 0}
+  nodeExpander: {fileID: 4044520108190145648}
   initHeight: 28
   initWidth: 28
   minHeight: 0
@@ -802,7 +802,7 @@ RectTransform:
   m_GameObject: {fileID: 6656147402489457429}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 5817656978153299578}
   - {fileID: 5863811472569915964}
@@ -842,11 +842,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 0}
+  nodeExpander: {fileID: 6123189024851173424}
   initHeight: 28
   initWidth: 28
-  minHeight: 0
-  minWidth: 0
+  minHeight: 28
+  minWidth: 28
   resizable: 1
   moveable: 1
   directController: {fileID: 0}
@@ -875,7 +875,6 @@ MonoBehaviour:
   - {fileID: 737167166337799751}
   - {fileID: 1512404530954000126}
   buttonsContainer: {fileID: 2866349643534238835}
-  buttons: []
 --- !u!1 &7819515343348207409
 GameObject:
   m_ObjectHideFlags: 0
