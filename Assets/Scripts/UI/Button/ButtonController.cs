@@ -41,7 +41,7 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        const int lettersOffset = 8;
+        const int lettersOffset = 9;
 
         // Methods
         void Start() {
@@ -72,6 +72,8 @@ namespace ScrapCoder.UI {
                 lettersOffset: lettersOffset
             );
 
+            expandableText.ownTransform.SetFloatPositionByDelta(dx: -delta / 2.0f);
+
             ownTransform.Expand(dx: delta, smooth: smooth);
         }
 
@@ -80,6 +82,8 @@ namespace ScrapCoder.UI {
             states.ForEach(item => item.ownTransform.Expand(dx: dx, smooth: smooth));
 
             expandableText.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);
+
+            buttonCollider.ownTransform.Expand(dx: dx);
 
             return (dx, dy);
         }

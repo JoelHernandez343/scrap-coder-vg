@@ -30,7 +30,7 @@ namespace ScrapCoder.UI {
 
         // Methods
         void Start() {
-            SetButtons();
+            // SetButtons();
         }
 
         (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
@@ -42,7 +42,7 @@ namespace ScrapCoder.UI {
             return (dx, dy);
         }
 
-        void SetButtons() {
+        public void SetButtons() {
             if (buttons.Count == 0) return;
 
             var anchor = Vector2Int.zero;
@@ -63,6 +63,8 @@ namespace ScrapCoder.UI {
 
                 newHeight += button.ownTransform.height + buttonSeparation;
             });
+
+            buttons.ForEach(button => button.ownTransform.ExpandByNewDimensions(newWidth: newWidth));
 
             newWidth += buttonMargin * 2;
             newHeight += buttonMargin * 2;
