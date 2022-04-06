@@ -1251,8 +1251,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 50, y: 0}
-      - {x: 50, y: -20}
+      - {x: 18, y: 0}
+      - {x: 18, y: -20}
       - {x: 0, y: -20}
 --- !u!114 &6307453423335967475
 MonoBehaviour:
@@ -3155,7 +3155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 40
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SizeDelta.y
