@@ -62,7 +62,7 @@ namespace ScrapCoder.UI {
             gameObject.SetActive(active);
         }
 
-        void SetStateVisible(string state) {
+        public void SetStateVisible(string state) {
             normalState.SetVisible(state == "normal", usingSimpleSprites ? "sprite" : "shape");
             overState.SetVisible(state == "over", usingSimpleSprites ? "sprite" : "shape");
             pressedState.SetVisible(state == "pressed", usingSimpleSprites ? "sprite" : "shape");
