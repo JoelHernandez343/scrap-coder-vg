@@ -32,9 +32,9 @@ namespace ScrapCoder.UI {
 
         // Lazy state variables
         string _text = null;
-        string text {
+        public string text {
             get => _text ??= expandableText.text;
-            set => _text = value;
+            private set => _text = value;
         }
 
         // Lazy variables
@@ -49,7 +49,6 @@ namespace ScrapCoder.UI {
 
             SetActive(activated);
             ownTransform.resizable = !usingSimpleSprites;
-            // ExpandByText(false);
         }
 
         public void AddListener(System.Action listener) => listeners.Add(listener);
@@ -91,6 +90,10 @@ namespace ScrapCoder.UI {
         void SetSeed(int seed) {
             this.seed = seed;
             states.ForEach(state => state.SetSeed(seed));
+        }
+
+        public void SetState(string state) {
+            buttonCollider.SetStateVisible(state);
         }
 
         public static ButtonController Create(ButtonController prefab, Transform parent, bool activated, string text) {
