@@ -19,8 +19,8 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public int initHeight;
         [SerializeField] public int initWidth;
 
-        [SerializeField] int minHeight = 0;
-        [SerializeField] int minWidth = 0;
+        [SerializeField] public int minHeight = 0;
+        [SerializeField] public int minWidth = 0;
 
         [SerializeField] public bool resizable = true;
         [SerializeField] public bool moveable = true;
@@ -31,6 +31,9 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public Vector2 relativeOrigin;
 
         [SerializeField] int localZLevels;
+
+        [SerializeField] int publicHeight;
+        [SerializeField] int publicWidth;
 
         // State Variables
         [System.NonSerialized] public int maxZlevels;
@@ -43,6 +46,7 @@ namespace ScrapCoder.VisualNodes {
                 if (value < minHeight) throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
 
                 _height = value;
+                publicHeight = value;
             }
 
             get {
@@ -60,6 +64,7 @@ namespace ScrapCoder.VisualNodes {
                 if (value < minWidth) throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
 
                 _width = value;
+                publicWidth = value;
             }
             get {
                 _width ??= initWidth;
@@ -245,7 +250,7 @@ namespace ScrapCoder.VisualNodes {
 
         public (int dx, int dy) Expand(int dx = 0, int dy = 0, bool smooth = false, NodeArray fromThisArray = null) {
             if (!resizable) {
-                throw new System.InvalidOperationException("This object is not resizable");
+                throw new System.InvalidOperationException($"[{gameObject.name}] This object is not resizable");
             }
 
             width += dx;
