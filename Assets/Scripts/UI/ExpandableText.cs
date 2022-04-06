@@ -11,6 +11,9 @@ using ScrapCoder.VisualNodes;
 namespace ScrapCoder.UI {
     public class ExpandableText : MonoBehaviour, INodeExpander {
 
+        // State variables
+        [SerializeField] TextMeshPro textMeshPro;
+
         // Lazy state variables
         public string text {
             get => textMeshPro.text;
@@ -26,9 +29,6 @@ namespace ScrapCoder.UI {
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        TextMeshPro _textMeshPro;
-        TextMeshPro textMeshPro => _textMeshPro ??= GetComponent<TextMeshPro>();
 
         public int characterCount => textMeshPro.textInfo.characterCount;
 
@@ -58,7 +58,7 @@ namespace ScrapCoder.UI {
             previousTextWidth = currentTextWidth;
 
             // Refresh text dimensions
-            textMeshPro.ForceMeshUpdate();
+            textMeshPro.ForceMeshUpdate(ignoreActiveState: true);
 
             var textDelta = ExpandTextBox();
             var delta = CalculateDelta(textDelta, minWidth, lettersOffset);
