@@ -49,20 +49,24 @@ namespace ScrapCoder.UI {
             var newWidth = 0;
             var newHeight = 0;
 
-            buttons.ForEach(button => {
+            for (int i = 0; i < buttons.Count; ++i) {
+                var button = buttons[i];
+
                 button.ExpandByText();
 
                 button.transform.SetParent(buttonsContainer);
                 button.ownTransform.SetPosition(x: anchor.x, y: anchor.y);
 
-                anchor.y += button.ownTransform.fy - buttonSeparation;
+                anchor.y = button.ownTransform.fy - buttonSeparation;
 
                 if (button.ownTransform.width > newWidth) {
                     newWidth = button.ownTransform.width;
                 }
 
-                newHeight += button.ownTransform.height + buttonSeparation;
-            });
+                if (i == buttons.Count - 1) {
+                    newHeight = -button.ownTransform.fy;
+                }
+            };
 
             buttons.ForEach(button => button.ownTransform.ExpandByNewDimensions(newWidth: newWidth));
 
@@ -70,6 +74,11 @@ namespace ScrapCoder.UI {
             newHeight += buttonMargin * 2;
 
             ownTransform.ExpandByNewDimensions(newWidth: newWidth, newHeight: newHeight);
+        }
+
+        public void ClearButtons() {
+            buttons.ForEach(button => Destroy(button.gameObject));
+            buttons.Clear();
         }
 
         public void SetVisible(bool visible) {
