@@ -20,32 +20,40 @@ namespace ScrapCoder.UI {
         ButtonController button => _button ??= GetComponent<ButtonController>();
 
         bool menuState = true;
+        bool initializeList = true;
 
-        List<string> options = new List<string> {
-            "Texto",
-            "Opcion2"
-        };
+        List<string> options => dropMenuController.GetOptions();
 
         // Methods
-        void InitializeList() {
-            list.buttons = options.ConvertAll(option => ButtonController.Create(menuButtonPrefab, list.transform, true, option));
-            list.SetButtons();
-
-            var listWidth = list.ownTransform.width;
-            var unionOffset = 12;
-            var menuRightOffset = 8;
-            var menuWidth = dropMenuController.ownTransform.width;
-
-            list.ownTransform.SetPosition(
-                x: (menuWidth - menuRightOffset) - (listWidth - unionOffset)
-            );
+        void Start() {
+            button.AddListener(() => {
+                ToggleList();
+                if (initializeList) {
+                    InitializeList();
+                    initializeList = false;
+                }
+            });
 
             ToggleList();
         }
 
-        void Start() {
-            button.AddListener(ToggleList);
-            InitializeList();
+        void InitializeList() {
+            list.ClearButtons();
+            list.buttons = options.ConvertAll(option => ButtonController.Create(menuButtonPrefab, list.transform, true, option));
+            list.SetButtons();
+            list.buttons.ForEach(button => button.AddListener(() => {
+                // Refresh own text
+                dropMenuController.ChangeOption(button.text, smooth: true);
+
+                // Set state of button in normal
+                button.SetState("normal");
+
+                // Hide list
+                list.SetVisible(false);
+                menuState = false;
+            }));
+
+            dropMenuController.PositionList();
         }
 
         void ToggleList() {
