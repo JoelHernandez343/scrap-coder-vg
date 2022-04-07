@@ -58,7 +58,7 @@ namespace ScrapCoder.UI {
             );
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
             itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
             itemsToRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: smooth));
 

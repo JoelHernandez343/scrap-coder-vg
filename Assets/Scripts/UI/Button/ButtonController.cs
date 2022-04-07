@@ -76,7 +76,7 @@ namespace ScrapCoder.UI {
             ownTransform.Expand(dx: delta, smooth: smooth);
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
 
             states.ForEach(item => item.ownTransform.Expand(dx: dx, smooth: smooth));
 

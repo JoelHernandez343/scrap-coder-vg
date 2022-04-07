@@ -25,7 +25,7 @@ namespace ScrapCoder.VisualNodes {
         List<Vector2> colliderPoints
             => _colliderPoints ??= new List<Vector2>(polygonCollider.GetPath(0));
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray fromThisArray) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
             int[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {

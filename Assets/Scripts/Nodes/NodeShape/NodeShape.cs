@@ -126,7 +126,7 @@ namespace ScrapCoder.VisualNodes {
             spriteShapeController.RefreshSpriteShape();
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
 
             if (smooth) {
                 smoothDamp.AddDeltaToDestination(

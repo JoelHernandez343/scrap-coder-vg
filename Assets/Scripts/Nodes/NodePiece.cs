@@ -27,15 +27,12 @@ namespace ScrapCoder.VisualNodes {
             previousMaxHeight ??= getMaxHeight();
         }
 
-        public bool HasHorizontalArray(NodeArray array)
-            => GetIndexOfHorizontalArray(array) != -1;
+        int GetIndexOfHorizontalExpandable(INodeExpandable expandable)
+            => horizontalItems.FindIndex(item => item.GetComponent<INodeExpandable>() == expandable);
 
-        int GetIndexOfHorizontalArray(NodeArray array)
-            => horizontalItems.FindIndex(item => item.GetComponent<NodeContainer>()?.array == array);
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable expandable) {
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray toThisArray) {
-
-            var modified = GetIndexOfHorizontalArray(toThisArray);
+            var modified = GetIndexOfHorizontalExpandable(expandable);
             if (modified != -1) {
                 for (var i = modified + 1; i < horizontalItems.Count; ++i) {
                     horizontalItems[i].SetPositionByDelta(dx: dx, smooth: smooth);

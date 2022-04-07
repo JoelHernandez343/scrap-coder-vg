@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeContainer : MonoBehaviour {
+    public class NodeContainer : MonoBehaviour, INodeExpandable {
 
         // Editor variables
         [SerializeField] public NodeZone zone;
@@ -35,6 +35,10 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController Last => array.Last;
 
+        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
+        bool INodeExpandable.ModifyHeightOfPiece => modifyHeightOfPiece;
+        bool INodeExpandable.ModifyWidthOfPiece => modifyWidthOfPiece;
+
         // Methods
         public void Clear() {
             array.RefreshNodeZones(array[0]);
@@ -48,7 +52,7 @@ namespace ScrapCoder.VisualNodes {
             if (toggleZone) zone?.SetActive(array.Count == 0);
             sprite?.SetVisible(array.Count == 0);
             ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
-            controller.AdjustParts(array, newDelta, smooth: smooth);
+            controller.AdjustParts(expandable: this, delta: newDelta, smooth: smooth);
         }
 
         (int dx, int dy) CalculateDelta((int dx, int dy) delta) {

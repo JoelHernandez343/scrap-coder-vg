@@ -7,10 +7,6 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public interface INodeExpander {
-        (int dx, int dy) Expand(int dx = 0, int dy = 0, bool smooth = false, NodeArray fromThisArray = null);
-    }
-
     public class NodeTransform : MonoBehaviour {
 
         // Editor variables
@@ -248,7 +244,7 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        public (int dx, int dy) Expand(int dx = 0, int dy = 0, bool smooth = false, NodeArray fromThisArray = null) {
+        public (int dx, int dy) Expand(int dx = 0, int dy = 0, bool smooth = false, INodeExpandable expandable = null) {
             if (!resizable) {
                 throw new System.InvalidOperationException($"[{gameObject.name}] This object is not resizable");
             }
@@ -257,7 +253,7 @@ namespace ScrapCoder.VisualNodes {
             height += dy;
 
             if (nodeExpander is INodeExpander expander) {
-                (dx, dy) = expander.Expand(dx: dx, dy: dy, smooth: smooth, fromThisArray: fromThisArray);
+                (dx, dy) = expander.Expand(dx: dx, dy: dy, smooth: smooth, expandable: expandable);
             }
 
             return (dx, dy);

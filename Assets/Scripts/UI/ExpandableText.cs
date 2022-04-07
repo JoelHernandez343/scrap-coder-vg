@@ -37,7 +37,7 @@ namespace ScrapCoder.UI {
         public TMP_CharacterInfo lastCharacterInfo => characterInfo[characterCount - 1];
 
         // Methods
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, NodeArray _) {
+        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
             var size = ownTransform.rectTransform.sizeDelta;
 
             size.x += dx;

@@ -13,7 +13,7 @@ namespace ScrapCoder.VisualNodes {
     }
 
     public interface INodePartsAdjuster {
-        (int dx, int dy) AdjustParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
+        (int dx, int dy) AdjustParts(INodeExpandable expandable, (int dx, int dy)? delta = null);
     }
 
     public interface INodeSelectorModifier {
@@ -230,15 +230,16 @@ namespace ScrapCoder.VisualNodes {
             container.zone.SetZoneColor(array.Count == 0 ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
-        public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta, bool smooth = false) {
-            if (toThisArray == siblings) {
+        public void AdjustParts(INodeExpandable expandable, (int dx, int dy) delta, bool smooth = false) {
+
+            if ((expandable is NodeContainer container) && container.array == siblings) {
                 RecalculateZLevels();
                 HierarchyController.instance.SetOnTop(this);
                 return;
             }
 
             var adjuster = partsAdjuster as INodePartsAdjuster;
-            var newDelta = adjuster?.AdjustParts(toThisArray, delta) ?? AdjustPiece(toThisArray, delta, smooth: smooth);
+            var newDelta = adjuster?.AdjustParts(expandable, delta) ?? AdjustPiece(expandable, delta, smooth: smooth);
 
             ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
             RecalculateZLevels();
@@ -250,17 +251,16 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        (int dx, int dy) AdjustPiece(NodeArray array, (int dx, int dy) delta, bool smooth = false) {
+        (int dx, int dy) AdjustPiece(INodeExpandable expandable, (int dx, int dy) delta, bool smooth = false) {
             var newDelta = delta;
 
-            var container = containers.Find(container => container.array == array);
-            var pieceToExpand = container.pieceToExpand;
+            var pieceToExpand = expandable.PieceToExpand;
 
             if (pieceToExpand != null) {
-                newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
-                newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
+                newDelta.dx = expandable.ModifyWidthOfPiece ? newDelta.dx : 0;
+                newDelta.dy = expandable.ModifyHeightOfPiece ? newDelta.dy : 0;
 
-                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth, fromThisArray: array);
+                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth, expandable: expandable);
             }
 
             AdjustComponents(pieceModified: pieceToExpand, delta: newDelta, smooth: smooth);
