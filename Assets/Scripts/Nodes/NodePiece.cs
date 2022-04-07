@@ -49,6 +49,10 @@ namespace ScrapCoder.VisualNodes {
         }
 
         int centerHorizontalItems(NodeTransform modified, int dy, bool smooth) {
+            if (dy == 0) {
+                return 0;
+            }
+
             var (delta, center) = calHorizontalDelta(modified, dy, smooth);
 
             if (center != "nothing") {

@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
     public class DropMenuSelectButton : MonoBehaviour {
@@ -19,7 +20,12 @@ namespace ScrapCoder.UI {
         ButtonController _button;
         ButtonController button => _button ??= GetComponent<ButtonController>();
 
-        bool menuState = true;
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public NodeController controller => ownTransform.controller;
+
+        bool visibleMenuState = true;
         bool initializeList = true;
 
         List<string> options => dropMenuController.GetOptions();
@@ -31,6 +37,13 @@ namespace ScrapCoder.UI {
                 if (initializeList) {
                     InitializeList();
                     initializeList = false;
+                }
+
+                // Set controller focus
+                if (visibleMenuState) {
+                    controller?.GetFocus();
+                } else {
+                    controller?.LoseFocus();
                 }
             });
 
@@ -50,15 +63,18 @@ namespace ScrapCoder.UI {
 
                 // Hide list
                 list.SetVisible(false);
-                menuState = false;
+                visibleMenuState = false;
+
+                // Lose focus
+                controller?.LoseFocus();
             }));
 
             dropMenuController.PositionList();
         }
 
         void ToggleList() {
-            menuState = !menuState;
-            list.SetVisible(menuState);
+            visibleMenuState = !visibleMenuState;
+            list.SetVisible(visibleMenuState);
         }
 
     }

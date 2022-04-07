@@ -9,7 +9,7 @@ using TMPro;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
-    public class InputText : MonoBehaviour, InputManagment.IInputHandler {
+    public class InputText : MonoBehaviour, InputManagment.IInputHandler, INodeExpandable {
 
         // Editor variables
         [SerializeField] NodeTransform cursorSprite;
@@ -24,6 +24,8 @@ namespace ScrapCoder.UI {
         [SerializeField] int initWidth;
 
         [SerializeField] ExpandableText expandableText;
+
+        [SerializeField] public NodeTransform pieceToExpand;
 
         // State variables
         int cursor = 0;
@@ -51,6 +53,16 @@ namespace ScrapCoder.UI {
             "Y",  "Z", "Ñ"
         };
 
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public NodeController controller => ownTransform.controller;
+
+        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
+        bool INodeExpandable.ModifyHeightOfPiece => false;
+        bool INodeExpandable.ModifyWidthOfPiece => true;
+
+        // Constants
         const KeyCode delete = KeyCode.Backspace;
         const KeyCode right = KeyCode.RightArrow;
         const KeyCode left = KeyCode.LeftArrow;
@@ -121,16 +133,17 @@ namespace ScrapCoder.UI {
 
         void ExpandByText() {
             // Change text and get new delta
-            var delta = expandableText.ChangeText(
+            var dx = expandableText.ChangeText(
                 newText: text,
                 minWidth: initWidth,
                 lettersOffset: lettersOffset
             );
 
             // Expand items
-            itemsToExpand.ForEach(item => item?.Expand(dx: delta, smooth: true));
+            itemsToExpand.ForEach(item => item?.Expand(dx: dx, smooth: true));
 
             // Update parents with delta
+            controller?.AdjustParts(expandable: this, delta: (dx, 0), smooth: true);
         }
 
         void MoveCursorTo(int position) {

@@ -288,6 +288,22 @@ namespace ScrapCoder.VisualNodes {
 
             ownTransform.maxZlevels = maxZlevels;
         }
+
+        public void GetFocus() {
+            HierarchyController.instance.SetOnTop(controller ?? this);
+            if (hasParent) {
+                ownTransform.Raise();
+
+                controller.GetFocus();
+            }
+        }
+
+        public void LoseFocus() {
+            if (hasParent) {
+                ownTransform.ResetRenderOrder();
+                controller.LoseFocus();
+            }
+        }
     }
 
 }

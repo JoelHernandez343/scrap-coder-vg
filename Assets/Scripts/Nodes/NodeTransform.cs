@@ -90,7 +90,7 @@ namespace ScrapCoder.VisualNodes {
         public int zLevels => localZLevels + maxZlevels;
 
         public const int PixelsPerUnit = 24;
-        public NodeController controller => directController ?? indirectController.controller;
+        public NodeController controller => directController ?? indirectController?.controller;
 
         public int x => (int)position.x;
         public int y => (int)position.y;
@@ -276,6 +276,13 @@ namespace ScrapCoder.VisualNodes {
 
             // Reset Sorting order
             sorter.sortingOrder = 0;
+        }
+
+        public void Raise() {
+            sorter.sortingOrder += 1;
+
+            var pos = transform.localPosition;
+            transform.localPosition = new Vector3(pos.x, pos.y, pos.z - 1);
         }
     }
 }

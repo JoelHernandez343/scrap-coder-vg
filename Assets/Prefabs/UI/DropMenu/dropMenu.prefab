@@ -101,6 +101,7 @@ MonoBehaviour:
   - {fileID: 7595167902900237846}
   itemsToRight:
   - {fileID: 4972045792653515479}
+  pieceToExpand: {fileID: 0}
   list: {fileID: 2614852495028331086}
 --- !u!1 &8041964093103598014
 GameObject:
@@ -114,6 +115,7 @@ GameObject:
   - component: {fileID: 6485356096453160393}
   - component: {fileID: 7595167902900237846}
   - component: {fileID: 5087399378635852705}
+  - component: {fileID: 3062740948293131691}
   m_Layer: 0
   m_Name: collider
   m_TagString: Untagged
@@ -214,6 +216,18 @@ MonoBehaviour:
     begin: 2
     end: 3
     isExpandable: 1
+--- !u!114 &3062740948293131691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041964093103598014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fd1d704b90af544bbf0c5437aec6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2790268095562047663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -832,6 +846,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6692282909340399106}
     m_Modifications:
+    - target: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
+      propertyPath: indirectController
+      value: 
+      objectReference: {fileID: 1858515329269668120}
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_text
       value: '
@@ -1048,6 +1066,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2699133709030705946, guid: 728b1d4269b9a244b9cc29269be15297, type: 3}
+      propertyPath: indirectController
+      value: 
+      objectReference: {fileID: 1858515329269668120}
     - target: {fileID: 5666845229399584413, guid: 728b1d4269b9a244b9cc29269be15297, type: 3}
       propertyPath: m_SortingOrder
       value: 3

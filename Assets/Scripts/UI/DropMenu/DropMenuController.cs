@@ -1,7 +1,6 @@
 // Joel Harim Hernández Javier @ 2022
 // Github: https://github.com/JoelHernandez343
 
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +8,15 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
-    public class DropMenuController : MonoBehaviour, INodeExpander {
+    public class DropMenuController : MonoBehaviour, INodeExpander, INodeExpandable {
         // Editor variables
         [SerializeField] List<string> options;
         [SerializeField] ExpandableText text;
 
         [SerializeField] List<NodeTransform> itemsToExpand;
         [SerializeField] List<NodeTransform> itemsToRight;
+
+        [SerializeField] public NodeTransform pieceToExpand;
 
         [SerializeField] DropMenuList list;
 
@@ -25,6 +26,12 @@ namespace ScrapCoder.UI {
         // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public NodeController controller => ownTransform.controller;
+
+        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
+        bool INodeExpandable.ModifyHeightOfPiece => false;
+        bool INodeExpandable.ModifyWidthOfPiece => true;
 
         public List<string> GetOptions() => options;
 
@@ -38,13 +45,15 @@ namespace ScrapCoder.UI {
         public void ChangeOption(string newOption, bool smooth = false) {
             selectedOption = newOption;
 
-            var delta = text.ChangeText(
+            var dx = text.ChangeText(
                 newText: selectedOption,
                 minWidth: ownTransform.minWidth,
                 lettersOffset: 20
             );
 
-            ownTransform.Expand(dx: delta, smooth: smooth);
+            ownTransform.Expand(dx: dx, smooth: smooth);
+
+            controller?.AdjustParts(expandable: this, delta: (dx, 0), smooth: smooth);
         }
 
         public void PositionList() {
