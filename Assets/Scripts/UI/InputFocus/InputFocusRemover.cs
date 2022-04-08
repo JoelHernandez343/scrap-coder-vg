@@ -28,7 +28,6 @@ namespace ScrapCoder.UI {
         }
 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
-            InputManagment.InputController.instance.handlerWithFocus.LoseFocus();
             InputManagment.InputController.instance.ClearFocus();
         }
     }

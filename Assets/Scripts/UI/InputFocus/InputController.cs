@@ -7,14 +7,6 @@ using UnityEngine;
 
 namespace ScrapCoder.InputManagment {
 
-    public interface IInputHandler {
-        void HandleInput();
-        void GetRemoverOwnership(GameObject remover);
-        void LoseFocus();
-        void GetFocus();
-        bool HasFocus();
-    }
-
     public class InputController : MonoBehaviour {
 
         [SerializeField] Canvas canvas;
@@ -29,16 +21,19 @@ namespace ScrapCoder.InputManagment {
         RectTransform _removerRectTransform;
         RectTransform removerRectTransform => _removerRectTransform ??= remover.GetComponent<RectTransform>();
 
-        public IInputHandler handlerWithFocus;
+        public IFocusable handlerWithFocus;
 
-        public void SetFocusOn(IInputHandler inputHandler) {
-            handlerWithFocus = inputHandler;
+        public void SetFocusOn(IFocusable focusable) {
+            ClearFocus();
 
-            handlerWithFocus.GetFocus();
+            handlerWithFocus = focusable;
+
             handlerWithFocus.GetRemoverOwnership(remover);
+            handlerWithFocus.GetFocus();
         }
 
         public void ClearFocus() {
+            handlerWithFocus?.LoseFocus();
             handlerWithFocus = null;
 
             GetRemoverOwnership();
@@ -64,7 +59,9 @@ namespace ScrapCoder.InputManagment {
         }
 
         void Update() {
-            handlerWithFocus?.HandleInput();
+            // if (handlerWithFocus is IInputHandler inputHandler) {
+            //     inputHandler.HandleInput();
+            // }
         }
     }
 

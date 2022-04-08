@@ -73,9 +73,11 @@ MonoBehaviour:
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
-  localZLevels: -3
   publicHeight: 0
   publicWidth: 0
+  localZLevels: -3
+  ownDepthLevels: 3
+  localDepthLevels: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ namespace ScrapCoder.VisualNodes {
         public void AdjustParts((int dx, int dy) delta, bool smooth = false) {
             var newDelta = CalculateDelta(delta);
 
-            RecalculateZLevels();
+            RefreshLocalDepthLevels();
 
             if (toggleZone) zone?.SetActive(array.Count == 0);
             sprite?.SetVisible(array.Count == 0);
@@ -67,8 +67,8 @@ namespace ScrapCoder.VisualNodes {
             return delta;
         }
 
-        void RecalculateZLevels() {
-            ownTransform.maxZlevels = array.ownTransform.zLevels;
+        void RefreshLocalDepthLevels() {
+            ownTransform.localDepthLevels = array.ownTransform.depthLevels;
         }
 
         public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {

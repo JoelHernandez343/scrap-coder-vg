@@ -54,6 +54,7 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] List<NodeTransform> components;
         [SerializeField] List<NodeContainer> containers;
+        [SerializeField] List<NodeTransform> staticContainers;
 
         [SerializeField] Component zoneRefresher;
         [SerializeField] Component partsAdjuster;
@@ -74,12 +75,10 @@ namespace ScrapCoder.VisualNodes {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        public NodeController controller => parentArray?.controller;
+        public NodeController parentController => parentArray?.controller;
 
         public NodeController temporalParent {
-            set {
-                transform.SetParent(value?.transform ?? canvas.transform);
-            }
+            set => transform.SetParent(value?.transform ?? canvas.transform);
         }
 
         DropFuncSelector _selector;
@@ -105,7 +104,7 @@ namespace ScrapCoder.VisualNodes {
             get {
                 var controller = this;
                 while (controller.hasParent) {
-                    controller = controller.controller;
+                    controller = controller.parentController;
                 }
 
                 return controller;
@@ -116,7 +115,7 @@ namespace ScrapCoder.VisualNodes {
         public void ClearParent() => parentArray = null;
 
         public void DetachFromParent() {
-            if (controller == null) return;
+            if (!hasParent) return;
 
             if (siblings != null) {
                 siblings.AddNodesFromParent(smooth: true);
@@ -133,8 +132,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
-            if (controller != null && mainZones.Contains(ownZone)) {
-                return controller.OnDrop(inZone, ownZone, this);
+            if (parentController != null && mainZones.Contains(ownZone)) {
+                return parentController.OnDrop(inZone, ownZone, this);
             }
 
             var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
@@ -233,7 +232,7 @@ namespace ScrapCoder.VisualNodes {
         public void AdjustParts(INodeExpandable expandable, (int dx, int dy) delta, bool smooth = false) {
 
             if ((expandable is NodeContainer container) && container.array == siblings) {
-                RecalculateZLevels();
+                RefreshLocalDepthLevels();
                 HierarchyController.instance.SetOnTop(this);
                 return;
             }
@@ -242,7 +241,7 @@ namespace ScrapCoder.VisualNodes {
             var newDelta = adjuster?.AdjustParts(expandable, delta) ?? AdjustPiece(expandable, delta, smooth: smooth);
 
             ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
-            RecalculateZLevels();
+            RefreshLocalDepthLevels();
 
             if (hasParent) {
                 parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
@@ -277,31 +276,38 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        void RecalculateZLevels() {
-            var maxZlevels = 0;
-            foreach (var container in containers) {
-                var tf = container.ownTransform;
-                maxZlevels = tf.zLevels < maxZlevels
-                    ? tf.zLevels
-                    : maxZlevels;
-            }
+        void RefreshLocalDepthLevels() {
+            var localDepthLevels = 0;
 
-            ownTransform.maxZlevels = maxZlevels;
+            containers.ForEach(container => {
+                var tf = container.ownTransform;
+                if (localDepthLevels < tf.depthLevels) {
+                    localDepthLevels = tf.depthLevels;
+                }
+            });
+
+            staticContainers.ForEach(container => {
+                if (localDepthLevels < container.depthLevels) {
+                    localDepthLevels = container.depthLevels;
+                }
+            });
+
+            ownTransform.localDepthLevels = localDepthLevels;
         }
 
         public void GetFocus() {
-            HierarchyController.instance.SetOnTop(controller ?? this);
+            HierarchyController.instance.SetOnTop(parentController ?? this);
             if (hasParent) {
                 ownTransform.Raise();
 
-                controller.GetFocus();
+                parentController.GetFocus();
             }
         }
 
         public void LoseFocus() {
             if (hasParent) {
                 ownTransform.ResetRenderOrder();
-                controller.LoseFocus();
+                parentController.LoseFocus();
             }
         }
     }

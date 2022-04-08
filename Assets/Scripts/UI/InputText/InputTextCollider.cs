@@ -19,7 +19,7 @@ namespace ScrapCoder.UI {
 
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
-            if (!(inputText as InputManagment.IInputHandler).HasFocus()) {
+            if (!(inputText as InputManagment.IFocusable).HasFocus()) {
                 InputManagment.InputController.instance.SetFocusOn(inputText);
             }
 

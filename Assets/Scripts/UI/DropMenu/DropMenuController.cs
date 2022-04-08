@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.UI {
-    public class DropMenuController : MonoBehaviour, INodeExpander, INodeExpandable {
+    public class DropMenuController : MonoBehaviour, INodeExpander, IFocusable, INodeExpandable {
         // Editor variables
         [SerializeField] List<string> options;
         [SerializeField] ExpandableText text;
@@ -20,8 +21,14 @@ namespace ScrapCoder.UI {
 
         [SerializeField] DropMenuList list;
 
+        [SerializeField] GameObject removerParent;
+
+        [SerializeField] ButtonController menuButtonPrefab;
+
         // State variables
         string selectedOption = "";
+
+        bool initializeList = true;
 
         // Lazy variables
         NodeTransform _ownTransform;
@@ -74,6 +81,67 @@ namespace ScrapCoder.UI {
             PositionList();
 
             return (dx, dy);
+        }
+
+        void InitializeList() {
+            list.ClearButtons();
+            list.buttons = options.ConvertAll(option => ButtonController.Create(menuButtonPrefab, list.transform, true, option));
+            list.SetButtons();
+            list.buttons.ForEach(button => button.AddListener(() => {
+                // Refresh own text
+                ChangeOption(newOption: button.text, smooth: true);
+
+                // Set state of button in normal
+                button.SetState("normal");
+
+                // Lose focus
+                InputController.instance.ClearFocus();
+            }));
+
+            PositionList();
+        }
+
+        void IFocusable.GetRemoverOwnership(GameObject remover) {
+            remover.transform.SetParent(removerParent.transform);
+            remover.SetActive(true);
+
+            var removerRectTransfrom = remover.GetComponent<RectTransform>();
+            var localPosition = removerRectTransfrom.localPosition;
+            localPosition.z = 0;
+
+            removerRectTransfrom.localPosition = localPosition;
+        }
+
+        void IFocusable.GetFocus() {
+
+            var thisDepthLevels = ownTransform.depthLevelsToThisTransform();
+            var globalDepthevels = ownTransform.controller?.lastController.ownTransform.depthLevels ?? 0;
+
+            var raiseDepthLevels =
+                (globalDepthevels > thisDepthLevels
+                    ? globalDepthevels - thisDepthLevels
+                    : 0) + 10;
+
+            ownTransform.Raise(depthLevels: raiseDepthLevels);
+
+            controller?.GetFocus();
+            list.SetVisible(true);
+
+            if (initializeList) {
+                initializeList = false;
+                InitializeList();
+            }
+        }
+
+        void IFocusable.LoseFocus() {
+            ownTransform.ResetRenderOrder(depthLevels: 1);
+
+            controller?.LoseFocus();
+            list.SetVisible(false);
+        }
+
+        bool IFocusable.HasFocus() {
+            return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
         }
     }
 }

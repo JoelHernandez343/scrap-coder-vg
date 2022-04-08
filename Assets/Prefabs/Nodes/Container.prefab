@@ -65,7 +65,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  rectTransform: {fileID: 4093386343709591165}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -75,7 +74,11 @@ MonoBehaviour:
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
+  publicHeight: 0
+  publicWidth: 0
   localZLevels: -1
+  ownDepthLevels: 1
+  localDepthLevels: 0
 --- !u!114 &5177636434978128433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +101,6 @@ MonoBehaviour:
   defaultHeight: 10
   defaultWidth: 0
   acceptedCategory: 0
-  ownTransform: {fileID: 1020040377345113106}
 --- !u!1 &2412287878916260188
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  rectTransform: {fileID: 7070279304372327025}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -211,7 +212,11 @@ MonoBehaviour:
   directController: {fileID: 0}
   indirectController: {fileID: 1020040377345113106}
   relativeOrigin: {x: 0, y: 0}
+  publicHeight: 0
+  publicWidth: 0
   localZLevels: 0
+  ownDepthLevels: 0
+  localDepthLevels: 0
 --- !u!114 &449421557564414003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,8 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce87666bf17ce2c449fbe96f38f29d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownTransform: {fileID: 5094133176233431961}
-  renderer: {fileID: 1252333214848502964}
   availableSprites: []
   hideable: 0
 --- !u!1001 &4103558883992647683

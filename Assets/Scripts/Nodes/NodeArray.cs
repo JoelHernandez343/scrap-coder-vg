@@ -284,20 +284,21 @@ namespace ScrapCoder.VisualNodes {
             int dx = currentMaxWidth - ownTransform.width;
 
             ownTransform.Expand(dx, dy ?? 0);
-            RecalculateZLevels();
+            RefreshLocalDepthLevels();
             container.AdjustParts(delta: (dx, dy ?? 0), smooth: smooth);
         }
 
-        void RecalculateZLevels() {
-            var maxZlevels = 0;
+        void RefreshLocalDepthLevels() {
+            var localDepthLevels = 0;
             foreach (var node in nodes) {
                 var tf = node.ownTransform;
-                maxZlevels = tf.zLevels < maxZlevels
-                    ? tf.zLevels
-                    : maxZlevels;
+
+                if (localDepthLevels < tf.depthLevels) {
+                    localDepthLevels = tf.depthLevels;
+                }
             }
 
-            ownTransform.maxZlevels = maxZlevels;
+            ownTransform.localDepthLevels = localDepthLevels;
         }
 
         void RemoveEndNodes(List<NodeController> newNodes, int indexToInsert) {

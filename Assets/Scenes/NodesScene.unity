@@ -1235,11 +1235,11 @@ PrefabInstance:
       objectReference: {fileID: 2123671303}
     - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: nodeToSpawn
-      value: 10
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
-      value: Girar_hacia_la_izquierda
+      value: Girar
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_Pivot.x
@@ -1930,6 +1930,8 @@ MonoBehaviour:
     prefab: {fileID: 6150825404952637395, guid: a860c4fef7ada96438a5d4dbb97bda11, type: 3}
   - type: 18
     prefab: {fileID: 6150825404952637395, guid: 7aafcf0f8294bfb439f60437ba57997e, type: 3}
+  - type: 19
+    prefab: {fileID: 6150825404952637395, guid: 743bf082de1459841824931af4281350, type: 3}
 --- !u!4 &1590181103
 Transform:
   m_ObjectHideFlags: 0

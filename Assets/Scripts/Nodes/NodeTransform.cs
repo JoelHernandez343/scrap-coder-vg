@@ -12,6 +12,9 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] Component nodeExpander;
 
+        [SerializeField] NodeController directController;
+        [SerializeField] NodeTransform indirectController;
+
         [SerializeField] public int initHeight;
         [SerializeField] public int initWidth;
 
@@ -21,18 +24,15 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public bool resizable = true;
         [SerializeField] public bool moveable = true;
 
-        [SerializeField] NodeController directController;
-        [SerializeField] NodeTransform indirectController;
-
         [SerializeField] public Vector2 relativeOrigin;
-
-        [SerializeField] int localZLevels;
 
         [SerializeField] int publicHeight;
         [SerializeField] int publicWidth;
 
+        [SerializeField] int ownDepthLevels;
+
         // State Variables
-        [System.NonSerialized] public int maxZlevels;
+        [SerializeField] public int localDepthLevels;
 
         int? _height;
         public int height {
@@ -87,18 +87,31 @@ namespace ScrapCoder.VisualNodes {
         public UnityEngine.Rendering.SortingGroup sorter
             => _sorter ??= GetComponent<UnityEngine.Rendering.SortingGroup>();
 
-        public int zLevels => localZLevels + maxZlevels;
+        public int depthLevels => ownDepthLevels + localDepthLevels;
 
         public const int PixelsPerUnit = 24;
         public NodeController controller => directController ?? indirectController?.controller;
 
         public int x => (int)position.x;
         public int y => (int)position.y;
+        public int z {
+            get => (int)System.Math.Round(transform.localPosition.z);
+            set {
+                var pos = transform.localPosition;
+                pos.z = value;
+                transform.localPosition = pos;
+            }
+        }
 
         public int fx => x + width;
         public int fy => y - height;
 
         public (int x, int y) finalPosition => (fx, fy);
+
+        public int depth {
+            get => -z;
+            set => z = -value;
+        }
 
         public bool isMovingSmoothly => smoothDamp.isWorking;
 
@@ -269,20 +282,34 @@ namespace ScrapCoder.VisualNodes {
             Expand(dx, dy);
         }
 
-        public void ResetRenderOrder() {
-            // Reset Z
-            var pos = transform.localPosition;
-            transform.localPosition = new Vector3(pos.x, pos.y, 0);
-
-            // Reset Sorting order
+        public void ResetRenderOrder(int depthLevels = 0) {
+            depth = depthLevels;
             sorter.sortingOrder = 0;
         }
 
-        public void Raise() {
-            sorter.sortingOrder += 1;
+        public void Raise(int deltaOrder = 1, int depthLevels = 1) {
+            sorter.sortingOrder += deltaOrder;
+            depth += depthLevels;
+        }
 
-            var pos = transform.localPosition;
-            transform.localPosition = new Vector3(pos.x, pos.y, pos.z - 1);
+        public int depthLevelsToThisTransform() {
+            if (this.controller == null) return ownDepthLevels;
+
+            var controller = this.controller;
+            var depthLevels = controller.ownTransform.ownDepthLevels + ownDepthLevels;
+            var array = controller.parentArray;
+
+            while (controller.hasParent) {
+                controller = controller.parentController;
+                depthLevels +=
+                    controller.ownTransform.ownDepthLevels +
+                    array.ownTransform.ownDepthLevels +
+                    array.container.ownTransform.ownDepthLevels;
+
+                array = controller.parentArray;
+            }
+
+            return depthLevels;
         }
     }
 }

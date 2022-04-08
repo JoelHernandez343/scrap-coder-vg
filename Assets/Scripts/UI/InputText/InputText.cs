@@ -7,9 +7,10 @@ using UnityEngine;
 using TMPro;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.UI {
-    public class InputText : MonoBehaviour, InputManagment.IInputHandler, INodeExpandable {
+    public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpandable {
 
         // Editor variables
         [SerializeField] NodeTransform cursorSprite;
@@ -212,7 +213,7 @@ namespace ScrapCoder.UI {
             MoveCursorTo(text.Length);
         }
 
-        void InputManagment.IInputHandler.GetRemoverOwnership(GameObject remover) {
+        void IFocusable.GetRemoverOwnership(GameObject remover) {
             remover.transform.SetParent(removerParent.transform);
             remover.SetActive(true);
 
@@ -223,20 +224,20 @@ namespace ScrapCoder.UI {
             removerRectTransfrom.localPosition = localPosition;
         }
 
-        void InputManagment.IInputHandler.LoseFocus() {
+        void IFocusable.LoseFocus() {
             cursorAnimator.SetBool("isActive", false);
 
             backgroundShape.SetVisible(false);
         }
 
-        void InputManagment.IInputHandler.GetFocus() {
+        void IFocusable.GetFocus() {
             cursorAnimator.SetBool("isActive", true);
 
             backgroundShape.SetVisible(true);
         }
 
-        bool InputManagment.IInputHandler.HasFocus() {
-            return InputManagment.InputController.instance.handlerWithFocus == (InputManagment.IInputHandler)this;
+        bool IFocusable.HasFocus() {
+            return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
         }
     }
 }
