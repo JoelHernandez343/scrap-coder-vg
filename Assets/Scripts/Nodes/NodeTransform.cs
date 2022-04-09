@@ -116,10 +116,15 @@ namespace ScrapCoder.VisualNodes {
         public bool isMovingSmoothly => smoothDamp.isWorking;
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
+        Utils.SmoothDampController smoothDampForDisappearing = new Utils.SmoothDampController(0.1f);
 
         // Methods
         void FixedUpdate() {
-            if (isMovingSmoothly) MoveSmoothly();
+            if (isMovingSmoothly) {
+                MoveSmoothly();
+            } else if (smoothDampForDisappearing.isWorking) {
+                DisappearSmoothly();
+            }
         }
 
         void MoveSmoothly() {
@@ -310,6 +315,22 @@ namespace ScrapCoder.VisualNodes {
             }
 
             return depthLevels;
+        }
+
+        public void Disappear() {
+            smoothDampForDisappearing.SetDestination(
+                origin: new Vector2(x: width, y: 0),
+                destinationX: 0
+            );
+        }
+
+        void DisappearSmoothly() {
+            var (delta, _) = smoothDampForDisappearing.NextDelta();
+            var percentage = delta / width;
+
+            var scale = rectTransform.localScale;
+            scale.x = percentage.x;
+            rectTransform.localScale = scale;
         }
     }
 }
