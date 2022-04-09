@@ -46,7 +46,6 @@ public class RobotController : MonoBehaviour
         AnimationSet();
         if (action != Action.None)
         {
-            
             switch ((int)action)
             {
                 case 0: // Walk

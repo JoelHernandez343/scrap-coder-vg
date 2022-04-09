@@ -9,12 +9,28 @@ public class RobotInstructions : MonoBehaviour
     [SerializeField] private int cont = 0;
     void Start()
     {
-        newInstruction(0);
+        //newInstruction(0);
     }
 
     private void Awake()
     {
         SendInstruction.finishInstruction += newInstruction;
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Wistle"))
+        {
+            if (cont > 0)
+            {
+                cont = -1;
+            }
+            else
+            {
+                cont = 0;
+                newInstruction(0);
+            }
+        }
     }
     private void OnDestroy()
     {
@@ -31,7 +47,7 @@ public class RobotInstructions : MonoBehaviour
         print("Mandando " +cont);
         if(cont <= actions.Length-1)
         {
-            if (SendInstruction.sendInstruction != null)
+            if (SendInstruction.sendInstruction != null && cont != -1)
             {
                 SendInstruction.sendInstruction((int)actions[cont]);
                 cont++;
@@ -44,3 +60,20 @@ public class RobotInstructions : MonoBehaviour
         }
     }
 }
+
+
+/*
+
+    private void Awake()
+    {
+        SendInstruction.finishInstruction += newInstruction;
+    }
+    
+    private void OnDestroy()
+    {
+        SendInstruction.finishInstruction -= newInstruction;
+    }
+    
+    SendInstruction.sendInstruction((int)actions);
+
+ */
