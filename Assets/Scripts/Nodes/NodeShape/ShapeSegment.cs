@@ -36,6 +36,13 @@ namespace ScrapCoder.VisualNodes {
 
         Utils.Vector2D spriteSize;
 
+        // Lazy state variables
+        Utils.Random _rand;
+        Utils.Random rand {
+            get => _rand ??= new Utils.Random();
+            set => _rand = value;
+        }
+
         // Lazy and other variables
         int? _axis;
         int axis {
@@ -92,7 +99,8 @@ namespace ScrapCoder.VisualNodes {
             int rangeSpriteLimit,
             Utils.Vector2D? spriteSize = null,
             int minSeparation = 6,
-            int maxSeparation = 10
+            int maxSeparation = 10,
+            Utils.Random rand = null
         ) {
             firstPoint = shape.points[firstIndex];
             finalPoint = shape.points[finalIndex];
@@ -103,6 +111,8 @@ namespace ScrapCoder.VisualNodes {
             this.rangeSpriteLimit = rangeSpriteLimit;
             this.minSeparation = minSeparation;
             this.maxSeparation = maxSeparation;
+
+            this.rand = rand;
         }
 
         // Methods
@@ -111,12 +121,12 @@ namespace ScrapCoder.VisualNodes {
 
             if (next < generatedPairs.Count) return next;
 
-            var generatedPosition = (sign) * Utils.Random.NextRange(minSeparation, maxSeparation) + prevStep;
+            var generatedPosition = (sign) * rand.NextIntRange(minSeparation, maxSeparation) + prevStep;
 
             var generatedPair = new GeneratedPair {
                 firstPoint = new GeneratedPoint {
                     step = generatedPosition,
-                    sprite = Utils.Random.NextRange(normalSprite, rangeSpriteLimit)
+                    sprite = rand.NextIntRange(normalSprite, rangeSpriteLimit)
                 },
                 finalPoint = new GeneratedPoint {
                     step = generatedPosition + (sign) * (int)spriteSize[axis],

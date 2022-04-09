@@ -63,7 +63,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  rectTransform: {fileID: 6150825404952637404}
   initHeight: 19
   initWidth: 84
   minHeight: 0
@@ -73,7 +72,11 @@ MonoBehaviour:
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
+  publicHeight: 0
+  publicWidth: 0
   localZLevels: -3
+  ownDepthLevels: 3
+  localDepthLevels: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +97,6 @@ MonoBehaviour:
   mainZones:
   - {fileID: 199416042525208940}
   siblings: {fileID: 0}
-  ownTransform: {fileID: 6150825404952637394}
   type: 5
   category: 1
   components:
@@ -116,6 +118,10 @@ PrefabInstance:
       propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 3729564071230126126, guid: 99a3cb20f1d46d8438cb12b883a39019, type: 3}
+      propertyPath: widthPointsRange.isExpandable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8622792205453656081, guid: 99a3cb20f1d46d8438cb12b883a39019, type: 3}
       propertyPath: m_Name
       value: MainPiece

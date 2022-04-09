@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: DropButtonOverBorders
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -45
+    m_End: 45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -91309112114832740, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: -6795706351329782352, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: -6923770173961913737, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_Start: 45
+    m_End: 135
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -5298374798465538628, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: 4526953480191313785, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: -4797252341136710512, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_Start: -135
+    m_End: -45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 3050269291294408671, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: -4077932449911490700, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: -3151924864833367341, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_Start: 135
+    m_End: 225
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -4532761269892865440, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: 1497984822719451386, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+    - {fileID: 7108916077815323701, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  m_FillTexture: {fileID: 2800000, guid: 0efc135ad17ef9040974125a0a41dee8, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: -3519451209078271147, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: 393992945505251632, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: -3348651885066345852, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: 2179207178666706035, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  m_FillOffset: 0
+  m_UseSpriteBorders: 1

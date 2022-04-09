@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7466764253126666783}
   - component: {fileID: 7466764253126666782}
   - component: {fileID: 7466764253126666753}
+  - component: {fileID: 3210902137470114877}
   m_Layer: 5
   m_Name: collider
   m_TagString: Untagged
@@ -82,8 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 7466764253126666753}
-  rectTransform: {fileID: 7466764253126666752}
+  nodeExpander: {fileID: 3210902137470114877}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b6cb1377dd08648a7d866068e15279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 7466764253126666783}
   widthPointsRange:
     begin: 4
     end: 5
@@ -115,7 +114,26 @@ MonoBehaviour:
     begin: 5
     end: 6
     isExpandable: 0
-  ownTransform: {fileID: 7466764253126666782}
+--- !u!114 &3210902137470114877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466764253126666755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acd7e571fc8bc74c845fc86a262f055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthPointsRange:
+    begin: 4
+    end: 5
+    isExpandable: 1
+  heightPointsRange:
+    begin: 5
+    end: 6
+    isExpandable: 1
 --- !u!1 &7466764254513914417
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7466764254513914445}
-  rectTransform: {fileID: 7466764254513914446}
   initHeight: 19
   initWidth: 44
   minHeight: 0
@@ -334,8 +351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteShapeController: {fileID: 7466764254513914447}
-  ownTransform: {fileID: 7466764254513914442}
   horizontalRangeTemplate:
     initialStartIndex: 2
     initialEndIndex: 3
@@ -348,9 +363,7 @@ MonoBehaviour:
     x: 8
     y: 8
   segmentTemplates: []
-  initialPointPosition:
-    x: 4
-    y: -4
+  initialPointPosition: {x: 4, y: -4}
 --- !u!1 &7466764254849079731
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  rectTransform: {fileID: 7466764254849079728}
   initHeight: 19
   initWidth: 44
   minHeight: 0
@@ -437,7 +449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownTransform: {fileID: 7842788364981981113}
   horizontalItems: []
   itemsBelow: []
   itemsToTheRight: []

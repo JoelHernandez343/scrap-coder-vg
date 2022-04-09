@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeContainer : MonoBehaviour {
+    public class NodeContainer : MonoBehaviour, INodeExpandable {
 
         // Editor variables
         [SerializeField] public NodeZone zone;
@@ -25,27 +25,34 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeCategory acceptedCategory;
 
-        [SerializeField] public NodeTransform ownTransform;
-
         // Lazy and other variables
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         public NodeController controller => ownTransform.controller;
 
         public int Count => array.Count;
+
+        public NodeController Last => array.Last;
+
+        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
+        bool INodeExpandable.ModifyHeightOfPiece => modifyHeightOfPiece;
+        bool INodeExpandable.ModifyWidthOfPiece => modifyWidthOfPiece;
 
         // Methods
         public void Clear() {
             array.RefreshNodeZones(array[0]);
         }
 
-        public void AdjustParts((int dx, int dy) delta) {
+        public void AdjustParts((int dx, int dy) delta, bool smooth = false) {
             var newDelta = CalculateDelta(delta);
 
-            RecalculateZLevels();
+            RefreshLocalDepthLevels();
 
             if (toggleZone) zone?.SetActive(array.Count == 0);
-            sprite?.ToggleRender(array.Count == 0);
-            ownTransform.Expand(newDelta.dx, newDelta.dy);
-            controller.AdjustParts(array, newDelta);
+            sprite?.SetVisible(array.Count == 0);
+            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
+            controller.AdjustParts(expandable: this, delta: newDelta, smooth: smooth);
         }
 
         (int dx, int dy) CalculateDelta((int dx, int dy) delta) {
@@ -60,15 +67,15 @@ namespace ScrapCoder.VisualNodes {
             return delta;
         }
 
-        void RecalculateZLevels() {
-            ownTransform.maxZlevels = array.ownTransform.zLevels;
+        void RefreshLocalDepthLevels() {
+            ownTransform.localDepthLevels = array.ownTransform.depthLevels;
         }
 
-        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null) {
+        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
             toThisNode ??= controller;
 
             if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
-                array.AddNodes(nodeToAdd, toThisNode);
+                array.AddNodes(node: nodeToAdd, toThisNode: toThisNode, smooth: smooth);
             }
         }
     }

@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace ScrapCoder.Utils {
     public class Math {
-        static public int mod(int a, int b) {
-            return ((a % b) + b) % b;
+        static public int mod(int a, int n) {
+            return ((a % n) + n) % n;
         }
     }
 }

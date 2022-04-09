@@ -198,7 +198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7409257471916764620}
-  rectTransform: {fileID: 7409257471916764623}
   initHeight: 21
   initWidth: 96
   minHeight: 0
@@ -221,8 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteShapeController: {fileID: 7409257471916764622}
-  ownTransform: {fileID: 7409257471916764619}
   horizontalRangeTemplate:
     initialStartIndex: 4
     initialEndIndex: 4
@@ -247,30 +244,7 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 3
     finalIndex: 4
-  initialPointPosition:
-    x: 6
-    y: 0
-  shapePoints:
-  - position:
-      x: 6
-      y: 0
-    spriteIndex: 3
-  - position:
-      x: 6
-      y: -2
-    spriteIndex: 0
-  - position:
-      x: 6
-      y: -15
-    spriteIndex: 3
-  - position:
-      x: 26
-      y: -15
-    spriteIndex: 0
-  - position:
-      x: 84
-      y: -15
-    spriteIndex: 0
+  initialPointPosition: {x: 6, y: 0}
 --- !u!1 &7409257472122033714
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 2793215989596114282}
-  rectTransform: {fileID: 7409257472122033713}
   initHeight: 21
   initWidth: 96
   minHeight: 0
@@ -359,7 +332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownTransform: {fileID: 7897783888782704696}
   horizontalItems: []
   itemsBelow:
   - {fileID: 1710344555005716402}
@@ -383,6 +355,7 @@ GameObject:
   - component: {fileID: 7409257472702031262}
   - component: {fileID: 7409257472702031263}
   - component: {fileID: 7409257472702031232}
+  - component: {fileID: 1418635463869318641}
   m_Layer: 5
   m_Name: collider
   m_TagString: Untagged
@@ -458,8 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 7409257472702031232}
-  rectTransform: {fileID: 7409257472702031233}
+  nodeExpander: {fileID: 1418635463869318641}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -482,7 +454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b6cb1377dd08648a7d866068e15279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 7409257472702031262}
   widthPointsRange:
     begin: 6
     end: 7
@@ -491,7 +462,26 @@ MonoBehaviour:
     begin: 2
     end: 11
     isExpandable: 1
-  ownTransform: {fileID: 7409257472702031263}
+--- !u!114 &1418635463869318641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409257472702031234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acd7e571fc8bc74c845fc86a262f055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthPointsRange:
+    begin: 6
+    end: 7
+    isExpandable: 1
+  heightPointsRange:
+    begin: 2
+    end: 11
+    isExpandable: 1
 --- !u!1001 &1371067110234892529
 PrefabInstance:
   m_ObjectHideFlags: 0

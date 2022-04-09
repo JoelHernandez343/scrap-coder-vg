@@ -12,13 +12,18 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] int initialOrder = 0;
 
+        [SerializeField] int publicLastZOrder;
+
         // State variables
         List<NodeController> nodes = new List<NodeController>();
 
         public int? _lastZOrder;
-        public int lastZOrder {
-            get => _lastZOrder ??= -initialOrder;
-            private set => _lastZOrder = value;
+        public int lastDepthOrder {
+            get => _lastZOrder ??= initialOrder;
+            private set {
+                _lastZOrder = value;
+                publicLastZOrder = value;
+            }
         }
 
         // Lazy and other variables
@@ -55,19 +60,15 @@ namespace ScrapCoder.VisualNodes {
         public int IndexOf(NodeController controller) => nodes.IndexOf(controller);
 
         void SetSortingOrder() {
-            for (int i = 0, order = initialOrder, zOrder = -initialOrder; i < nodes.Count; ++i, ++order) {
+            for (int i = 0, order = initialOrder, depthOrder = initialOrder; i < nodes.Count; ++i, ++order) {
                 if (!nodes[i].hasParent) {
                     var node = nodes[i];
 
-                    var transform = node.ownTransform.rectTransform;
-                    var position = transform.localPosition;
-                    var sorter = node.ownTransform.sorter;
+                    node.ownTransform.sorter.sortingOrder = order;
+                    node.ownTransform.depth = depthOrder;
 
-                    sorter.sortingOrder = order;
-                    transform.localPosition = new Vector3(position.x, position.y, zOrder);
-
-                    zOrder += node.ownTransform.zLevels;
-                    lastZOrder = zOrder;
+                    depthOrder += node.ownTransform.depthLevels;
+                    lastDepthOrder = depthOrder;
                 }
             }
         }

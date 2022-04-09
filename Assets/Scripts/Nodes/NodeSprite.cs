@@ -9,37 +9,47 @@ namespace ScrapCoder.VisualNodes {
     public class NodeSprite : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] public NodeTransform ownTransform;
-        [SerializeField] new SpriteRenderer renderer;
-
         [SerializeField] List<Sprite> availableSprites;
 
         [SerializeField] bool hideable;
 
-        // Lazy state variables
-        int? _selectedSprite;
-        int selectedSprite {
-            set { _selectedSprite = value; }
-            get {
-                _selectedSprite ??= Utils.Random.NextRange(0, availableSprites.Count - 1);
+        int selectedSprite;
 
-                return (int)_selectedSprite;
-            }
+        // Lazy state variables
+        Utils.Random _rand;
+        Utils.Random rand {
+            get => _rand ??= new Utils.Random();
+            set => _rand = value;
         }
+
+
+        // Lazy variables
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        SpriteRenderer _spriteRenderer;
+        SpriteRenderer spriteRenderer => _spriteRenderer ??= GetComponent<SpriteRenderer>();
 
         // Methods
         void Awake() {
-            if (availableSprites.Count != 0) {
-                renderer.sprite = availableSprites[selectedSprite];
+            ChangeSprite();
+        }
+
+        public void SetVisible(bool visible) {
+            if (hideable) {
+                spriteRenderer.enabled = visible;
             }
         }
 
-        void Hide() => ToggleRender(false);
-        void Show() => ToggleRender(true);
+        public void SetSeed(int seed) {
+            rand = new Utils.Random(seed);
+            ChangeSprite();
+        }
 
-        public void ToggleRender(bool render) {
-            if (hideable) {
-                renderer.enabled = render;
+        void ChangeSprite() {
+            if (availableSprites.Count != 0) {
+                selectedSprite = rand.NextIntRange(0, availableSprites.Count - 1);
+                spriteRenderer.sprite = availableSprites[selectedSprite];
             }
         }
     }

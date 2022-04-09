@@ -13,7 +13,7 @@ namespace ScrapCoder.VisualNodes {
     }
 
     public interface INodePartsAdjuster {
-        (int dx, int dy) AdjustParts(NodeArray toThisArray, (int dx, int dy)? delta = null);
+        (int dx, int dy) AdjustParts(INodeExpandable expandable, (int dx, int dy)? delta = null);
     }
 
     public interface INodeSelectorModifier {
@@ -49,13 +49,12 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public NodeArray siblings;
 
-        [SerializeField] public NodeTransform ownTransform;
-
         [SerializeField] public NodeType type;
         [SerializeField] public NodeCategory category;
 
         [SerializeField] List<NodeTransform> components;
         [SerializeField] List<NodeContainer> containers;
+        [SerializeField] List<NodeTransform> staticContainers;
 
         [SerializeField] Component zoneRefresher;
         [SerializeField] Component partsAdjuster;
@@ -73,12 +72,13 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // Lazy and other variables
-        public NodeController controller => parentArray?.controller;
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public NodeController parentController => parentArray?.controller;
 
         public NodeController temporalParent {
-            set {
-                transform.SetParent(value?.transform ?? canvas.transform);
-            }
+            set => transform.SetParent(value?.transform ?? canvas.transform);
         }
 
         DropFuncSelector _selector;
@@ -104,7 +104,7 @@ namespace ScrapCoder.VisualNodes {
             get {
                 var controller = this;
                 while (controller.hasParent) {
-                    controller = controller.controller;
+                    controller = controller.parentController;
                 }
 
                 return controller;
@@ -115,12 +115,12 @@ namespace ScrapCoder.VisualNodes {
         public void ClearParent() => parentArray = null;
 
         public void DetachFromParent() {
-            if (controller == null) return;
+            if (!hasParent) return;
 
             if (siblings != null) {
-                siblings.AddNodesFromParent();
+                siblings.AddNodesFromParent(smooth: true);
             } else {
-                parentArray.RemoveNodes(this);
+                parentArray.RemoveNodes(fromThisNode: this, smooth: true);
                 RefreshZones();
                 ClearParent();
             }
@@ -132,8 +132,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
-            if (controller != null && mainZones.Contains(ownZone)) {
-                return controller.OnDrop(inZone, ownZone, this);
+            if (parentController != null && mainZones.Contains(ownZone)) {
+                return parentController.OnDrop(inZone, ownZone, this);
             }
 
             var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
@@ -167,13 +167,17 @@ namespace ScrapCoder.VisualNodes {
             inZone.controller.OnDrop(ownZone, inZone);
         }
 
+        void AddNodeToContainerDirectly(NodeContainer container, NodeController nodeToAdd) {
+            container.AddNodes(nodeToAdd: nodeToAdd, toThisNode: container.Last, smooth: false);
+        }
+
         void AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
             foreach (var container in containers) {
                 if (
                     ownZone == container.zone ||
                     ownZone.controller.parentArray == container.array
                 ) {
-                    container.AddNodes(inZone.controller, toThisNode);
+                    container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
                     break;
                 }
             }
@@ -225,63 +229,86 @@ namespace ScrapCoder.VisualNodes {
             container.zone.SetZoneColor(array.Count == 0 ? ZoneColor.Red : ZoneColor.Yellow);
         }
 
-        public void AdjustParts(NodeArray toThisArray, (int dx, int dy) delta) {
-            if (toThisArray == siblings) {
-                RecalculateZLevels();
+        public void AdjustParts(INodeExpandable expandable, (int dx, int dy) delta, bool smooth = false) {
+
+            if ((expandable is NodeContainer container) && container.array == siblings) {
+                RefreshLocalDepthLevels();
                 HierarchyController.instance.SetOnTop(this);
                 return;
             }
 
             var adjuster = partsAdjuster as INodePartsAdjuster;
-            var newDelta = adjuster?.AdjustParts(toThisArray, delta) ?? AdjustPiece(toThisArray, delta);
+            var newDelta = adjuster?.AdjustParts(expandable, delta) ?? AdjustPiece(expandable, delta, smooth: smooth);
 
-            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy);
-            RecalculateZLevels();
+            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
+            RefreshLocalDepthLevels();
 
             if (hasParent) {
-                parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: true);
+                parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
             } else {
                 HierarchyController.instance.SetOnTop(this);
             }
         }
 
-        (int dx, int dy) AdjustPiece(NodeArray array, (int dx, int dy) delta) {
+        (int dx, int dy) AdjustPiece(INodeExpandable expandable, (int dx, int dy) delta, bool smooth = false) {
             var newDelta = delta;
 
-            var container = containers.Find(container => container.array == array);
-            var pieceToExpand = container.pieceToExpand;
+            var pieceToExpand = expandable.PieceToExpand;
 
             if (pieceToExpand != null) {
-                newDelta.dx = container.modifyWidthOfPiece ? newDelta.dx : 0;
-                newDelta.dy = container.modifyHeightOfPiece ? newDelta.dy : 0;
+                newDelta.dx = expandable.ModifyWidthOfPiece ? newDelta.dx : 0;
+                newDelta.dy = expandable.ModifyHeightOfPiece ? newDelta.dy : 0;
 
-                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, array);
+                newDelta = pieceToExpand.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth, expandable: expandable);
             }
 
-            AdjustComponents(pieceToExpand, newDelta);
+            AdjustComponents(pieceModified: pieceToExpand, delta: newDelta, smooth: smooth);
 
             return newDelta;
         }
 
-        void AdjustComponents(NodeTransform pieceModified, (int dx, int dy) delta) {
+        void AdjustComponents(NodeTransform pieceModified, (int dx, int dy) delta, bool smooth = false) {
             var begin = components.IndexOf(pieceModified) + 1;
 
             for (var i = begin; i < components.Count; ++i) {
-                components[i].SetPositionByDelta(dy: -delta.dy, smooth: true);
-                components[i].Expand(dx: delta.dx);
+                components[i].SetPositionByDelta(dy: -delta.dy, smooth: smooth);
+                components[i].Expand(dx: delta.dx, smooth: smooth);
             }
         }
 
-        void RecalculateZLevels() {
-            var maxZlevels = 0;
-            foreach (var container in containers) {
-                var tf = container.ownTransform;
-                maxZlevels = tf.zLevels < maxZlevels
-                    ? tf.zLevels
-                    : maxZlevels;
-            }
+        void RefreshLocalDepthLevels() {
+            var localDepthLevels = 0;
 
-            ownTransform.maxZlevels = maxZlevels;
+            containers.ForEach(container => {
+                var tf = container.ownTransform;
+                if (localDepthLevels < tf.depthLevels) {
+                    localDepthLevels = tf.depthLevels;
+                }
+            });
+
+            staticContainers.ForEach(container => {
+                if (localDepthLevels < container.depthLevels) {
+                    localDepthLevels = container.depthLevels;
+                }
+            });
+
+            ownTransform.localDepthLevels = localDepthLevels;
+        }
+
+        public void GetFocus() {
+            HierarchyController.instance.SetOnTop(parentController ?? this);
+            if (hasParent) {
+                ownTransform.Raise();
+
+                parentController.GetFocus();
+            }
+        }
+
+        public void LoseFocus() {
+            if (hasParent) {
+                ownTransform.ResetRenderOrder();
+                parentController.LoseFocus();
+            }
         }
     }
 

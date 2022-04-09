@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8622792204965688253}
   - component: {fileID: 8622792204965688252}
   - component: {fileID: 8622792204965688227}
+  - component: {fileID: 1685854560556364758}
   m_Layer: 5
   m_Name: collider
   m_TagString: Untagged
@@ -83,8 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 8622792204965688227}
-  rectTransform: {fileID: 8622792204965688226}
+  nodeExpander: {fileID: 1685854560556364758}
   initHeight: 0
   initWidth: 0
   minHeight: 0
@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b6cb1377dd08648a7d866068e15279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 8622792204965688253}
   widthPointsRange:
     begin: 2
     end: 5
@@ -116,7 +115,26 @@ MonoBehaviour:
     begin: 4
     end: 7
     isExpandable: 1
-  ownTransform: {fileID: 8622792204965688252}
+--- !u!114 &1685854560556364758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622792204965688225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acd7e571fc8bc74c845fc86a262f055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  widthPointsRange:
+    begin: 2
+    end: 5
+    isExpandable: 1
+  heightPointsRange:
+    begin: 4
+    end: 7
+    isExpandable: 1
 --- !u!1 &8622792205453656081
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 4016024072755206985}
-  rectTransform: {fileID: 8622792205453656082}
   initHeight: 19
   initWidth: 44
   minHeight: 0
@@ -209,7 +226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownTransform: {fileID: 8998798037566281243}
   horizontalItems:
   - {fileID: 8915782299045067523}
   - {fileID: 2166364697749404347}
@@ -411,7 +427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 8622792205790968815}
-  rectTransform: {fileID: 8622792205790968812}
   initHeight: 19
   initWidth: 44
   minHeight: 0
@@ -434,8 +449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteShapeController: {fileID: 8622792205790968813}
-  ownTransform: {fileID: 8622792205790968808}
   horizontalRangeTemplate:
     initialStartIndex: 1
     initialEndIndex: 2
@@ -460,9 +473,7 @@ MonoBehaviour:
     maxSeparation: 10
     firstIndex: 2
     finalIndex: 3
-  initialPointPosition:
-    x: 4
-    y: -4
+  initialPointPosition: {x: 4, y: -4}
 --- !u!1001 &1201736165987915123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1163,6 +1174,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -6
       objectReference: {fileID: 0}
+    - target: {fileID: 7692091485620265625, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8464035009664199562, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 2
@@ -1637,6 +1652,10 @@ PrefabInstance:
     - target: {fileID: 7070279304372327025, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692091485620265625, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8464035009664199562, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_AnchoredPosition.x
