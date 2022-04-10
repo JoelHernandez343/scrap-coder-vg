@@ -20,18 +20,20 @@ namespace ScrapCoder.VisualNodes {
         void ModifySelectorFunc(NodeController.DropFuncSelector selector);
     }
 
-    public class NodeController : MonoBehaviour {
+    public class NodeController : MonoBehaviour, INodeDropHandler {
 
         // Internal types
         public class DropFuncSelector {
-            Action<NodeZone, NodeZone, NodeController>[,] funcs =
-                new Action<NodeZone, NodeZone, NodeController>[
+            Func<NodeZone, NodeZone, NodeController, bool> emptyFn = (a, b, c) => false;
+
+            Func<NodeZone, NodeZone, NodeController, bool>[,] funcs =
+                new Func<NodeZone, NodeZone, NodeController, bool>[
                     Enum.GetNames(typeof(ZoneColor)).Length,
                     Enum.GetNames(typeof(ZoneColor)).Length
                 ];
 
-            public Action<NodeZone, NodeZone, NodeController> this[ZoneColor first, ZoneColor second] {
-                get => funcs[(int)first, (int)second];
+            public Func<NodeZone, NodeZone, NodeController, bool> this[ZoneColor first, ZoneColor second] {
+                get => funcs[(int)first, (int)second] ?? emptyFn;
                 set => funcs[(int)first, (int)second] = value;
             }
         }
@@ -45,7 +47,7 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] NodeZone lastZone;
 
-        [SerializeField] List<NodeZone> mainZones;
+        [SerializeField] public List<NodeZone> mainZones;
 
         [SerializeField] public NodeArray siblings;
 
@@ -86,7 +88,7 @@ namespace ScrapCoder.VisualNodes {
             get {
                 if (_selector == null) {
                     _selector = new DropFuncSelector() {
-                        [ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncommingZone,
+                        [ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncomingZone,
                         [ZoneColor.Red, ZoneColor.Blue] = AddNodesToContainer,
                         [ZoneColor.Yellow, ZoneColor.Green] = AddNodesToContainer
                     };
@@ -131,25 +133,30 @@ namespace ScrapCoder.VisualNodes {
             ClearParent();
         }
 
-        public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
+        bool INodeDropHandler.OnDrop(NodeZone inZone, NodeZone ownZone) => OnDrop(inZone, ownZone);
+
+        bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (parentController != null && mainZones.Contains(ownZone)) {
                 return parentController.OnDrop(inZone, ownZone, this);
             }
 
-            var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
+            return selector[ownZone.zoneColor, inZone.zoneColor](inZone, ownZone, toThisNode);
 
-            if (dropFunc != null) {
-                dropFunc(inZone, ownZone, toThisNode);
-                return true;
-            }
+            // var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
 
-            return false;
+            // if (dropFunc != null) {
+            //     dropFunc(inZone, ownZone, toThisNode);
+            //     return true;
+            // }
+
+            // return false;
         }
 
-        public void InvokeZones() {
-            if (topZone?.Invoke() == true) return;
-            if (middleZone?.Invoke() == true) return;
-            if (lastZone?.Invoke() == true) return;
+        public bool InvokeZones() {
+            return topZone?.Invoke()
+                ?? middleZone?.Invoke()
+                ?? lastZone?.Invoke()
+                ?? false;
         }
 
         void RefreshLastZone() {
@@ -163,24 +170,26 @@ namespace ScrapCoder.VisualNodes {
             middleZone?.SetActive(enable);
         }
 
-        void AddNodesToIncommingZone(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
-            inZone.controller.OnDrop(ownZone, inZone);
+        bool AddNodesToIncomingZone(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
+            return inZone.controller.OnDrop(ownZone, inZone);
         }
 
         void AddNodeToContainerDirectly(NodeContainer container, NodeController nodeToAdd) {
             container.AddNodes(nodeToAdd: nodeToAdd, toThisNode: container.Last, smooth: false);
         }
 
-        void AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
+        bool AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
             foreach (var container in containers) {
                 if (
                     ownZone == container.zone ||
                     ownZone.controller.parentArray == container.array
                 ) {
                     container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
-                    break;
+                    return true;
                 }
             }
+
+            return false;
         }
 
         public void RefreshZones(NodeArray array = null, NodeController node = null) {

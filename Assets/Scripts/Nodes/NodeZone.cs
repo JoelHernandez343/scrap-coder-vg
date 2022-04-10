@@ -11,6 +11,7 @@ namespace ScrapCoder.VisualNodes {
 
         // State variables
         [SerializeField] ZoneColor color;
+        [SerializeField] Component dropHandler;
 
         List<NodeZone> zones = new List<NodeZone>();
 
@@ -54,9 +55,11 @@ namespace ScrapCoder.VisualNodes {
                 return false;
             }
 
+            zones = zones.FindAll(zone => zone != null);
+
             var validZones = zones.FindAll(zone =>
                 zone.isActive &&
-                zone.controller.lastController != controller.lastController
+                zone.controller?.lastController != controller.lastController
             );
 
             if (validZones.Count == 0) {
@@ -73,8 +76,13 @@ namespace ScrapCoder.VisualNodes {
             return validZones[0].OnDrop(this);
         }
 
+        public bool HasZone(NodeZone zone) {
+            return zones.IndexOf(zone) != -1;
+        }
+
         public bool OnDrop(NodeZone zone) {
-            return controller.OnDrop(zone, this);
+            return (this.dropHandler as INodeDropHandler)?.OnDrop(zone, this)
+                ?? (controller as INodeDropHandler).OnDrop(zone, this);
         }
     }
 

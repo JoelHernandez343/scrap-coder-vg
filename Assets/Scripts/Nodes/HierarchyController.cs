@@ -57,6 +57,19 @@ namespace ScrapCoder.VisualNodes {
             SetSortingOrder();
         }
 
+        public bool Delete(NodeController controller) {
+            controller = controller.lastController;
+
+            var index = nodes.IndexOf(controller);
+
+            if (index == -1) return false;
+
+            nodes.RemoveAt(index);
+            SetSortingOrder();
+
+            return true;
+        }
+
         public int IndexOf(NodeController controller) => nodes.IndexOf(controller);
 
         void SetSortingOrder() {
