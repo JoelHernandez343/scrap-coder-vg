@@ -67,7 +67,6 @@ namespace ScrapCoder.VisualNodes {
                 _parentArray = value;
 
                 if (value != null) {
-                    Debug.Log(name);
                     transform.SetParent(parentArray.transform);
                     HierarchyController.instance.Delete(this);
                 } else {
