@@ -13,7 +13,6 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] Canvas canvas;
         [SerializeField] NodeType nodeToSpawn;
-        [SerializeField] NodeZone workingZone;
 
         // State variables
         int spawnedNodes = 0;
@@ -64,16 +63,7 @@ namespace ScrapCoder.VisualNodes {
 
         public void OnEndDrag(PointerEventData eventData) {
 
-            var isOnWorkingZone = false;
-
-            foreach (var zone in spawnedNode.mainZones) {
-                if (workingZone.HasZone(zone)) {
-                    isOnWorkingZone = true;
-                    break;
-                }
-            }
-
-            if (spawnedNode.InvokeZones() || isOnWorkingZone) {
+            if (spawnedNode.InvokeZones() || UI.WorkingZone.instance.IsOnWorkingZone(spawnedNode)) {
                 spawnedNode.SetMiddleZone(false);
             } else {
                 HierarchyController.instance.Delete(spawnedNode);

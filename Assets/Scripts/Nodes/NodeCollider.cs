@@ -18,6 +18,8 @@ namespace ScrapCoder.VisualNodes {
 
         bool isDragging = false;
 
+        Vector2Int previousPosition = Vector2Int.zero;
+
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTop(controller);
         }
@@ -25,14 +27,18 @@ namespace ScrapCoder.VisualNodes {
         public void OnBeginDrag(PointerEventData eventData) {
             if (ownTransform.isMovingSmoothly) return;
 
+            previousPosition.x = controller.ownTransform.x;
+            previousPosition.y = controller.ownTransform.y;
+
             controller.SetMiddleZone(true);
             controller.DetachFromParent();
 
             HierarchyController.instance.SetOnTop(controller);
 
-            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
-
-            controller.ownTransform.SetFloatPositionByDelta(dx, dy);
+            controller.ownTransform.SetFloatPositionByDelta(
+                dx: eventData.delta.x,
+                dy: eventData.delta.y
+            );
 
             isDragging = true;
         }
@@ -41,16 +47,24 @@ namespace ScrapCoder.VisualNodes {
             if (ownTransform.isMovingSmoothly) return;
 
             if (eventData.dragging && isDragging) {
-                var (dx, dy) = (eventData.delta.x, eventData.delta.y);
-
-                controller.ownTransform.SetFloatPositionByDelta(dx, dy);
+                controller.ownTransform.SetFloatPositionByDelta(
+                    dx: eventData.delta.x,
+                    dy: eventData.delta.y
+                );
             }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
             if (isDragging) {
-                controller.InvokeZones();
-                controller.SetMiddleZone(false);
+                if (!controller.InvokeZones() && !UI.WorkingZone.instance.IsOnWorkingZone(controller)) {
+                    controller.ownTransform.SetPosition(
+                        x: previousPosition.x,
+                        y: previousPosition.y,
+                        smooth: true
+                    );
+                } else {
+                    controller.SetMiddleZone(false);
+                }
 
                 isDragging = false;
             }

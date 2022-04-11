@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Caminar_hacia_adelante
@@ -297,6 +301,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Inicio
@@ -399,6 +407,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: "Y_condici\xF3n"
@@ -527,6 +539,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 2123671303}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -630,6 +646,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: 'Cuando
@@ -751,6 +771,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: "Negaci\xF3n"
@@ -857,6 +881,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Cuando,_si_no
@@ -979,6 +1007,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Repetir_n_veces
@@ -1089,6 +1121,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Girar
@@ -1243,6 +1279,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Repetir
@@ -1424,6 +1464,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Aumentar_en_1
@@ -1529,6 +1573,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Interactuar
@@ -1638,6 +1686,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: "O_condici\xF3n"
@@ -1813,6 +1865,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Decrecer_en_1
@@ -1918,7 +1974,7 @@ GameObject:
   - component: {fileID: 1621826818}
   - component: {fileID: 1621826817}
   m_Layer: 5
-  m_Name: WorkZone
+  m_Name: WorkingZone
   m_TagString: TriggerZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1940,7 +1996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 800, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1621826817
@@ -2042,9 +2098,9 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 10, y: 0}
-      - {x: 10, y: -10}
-      - {x: 0, y: -10}
+      - {x: 0, y: 0}
+      - {x: 0, y: 0}
+      - {x: 0, y: 0}
 --- !u!1001 &1631012906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2064,6 +2120,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Fin
@@ -2157,6 +2217,10 @@ PrefabInstance:
       propertyPath: nodeToSpawn
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
+      propertyPath: workingZone
+      value: 
+      objectReference: {fileID: 1621826820}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
       value: Girar_hacia_la_derecha

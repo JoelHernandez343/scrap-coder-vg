@@ -141,15 +141,6 @@ namespace ScrapCoder.VisualNodes {
             }
 
             return selector[ownZone.zoneColor, inZone.zoneColor](inZone, ownZone, toThisNode);
-
-            // var dropFunc = selector[ownZone.zoneColor, inZone.zoneColor];
-
-            // if (dropFunc != null) {
-            //     dropFunc(inZone, ownZone, toThisNode);
-            //     return true;
-            // }
-
-            // return false;
         }
 
         public bool InvokeZones() {

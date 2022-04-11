@@ -9,6 +9,12 @@ namespace ScrapCoder.VisualNodes {
 
     public class HierarchyController : MonoBehaviour {
 
+        // Static variables
+        public static HierarchyController instance {
+            private set;
+            get;
+        }
+
         // Editor variables
         [SerializeField] int initialOrder = 0;
 
@@ -24,12 +30,6 @@ namespace ScrapCoder.VisualNodes {
                 _lastZOrder = value;
                 publicLastZOrder = value;
             }
-        }
-
-        // Lazy and other variables
-        public static HierarchyController instance {
-            private set;
-            get;
         }
 
         void Awake() {
