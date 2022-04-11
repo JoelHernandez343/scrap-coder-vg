@@ -20,7 +20,7 @@ namespace ScrapCoder.UI {
         Vector2 canvasDimensions => _canvasDimensions ??= canvas.GetComponent<RectTransform>().rect.size;
 
         NodeZone _zone;
-        NodeZone zone => _zone ??= (GetComponent<NodeZone>() as NodeZone);
+        public NodeZone zone => _zone ??= (GetComponent<NodeZone>() as NodeZone);
 
         // Methods
         bool INodeDropHandler.OnDrop(NodeZone incomingZone, NodeZone ownZone) => true;

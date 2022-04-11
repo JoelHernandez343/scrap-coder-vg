@@ -59,7 +59,8 @@ namespace ScrapCoder.VisualNodes {
 
             var validZones = zones.FindAll(zone =>
                 zone.isActive &&
-                zone.controller?.lastController != controller.lastController
+                zone.controller?.lastController != controller.lastController &&
+                zone != UI.WorkingZone.instance.zone
             );
 
             if (validZones.Count == 0) {

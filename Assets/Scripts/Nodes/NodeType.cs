@@ -28,6 +28,8 @@ namespace ScrapCoder.VisualNodes {
         Condition_detectar = 17,
         RepeatNTimes = 18,
         Girar = 19,
+        TrueConstant = 20,
+        FalseConstant = 21,
     }
 
 }

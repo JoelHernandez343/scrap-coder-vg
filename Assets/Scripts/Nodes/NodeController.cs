@@ -144,10 +144,9 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public bool InvokeZones() {
-            return topZone?.Invoke()
-                ?? middleZone?.Invoke()
-                ?? lastZone?.Invoke()
-                ?? false;
+            return topZone?.Invoke() == true
+                || middleZone?.Invoke() == true
+                || lastZone?.Invoke() == true;
         }
 
         void RefreshLastZone() {
