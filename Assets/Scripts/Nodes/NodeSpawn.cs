@@ -51,20 +51,34 @@ namespace ScrapCoder.VisualNodes {
 
             HierarchyController.instance.SetOnTop(spawnedNode);
             spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
+
+            spawnedNode.isDragging = true;
         }
 
         public void OnDrag(PointerEventData eventData) {
             if (eventData.dragging) {
-                var (dx, dy) = (eventData.delta.x, eventData.delta.y);
-
-                spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
+                spawnedNode.ownTransform.SetFloatPositionByDelta(
+                    dx: eventData.delta.x,
+                    dy: eventData.delta.y
+                );
             }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
 
-            if (spawnedNode.InvokeZones() || UI.WorkingZone.instance.IsOnWorkingZone(spawnedNode)) {
+            var dragDropZone = spawnedNode.GetDragDropZone();
+
+            if (dragDropZone?.category == "working") {
+                spawnedNode.InvokeZones();
                 spawnedNode.SetMiddleZone(false);
+                spawnedNode.isDragging = false;
+
+                dragDropZone.SetState("normal");
+            } else if (dragDropZone?.category == "erasing") {
+                spawnedNode.isDragging = false;
+                spawnedNode.Disappear();
+
+                dragDropZone.SetState("normal");
             } else {
                 HierarchyController.instance.Delete(spawnedNode);
                 Destroy(spawnedNode.gameObject);

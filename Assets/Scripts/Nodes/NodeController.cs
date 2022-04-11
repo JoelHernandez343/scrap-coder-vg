@@ -20,7 +20,7 @@ namespace ScrapCoder.VisualNodes {
         void ModifySelectorFunc(NodeController.DropFuncSelector selector);
     }
 
-    public class NodeController : MonoBehaviour, INodeDropHandler {
+    public class NodeController : MonoBehaviour {
 
         // Internal types
         public class DropFuncSelector {
@@ -47,8 +47,6 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] NodeZone lastZone;
 
-        [SerializeField] public List<NodeZone> mainZones;
-
         [SerializeField] public NodeArray siblings;
 
         [SerializeField] public NodeType type;
@@ -68,10 +66,18 @@ namespace ScrapCoder.VisualNodes {
             set {
                 _parentArray = value;
 
-                transform.SetParent(parentArray?.transform ?? canvas.transform);
+                if (value != null) {
+                    Debug.Log(name);
+                    transform.SetParent(parentArray.transform);
+                    HierarchyController.instance.Delete(this);
+                } else {
+                    transform.SetParent(canvas.transform);
+                }
             }
             get => _parentArray;
         }
+
+        [System.NonSerialized] public bool isDragging = false;
 
         // Lazy and other variables
         NodeTransform _ownTransform;
@@ -113,6 +119,16 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        List<NodeZone> _mainZones;
+        public List<NodeZone> mainZones
+            => _mainZones ??= (new List<NodeZone> { topZone, middleZone, bottomZone }).FindAll(zone => zone != null);
+
+        List<NodeZone> _validZones;
+        public List<NodeZone> validZones
+            => _validZones ??= (topZone != null || middleZone != null)
+                ? (new List<NodeZone> { topZone, middleZone }).FindAll(zone => zone != null)
+                : (new List<NodeZone> { bottomZone }).FindAll(zone => zone != null);
+
         // Methods
         public void ClearParent() => parentArray = null;
 
@@ -133,9 +149,7 @@ namespace ScrapCoder.VisualNodes {
             ClearParent();
         }
 
-        bool INodeDropHandler.OnDrop(NodeZone inZone, NodeZone ownZone) => OnDrop(inZone, ownZone);
-
-        bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
+        public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
             if (parentController != null && mainZones.Contains(ownZone)) {
                 return parentController.OnDrop(inZone, ownZone, this);
             }
@@ -308,6 +322,59 @@ namespace ScrapCoder.VisualNodes {
                 ownTransform.ResetRenderOrder();
                 parentController.LoseFocus();
             }
+        }
+
+        public UI.DragDropZone GetDragDropZone() {
+
+            UI.DragDropZone dropZone = null;
+
+            foreach (var zone in validZones) {
+
+                // Get drop zone of current zone
+                var currentDropZone = zone.GetFirstDragDropZone();
+
+                // If drop zone is null, return null
+                if (currentDropZone == null) return null;
+
+                // Update dropZone only if is null
+                dropZone ??= currentDropZone;
+
+                // If there is difference with current drop zone and previous dreop zone, return null
+                if (dropZone != currentDropZone) return null;
+            }
+
+            return dropZone;
+        }
+
+        public void Disappear() {
+            Action destroy = () => Destroy(gameObject);
+
+            Action disappear = () => {
+                ownTransform.SetPosition(
+                    x: ownTransform.x,
+                    y: ownTransform.y - 500,
+                    smooth: true,
+                    endingCallback: destroy
+                );
+            };
+
+            Action moveUp = () => {
+                ownTransform.SetPosition(
+                    x: ownTransform.x,
+                    y: ownTransform.y - 500,
+                    smooth: true,
+                    endingCallback: disappear
+                );
+            };
+
+            ownTransform.SetPosition(
+                x: ownTransform.x,
+                y: ownTransform.y + 50,
+                smooth: true,
+                endingCallback: moveUp
+            );
+
+            HierarchyController.instance.Delete(this);
         }
     }
 

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeCollider : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler {
+    public class NodeDragger : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
         // Lazy and other variables
         NodeTransform _ownTransform;
@@ -16,7 +16,10 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController controller => ownTransform.controller;
 
-        bool isDragging = false;
+        public bool isDragging {
+            get => controller.isDragging;
+            set => controller.isDragging = value;
+        }
 
         Vector2Int previousPosition = Vector2Int.zero;
 
@@ -56,14 +59,24 @@ namespace ScrapCoder.VisualNodes {
 
         public void OnEndDrag(PointerEventData eventData) {
             if (isDragging) {
-                if (!controller.InvokeZones() && !UI.WorkingZone.instance.IsOnWorkingZone(controller)) {
+
+                var dragDropZone = controller.GetDragDropZone();
+
+                if (dragDropZone?.category == "working") {
+                    controller.InvokeZones();
+                    controller.SetMiddleZone(false);
+                    dragDropZone.SetState("normal");
+                } else if (dragDropZone?.category == "erasing") {
+                    isDragging = false;
+                    controller.Disappear();
+                    dragDropZone.SetState("normal");
+                    return;
+                } else {
                     controller.ownTransform.SetPosition(
                         x: previousPosition.x,
                         y: previousPosition.y,
                         smooth: true
                     );
-                } else {
-                    controller.SetMiddleZone(false);
                 }
 
                 isDragging = false;

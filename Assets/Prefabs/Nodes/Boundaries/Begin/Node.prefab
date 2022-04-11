@@ -63,18 +63,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  directController: {fileID: 6150825404952637395}
+  indirectController: {fileID: 0}
   initHeight: 19
   initWidth: 44
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 6150825404952637395}
-  indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
   publicHeight: 0
   publicWidth: 0
-  localZLevels: -3
   ownDepthLevels: 3
   localDepthLevels: 0
 --- !u!114 &6150825404952637395
@@ -95,7 +94,6 @@ MonoBehaviour:
   bottomZone: {fileID: 2043934476168216280}
   lastZone: {fileID: 2043934476168216280}
   mainZones:
-  - {fileID: 0}
   - {fileID: 2043934476168216280}
   siblings: {fileID: 4350825533790206122}
   type: 0
@@ -104,6 +102,7 @@ MonoBehaviour:
   - {fileID: 6779175204579151820}
   containers:
   - {fileID: 128721500972171261}
+  staticContainers: []
   zoneRefresher: {fileID: 0}
   partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}

@@ -21,7 +21,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] int publicLastZOrder;
 
         // State variables
-        List<NodeController> nodes = new List<NodeController>();
+        [SerializeField] List<NodeController> nodes = new List<NodeController>();
 
         public int? _lastZOrder;
         public int lastDepthOrder {
@@ -58,14 +58,11 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public bool Delete(NodeController controller) {
-            controller = controller.lastController;
-
             var index = nodes.IndexOf(controller);
 
             if (index == -1) return false;
 
             nodes.RemoveAt(index);
-            SetSortingOrder();
 
             return true;
         }

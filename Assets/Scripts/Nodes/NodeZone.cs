@@ -7,13 +7,12 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeZone : MonoBehaviour {
+    public class NodeZone : MonoBehaviour, INodeDropHandler {
 
         // State variables
         [SerializeField] ZoneColor color;
-        [SerializeField] Component dropHandler;
 
-        List<NodeZone> zones = new List<NodeZone>();
+        List<INodeDropHandler> dropZones = new List<INodeDropHandler>();
 
         bool isActive = true;
 
@@ -28,39 +27,42 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController controller => ownTransform.controller;
 
+        bool INodeDropHandler.IsActive => isActive;
+        Transform INodeDropHandler.Transform => transform;
+        NodeTransform INodeDropHandler.OwnTransform => ownTransform;
+
         // Methods
         public void SetActive(bool isActive) => this.isActive = isActive;
 
         public void SetZoneColor(ZoneColor color) => this.zoneColor = color;
 
         public void OnTriggerEnter2D(Collider2D collider) {
-            var zone = collider.GetComponent<NodeZone>();
+            var dropZone = (collider.GetComponent<INodeDropHandler>() as INodeDropHandler);
 
-            if (zone?.tag == "TriggerZone") {
-                zones.Add(zone);
+            if (dropZone != null) {
+                dropZones.Add(dropZone);
             }
         }
 
         public void OnTriggerExit2D(Collider2D collider) {
 
-            var zone = collider.GetComponent<NodeZone>();
+            var dropZone = (collider.GetComponent<INodeDropHandler>() as INodeDropHandler);
 
-            if (zone?.tag == "TriggerZone") {
-                zones.Remove(zone);
+            if (dropZone != null) {
+                dropZones.Remove(dropZone);
             }
         }
 
         public bool Invoke() {
-            if (zones.Count == 0) {
+            if (dropZones.Count == 0) {
                 return false;
             }
 
-            zones = zones.FindAll(zone => zone != null);
+            dropZones = dropZones.FindAll(zone => zone != null);
 
-            var validZones = zones.FindAll(zone =>
-                zone.isActive &&
-                zone.controller?.lastController != controller.lastController &&
-                zone != UI.WorkingZone.instance.zone
+            var validZones = dropZones.FindAll(dropZone =>
+                dropZone.IsActive &&
+                dropZone.OwnTransform.controller?.lastController != controller.lastController
             );
 
             if (validZones.Count == 0) {
@@ -68,8 +70,8 @@ namespace ScrapCoder.VisualNodes {
             }
 
             validZones.Sort((zoneA, zoneB) => {
-                var zA = zoneA.transform.position.z;
-                var zB = zoneB.transform.position.z;
+                var zA = zoneA.Transform.position.z;
+                var zB = zoneB.Transform.position.z;
 
                 return zA.CompareTo(zB);
             });
@@ -77,13 +79,21 @@ namespace ScrapCoder.VisualNodes {
             return validZones[0].OnDrop(this);
         }
 
-        public bool HasZone(NodeZone zone) {
-            return zones.IndexOf(zone) != -1;
+        public bool HasDropZone(INodeDropHandler dropZone) {
+            return dropZones.IndexOf(dropZone) != -1;
         }
 
-        public bool OnDrop(NodeZone zone) {
-            return (this.dropHandler as INodeDropHandler)?.OnDrop(zone, this)
-                ?? (controller as INodeDropHandler).OnDrop(zone, this);
+        bool INodeDropHandler.OnDrop(NodeZone incomingZone) {
+            return controller.OnDrop(inZone: incomingZone, ownZone: this);
+        }
+
+        public UI.DragDropZone GetFirstDragDropZone() {
+            foreach (var dropZone in dropZones) {
+                if (dropZone is UI.DragDropZone) {
+                    return dropZone as UI.DragDropZone;
+                }
+            }
+            return null;
         }
     }
 
