@@ -41,6 +41,8 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] Vector2 initialPointPosition;
 
+        [SerializeField] bool hideable = true;
+
         // State Variables
         List<ShapeSegment> segments = new List<ShapeSegment>();
 
@@ -191,7 +193,9 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetVisible(bool visible) {
-            spriteShapeRenderer.enabled = visible;
+            if (hideable) {
+                spriteShapeRenderer.enabled = visible;
+            }
         }
 
         public void InitializeSegments(int? seed = null) {

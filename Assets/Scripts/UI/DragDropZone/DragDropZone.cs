@@ -14,44 +14,27 @@ namespace ScrapCoder.UI {
         // Editor variables
         [SerializeField] public string category;
 
+        // State variables
+        string previousState = "";
+        string currentState = "";
+
         // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         // Methods
-        // public void OnTriggerEnter2D(Collider2D collider) {
-        //     var zone = (collider.GetComponent<NodeZone>() as NodeZone);
-
-        //     if (zone == null) return;
-        //     if (zone.controller.isDragging == false) return;
-        //     if (zone.controller.validZones.IndexOf(zone) == -1) return;
-
-        //     zones.Add(zone);
-
-        //     if (zones.Count == zone.controller.validZones.Count) {
-        //         SetState("over");
-        //     }
-        // }
-
-        // public void OnTriggerExit2D(Collider2D collider) {
-        //     var zone = (collider.GetComponent<NodeZone>() as NodeZone);
-
-        //     if (zone == null) return;
-        //     if (zone.controller.isDragging == false) return;
-
-        //     if (zones.Remove(zone)) {
-        //         SetState("normal");
-        //     }
-        // }
-
         public void SetState(string state) {
-            if (state == "over") {
+            currentState = state;
+
+            if (currentState == "over" && previousState != currentState) {
                 // Here switch to over state
-                Debug.Log("over");
-            } else if (state == "normal") {
+                Debug.Log("Over");
+            } else if (currentState == "normal" && previousState != currentState) {
                 // Here switch to normal state
-                Debug.Log("normal");
+                Debug.Log("Normal");
             }
+
+            previousState = currentState;
         }
     }
 
