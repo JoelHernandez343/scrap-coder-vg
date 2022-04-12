@@ -24,7 +24,7 @@ namespace ScrapCoder.VisualNodes {
         Vector2Int previousPosition = Vector2Int.zero;
 
         public void OnPointerDown(PointerEventData eventData) {
-            HierarchyController.instance.SetOnTop(controller);
+            HierarchyController.instance.SetOnTopOfNodes(controller);
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
@@ -36,7 +36,7 @@ namespace ScrapCoder.VisualNodes {
             controller.SetMiddleZone(true);
             controller.DetachFromParent();
 
-            HierarchyController.instance.SetOnTop(controller);
+            HierarchyController.instance.SetOnTopOfNodes(controller);
 
             controller.ownTransform.SetFloatPositionByDelta(
                 dx: eventData.delta.x,
@@ -56,20 +56,20 @@ namespace ScrapCoder.VisualNodes {
                 );
             }
 
-            controller.currentDragDropZone = controller.GetDragDropZone();
+            controller.currentDrop = controller.GetDrop();
 
-            if (controller.currentDragDropZone != controller.previousDragDropZone) {
-                controller.currentDragDropZone?.SetState("over");
-                controller.previousDragDropZone?.SetState("normal");
+            if (controller.currentDrop != controller.previousDrop) {
+                controller.currentDrop?.SetState("over");
+                controller.previousDrop?.SetState("normal");
 
-                controller.previousDragDropZone = controller.currentDragDropZone;
+                controller.previousDrop = controller.currentDrop;
             }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
             if (isDragging) {
 
-                var dragDropZone = controller.GetDragDropZone();
+                var dragDropZone = controller.GetDrop();
 
                 if (dragDropZone?.category == "working") {
                     controller.InvokeZones();

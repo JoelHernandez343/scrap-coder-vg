@@ -16,20 +16,16 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // Editor variables
-        [SerializeField] int initialOrder = 0;
-
+        [SerializeField] int initialNodeDepth = 0;
         [SerializeField] int publicLastZOrder;
 
         // State variables
         [SerializeField] List<NodeController> nodes = new List<NodeController>();
 
-        public int? _lastZOrder;
-        public int lastDepthOrder {
-            get => _lastZOrder ??= initialOrder;
-            private set {
-                _lastZOrder = value;
-                publicLastZOrder = value;
-            }
+        int? _lastZOrder;
+        int lastNodeDepth {
+            get => _lastZOrder ??= initialNodeDepth;
+            set => _lastZOrder = publicLastZOrder = value;
         }
 
         void Awake() {
@@ -41,7 +37,7 @@ namespace ScrapCoder.VisualNodes {
             instance = this;
         }
 
-        public void SetOnTop(NodeController controller) {
+        public void SetOnTopOfNodes(NodeController controller) {
             controller = controller.lastController;
             controller.transform.SetAsLastSibling();
 
@@ -54,10 +50,10 @@ namespace ScrapCoder.VisualNodes {
                 nodes.Add(controller);
             }
 
-            SetSortingOrder();
+            SortNodes();
         }
 
-        public bool Delete(NodeController controller) {
+        public bool DeleteNode(NodeController controller) {
             var index = nodes.IndexOf(controller);
 
             if (index == -1) return false;
@@ -67,10 +63,8 @@ namespace ScrapCoder.VisualNodes {
             return true;
         }
 
-        public int IndexOf(NodeController controller) => nodes.IndexOf(controller);
-
-        void SetSortingOrder() {
-            for (int i = 0, order = initialOrder, depthOrder = initialOrder; i < nodes.Count; ++i, ++order) {
+        void SortNodes() {
+            for (int i = 0, order = initialNodeDepth, depthOrder = initialNodeDepth; i < nodes.Count; ++i, ++order) {
                 if (!nodes[i].hasParent) {
                     var node = nodes[i];
 
@@ -78,7 +72,7 @@ namespace ScrapCoder.VisualNodes {
                     node.ownTransform.depth = depthOrder;
 
                     depthOrder += node.ownTransform.depthLevels;
-                    lastDepthOrder = depthOrder;
+                    lastNodeDepth = depthOrder;
                 }
             }
         }

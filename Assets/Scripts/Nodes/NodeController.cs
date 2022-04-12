@@ -68,7 +68,7 @@ namespace ScrapCoder.VisualNodes {
 
                 if (value != null) {
                     transform.SetParent(parentArray.transform);
-                    HierarchyController.instance.Delete(this);
+                    HierarchyController.instance.DeleteNode(this);
                 } else {
                     transform.SetParent(canvas.transform);
                 }
@@ -128,8 +128,8 @@ namespace ScrapCoder.VisualNodes {
                 ? (new List<NodeZone> { topZone, middleZone }).FindAll(zone => zone != null)
                 : (new List<NodeZone> { bottomZone }).FindAll(zone => zone != null);
 
-        public UI.DragDropZone previousDragDropZone = null;
-        public UI.DragDropZone currentDragDropZone = null;
+        public UI.DragDropZone previousDrop = null;
+        public UI.DragDropZone currentDrop = null;
 
         // Methods
         public void ClearParent() => parentArray = null;
@@ -248,7 +248,7 @@ namespace ScrapCoder.VisualNodes {
 
             if ((expandable is NodeContainer container) && container.array == siblings) {
                 RefreshLocalDepthLevels();
-                HierarchyController.instance.SetOnTop(this);
+                HierarchyController.instance.SetOnTopOfNodes(this);
                 return;
             }
 
@@ -261,7 +261,7 @@ namespace ScrapCoder.VisualNodes {
             if (hasParent) {
                 parentArray.AdjustParts(changedNode: this, dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
             } else {
-                HierarchyController.instance.SetOnTop(this);
+                HierarchyController.instance.SetOnTopOfNodes(this);
             }
         }
 
@@ -311,7 +311,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void GetFocus() {
-            HierarchyController.instance.SetOnTop(parentController ?? this);
+            HierarchyController.instance.SetOnTopOfNodes(parentController ?? this);
             if (hasParent) {
                 ownTransform.Raise();
 
@@ -326,7 +326,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public UI.DragDropZone GetDragDropZone() {
+        public UI.DragDropZone GetDrop() {
 
             UI.DragDropZone dropZone = null;
 
@@ -376,7 +376,7 @@ namespace ScrapCoder.VisualNodes {
                 endingCallback: moveUp
             );
 
-            HierarchyController.instance.Delete(this);
+            HierarchyController.instance.DeleteNode(this);
         }
     }
 

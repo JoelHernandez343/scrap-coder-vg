@@ -18,7 +18,7 @@ namespace ScrapCoder.VisualNodes {
         int spawnedNodes = 0;
 
         // Lazy and other variables
-        NodeController spawnedNode;
+        NodeController spawned;
         const int pixelScale = 2;
 
         RectTransform _canvasTransform;
@@ -37,63 +37,63 @@ namespace ScrapCoder.VisualNodes {
             );
 
             var nodeController = NodeDictionaryController.instance[nodeToSpawn];
-            spawnedNode = Instantiate(nodeController, canvas.transform);
+            spawned = Instantiate(nodeController, canvas.transform);
 
-            spawnedNode.gameObject.name = $"{nodeController.gameObject.name} ({spawnedNodes++})";
-            spawnedNode.ownTransform.SetPosition(
-                x: (int)newPosition.x - (spawnedNode.ownTransform.width * pixelScale) / 2,
-                y: (int)newPosition.y + (spawnedNode.ownTransform.initHeight * pixelScale) / 2
+            spawned.gameObject.name = $"{nodeController.gameObject.name} ({spawnedNodes++})";
+            spawned.ownTransform.SetPosition(
+                x: (int)newPosition.x - (spawned.ownTransform.width * pixelScale) / 2,
+                y: (int)newPosition.y + (spawned.ownTransform.initHeight * pixelScale) / 2
             );
-            spawnedNode.canvas = canvas;
+            spawned.canvas = canvas;
 
-            spawnedNode.SetMiddleZone(true);
-            spawnedNode.DetachFromParent();
+            spawned.SetMiddleZone(true);
+            spawned.DetachFromParent();
 
-            HierarchyController.instance.SetOnTop(spawnedNode);
-            spawnedNode.ownTransform.SetFloatPositionByDelta(dx, dy);
+            HierarchyController.instance.SetOnTopOfNodes(spawned);
+            spawned.ownTransform.SetFloatPositionByDelta(dx, dy);
 
-            spawnedNode.isDragging = true;
+            spawned.isDragging = true;
         }
 
         public void OnDrag(PointerEventData eventData) {
             if (eventData.dragging) {
-                spawnedNode.ownTransform.SetFloatPositionByDelta(
+                spawned.ownTransform.SetFloatPositionByDelta(
                     dx: eventData.delta.x,
                     dy: eventData.delta.y
                 );
 
-                spawnedNode.currentDragDropZone = spawnedNode.GetDragDropZone();
+                spawned.currentDrop = spawned.GetDrop();
 
-                if (spawnedNode.currentDragDropZone != spawnedNode.previousDragDropZone) {
-                    spawnedNode.currentDragDropZone?.SetState("over");
-                    spawnedNode.previousDragDropZone?.SetState("normal");
+                if (spawned.currentDrop != spawned.previousDrop) {
+                    spawned.currentDrop?.SetState("over");
+                    spawned.previousDrop?.SetState("normal");
 
-                    spawnedNode.previousDragDropZone = spawnedNode.currentDragDropZone;
+                    spawned.previousDrop = spawned.currentDrop;
                 }
             }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
 
-            var dragDropZone = spawnedNode.GetDragDropZone();
+            var dragDropZone = spawned.GetDrop();
 
             if (dragDropZone?.category == "working") {
-                spawnedNode.InvokeZones();
-                spawnedNode.SetMiddleZone(false);
-                spawnedNode.isDragging = false;
+                spawned.InvokeZones();
+                spawned.SetMiddleZone(false);
+                spawned.isDragging = false;
 
                 dragDropZone.SetState("normal");
             } else if (dragDropZone?.category == "erasing") {
-                spawnedNode.isDragging = false;
-                spawnedNode.Disappear();
+                spawned.isDragging = false;
+                spawned.Disappear();
 
                 dragDropZone.SetState("normal");
             } else {
-                HierarchyController.instance.Delete(spawnedNode);
-                Destroy(spawnedNode.gameObject);
+                HierarchyController.instance.DeleteNode(spawned);
+                Destroy(spawned.gameObject);
             }
 
-            spawnedNode = null;
+            spawned = null;
         }
     }
 
