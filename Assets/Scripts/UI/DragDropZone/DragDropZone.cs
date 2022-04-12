@@ -9,56 +9,48 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
 
-    public class DragDropZone : MonoBehaviour, INodeDropHandler {
+    public class DragDropZone : MonoBehaviour {
 
         // Editor variables
         [SerializeField] public string category;
-
-        // State variables
-        List<NodeZone> zones = new List<NodeZone>();
 
         // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        bool INodeDropHandler.IsActive => true;
-        Transform INodeDropHandler.Transform => transform;
-        NodeTransform INodeDropHandler.OwnTransform => ownTransform;
-
         // Methods
-        bool INodeDropHandler.OnDrop(NodeZone _) => false;
+        // public void OnTriggerEnter2D(Collider2D collider) {
+        //     var zone = (collider.GetComponent<NodeZone>() as NodeZone);
 
-        public void OnTriggerEnter2D(Collider2D collider) {
-            var zone = (collider.GetComponent<NodeZone>() as NodeZone);
+        //     if (zone == null) return;
+        //     if (zone.controller.isDragging == false) return;
+        //     if (zone.controller.validZones.IndexOf(zone) == -1) return;
 
-            if (zone == null) return;
-            if (zone.controller.isDragging == false) return;
-            if (zone.controller.validZones.IndexOf(zone) == -1) return;
+        //     zones.Add(zone);
 
-            zones.Add(zone);
+        //     if (zones.Count == zone.controller.validZones.Count) {
+        //         SetState("over");
+        //     }
+        // }
 
-            if (zones.Count == zone.controller.validZones.Count) {
-                SetState("over");
-            }
-        }
+        // public void OnTriggerExit2D(Collider2D collider) {
+        //     var zone = (collider.GetComponent<NodeZone>() as NodeZone);
 
-        public void OnTriggerExit2D(Collider2D collider) {
-            var zone = (collider.GetComponent<NodeZone>() as NodeZone);
+        //     if (zone == null) return;
+        //     if (zone.controller.isDragging == false) return;
 
-            if (zone == null) return;
-            if (zone.controller.isDragging == false) return;
-
-            if (zones.Remove(zone)) {
-                SetState("normal");
-            }
-        }
+        //     if (zones.Remove(zone)) {
+        //         SetState("normal");
+        //     }
+        // }
 
         public void SetState(string state) {
             if (state == "over") {
                 // Here switch to over state
-            } else if (state == "normal" && zones.Count != 0) {
-                zones.Clear();
+                Debug.Log("over");
+            } else if (state == "normal") {
                 // Here switch to normal state
+                Debug.Log("normal");
             }
         }
     }

@@ -61,6 +61,15 @@ namespace ScrapCoder.VisualNodes {
                     dx: eventData.delta.x,
                     dy: eventData.delta.y
                 );
+
+                spawnedNode.currentDragDropZone = spawnedNode.GetDragDropZone();
+
+                if (spawnedNode.currentDragDropZone != spawnedNode.previousDragDropZone) {
+                    spawnedNode.currentDragDropZone?.SetState("over");
+                    spawnedNode.previousDragDropZone?.SetState("normal");
+
+                    spawnedNode.previousDragDropZone = spawnedNode.currentDragDropZone;
+                }
             }
         }
 

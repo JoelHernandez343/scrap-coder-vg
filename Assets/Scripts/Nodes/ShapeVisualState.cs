@@ -5,11 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using ScrapCoder.VisualNodes;
+namespace ScrapCoder.VisualNodes {
 
-namespace ScrapCoder.UI {
-
-    public class ButtonVisualState : MonoBehaviour, INodeExpander {
+    public class ShapeVisualState : MonoBehaviour, INodeExpander {
 
         // Editor variables
         [SerializeField] List<NodeTransform> itemsToRight;

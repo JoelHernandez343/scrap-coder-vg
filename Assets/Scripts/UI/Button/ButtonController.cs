@@ -12,7 +12,7 @@ namespace ScrapCoder.UI {
     public class ButtonController : MonoBehaviour, INodeExpander {
 
         // Editor variables
-        [SerializeField] List<ButtonVisualState> states;
+        [SerializeField] List<ShapeVisualState> states;
 
         [SerializeField] ButtonCollider buttonCollider;
         [SerializeField] public bool usingSimpleSprites = false;

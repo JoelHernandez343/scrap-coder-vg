@@ -19,10 +19,10 @@ namespace ScrapCoder.UI {
         IPointerClickHandler {
 
         // Editor variables
-        [SerializeField] ButtonVisualState normalState;
-        [SerializeField] ButtonVisualState overState;
-        [SerializeField] ButtonVisualState pressedState;
-        [SerializeField] ButtonVisualState deactivatedState;
+        [SerializeField] ShapeVisualState normalState;
+        [SerializeField] ShapeVisualState overState;
+        [SerializeField] ShapeVisualState pressedState;
+        [SerializeField] ShapeVisualState deactivatedState;
 
         [SerializeField] ButtonController buttonController;
 

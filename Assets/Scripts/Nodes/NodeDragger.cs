@@ -55,6 +55,15 @@ namespace ScrapCoder.VisualNodes {
                     dy: eventData.delta.y
                 );
             }
+
+            controller.currentDragDropZone = controller.GetDragDropZone();
+
+            if (controller.currentDragDropZone != controller.previousDragDropZone) {
+                controller.currentDragDropZone?.SetState("over");
+                controller.previousDragDropZone?.SetState("normal");
+
+                controller.previousDragDropZone = controller.currentDragDropZone;
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData) {

@@ -128,6 +128,9 @@ namespace ScrapCoder.VisualNodes {
                 ? (new List<NodeZone> { topZone, middleZone }).FindAll(zone => zone != null)
                 : (new List<NodeZone> { bottomZone }).FindAll(zone => zone != null);
 
+        public UI.DragDropZone previousDragDropZone = null;
+        public UI.DragDropZone currentDragDropZone = null;
+
         // Methods
         public void ClearParent() => parentArray = null;
 
@@ -330,7 +333,7 @@ namespace ScrapCoder.VisualNodes {
             foreach (var zone in validZones) {
 
                 // Get drop zone of current zone
-                var currentDropZone = zone.GetFirstDragDropZone();
+                var currentDropZone = zone.GetTopDragDropZone();
 
                 // If drop zone is null, return null
                 if (currentDropZone == null) return null;

@@ -7,12 +7,13 @@ using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeZone : MonoBehaviour, INodeDropHandler {
+    public class NodeZone : MonoBehaviour {
 
         // State variables
         [SerializeField] ZoneColor color;
 
-        List<INodeDropHandler> dropZones = new List<INodeDropHandler>();
+        List<NodeZone> zones = new List<NodeZone>();
+        List<UI.DragDropZone> dropZones = new List<UI.DragDropZone>();
 
         bool isActive = true;
 
@@ -27,26 +28,39 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController controller => ownTransform.controller;
 
-        bool INodeDropHandler.IsActive => isActive;
-        Transform INodeDropHandler.Transform => transform;
-        NodeTransform INodeDropHandler.OwnTransform => ownTransform;
-
         // Methods
         public void SetActive(bool isActive) => this.isActive = isActive;
 
         public void SetZoneColor(ZoneColor color) => this.zoneColor = color;
 
         public void OnTriggerEnter2D(Collider2D collider) {
-            var dropZone = (collider.GetComponent<INodeDropHandler>() as INodeDropHandler);
+            if (collider.gameObject.tag != "TriggerZone") return;
+
+            var zone = (collider.GetComponent<NodeZone>() as NodeZone);
+
+            if (zone != null) {
+                zones.Add(zone);
+            }
+
+            var dropZone = (collider.GetComponent<UI.DragDropZone>() as UI.DragDropZone);
 
             if (dropZone != null) {
                 dropZones.Add(dropZone);
+
+                SortList(dropZones);
             }
         }
 
         public void OnTriggerExit2D(Collider2D collider) {
+            if (collider.gameObject.tag != "TriggerZone") return;
 
-            var dropZone = (collider.GetComponent<INodeDropHandler>() as INodeDropHandler);
+            var zone = (collider.GetComponent<NodeZone>() as NodeZone);
+
+            if (zone != null) {
+                zones.Remove(zone);
+            }
+
+            var dropZone = (collider.GetComponent<UI.DragDropZone>() as UI.DragDropZone);
 
             if (dropZone != null) {
                 dropZones.Remove(dropZone);
@@ -54,24 +68,26 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public bool Invoke() {
-            if (dropZones.Count == 0) {
+            if (zones.Count == 0) {
                 return false;
             }
 
-            dropZones = dropZones.FindAll(zone => zone != null);
+            zones = zones.FindAll(zone => zone != null);
 
-            var validZones = dropZones.FindAll(dropZone =>
-                dropZone.IsActive &&
-                dropZone.OwnTransform.controller?.lastController != controller.lastController
+            var validZones = zones.FindAll(zone =>
+                zone.isActive &&
+                zone.controller?.lastController != controller.lastController
             );
 
             if (validZones.Count == 0) {
                 return false;
             }
 
+            SortList(validZones);
+
             validZones.Sort((zoneA, zoneB) => {
-                var zA = zoneA.Transform.position.z;
-                var zB = zoneB.Transform.position.z;
+                var zA = zoneA.transform.position.z;
+                var zB = zoneB.transform.position.z;
 
                 return zA.CompareTo(zB);
             });
@@ -79,22 +95,18 @@ namespace ScrapCoder.VisualNodes {
             return validZones[0].OnDrop(this);
         }
 
-        public bool HasDropZone(INodeDropHandler dropZone) {
-            return dropZones.IndexOf(dropZone) != -1;
+        bool OnDrop(NodeZone incomingZone) => controller.OnDrop(inZone: incomingZone, ownZone: this);
+
+        void SortList<T>(List<T> list) where T : MonoBehaviour {
+            list.Sort((zoneA, zoneB) => {
+                var zA = zoneA.transform.position.z;
+                var zB = zoneB.transform.position.z;
+
+                return zA.CompareTo(zB);
+            });
         }
 
-        bool INodeDropHandler.OnDrop(NodeZone incomingZone) {
-            return controller.OnDrop(inZone: incomingZone, ownZone: this);
-        }
-
-        public UI.DragDropZone GetFirstDragDropZone() {
-            foreach (var dropZone in dropZones) {
-                if (dropZone is UI.DragDropZone) {
-                    return dropZone as UI.DragDropZone;
-                }
-            }
-            return null;
-        }
+        public UI.DragDropZone GetTopDragDropZone() => dropZones.Count > 0 ? dropZones[0] : null;
     }
 
 }
