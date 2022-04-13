@@ -47,9 +47,8 @@ namespace ScrapCoder.VisualNodes {
             spawned.canvas = canvas;
 
             spawned.SetMiddleZone(true);
-            spawned.DetachFromParent();
 
-            HierarchyController.instance.SetOnTopOfNodes(spawned);
+            HierarchyController.instance.SetOnTopOfCanvas(spawned);
             spawned.ownTransform.SetFloatPositionByDelta(dx, dy);
 
             spawned.isDragging = true;
@@ -78,7 +77,7 @@ namespace ScrapCoder.VisualNodes {
             var dragDropZone = spawned.GetDrop();
 
             if (dragDropZone?.category == "working") {
-                spawned.InvokeZones();
+                if (!spawned.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(spawned);
                 spawned.SetMiddleZone(false);
                 spawned.isDragging = false;
 

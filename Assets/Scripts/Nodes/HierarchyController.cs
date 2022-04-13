@@ -22,12 +22,25 @@ namespace ScrapCoder.VisualNodes {
         // State variables
         [SerializeField] List<NodeController> nodes = new List<NodeController>();
 
-        int? _lastZOrder;
+        [SerializeField] Transform canvas;
+        [SerializeField] NodeTransform nodesContainer;
+        [SerializeField] NodeTransform UIContainer;
+
+        int? _lastNodeDepth;
         int lastNodeDepth {
-            get => _lastZOrder ??= initialNodeDepth;
-            set => _lastZOrder = publicLastZOrder = value;
+            get => _lastNodeDepth ??= initialNodeDepth;
+            set => _lastNodeDepth = publicLastZOrder = value;
         }
 
+        int initialUIDepth {
+            get => UIContainer.depth;
+            set => UIContainer.depth = value;
+        }
+        int lastUIDepth => initialUIDepth + UIContainer.depthLevels;
+
+        public int globalRaiseDiff => lastUIDepth + (initialUIDepth - lastNodeDepth);
+
+        // Methods
         void Awake() {
             if (instance != null) {
                 Destroy(this.gameObject);
@@ -38,6 +51,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetOnTopOfNodes(NodeController controller) {
+            controller.transform.SetParent(nodesContainer.transform);
+
             controller = controller.lastController;
             controller.transform.SetAsLastSibling();
 
@@ -53,6 +68,12 @@ namespace ScrapCoder.VisualNodes {
             SortNodes();
         }
 
+        public void SetOnTopOfCanvas(NodeController controller) {
+            controller.transform.SetParent(canvas);
+            controller.ownTransform.sorter.sortingOrder = 2;
+            controller.ownTransform.depth = lastUIDepth + 10;
+        }
+
         public bool DeleteNode(NodeController controller) {
             var index = nodes.IndexOf(controller);
 
@@ -63,18 +84,29 @@ namespace ScrapCoder.VisualNodes {
             return true;
         }
 
-        void SortNodes() {
-            for (int i = 0, order = initialNodeDepth, depthOrder = initialNodeDepth; i < nodes.Count; ++i, ++order) {
-                if (!nodes[i].hasParent) {
-                    var node = nodes[i];
+        public void SortNodes() {
+            var depth = initialNodeDepth;
 
-                    node.ownTransform.sorter.sortingOrder = order;
-                    node.ownTransform.depth = depthOrder;
+            for (int i = 0, order = initialNodeDepth; i < nodes.Count; ++i, ++order) {
+                var node = nodes[i];
+                if (node.hasParent) { Debug.Log("wut"); continue; }
 
-                    depthOrder += node.ownTransform.depthLevels;
-                    lastNodeDepth = depthOrder;
-                }
+                node.ownTransform.sorter.sortingOrder = order;
+                node.ownTransform.depth = depth;
+
+                depth += node.ownTransform.depthLevels;
             }
+
+            if (depth != lastNodeDepth) {
+                var delta = depth - lastNodeDepth;
+
+                lastNodeDepth = depth;
+                MoveUI(delta);
+            }
+        }
+
+        void MoveUI(int delta) {
+            initialUIDepth += delta;
         }
     }
 

@@ -30,13 +30,13 @@ namespace ScrapCoder.VisualNodes {
         public void OnBeginDrag(PointerEventData eventData) {
             if (ownTransform.isMovingSmoothly) return;
 
+            HierarchyController.instance.SetOnTopOfCanvas(controller);
+
             previousPosition.x = controller.ownTransform.x;
             previousPosition.y = controller.ownTransform.y;
 
             controller.SetMiddleZone(true);
             controller.DetachFromParent();
-
-            HierarchyController.instance.SetOnTopOfNodes(controller);
 
             controller.ownTransform.SetFloatPositionByDelta(
                 dx: eventData.delta.x,
@@ -72,7 +72,7 @@ namespace ScrapCoder.VisualNodes {
                 var dragDropZone = controller.GetDrop();
 
                 if (dragDropZone?.category == "working") {
-                    controller.InvokeZones();
+                    if (!controller.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(controller);
                     controller.SetMiddleZone(false);
                     dragDropZone.SetState("normal");
                 } else if (dragDropZone?.category == "erasing") {
@@ -84,7 +84,8 @@ namespace ScrapCoder.VisualNodes {
                     controller.ownTransform.SetPosition(
                         x: previousPosition.x,
                         y: previousPosition.y,
-                        smooth: true
+                        smooth: true,
+                        endingCallback: () => HierarchyController.instance.SetOnTopOfNodes(controller)
                     );
                 }
 

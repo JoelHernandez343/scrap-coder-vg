@@ -311,11 +311,11 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void GetFocus() {
-            HierarchyController.instance.SetOnTopOfNodes(parentController ?? this);
             if (hasParent) {
                 ownTransform.Raise();
-
                 parentController.GetFocus();
+            } else {
+                HierarchyController.instance.SetOnTopOfNodes(this);
             }
         }
 
@@ -377,6 +377,7 @@ namespace ScrapCoder.VisualNodes {
             );
 
             HierarchyController.instance.DeleteNode(this);
+            HierarchyController.instance.SortNodes();
         }
     }
 

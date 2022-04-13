@@ -120,7 +120,7 @@ namespace ScrapCoder.UI {
             var raiseDepthLevels =
                 (globalDepthevels > thisDepthLevels
                     ? globalDepthevels - thisDepthLevels
-                    : 0) + 10;
+                    : 0) + HierarchyController.instance.globalRaiseDiff + 10;
 
             ownTransform.Raise(depthLevels: raiseDepthLevels);
 
