@@ -51,9 +51,9 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetOnTopOfNodes(NodeController controller) {
-            controller.transform.SetParent(nodesContainer.transform);
-
             controller = controller.lastController;
+
+            controller.transform.SetParent(nodesContainer.transform);
             controller.transform.SetAsLastSibling();
 
             var index = nodes.IndexOf(controller);
