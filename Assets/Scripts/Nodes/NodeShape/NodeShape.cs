@@ -23,11 +23,10 @@ namespace ScrapCoder.VisualNodes {
             public ShapePoint end;
             public bool isExpandable;
 
-            public ShapePointRange(NodeShape shape, int initialStartIndex, int initialEndIndex, bool isExpandable) {
-                start = shape.points[initialStartIndex];
-                end = shape.points[initialEndIndex];
-
-                this.isExpandable = isExpandable;
+            public ShapePointRange(ShapePointRangeTemplate template, NodeShape shape) {
+                start = shape.points[template.initialStartIndex];
+                end = shape.points[template.initialEndIndex];
+                isExpandable = template.isExpandable;
             }
         }
 
@@ -86,30 +85,29 @@ namespace ScrapCoder.VisualNodes {
             var points = new List<ShapePoint>();
             var original = new List<ShapePoint>();
 
+            var start = 0;
+
             for (var i = 0; i < line.GetPointCount(); ++i) {
                 var position = line.GetPosition(i);
 
-                original.Add(new ShapePoint {
+                var newPoint = new ShapePoint {
                     position = new Utils.Vector2D {
                         x = (int)System.Math.Round(position.x * NodeTransform.PixelsPerUnit),
                         y = (int)System.Math.Round(position.y * NodeTransform.PixelsPerUnit),
                     },
                     spriteIndex = line.GetSpriteIndex(i)
-                });
+                };
+
+                original.Add(newPoint);
+
+                if (newPoint.position.x == initialPointPosition.x &&
+                    newPoint.position.y == initialPointPosition.y) {
+                    start = i;
+                }
             }
 
-            var start = original.FindIndex(point
-                => point.position.x == initialPointPosition.x &&
-                    point.position.y == initialPointPosition.y
-            );
-
-            for (var i = start; i < original.Count; ++i) {
-                points.Add(original[i]);
-            }
-
-            for (var i = 0; i < start; ++i) {
-                points.Add(original[i]);
-            }
+            points.AddRange(original.GetRange(start, original.Count - start));
+            points.AddRange(original.GetRange(0, start));
 
             return points;
         }
@@ -202,17 +200,10 @@ namespace ScrapCoder.VisualNodes {
             segments.Clear();
 
             segmentTemplates.ForEach(t => {
-                segments.Add(new ShapeSegment(
-                    shape: this,
-                    firstIndex: t.firstIndex,
-                    finalIndex: t.finalIndex,
-                    normalSprite: t.normalSprite,
-                    rangeSpriteLimit: t.rangeSpriteLimit,
-                    spriteSize: spriteSize,
-                    minSeparation: t.minSeparation,
-                    maxSeparation: t.maxSeparation,
-                    rand: new Utils.Random(seed)
-                ));
+                t.spriteSize = this.spriteSize;
+                t.rand = new Utils.Random(seed);
+
+                segments.Add(new ShapeSegment(shape: this, template: t));
             });
 
             CreateRanges();
@@ -221,19 +212,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void CreateRanges() {
-            horizontalRange = new ShapePointRange(
-                shape: this,
-                initialStartIndex: horizontalRangeTemplate.initialStartIndex,
-                initialEndIndex: horizontalRangeTemplate.initialEndIndex,
-                isExpandable: horizontalRangeTemplate.isExpandable
-            );
-
-            verticalRange = new ShapePointRange(
-                shape: this,
-                initialStartIndex: verticalRangeTemplate.initialStartIndex,
-                initialEndIndex: verticalRangeTemplate.initialEndIndex,
-                isExpandable: verticalRangeTemplate.isExpandable
-            );
+            horizontalRange = new ShapePointRange(shape: this, template: horizontalRangeTemplate);
+            verticalRange = new ShapePointRange(shape: this, template: verticalRangeTemplate);
         }
     }
 }

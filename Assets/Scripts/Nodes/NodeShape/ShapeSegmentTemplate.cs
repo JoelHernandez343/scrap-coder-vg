@@ -19,5 +19,11 @@ namespace ScrapCoder.VisualNodes {
         public int firstIndex;
         public int finalIndex;
 
+        [System.NonSerialized]
+        public Utils.Vector2D spriteSize;
+
+        [System.NonSerialized]
+        public Utils.Random rand;
+
     }
 }
