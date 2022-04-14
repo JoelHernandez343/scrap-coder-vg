@@ -93,19 +93,19 @@ MonoBehaviour:
   middleZone: {fileID: 0}
   bottomZone: {fileID: 2043934476168216280}
   lastZone: {fileID: 2043934476168216280}
-  mainZones:
-  - {fileID: 2043934476168216280}
   siblings: {fileID: 4350825533790206122}
   type: 0
   category: 2
   components:
-  - {fileID: 6779175204579151820}
+  - {fileID: 1535050520193958558}
   containers:
   - {fileID: 128721500972171261}
   staticContainers: []
   zoneRefresher: {fileID: 0}
   partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
+  previousDrop: {fileID: 0}
+  currentDrop: {fileID: 0}
 --- !u!1001 &3657865837567721589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -224,15 +224,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7466764254849079728, guid: 0e42d76425cf93b42959918e5901b2ba, type: 3}
   m_PrefabInstance: {fileID: 3657865837567721589}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6779175204579151820 stripped
+--- !u!114 &1535050520193958558 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7842788364981981113, guid: 0e42d76425cf93b42959918e5901b2ba, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2850428687301624555, guid: 0e42d76425cf93b42959918e5901b2ba, type: 3}
   m_PrefabInstance: {fileID: 3657865837567721589}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &128721500972171261 stripped

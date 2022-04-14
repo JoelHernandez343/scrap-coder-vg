@@ -30,6 +30,22 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
+        [System.Serializable]
+        struct SpriteBreakpoint {
+            public int initialStartIndex;
+            public int range;
+        }
+
+        class RangeBreakpoint {
+            public ShapePoint point;
+            public int range;
+
+            public RangeBreakpoint(SpriteBreakpoint template, NodeShape shape) {
+                point = shape.points[template.initialStartIndex];
+                range = template.range;
+            }
+        }
+
         // Editor variables
         [SerializeField] ShapePointRangeTemplate horizontalRangeTemplate;
         [SerializeField] ShapePointRangeTemplate verticalRangeTemplate;
@@ -42,14 +58,26 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] bool hideable = true;
 
+        [SerializeField]
+        List<string> states = new List<string> {
+            "normal",
+            "over",
+            "pressed",
+            "disabled"
+        };
+
+        [SerializeField] List<SpriteBreakpoint> spriteBreakpoints;
+
         // State Variables
-        List<ShapeSegment> segments = new List<ShapeSegment>();
+        List<ShapeSegment> segments;
 
         List<ShapePoint> _points;
         public List<ShapePoint> points => _points ??= GetShape();
 
         ShapePointRange horizontalRange;
         ShapePointRange verticalRange;
+
+        List<RangeBreakpoint> breakpoints;
 
         // Lazy and other variables
         List<ShapePointRange> _ranges;
@@ -64,13 +92,15 @@ namespace ScrapCoder.VisualNodes {
         SpriteShapeRenderer _spriteShapeRenderer;
         SpriteShapeRenderer spriteShapeRenderer => _spriteShapeRenderer ??= GetComponent<SpriteShapeRenderer>();
 
-        int pixelsPerUnit => NodeTransform.PixelsPerUnit;
+        int ppu => NodeTransform.PixelsPerUnit;
 
         public Spline line => spriteShapeController?.spline;
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
         bool expandingSmoothly => smoothDamp.isWorking;
+
+        int state = 0;
 
         // Methods
         void Awake() {
@@ -115,11 +145,19 @@ namespace ScrapCoder.VisualNodes {
         void RenderShape() {
             line.Clear();
 
+            var range = 0;
+            var breakpoint = 0;
+
             for (var i = 0; i < points.Count; ++i) {
                 var point = points[i];
 
-                line.InsertPointAt(i, point.position.unityVector / pixelsPerUnit);
-                line.SetSpriteIndex(i, point.spriteIndex);
+                if (breakpoint < breakpoints.Count && point == breakpoints[breakpoint].point) {
+                    range = breakpoints[breakpoint].range;
+                    breakpoint += 1;
+                }
+
+                line.InsertPointAt(i, point.position.unityVector / ppu);
+                line.SetSpriteIndex(i, (range * state) + point.spriteIndex);
                 line.SetTangentMode(i, ShapeTangentMode.Linear);
             }
 
@@ -197,16 +235,20 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void InitializeSegments(int? seed = null) {
-            segments.Clear();
-
-            segmentTemplates.ForEach(t => {
+            segments = segmentTemplates.ConvertAll(t => {
                 t.spriteSize = this.spriteSize;
                 t.rand = new Utils.Random(seed);
 
-                segments.Add(new ShapeSegment(shape: this, template: t));
+                return new ShapeSegment(shape: this, template: t);
             });
 
+            Initialize();
+        }
+
+        void Initialize() {
             CreateRanges();
+            CreateBreakpoints();
+
             ChangeSegments();
             RenderShape();
         }
@@ -214,6 +256,19 @@ namespace ScrapCoder.VisualNodes {
         void CreateRanges() {
             horizontalRange = new ShapePointRange(shape: this, template: horizontalRangeTemplate);
             verticalRange = new ShapePointRange(shape: this, template: verticalRangeTemplate);
+        }
+
+        void CreateBreakpoints() {
+            breakpoints = spriteBreakpoints.ConvertAll(s => new RangeBreakpoint(shape: this, template: s));
+        }
+
+        public void SetState(string state) {
+            var stateIndex = states.IndexOf(state);
+
+            if (stateIndex != -1) {
+                this.state = stateIndex;
+                RenderShape();
+            }
         }
     }
 }

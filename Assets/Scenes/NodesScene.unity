@@ -1378,6 +1378,14 @@ PrefabInstance:
       propertyPath: availableSprites.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7786545519473462796, guid: 5deef530621e50646b7bddab382c0e70, type: 3}
+      propertyPath: spriteBreakpoints.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786545519473462796, guid: 5deef530621e50646b7bddab382c0e70, type: 3}
+      propertyPath: spriteBreakpoints.Array.data[0].range
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8120539691766934407, guid: 5deef530621e50646b7bddab382c0e70, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 528

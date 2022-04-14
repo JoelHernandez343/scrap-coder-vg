@@ -52,6 +52,8 @@ namespace ScrapCoder.VisualNodes {
             spawned.ownTransform.SetFloatPositionByDelta(dx, dy);
 
             spawned.isDragging = true;
+
+            spawned.SetState("pressed");
         }
 
         public void OnDrag(PointerEventData eventData) {
@@ -80,11 +82,13 @@ namespace ScrapCoder.VisualNodes {
                 if (!spawned.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(spawned);
                 spawned.SetMiddleZone(false);
                 spawned.isDragging = false;
+                spawned.SetState("over");
 
                 dragDropZone.SetState("normal");
             } else if (dragDropZone?.category == "erasing") {
                 spawned.isDragging = false;
                 spawned.Disappear();
+                spawned.SetState("normal");
 
                 dragDropZone.SetState("normal");
             } else {

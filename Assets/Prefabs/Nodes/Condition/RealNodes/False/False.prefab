@@ -93,19 +93,19 @@ MonoBehaviour:
   middleZone: {fileID: 0}
   bottomZone: {fileID: 0}
   lastZone: {fileID: 0}
-  mainZones:
-  - {fileID: 199416042525208940}
   siblings: {fileID: 0}
   type: 20
   category: 1
   components:
-  - {fileID: 4112723864307745198}
+  - {fileID: 8235600677061446908}
   containers:
   - {fileID: 0}
   staticContainers: []
   zoneRefresher: {fileID: 0}
   partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
+  previousDrop: {fileID: 0}
+  currentDrop: {fileID: 0}
 --- !u!1001 &4757730422114491661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -212,15 +212,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8096881677318326954, guid: 7cfb6614f471dbf43ab07611f1873f1b, type: 3}
   m_PrefabInstance: {fileID: 4757730422114491661}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4112723864307745198 stripped
+--- !u!114 &8235600677061446908 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8869151227601083555, guid: 7cfb6614f471dbf43ab07611f1873f1b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3480264029300249073, guid: 7cfb6614f471dbf43ab07611f1873f1b, type: 3}
   m_PrefabInstance: {fileID: 4757730422114491661}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &199416042525208940 stripped

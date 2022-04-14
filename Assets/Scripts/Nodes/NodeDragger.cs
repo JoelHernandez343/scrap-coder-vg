@@ -8,7 +8,15 @@ using UnityEngine.EventSystems;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeDragger : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler {
+    public class NodeDragger :
+        MonoBehaviour,
+        IPointerDownHandler,
+        IBeginDragHandler,
+        IDragHandler,
+        IEndDragHandler,
+        IPointerEnterHandler,
+        IPointerExitHandler,
+        IPointerUpHandler {
 
         // Lazy and other variables
         NodeTransform _ownTransform;
@@ -23,8 +31,16 @@ namespace ScrapCoder.VisualNodes {
 
         Vector2Int previousPosition = Vector2Int.zero;
 
+        bool over;
+
+        // Methods
+        void Start() {
+            controller.SetState("normal");
+        }
+
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
+            controller.SetState("pressed");
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
@@ -44,6 +60,8 @@ namespace ScrapCoder.VisualNodes {
             );
 
             isDragging = true;
+
+            controller.SetState("pressed");
         }
 
         public void OnDrag(PointerEventData eventData) {
@@ -90,6 +108,28 @@ namespace ScrapCoder.VisualNodes {
                 }
 
                 isDragging = false;
+
+                controller.SetState(over ? "over" : "normal");
+            }
+        }
+
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
+            over = true;
+
+            controller.SetState(isDragging ? "pressed" : "over");
+        }
+
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
+            over = false;
+
+            if (!isDragging) {
+                controller.SetState("normal");
+            }
+        }
+
+        void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
+            if (!isDragging) {
+                controller.SetState(over ? "over" : "normal");
             }
         }
     }

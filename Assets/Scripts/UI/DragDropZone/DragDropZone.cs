@@ -28,10 +28,10 @@ namespace ScrapCoder.UI {
 
             if (currentState == "over" && previousState != currentState) {
                 // Here switch to over state
-                Debug.Log("Over");
+                // Debug.Log("Over");
             } else if (currentState == "normal" && previousState != currentState) {
                 // Here switch to normal state
-                Debug.Log("Normal");
+                // Debug.Log("Normal");
             }
 
             previousState = currentState;

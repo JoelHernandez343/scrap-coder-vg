@@ -21,7 +21,7 @@ namespace ScrapCoder.Utils {
         System.Random randGen;
 
         public int NextInt => randGen.Next();
-        public int NextIntRange(int start, int end) => randGen.Next(start, end + 1);
+        public int NextIntRange(int start, int end) => randGen.Next(start, end);
 
         // Methods
         public Random(int? seed = null) {

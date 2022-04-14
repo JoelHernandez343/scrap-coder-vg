@@ -15,12 +15,15 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] List<NodeTransform> itemsToTheRight;
         [SerializeField] List<NodeTransform> itemsToExpand;
 
+        [SerializeField] List<NodeShapeContainer> shapesOfState;
+        [SerializeField] List<NodeSprite> spritesOfState;
+
         // State variables
         int? previousMaxHeight;
 
         // Lazy variables
         NodeTransform _ownTransform;
-        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         // Methods
         void Start() {
@@ -98,6 +101,11 @@ namespace ScrapCoder.VisualNodes {
             modified.ResetYToRelative(smooth: smooth);
 
             return (delta, "all_wo_max");
+        }
+
+        public void SetState(string state) {
+            shapesOfState.ForEach(s => s.SetState(state));
+            spritesOfState.ForEach(s => s.SetState(state));
         }
     }
 }

@@ -10,8 +10,7 @@ namespace ScrapCoder.VisualNodes {
     [System.Serializable]
     public class ShapeSegmentTemplate {
 
-        public int normalSprite;
-        public int rangeSpriteLimit;
+        public int randomRange = 3;
 
         public int minSeparation = 6;
         public int maxSeparation = 10;

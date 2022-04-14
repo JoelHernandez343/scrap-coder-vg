@@ -21,8 +21,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // State variables
-        int normalSprite;
-        int rangeSpriteLimit;
+        int randomRange;
 
         int minSeparation;
         int maxSeparation;
@@ -59,8 +58,13 @@ namespace ScrapCoder.VisualNodes {
                 ? "forward"
                 : "backward";
 
-        public ShapePoint realFirstPoint => direction == "forward" ? firstPoint : finalPoint;
-        public ShapePoint realFinalPoint => direction == "forward" ? finalPoint : firstPoint;
+        ShapePoint _realFirstPoint;
+        public ShapePoint realFirstPoint
+            => _realFirstPoint ??= direction == "forward" ? firstPoint : finalPoint;
+
+        ShapePoint _realFinalPoint;
+        public ShapePoint realFinalPoint
+            => _realFinalPoint ??= direction == "forward" ? finalPoint : firstPoint;
 
         int firstStep => realFirstPoint.position[axis] + (sign * spriteSize[axis] / 2);
 
@@ -75,8 +79,10 @@ namespace ScrapCoder.VisualNodes {
             firstPoint = shape.points[template.firstIndex];
             finalPoint = shape.points[template.finalIndex];
 
-            normalSprite = template.normalSprite;
-            rangeSpriteLimit = template.rangeSpriteLimit;
+            realFirstPoint.segment = this;
+
+            randomRange = template.randomRange;
+
             minSeparation = template.minSeparation;
             maxSeparation = template.maxSeparation;
 
@@ -96,11 +102,11 @@ namespace ScrapCoder.VisualNodes {
             var generatedPair = new GeneratedPair {
                 firstPoint = new GeneratedPoint {
                     step = generatedPosition,
-                    sprite = rand.NextIntRange(normalSprite, rangeSpriteLimit)
+                    sprite = rand.NextIntRange(0, randomRange)
                 },
                 finalPoint = new GeneratedPoint {
                     step = generatedPosition + (sign) * (int)spriteSize[axis],
-                    sprite = normalSprite
+                    sprite = 0
                 }
             };
 
@@ -139,21 +145,23 @@ namespace ScrapCoder.VisualNodes {
             var pair = generatedPairs[pairIndex];
 
             return new List<ShapePoint> {
-            new ShapePoint {
-                position = new Utils.Vector2D {
-                    [axis] = firstStep + pair.firstPoint.step,
-                    [oppositeAxis] = firstPoint.position[oppositeAxis]
+                new ShapePoint {
+                    position = new Utils.Vector2D {
+                        [axis] = firstStep + pair.firstPoint.step,
+                        [oppositeAxis] = firstPoint.position[oppositeAxis]
+                    },
+                    spriteIndex = pair.firstPoint.sprite,
+                    segment = this,
                 },
-                spriteIndex = pair.firstPoint.sprite
-            },
-            new ShapePoint {
-                position = new Utils.Vector2D {
-                    [axis] = firstStep + pair.finalPoint.step,
-                    [oppositeAxis] = firstPoint.position[oppositeAxis]
-                },
-                spriteIndex = pair.finalPoint.sprite
-            }
-        };
+                new ShapePoint {
+                    position = new Utils.Vector2D {
+                        [axis] = firstStep + pair.finalPoint.step,
+                        [oppositeAxis] = firstPoint.position[oppositeAxis]
+                    },
+                    spriteIndex = pair.finalPoint.sprite,
+                    segment = this,
+                }
+            };
         }
 
         public int RemovePoints() {

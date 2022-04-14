@@ -52,7 +52,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public NodeType type;
         [SerializeField] public NodeCategory category;
 
-        [SerializeField] List<NodeTransform> components;
+        [SerializeField] List<NodePiece> components;
         [SerializeField] List<NodeContainer> containers;
         [SerializeField] List<NodeTransform> staticContainers;
 
@@ -130,6 +130,8 @@ namespace ScrapCoder.VisualNodes {
 
         public UI.DragDropZone previousDrop = null;
         public UI.DragDropZone currentDrop = null;
+
+        string state;
 
         // Methods
         public void ClearParent() => parentArray = null;
@@ -283,11 +285,11 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void AdjustComponents(NodeTransform pieceModified, (int dx, int dy) delta, bool smooth = false) {
-            var begin = components.IndexOf(pieceModified) + 1;
+            var begin = components.FindIndex(c => c.ownTransform == pieceModified) + 1;
 
             for (var i = begin; i < components.Count; ++i) {
-                components[i].SetPositionByDelta(dy: -delta.dy, smooth: smooth);
-                components[i].Expand(dx: delta.dx, smooth: smooth);
+                components[i].ownTransform.SetPositionByDelta(dy: -delta.dy, smooth: smooth);
+                components[i].ownTransform.Expand(dx: delta.dx, smooth: smooth);
             }
         }
 
@@ -378,6 +380,13 @@ namespace ScrapCoder.VisualNodes {
 
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
+        }
+
+        public void SetState(string state) {
+            if (this.state == state) return;
+
+            this.state = state;
+            components.ForEach(c => c.SetState(this.state));
         }
     }
 
