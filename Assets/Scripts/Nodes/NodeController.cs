@@ -39,8 +39,6 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // Editor variables
-        [SerializeField] public Canvas canvas;
-
         [SerializeField] NodeZone topZone;
         [SerializeField] NodeZone middleZone;
         [SerializeField] NodeZone bottomZone;
@@ -70,7 +68,7 @@ namespace ScrapCoder.VisualNodes {
                     transform.SetParent(parentArray.transform);
                     HierarchyController.instance.DeleteNode(this);
                 } else {
-                    transform.SetParent(canvas.transform);
+                    transform.SetParent(workingZone);
                 }
             }
             get => _parentArray;
@@ -79,13 +77,15 @@ namespace ScrapCoder.VisualNodes {
         [System.NonSerialized] public bool isDragging = false;
 
         // Lazy and other variables
+        public Transform workingZone;
+
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         public NodeController parentController => parentArray?.controller;
 
         public NodeController temporalParent {
-            set => transform.SetParent(value?.transform ?? canvas.transform);
+            set => transform.SetParent(value?.transform ?? workingZone);
         }
 
         DropFuncSelector _selector;
@@ -387,6 +387,16 @@ namespace ScrapCoder.VisualNodes {
 
             this.state = state;
             components.ForEach(c => c.SetState(this.state));
+
+            containers.ForEach(c => c.array.nodes.ForEach(n => n.SetState(state)));
+
+            if (hasParent) {
+                var ownIndex = parentArray.nodes.IndexOf(this);
+
+                for (var i = ownIndex + 1; i < parentArray.Count; ++i) {
+                    parentArray[i].SetState(state);
+                }
+            }
         }
     }
 

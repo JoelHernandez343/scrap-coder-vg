@@ -34,25 +34,21 @@ namespace ScrapCoder.VisualNodes {
         bool over;
 
         // Methods
-        void Start() {
-            controller.SetState("normal");
-        }
-
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
-            controller.SetState("pressed");
+            controller.SetState("over");
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
             if (ownTransform.isMovingSmoothly) return;
 
+            controller.SetMiddleZone(true);
+            controller.DetachFromParent();
+
             HierarchyController.instance.SetOnTopOfCanvas(controller);
 
             previousPosition.x = controller.ownTransform.x;
             previousPosition.y = controller.ownTransform.y;
-
-            controller.SetMiddleZone(true);
-            controller.DetachFromParent();
 
             controller.ownTransform.SetFloatPositionByDelta(
                 dx: eventData.delta.x,
@@ -61,7 +57,7 @@ namespace ScrapCoder.VisualNodes {
 
             isDragging = true;
 
-            controller.SetState("pressed");
+            controller.SetState("over");
         }
 
         public void OnDrag(PointerEventData eventData) {
@@ -95,6 +91,7 @@ namespace ScrapCoder.VisualNodes {
                     dragDropZone.SetState("normal");
                 } else if (dragDropZone?.category == "erasing") {
                     isDragging = false;
+                    controller.SetState("normal");
                     controller.Disappear();
                     dragDropZone.SetState("normal");
                     return;
@@ -109,27 +106,27 @@ namespace ScrapCoder.VisualNodes {
 
                 isDragging = false;
 
-                controller.SetState(over ? "over" : "normal");
+                controller.SetState("normal");
             }
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
             over = true;
 
-            controller.SetState(isDragging ? "pressed" : "over");
+            // controller.SetState(isDragging ? "pressed" : "over");
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
             over = false;
 
             if (!isDragging) {
-                controller.SetState("normal");
+                // controller.SetState("normal");
             }
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
             if (!isDragging) {
-                controller.SetState(over ? "over" : "normal");
+                controller.SetState("normal");
             }
         }
     }

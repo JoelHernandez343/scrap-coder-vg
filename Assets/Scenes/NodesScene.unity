@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5637922080880974887, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_text
-      value: Caminar_hacia_adelante
+      value: Caminar
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_Pivot.x
@@ -664,7 +664,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2115102597}
-  m_RootOrder: 14
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1871,7 +1871,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2466,7 +2466,7 @@ MonoBehaviour:
   - type: 14
     prefab: {fileID: 6150825404952637395, guid: e865d137410103249be524be3095fbbf, type: 3}
   - type: 15
-    prefab: {fileID: 6150825404952637395, guid: a860c4fef7ada96438a5d4dbb97bda11, type: 3}
+    prefab: {fileID: 6150825404952637395, guid: 94832ab873816d24c82a7add96e7a9a9, type: 3}
   - type: 18
     prefab: {fileID: 6150825404952637395, guid: 7aafcf0f8294bfb439f60437ba57997e, type: 3}
   - type: 19
@@ -3009,7 +3009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6150825404952637404, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3117,10 +3117,10 @@ RectTransform:
   - {fileID: 1979429233}
   - {fileID: 448899998}
   - {fileID: 1024548178}
+  - {fileID: 628613924}
   - {fileID: 1369018756}
   - {fileID: 552495954}
   - {fileID: 941942664}
-  - {fileID: 628613924}
   - {fileID: 804500947}
   - {fileID: 1662078389}
   m_Father: {fileID: 2123671304}

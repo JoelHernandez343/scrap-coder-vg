@@ -23,7 +23,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] List<NodeController> nodes = new List<NodeController>();
 
         [SerializeField] Transform canvas;
-        [SerializeField] NodeTransform nodesContainer;
+        [SerializeField] public Transform workingZone;
         [SerializeField] NodeTransform UIContainer;
 
         int? _lastNodeDepth;
@@ -53,7 +53,7 @@ namespace ScrapCoder.VisualNodes {
         public void SetOnTopOfNodes(NodeController controller) {
             controller = controller.lastController;
 
-            controller.transform.SetParent(nodesContainer.transform);
+            controller.transform.SetParent(workingZone);
             controller.transform.SetAsLastSibling();
 
             var index = nodes.IndexOf(controller);

@@ -63,18 +63,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  initHeight: 19
-  initWidth: 149
+  directController: {fileID: 6150825404952637395}
+  indirectController: {fileID: 0}
+  initHeight: 24
+  initWidth: 66
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 6150825404952637395}
-  indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
   publicHeight: 0
   publicWidth: 0
-  localZLevels: -3
   ownDepthLevels: 3
   localDepthLevels: 0
 --- !u!114 &6150825404952637395
@@ -94,20 +93,19 @@ MonoBehaviour:
   middleZone: {fileID: 6134322020335914447}
   bottomZone: {fileID: 4950810147423107620}
   lastZone: {fileID: 4950810147423107620}
-  mainZones:
-  - {fileID: 199416042525208940}
-  - {fileID: 6134322020335914447}
-  - {fileID: 4950810147423107620}
   siblings: {fileID: 7244164038792330326}
   type: 6
   category: 2
   components:
-  - {fileID: 4112723864307745198}
+  - {fileID: 8235600677061446908}
   containers:
   - {fileID: 6422136983422057217}
+  staticContainers: []
   zoneRefresher: {fileID: 0}
   partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
+  previousDrop: {fileID: 0}
+  currentDrop: {fileID: 0}
 --- !u!1001 &4795063568699030146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,15 +216,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8129068284699045157, guid: 470c5a3da44eb094ba179888d8f14471, type: 3}
   m_PrefabInstance: {fileID: 4795063568699030146}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4112723864307745198 stripped
+--- !u!114 &8235600677061446908 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8905912765175905068, guid: 470c5a3da44eb094ba179888d8f14471, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3513308844179469950, guid: 470c5a3da44eb094ba179888d8f14471, type: 3}
   m_PrefabInstance: {fileID: 4795063568699030146}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &199416042525208940 stripped
