@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+using ScrapCoder.Interpreter;
+
 namespace ScrapCoder.VisualNodes {
 
     public class NodeSpawn : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
@@ -13,9 +16,14 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] Canvas canvas;
         [SerializeField] NodeType nodeToSpawn;
+        [SerializeField] int limit;
 
         // State variables
-        int spawnedNodes = 0;
+        string _symbolName = null;
+        public string symbolName {
+            get => _symbolName ??= nodeToSpawn.ToString();
+            set => _symbolName = value;
+        }
 
         // Lazy and other variables
         NodeController spawned;
@@ -25,57 +33,29 @@ namespace ScrapCoder.VisualNodes {
         RectTransform canvasTransform => _canvasTransform ??= canvas.GetComponent<RectTransform>();
 
         // Methods
-        public void OnBeginDrag(PointerEventData eventData) {
-            var (dx, dy) = (eventData.delta.x, eventData.delta.y);
-
-            var newPosition = new Vector2();
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rect: canvasTransform,
-                screenPoint: eventData.position,
-                cam: canvas.worldCamera,
-                localPoint: out newPosition
-            );
-
-            var nodeController = NodeDictionaryController.instance[nodeToSpawn];
-            spawned = Instantiate(nodeController, canvas.transform);
-
-            spawned.gameObject.name = $"{nodeController.gameObject.name} ({spawnedNodes++})";
-            spawned.ownTransform.SetPosition(
-                x: (int)newPosition.x - (spawned.ownTransform.width * pixelScale) / 2,
-                y: (int)newPosition.y + (spawned.ownTransform.initHeight * pixelScale) / 2
-            );
-
-            spawned.workingZone = HierarchyController.instance.workingZone;
-
-            spawned.SetMiddleZone(true);
-
-            HierarchyController.instance.SetOnTopOfCanvas(spawned);
-            spawned.ownTransform.SetFloatPositionByDelta(dx, dy);
-
-            spawned.isDragging = true;
-
-            spawned.SetState("over");
+        public void OnBeginDrag(PointerEventData e) {
+            var newPosition = GetPointerPosition(e);
+            Spawn(newPosition, e);
         }
 
-        public void OnDrag(PointerEventData eventData) {
-            if (eventData.dragging) {
-                spawned.ownTransform.SetFloatPositionByDelta(
-                    dx: eventData.delta.x,
-                    dy: eventData.delta.y
-                );
+        public void OnDrag(PointerEventData e) {
+            if (!e.dragging || spawned == null) return;
 
-                spawned.currentDrop = spawned.GetDrop();
+            spawned.ownTransform.SetFloatPositionByDelta(dx: e.delta.x, dy: e.delta.y);
 
-                if (spawned.currentDrop != spawned.previousDrop) {
-                    spawned.currentDrop?.SetState("over");
-                    spawned.previousDrop?.SetState("normal");
+            spawned.currentDrop = spawned.GetDrop();
 
-                    spawned.previousDrop = spawned.currentDrop;
-                }
+            if (spawned.currentDrop != spawned.previousDrop) {
+                spawned.currentDrop?.SetState("over");
+                spawned.previousDrop?.SetState("normal");
+
+                spawned.previousDrop = spawned.currentDrop;
             }
         }
 
-        public void OnEndDrag(PointerEventData eventData) {
+        public void OnEndDrag(PointerEventData e) {
+
+            if (spawned == null) return;
 
             var dragDropZone = spawned.GetDrop();
 
@@ -93,11 +73,63 @@ namespace ScrapCoder.VisualNodes {
 
                 dragDropZone.SetState("normal");
             } else {
+                SymbolTable.instance[symbolName].Remove(spawned);
                 HierarchyController.instance.DeleteNode(spawned);
                 Destroy(spawned.gameObject);
             }
 
             spawned = null;
+        }
+
+        Vector2 GetPointerPosition(PointerEventData eventData) {
+            var newPosition = new Vector2();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rect: canvasTransform,
+                screenPoint: eventData.position,
+                cam: canvas.worldCamera,
+                localPoint: out newPosition
+            );
+
+            return newPosition;
+        }
+
+        void Spawn(Vector2 newPosition, PointerEventData e) {
+
+            if (SymbolTable.instance[symbolName] == null) {
+                SymbolTable.instance.AddSymbol(
+                    limit: limit,
+                    symbolName: symbolName,
+                    type: nodeToSpawn
+                );
+            } else if (SymbolTable.instance[symbolName].isFull) {
+                return;
+            }
+
+            spawned = Instantiate(
+                original: NodeDictionaryController.instance[nodeToSpawn],
+                parent: canvas.transform
+            );
+
+            SymbolTable.instance[symbolName].Add(spawned);
+
+            spawned.symbolName = symbolName;
+            spawned.gameObject.name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]";
+
+            spawned.ownTransform.SetPosition(
+                x: (int)newPosition.x - (spawned.ownTransform.width * pixelScale) / 2,
+                y: (int)newPosition.y + (spawned.ownTransform.initHeight * pixelScale) / 2
+            );
+
+            spawned.workingZone = HierarchyController.instance.workingZone;
+
+            spawned.SetMiddleZone(true);
+
+            HierarchyController.instance.SetOnTopOfCanvas(spawned);
+            spawned.ownTransform.SetFloatPositionByDelta(dx: e.delta.x, dy: e.delta.y);
+
+            spawned.isDragging = true;
+
+            spawned.SetState("over");
         }
     }
 

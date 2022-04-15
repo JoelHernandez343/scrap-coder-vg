@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+using ScrapCoder.Interpreter;
+
 namespace ScrapCoder.VisualNodes {
 
     public interface IZoneParentRefresher {
@@ -75,6 +77,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         [System.NonSerialized] public bool isDragging = false;
+
+        public string symbolName;
 
         // Lazy and other variables
         public Transform workingZone;
@@ -378,6 +382,9 @@ namespace ScrapCoder.VisualNodes {
                 endingCallback: moveUp
             );
 
+            SymbolTable.instance[symbolName].Remove(this);
+            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
         }
@@ -387,16 +394,15 @@ namespace ScrapCoder.VisualNodes {
 
             this.state = state;
             components.ForEach(c => c.SetState(this.state));
-
-            containers.ForEach(c => c.array.nodes.ForEach(n => n.SetState(state)));
+            containers.ForEach(c => c.SetState(state));
 
             if (hasParent) {
-                var ownIndex = parentArray.nodes.IndexOf(this);
-
-                for (var i = ownIndex + 1; i < parentArray.Count; ++i) {
-                    parentArray[i].SetState(state);
-                }
+                parentArray.SetStateAfterThis(this, state);
             }
+        }
+
+        public void RemoveMyself() {
+            throw new System.NotImplementedException();
         }
     }
 

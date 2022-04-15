@@ -345,5 +345,20 @@ namespace ScrapCoder.VisualNodes {
                 node.ownTransform.rectTransform.SetAsLastSibling();
             });
         }
+
+        public void SetStateAfterThis(NodeController node, string state) {
+            bool passed = false;
+
+            foreach (var n in nodes) {
+                if (n == node) {
+                    passed = true;
+                    continue;
+                } else if (!passed) {
+                    continue;
+                };
+
+                n.SetState(state);
+            }
+        }
     }
 }

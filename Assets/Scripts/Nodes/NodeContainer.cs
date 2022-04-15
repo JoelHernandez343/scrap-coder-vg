@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.Interpreter;
+
 namespace ScrapCoder.VisualNodes {
 
     public class NodeContainer : MonoBehaviour, INodeExpandable {
@@ -77,6 +79,14 @@ namespace ScrapCoder.VisualNodes {
             if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
                 array.AddNodes(node: nodeToAdd, toThisNode: toThisNode, smooth: smooth);
             }
+        }
+
+        public void SetState(string state) {
+            array.nodes.ForEach(n => n.SetState(state));
+        }
+
+        public void RemoveNodesFromTableSymbol() {
+            array.nodes.ForEach(n => SymbolTable.instance[n.symbolName].Remove(n));
         }
     }
 }
