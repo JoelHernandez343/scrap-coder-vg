@@ -13,6 +13,8 @@ namespace ScrapCoder.UI {
     public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpandable {
 
         // Editor variables
+        [SerializeField] int characterLimit = -1;
+
         [SerializeField] NodeTransform cursorSprite;
         [SerializeField] Animator cursorAnimator;
 
@@ -31,12 +33,16 @@ namespace ScrapCoder.UI {
         // State variables
         int cursor = 0;
 
+        List<System.Action> listeners = new List<System.Action>();
+
         // Lazy state variables
         string _text = null;
         string text {
             get => _text ??= expandableText.text;
             set => _text = value;
         }
+
+        bool isFull => characterLimit > 0 && text.Length == characterLimit;
 
         string[] qwerty = {
             "a",  "b",  "c",  "d",  "e",  "f",
@@ -55,21 +61,15 @@ namespace ScrapCoder.UI {
         };
 
         NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
 
-        public NodeController controller => ownTransform.controller;
+        public NodeController controller => ownTransform?.controller;
 
         NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
         bool INodeExpandable.ModifyHeightOfPiece => false;
         bool INodeExpandable.ModifyWidthOfPiece => true;
 
         // Constants
-        const KeyCode delete = KeyCode.Backspace;
-        const KeyCode right = KeyCode.RightArrow;
-        const KeyCode left = KeyCode.LeftArrow;
-        const KeyCode shiftLeft = KeyCode.LeftShift;
-        const KeyCode shiftRight = KeyCode.RightShift;
-
         const int lettersOffset = 8;
         const int cursorLeftOffset = 2;
         const int textLeftOffset = 4;
@@ -79,12 +79,14 @@ namespace ScrapCoder.UI {
 
             if (!Input.anyKeyDown) return;
 
-            if (Input.GetKeyDown(delete)) {
+            if (Input.GetKeyDown(KeyCode.Backspace)) {
                 DeleteCharacterFromCursor();
-            } else if (Input.GetKeyDown(right)) {
+            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
                 MoveCursor(1);
-            } else if (Input.GetKeyDown(left)) {
+            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                 MoveCursor(-1);
+            } else if (Input.GetKeyDown(KeyCode.Return)) {
+                Execute();
             } else if (GetPressedCharacter() is var character && character != "") {
                 AddCharacter(character);
             }
@@ -105,7 +107,7 @@ namespace ScrapCoder.UI {
 
             if (keyPressed == ";") keyPressed = "ñ";
 
-            if (Input.GetKey(shiftLeft) || Input.GetKey(shiftRight)) {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                 keyPressed = qwertyUpperCase[letter];
             }
 
@@ -122,6 +124,8 @@ namespace ScrapCoder.UI {
         }
 
         void AddCharacter(string character) {
+            if (isFull) return;
+
             if (cursor == text.Length) {
                 text += character;
             } else {
@@ -239,5 +243,24 @@ namespace ScrapCoder.UI {
         bool IFocusable.HasFocus() {
             return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
         }
+
+        public void AddListener(System.Action listener) => listeners.Add(listener);
+
+        public bool RemoveListener(System.Action listener) => listeners.Remove(listener);
+
+        public void Clear() {
+            text = "";
+
+            MoveCursorTo(0);
+            ExpandByText();
+        }
+
+        public void Execute() {
+            listeners.ForEach(listener => listener());
+        }
+
+        // void Start() {
+        //     AddListener(() => Clear());
+        // }
     }
 }

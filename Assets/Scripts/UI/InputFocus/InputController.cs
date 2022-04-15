@@ -59,9 +59,9 @@ namespace ScrapCoder.InputManagment {
         }
 
         void Update() {
-            // if (handlerWithFocus is IInputHandler inputHandler) {
-            //     inputHandler.HandleInput();
-            // }
+            if (handlerWithFocus is IInputHandler inputHandler) {
+                inputHandler.HandleInput();
+            }
         }
     }
 
