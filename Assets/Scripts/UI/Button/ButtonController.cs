@@ -73,7 +73,7 @@ namespace ScrapCoder.UI {
             ownTransform.Expand(dx: delta, smooth: smooth);
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
 
             itemsToExpand.ForEach(i => i.Expand(dx: dx, dy: dy, smooth: smooth));
             expandableText.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);

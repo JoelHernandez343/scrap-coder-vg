@@ -5,11 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace ScrapCoder.VisualNodes {
-    public interface INodeExpandable {
 
-        void Expand(int? dx = null, int? dy = null, bool smooth = false, INodeExpanded expanded = null);
+    public interface INodeExpanded {
+        bool ModifyWidthOfPiece { get; }
+        bool ModifyHeightOfPiece { get; }
 
+        NodeTransform PieceToExpand { get; }
     }
+
 }

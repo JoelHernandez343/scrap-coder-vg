@@ -23,7 +23,7 @@ namespace ScrapCoder.VisualNodes {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
 
             itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
             itemsToRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: smooth));

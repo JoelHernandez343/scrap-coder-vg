@@ -164,12 +164,12 @@ namespace ScrapCoder.VisualNodes {
             spriteShapeController.RefreshSpriteShape();
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
 
             if (smooth) {
                 smoothDamp.AddDeltaToDestination(
-                    dx: ranges[0].isExpandable ? dx : (int?)null,
-                    dy: ranges[1].isExpandable ? dy : (int?)null
+                    dx: ranges[0].isExpandable ? dx : null,
+                    dy: ranges[1].isExpandable ? dy : null
                 );
             } else {
                 Expand(dx: dx, dy: dy);
@@ -205,22 +205,18 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        void Expand(int dx, int dy) {
-            if (dx == 0 && dy == 0) {
-                return;
-            }
-
-            int[] delta = { dx, dy };
+        void Expand(int? dx, int? dy) {
+            int?[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {
                 var range = ranges[axis];
                 var isExpandable = range.isExpandable;
                 var sign = axis == 0 ? 1 : -1;
 
-                if (!isExpandable) continue;
+                if (!isExpandable || delta[axis] == null) continue;
 
                 for (var pointIndex = points.IndexOf(range.start); points[pointIndex - 1] != range.end; ++pointIndex) {
-                    points[pointIndex].position[axis] += (sign) * delta[axis];
+                    points[pointIndex].position[axis] += (sign) * (int)delta[axis];
                 }
             }
 

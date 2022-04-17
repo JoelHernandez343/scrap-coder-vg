@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.UI {
-    public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpandable {
+    public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpanded, INodeExpander {
 
         // Editor variables
         [SerializeField] int characterLimit = -1;
@@ -65,9 +65,9 @@ namespace ScrapCoder.UI {
 
         public NodeController controller => ownTransform?.controller;
 
-        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
-        bool INodeExpandable.ModifyHeightOfPiece => false;
-        bool INodeExpandable.ModifyWidthOfPiece => true;
+        NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
+        bool INodeExpanded.ModifyHeightOfPiece => false;
+        bool INodeExpanded.ModifyWidthOfPiece => true;
 
         // Constants
         const int lettersOffset = 8;
@@ -119,7 +119,7 @@ namespace ScrapCoder.UI {
 
             text = text.Remove(cursor - 1, 1);
 
-            ExpandByText();
+            ExpandByText(smooth: true);
             MoveCursor(-1);
         }
 
@@ -132,11 +132,11 @@ namespace ScrapCoder.UI {
                 text = text.Insert(cursor, character);
             }
 
-            ExpandByText();
+            ExpandByText(smooth: true);
             MoveCursor(1);
         }
 
-        void ExpandByText() {
+        void ExpandByText(bool smooth = false) {
             // Change text and get new delta
             var dx = expandableText.ChangeText(
                 newText: text,
@@ -145,10 +145,10 @@ namespace ScrapCoder.UI {
             );
 
             // Expand items
-            itemsToExpand.ForEach(item => item?.Expand(dx: dx, smooth: true));
+            ownTransform.Expand(dx: dx, smooth: smooth);
 
-            // Update parents with delta
-            controller?.AdjustParts(expandable: this, delta: (dx, 0), smooth: true);
+            // Update parent with delta
+            ownTransform.expandable?.Expand(dx: dx, smooth: smooth);
         }
 
         void MoveCursorTo(int position) {
@@ -228,16 +228,22 @@ namespace ScrapCoder.UI {
             removerRectTransfrom.localPosition = localPosition;
         }
 
-        void IFocusable.LoseFocus() {
-            cursorAnimator.SetBool("isActive", false);
-
-            backgroundShape.SetVisible(false);
-        }
-
         void IFocusable.GetFocus() {
             cursorAnimator.SetBool("isActive", true);
 
             backgroundShape.SetVisible(true);
+
+            if (controller == null) {
+                ownTransform.Raise(depthLevels: 10);
+            }
+        }
+
+        void IFocusable.LoseFocus() {
+            cursorAnimator.SetBool("isActive", false);
+
+            backgroundShape.SetVisible(false);
+
+            ownTransform.ResetRenderOrder();
         }
 
         bool IFocusable.HasFocus() {
@@ -252,15 +258,21 @@ namespace ScrapCoder.UI {
             text = "";
 
             MoveCursorTo(0);
-            ExpandByText();
+            ExpandByText(smooth: true);
         }
 
         public void Execute() {
             listeners.ForEach(listener => listener());
         }
 
-        // void Start() {
-        //     AddListener(() => Clear());
-        // }
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
+            itemsToExpand.ForEach(item => item?.Expand(dx: dx, smooth: smooth));
+
+            return (dx, dy);
+        }
+
+        void Start() {
+            AddListener(() => InputController.instance.ClearFocus());
+        }
     }
 }

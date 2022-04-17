@@ -11,6 +11,7 @@ namespace ScrapCoder.VisualNodes {
 
         // Editor variables
         [SerializeField] Component nodeExpander;
+        [SerializeField] Component nodeExpandable;
 
         [SerializeField] NodeController directController;
         [SerializeField] NodeTransform indirectController;
@@ -112,6 +113,8 @@ namespace ScrapCoder.VisualNodes {
             get => -z;
             set => z = -value;
         }
+
+        public INodeExpandable expandable => (nodeExpandable as INodeExpandable) ?? controller;
 
         public bool isMovingSmoothly => smoothDamp.isWorking;
 
@@ -262,16 +265,18 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        public (int dx, int dy) Expand(int dx = 0, int dy = 0, bool smooth = false, INodeExpandable expandable = null) {
+        public (int? dx, int? dy) Expand(int? dx = null, int? dy = null, bool smooth = false, INodeExpanded expanded = null) {
             if (!resizable) {
                 throw new System.InvalidOperationException($"[{gameObject.name}] This object is not resizable");
             }
 
-            width += dx;
-            height += dy;
+            if (dx == 0 && dy == 0 || dx == null && dy == null) return (dx, dy);
+
+            width += dx ?? 0;
+            height += dy ?? 0;
 
             if (nodeExpander is INodeExpander expander) {
-                (dx, dy) = expander.Expand(dx: dx, dy: dy, smooth: smooth, expandable: expandable);
+                (dx, dy) = expander.Expand(dx: dx, dy: dy, smooth: smooth, expanded: expanded);
             }
 
             return (dx, dy);

@@ -9,7 +9,7 @@ using ScrapCoder.Interpreter;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeContainer : MonoBehaviour, INodeExpandable {
+    public class NodeContainer : MonoBehaviour, INodeExpanded {
 
         // Editor variables
         [SerializeField] public NodeZone zone;
@@ -37,36 +37,40 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController Last => array.Last;
 
-        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
-        bool INodeExpandable.ModifyHeightOfPiece => modifyHeightOfPiece;
-        bool INodeExpandable.ModifyWidthOfPiece => modifyWidthOfPiece;
+        NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
+        bool INodeExpanded.ModifyHeightOfPiece => modifyHeightOfPiece;
+        bool INodeExpanded.ModifyWidthOfPiece => modifyWidthOfPiece;
 
         // Methods
         public void Clear() {
             array.RefreshNodeZones(array[0]);
         }
 
-        public void AdjustParts((int dx, int dy) delta, bool smooth = false) {
-            var newDelta = CalculateDelta(delta);
+        public void AdjustParts(int? dx = null, int? dy = null, bool smooth = false) {
+            (dx, dy) = CalculateDelta(dx: dx, dy: dy);
 
             RefreshLocalDepthLevels();
 
             if (toggleZone) zone?.SetActive(array.Count == 0);
             sprite?.SetVisible(array.Count == 0);
-            ownTransform.Expand(dx: newDelta.dx, dy: newDelta.dy, smooth: smooth);
-            controller.AdjustParts(expandable: this, delta: newDelta, smooth: smooth);
+            ownTransform.Expand(dx: dx, dy: dy, smooth: smooth);
+
+            ownTransform.expandable.Expand(dx: dx, dy: dy, smooth: smooth, expanded: this);
         }
 
-        (int dx, int dy) CalculateDelta((int dx, int dy) delta) {
+        (int? dx, int? dy) CalculateDelta(int? dx, int? dy) {
+            dx ??= 0;
+            dy ??= 0;
+
             if (array.previousCount == 0) {
-                delta.dy -= defaultHeight;
-                delta.dx -= defaultWidth;
+                dy -= defaultHeight;
+                dx -= defaultWidth;
             } else if (array.Count == 0) {
-                delta.dy += defaultHeight;
-                delta.dx += defaultWidth;
+                dy += defaultHeight;
+                dx += defaultWidth;
             }
 
-            return delta;
+            return (dx, dy);
         }
 
         void RefreshLocalDepthLevels() {

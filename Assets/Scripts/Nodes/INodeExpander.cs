@@ -8,11 +8,11 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public interface INodeExpander {
-        (int dx, int dy) Expand(
-            int dx = 0,
-            int dy = 0,
+        (int? dx, int? dy) Expand(
+            int? dx = null,
+            int? dy = null,
             bool smooth = false,
-            INodeExpandable expandable = null
+            INodeExpanded expanded = null
         );
     }
 

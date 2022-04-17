@@ -26,7 +26,7 @@ namespace ScrapCoder.VisualNodes {
         List<NodeShape> fillStates;
 
         // Methods
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable expandable) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded expandable) {
 
             itemsToExpand.ForEach(i => i.Expand(dx: dx, dy: dy, smooth: smooth));
             itemsToRight.ForEach(i => i.SetPositionByDelta(dx: dx, smooth: smooth));

@@ -283,9 +283,9 @@ namespace ScrapCoder.VisualNodes {
         void Adjust(int? dy = null, bool smooth = false) {
             int dx = currentMaxWidth - ownTransform.width;
 
-            ownTransform.Expand(dx, dy ?? 0);
+            ownTransform.Expand(dx: dx, dy: dy);
             RefreshLocalDepthLevels();
-            container.AdjustParts(delta: (dx, dy ?? 0), smooth: smooth);
+            container.AdjustParts(dx: dx, dy: dy, smooth: smooth);
         }
 
         void RefreshLocalDepthLevels() {
