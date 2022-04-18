@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -209,12 +210,12 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 68, y: 0}
-      - {x: 68, y: -4}
-      - {x: 76, y: -4}
-      - {x: 76, y: -14}
-      - {x: 68, y: -14}
-      - {x: 68, y: -18}
+      - {x: 16, y: 0}
+      - {x: 16, y: -4}
+      - {x: 24, y: -4}
+      - {x: 24, y: -14}
+      - {x: 16, y: -14}
+      - {x: 16, y: -18}
       - {x: 0, y: -18}
 --- !u!114 &4784120061343138211
 MonoBehaviour:
@@ -229,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 2498248474969899465}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 5272856621923427332}
   initHeight: 0
@@ -267,13 +269,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   widthPointsRange:
-    begin: 2
-    end: 5
+    begin: 1
+    end: 6
     isExpandable: 1
   heightPointsRange:
-    begin: 4
-    end: 7
-    isExpandable: 1
+    begin: 0
+    end: 0
+    isExpandable: 0
 --- !u!1 &4784120061923406350
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 177079198809909590}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 19
@@ -362,17 +365,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalItems:
-  - {fileID: 3161154465572948132}
-  - {fileID: 0}
+  horizontalItems: []
   itemsBelow: []
   itemsToTheRight: []
   itemsToExpand:
-  - {fileID: 0}
+  - {fileID: 9177841562632238533}
   - {fileID: 4784120061343138211}
   - {fileID: 6297803207148697592}
   shapesOfState:
-  - {fileID: 0}
+  - {fileID: 266453146677675893}
   spritesOfState: []
 --- !u!1 &5496555443724731792
 GameObject:
@@ -515,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 266453146677675893}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -610,7 +612,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70, y: -9}
+  m_AnchoredPosition: {x: 18, y: -9}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3465333036318610951
@@ -677,6 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -821,8 +824,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 1.3333335, y: -0.37499997, z: -0.00005}
-    m_Extent: {x: 1.3333335, y: 0.37500003, z: 0.00005}
+    m_Center: {x: 0.25000262, y: -0.37499997, z: -0.00005}
+    m_Extent: {x: 0.25000262, y: 0.37500003, z: 0.00005}
 --- !u!114 &1137810148990826495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -848,7 +851,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 2.6666667, y: -0.375, z: 0.00036621094}
+    - position: {x: 0.5, y: -0.375, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -887,6 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 7575219179014063649}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 21
@@ -913,16 +917,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalRangeTemplate:
-    initialStartIndex: 4
-    initialEndIndex: 4
+    initialStartIndex: 1
+    initialEndIndex: 1
     isExpandable: 1
   verticalRangeTemplate:
-    initialStartIndex: 2
-    initialEndIndex: 4
-    isExpandable: 1
+    initialStartIndex: 0
+    initialEndIndex: 0
+    isExpandable: 0
   spriteSize:
-    x: 12
-    y: 12
+    x: 8
+    y: 18
   segmentTemplates:
   - randomRange: 3
     minSeparation: 6
@@ -1109,7 +1113,9 @@ PrefabInstance:
       objectReference: {fileID: 5272856621923427332}
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_text
-      value: Variable
+      value: '
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_Pivot.x
@@ -1141,7 +1147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 40
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1206,14 +1212,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
   m_PrefabInstance: {fileID: 2694200029910017900}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3161154465572948132 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
-  m_PrefabInstance: {fileID: 2694200029910017900}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

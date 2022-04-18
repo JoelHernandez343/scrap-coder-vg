@@ -26,10 +26,10 @@ namespace ScrapCoder.UI {
             var clickPosition = new Vector2();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rect: ownTransform.rectTransform,
-                    screenPoint: eventData.position,
-                    cam: mainCamera,
-                    localPoint: out clickPosition
-                );
+                screenPoint: eventData.position,
+                cam: mainCamera,
+                localPoint: out clickPosition
+            );
 
             inputText.Click(clickPosition.x);
         }
