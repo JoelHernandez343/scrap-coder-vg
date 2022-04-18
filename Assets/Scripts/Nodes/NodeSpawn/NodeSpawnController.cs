@@ -4,7 +4,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 
 using ScrapCoder.Interpreter;
@@ -17,7 +16,7 @@ namespace ScrapCoder.VisualNodes {
         // Editor variables
         [SerializeField] public Canvas canvas;
         [SerializeField] NodeType nodeToSpawn;
-        [SerializeField] int limit;
+        [SerializeField] public int limit;
 
         [SerializeField] public string text;
         [SerializeField] ExpandableText expandableText;
@@ -68,23 +67,21 @@ namespace ScrapCoder.VisualNodes {
 
             if (!InstantiateNode()) return;
 
-            spawned.symbolName = symbolName;
-            spawned.gameObject.name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]";
+            HierarchyController.instance.SetOnTopOfCanvas(spawned);
 
             spawned.ownTransform.SetPosition(
                 x: (int)newPosition.x - (spawned.ownTransform.width * pixelScale) / 2,
                 y: (int)newPosition.y + (spawned.ownTransform.initHeight * pixelScale) / 2
             );
-
-            spawned.workingZone = HierarchyController.instance.workingZone;
-
-            spawned.SetMiddleZone(true);
-
-            HierarchyController.instance.SetOnTopOfCanvas(spawned);
             spawned.ownTransform.SetFloatPositionByDelta(dx: dx, dy: dy);
+            spawned.ownTransform.SetScale(x: 2, y: 2);
 
+            spawned.symbolName = symbolName;
+            spawned.gameObject.name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]";
+            spawned.workingZone = HierarchyController.instance.workingZone;
             spawned.isDragging = true;
 
+            spawned.SetMiddleZone(true);
             spawned.SetState("over");
         }
 

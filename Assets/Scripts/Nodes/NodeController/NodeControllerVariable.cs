@@ -15,11 +15,13 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] NodeController directController;
 
-        [SerializeField] Transform temporalParent;
+        [SerializeField] public Transform temporalParent;
 
         public string text;
 
         public bool hideAfterExpand = false;
+
+        [SerializeField] bool initialized = false;
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
@@ -29,12 +31,18 @@ namespace ScrapCoder.VisualNodes {
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
 
         void Start() {
-            ExpandByText();
+            if (!initialized) {
+                ExpandByText();
 
-            if (hideAfterExpand) {
-                gameObject.transform.SetParent(temporalParent);
-                ownTransform.SetPosition(x: 0, y: 0);
-                gameObject.SetActive(false);
+                if (hideAfterExpand) {
+                    gameObject.transform.SetParent(temporalParent);
+                    ownTransform.SetPosition(x: 0, y: 0);
+                    ownTransform.SetScale(x: 2, y: 2);
+                    ownTransform.depth = 0;
+                    HierarchyController.instance.DeleteNode(directController);
+                }
+
+                initialized = true;
             }
         }
 
@@ -50,6 +58,9 @@ namespace ScrapCoder.VisualNodes {
                 smooth: false,
                 expanded: this
             );
+
+            ownTransform.initWidth = ownTransform.width;
+            ownTransform.initHeight = ownTransform.height;
         }
     }
 }

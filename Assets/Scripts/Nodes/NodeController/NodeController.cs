@@ -377,11 +377,15 @@ namespace ScrapCoder.VisualNodes {
                 endingCallback: moveUp
             );
 
-            SymbolTable.instance[symbolName].Remove(this);
-            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+            RemoveFromSymbolTable();
 
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
+        }
+
+        public void RemoveFromSymbolTable() {
+            SymbolTable.instance[symbolName].Remove(this);
+            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
         }
 
         public void SetState(string state) {

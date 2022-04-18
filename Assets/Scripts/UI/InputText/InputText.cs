@@ -65,6 +65,15 @@ namespace ScrapCoder.UI {
 
         public NodeController controller => ownTransform?.controller;
 
+        public string Value {
+            get => text;
+            set {
+                text = value;
+                ExpandByText(smooth: true);
+                MoveCursorTo(0);
+            }
+        }
+
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
         bool INodeExpanded.ModifyHeightOfPiece => false;
         bool INodeExpanded.ModifyWidthOfPiece => true;
@@ -255,10 +264,7 @@ namespace ScrapCoder.UI {
         public bool RemoveListener(System.Action listener) => listeners.Remove(listener);
 
         public void Clear() {
-            text = "";
-
-            MoveCursorTo(0);
-            ExpandByText(smooth: true);
+            Value = "";
         }
 
         public void Execute() {
@@ -272,7 +278,10 @@ namespace ScrapCoder.UI {
         }
 
         void Start() {
-            AddListener(() => InputController.instance.ClearFocus());
+            AddListener(() => {
+                InputController.instance.ClearFocus();
+                Clear();
+            });
         }
     }
 }

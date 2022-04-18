@@ -196,8 +196,6 @@ namespace ScrapCoder.VisualNodes {
                     endingCallback: endingCallback,
                     cancelPreviousCallback: cancelPreviousCallback
                 );
-
-
             } else {
                 MoveToPosition(x, y);
             }
@@ -327,6 +325,15 @@ namespace ScrapCoder.VisualNodes {
                 origin: new Vector2(x: width, y: 0),
                 destinationX: 0
             );
+        }
+
+        public void SetScale(int? x = null, int? y = null) {
+            var scale = rectTransform.localScale;
+
+            scale.x = x ?? scale.x;
+            scale.y = y ?? scale.y;
+
+            rectTransform.localScale = scale;
         }
 
         void DisappearSmoothly() {

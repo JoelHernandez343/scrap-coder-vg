@@ -33,7 +33,9 @@ namespace ScrapCoder.InputManagment {
         }
 
         public void ClearFocus() {
-            handlerWithFocus?.LoseFocus();
+            if (handlerWithFocus == null) return;
+
+            handlerWithFocus.LoseFocus();
             handlerWithFocus = null;
 
             GetRemoverOwnership();

@@ -90,7 +90,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void RemoveNodesFromTableSymbol() {
-            array.nodes.ForEach(n => SymbolTable.instance[n.symbolName].Remove(n));
+            array.nodes.ForEach(n => n.RemoveFromSymbolTable());
         }
     }
 }
