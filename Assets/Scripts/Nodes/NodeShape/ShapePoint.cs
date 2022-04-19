@@ -10,5 +10,7 @@ namespace ScrapCoder.VisualNodes {
     public class ShapePoint {
         public Utils.Vector2D position;
         public int spriteIndex;
+
+        public ShapeSegment segment;
     }
 }

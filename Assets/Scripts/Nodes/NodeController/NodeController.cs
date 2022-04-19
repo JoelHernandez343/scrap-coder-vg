@@ -1,0 +1,447 @@
+// Joel Harim Hernández Javier @ 2022
+// Github: https://github.com/JoelHernandez343
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+using ScrapCoder.Interpreter;
+
+namespace ScrapCoder.VisualNodes {
+
+    public interface IZoneParentRefresher {
+        void SetZonesAsParent(NodeArray array);
+    }
+
+    public interface INodePartsAdjuster {
+        (int dx, int dy) AdjustParts(INodeExpanded expanded, (int dx, int dy)? delta = null);
+    }
+
+    public interface INodeSelectorModifier {
+        void ModifySelectorFunc(NodeController.DropFuncSelector selector);
+    }
+
+    public class NodeController : MonoBehaviour, INodeExpandable {
+
+        // Internal types
+        public class DropFuncSelector {
+            Func<NodeZone, NodeZone, NodeController, bool> emptyFn = (a, b, c) => false;
+
+            Func<NodeZone, NodeZone, NodeController, bool>[,] funcs =
+                new Func<NodeZone, NodeZone, NodeController, bool>[
+                    Enum.GetNames(typeof(ZoneColor)).Length,
+                    Enum.GetNames(typeof(ZoneColor)).Length
+                ];
+
+            public Func<NodeZone, NodeZone, NodeController, bool> this[ZoneColor first, ZoneColor second] {
+                get => funcs[(int)first, (int)second] ?? emptyFn;
+                set => funcs[(int)first, (int)second] = value;
+            }
+        }
+
+        // Editor variables
+        [SerializeField] NodeZone topZone;
+        [SerializeField] NodeZone middleZone;
+        [SerializeField] NodeZone bottomZone;
+
+        [SerializeField] NodeZone lastZone;
+
+        [SerializeField] public NodeArray siblings;
+
+        [SerializeField] public NodeType type;
+        [SerializeField] public NodeCategory category;
+
+        [SerializeField] List<NodePiece> components;
+        [SerializeField] List<NodeContainer> containers;
+        [SerializeField] List<NodeTransform> staticContainers;
+
+        [SerializeField] Component zoneRefresher;
+        [SerializeField] Component selectorModifier;
+        [SerializeField] Component nodeAnalyzer;
+
+        // State variables
+        NodeArray _parentArray;
+        public NodeArray parentArray {
+            set {
+                _parentArray = value;
+
+                if (value != null) {
+                    transform.SetParent(parentArray.transform);
+                    HierarchyController.instance.DeleteNode(this);
+                } else {
+                    transform.SetParent(workingZone);
+                }
+            }
+            get => _parentArray;
+        }
+
+        [System.NonSerialized] public bool isDragging = false;
+
+        public string symbolName;
+
+        // Lazy and other variables
+        public Transform workingZone;
+
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public NodeController parentController => parentArray?.controller;
+
+        public NodeController temporalParent {
+            set => transform.SetParent(value?.transform ?? workingZone);
+        }
+
+        DropFuncSelector _selector;
+        DropFuncSelector selector {
+            get {
+                if (_selector == null) {
+                    _selector = new DropFuncSelector() {
+                        [ZoneColor.Blue, ZoneColor.Red] = AddNodesToIncomingZone,
+                        [ZoneColor.Red, ZoneColor.Blue] = AddNodesToContainer,
+                        [ZoneColor.Yellow, ZoneColor.Green] = AddNodesToContainer
+                    };
+
+                    (selectorModifier as INodeSelectorModifier)?.ModifySelectorFunc(_selector);
+                }
+
+                return _selector;
+            }
+        }
+
+        public bool hasParent => parentArray != null;
+
+        public NodeController lastController {
+            get {
+                var controller = this;
+                while (controller.hasParent) {
+                    controller = controller.parentController;
+                }
+
+                return controller;
+            }
+        }
+
+        List<NodeZone> _mainZones;
+        public List<NodeZone> mainZones
+            => _mainZones ??= (new List<NodeZone> { topZone, middleZone, bottomZone }).FindAll(zone => zone != null);
+
+        List<NodeZone> _validZones;
+        public List<NodeZone> validZones
+            => _validZones ??= (topZone != null || middleZone != null)
+                ? (new List<NodeZone> { topZone, middleZone }).FindAll(zone => zone != null)
+                : (new List<NodeZone> { bottomZone }).FindAll(zone => zone != null);
+
+        public UI.DragDropZone previousDrop = null;
+        public UI.DragDropZone currentDrop = null;
+
+        IInterpreterElement _interpreterElement;
+        public IInterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<IInterpreterElement>() as IInterpreterElement);
+
+        string state;
+
+        // Methods
+        public void ClearParent() => parentArray = null;
+
+        public void DetachFromParent() {
+            if (!hasParent) return;
+
+            if (siblings != null) {
+                siblings.AddNodesFromParent(smooth: true);
+            } else {
+                parentArray.RemoveNodes(fromThisNode: this, smooth: true);
+                RefreshZones();
+                ClearParent();
+            }
+        }
+
+        public void Eject() {
+            RefreshZones();
+            ClearParent();
+        }
+
+        public bool OnDrop(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
+            if (parentController != null && mainZones.Contains(ownZone)) {
+                return parentController.OnDrop(inZone, ownZone, this);
+            }
+
+            return selector[ownZone.zoneColor, inZone.zoneColor](inZone, ownZone, toThisNode);
+        }
+
+        public bool InvokeZones() {
+            return topZone?.Invoke() == true
+                || middleZone?.Invoke() == true
+                || lastZone?.Invoke() == true;
+        }
+
+        void RefreshLastZone() {
+            lastZone =
+                siblings?.Count == 0
+                    ? bottomZone
+                    : siblings?.Last.bottomZone;
+        }
+
+        public void SetMiddleZone(bool enable) {
+            middleZone?.SetActive(enable);
+        }
+
+        bool AddNodesToIncomingZone(NodeZone inZone, NodeZone ownZone, NodeController toThisNode = null) {
+            return inZone.controller.OnDrop(ownZone, inZone);
+        }
+
+        void AddNodeToContainerDirectly(NodeContainer container, NodeController nodeToAdd) {
+            container.AddNodes(nodeToAdd: nodeToAdd, toThisNode: container.Last, smooth: false);
+        }
+
+        bool AddNodesToContainer(NodeZone inZone, NodeZone ownZone, NodeController toThisNode) {
+            foreach (var container in containers) {
+                if (
+                    ownZone == container.zone ||
+                    ownZone.controller.parentArray == container.array
+                ) {
+                    container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void RefreshZones(NodeArray array = null, NodeController node = null) {
+            SetZones(SetZone.asParent, array);
+            array?.RefreshNodeZones(node);
+            RefreshLastZone();
+        }
+
+        public void SetZones(SetZone setting, NodeArray array = null) {
+            if (setting == SetZone.asParent) {
+                SetZonesAsParent(array);
+            } else if (setting == SetZone.asChild) {
+                SetZonesAsChild();
+            } else if (setting == SetZone.asLastChild) {
+                SetZonesAsChild(true);
+            }
+        }
+
+        void SetZonesAsChild(bool isLast = false) {
+            topZone?.SetActive(false);
+            bottomZone?.SetZoneColor(isLast ? ZoneColor.Red : ZoneColor.Yellow);
+        }
+
+        void SetZonesAsParent(NodeArray array) {
+            if (array == siblings || array == null) {
+                topZone?.SetActive(true);
+                topZone?.SetZoneColor(ZoneColor.Blue);
+
+                SetContainerAsParent(array);
+                return;
+            }
+
+            if (zoneRefresher is IZoneParentRefresher refresher) {
+                refresher.SetZonesAsParent(array);
+                return;
+            }
+
+            SetContainerAsParent(array);
+        }
+
+        void SetContainerAsParent(NodeArray array) {
+            if (array == null) return;
+
+            var container = containers.Find(container => container.array == array);
+
+            container.zone.SetZoneColor(array.Count == 0 ? ZoneColor.Red : ZoneColor.Yellow);
+        }
+
+        void INodeExpandable.Expand(int? dx, int? dy, bool smooth, INodeExpanded expanded) {
+            if ((expanded is NodeContainer container) && container.array == siblings) {
+                RefreshLocalDepthLevels();
+                HierarchyController.instance.SetOnTopOfNodes(this);
+                return;
+            }
+
+            (dx, dy) = AdjustPiece(expanded: expanded, dx: dx, dy: dy, smooth: smooth);
+
+            ownTransform.Expand(dx: dx, dy: dy, smooth: smooth);
+            RefreshLocalDepthLevels();
+
+            if (hasParent) {
+                parentArray.AdjustParts(changedNode: this, dx: dx, dy: dy, smooth: smooth);
+            } else {
+                HierarchyController.instance.SetOnTopOfNodes(this);
+            }
+        }
+
+        (int? dx, int? dy) AdjustPiece(INodeExpanded expanded, int? dx, int? dy, bool smooth = false) {
+            var pieceToExpand = expanded.PieceToExpand;
+
+            if (pieceToExpand != null) {
+                dx = expanded.ModifyWidthOfPiece ? dx : null;
+                dy = expanded.ModifyHeightOfPiece ? dy : null;
+
+                (dx, dy) = pieceToExpand.Expand(dx: dx, dy: dy, smooth: smooth, expanded: expanded);
+            }
+
+            AdjustComponents(pieceModified: pieceToExpand, dx: dx, dy: dy, smooth: smooth);
+
+            return (dx, dy);
+        }
+
+        void AdjustComponents(NodeTransform pieceModified, int? dx, int? dy, bool smooth = false) {
+            var begin = components.FindIndex(c => c.ownTransform == pieceModified) + 1;
+
+            for (var i = begin; i < components.Count; ++i) {
+                components[i].ownTransform.SetPositionByDelta(dy: -dy, smooth: smooth);
+                components[i].ownTransform.Expand(dx: dx, smooth: smooth);
+            }
+        }
+
+        void RefreshLocalDepthLevels() {
+            var localDepthLevels = 0;
+
+            containers.ForEach(container => {
+                var tf = container.ownTransform;
+                if (localDepthLevels < tf.depthLevels) {
+                    localDepthLevels = tf.depthLevels;
+                }
+            });
+
+            staticContainers.ForEach(container => {
+                if (localDepthLevels < container.depthLevels) {
+                    localDepthLevels = container.depthLevels;
+                }
+            });
+
+            ownTransform.localDepthLevels = localDepthLevels;
+        }
+
+        public void GetFocus() {
+            if (hasParent) {
+                ownTransform.Raise();
+                parentController.GetFocus();
+            } else {
+                HierarchyController.instance.SetOnTopOfNodes(this);
+            }
+        }
+
+        public void LoseFocus() {
+            if (hasParent) {
+                ownTransform.ResetRenderOrder();
+                parentController.LoseFocus();
+            }
+        }
+
+        public UI.DragDropZone GetDrop() {
+
+            UI.DragDropZone dropZone = null;
+
+            foreach (var zone in validZones) {
+
+                // Get drop zone of current zone
+                var currentDropZone = zone.GetTopDragDropZone();
+
+                // If drop zone is null, return null
+                if (currentDropZone == null) return null;
+
+                // Update dropZone only if is null
+                dropZone ??= currentDropZone;
+
+                // If there is difference with current drop zone and previous dreop zone, return null
+                if (dropZone != currentDropZone) return null;
+            }
+
+            return dropZone;
+        }
+
+        public void Disappear() {
+            Action destroy = () => Destroy(gameObject);
+
+            Action disappear = () => {
+                ownTransform.SetPosition(
+                    x: ownTransform.x,
+                    y: ownTransform.y - 500,
+                    smooth: true,
+                    endingCallback: destroy
+                );
+            };
+
+            Action moveUp = () => {
+                ownTransform.SetPosition(
+                    x: ownTransform.x,
+                    y: ownTransform.y - 500,
+                    smooth: true,
+                    endingCallback: disappear
+                );
+            };
+
+            ownTransform.SetPosition(
+                x: ownTransform.x,
+                y: ownTransform.y + 50,
+                smooth: true,
+                endingCallback: moveUp
+            );
+
+            RemoveFromSymbolTable();
+
+            HierarchyController.instance.DeleteNode(this);
+            HierarchyController.instance.SortNodes();
+        }
+
+        public void RemoveFromSymbolTable() {
+            SymbolTable.instance[symbolName].Remove(this);
+            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+        }
+
+        public void SetState(string state) {
+            if (this.state == state) return;
+
+            this.state = state;
+            components.ForEach(c => c.SetState(this.state));
+            containers.ForEach(c => c.SetState(state));
+
+            if (hasParent) {
+                parentArray.SetStateAfterThis(this, state);
+            }
+        }
+
+        public void RemoveMyself() {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Analyze() {
+
+            foreach (var container in containers) {
+                if (container.array == siblings) continue;
+
+                if (container.isEmpty) {
+                    Debug.LogError($"This container {container.gameObject.name} is Empty");
+
+                    return false;
+                };
+
+                if (!container.Analyze()) return false;
+            }
+
+            if (!hasParent) {
+                var siblingsContainer = siblings.container;
+
+                if (siblingsContainer.isEmpty) {
+                    Debug.LogError($"There must be childs to execute");
+                    return false;
+                }
+
+                if (!siblingsContainer.Analyze()) return false;
+
+                if (siblingsContainer.Last.type != NodeType.End) {
+                    Debug.LogError($"There must be an end connected");
+                    return false;
+                }
+            }
+
+            if (nodeAnalyzer is INodeAnalyzer analyzer) return analyzer.Analyze();
+
+            return true;
+        }
+    }
+
+}

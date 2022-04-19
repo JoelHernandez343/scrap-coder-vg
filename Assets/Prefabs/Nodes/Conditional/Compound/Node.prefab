@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
+  - component: {fileID: 2179172230622024910}
   m_Layer: 5
   m_Name: Node
   m_TagString: Untagged
@@ -65,18 +66,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 6150825404952637395}
+  indirectController: {fileID: 0}
   initHeight: 79
   initWidth: 96
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 6150825404952637395}
-  indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
   publicHeight: 0
   publicWidth: 0
-  localZLevels: -3
   ownDepthLevels: 3
   localDepthLevels: 0
 --- !u!114 &6150825404952637395
@@ -91,30 +92,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97d9a59eae9883469f40a57aaf02835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   topZone: {fileID: 8867216842198295349}
   middleZone: {fileID: 3236861116283297686}
   bottomZone: {fileID: 9191799004411640224}
   lastZone: {fileID: 9191799004411640224}
-  mainZones:
-  - {fileID: 8867216842198295349}
-  - {fileID: 3236861116283297686}
-  - {fileID: 9191799004411640224}
   siblings: {fileID: 6895973275350024146}
   type: 4
   category: 2
   components:
-  - {fileID: 4672922190033212407}
-  - {fileID: 771120474081470334}
-  - {fileID: 5890871088794034476}
+  - {fileID: 828770391816887973}
+  - {fileID: 4749747581830769196}
+  - {fileID: 1916699136733539454}
   containers:
   - {fileID: 968605115431716455}
   - {fileID: 7431806807875578522}
   - {fileID: 7069270878415370373}
   - {fileID: 2698101089188948741}
+  staticContainers: []
   zoneRefresher: {fileID: 0}
-  partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
+  nodeAnalyzer: {fileID: 0}
+  symbolName: 
+  workingZone: {fileID: 0}
+  previousDrop: {fileID: 0}
+  currentDrop: {fileID: 0}
+--- !u!114 &2179172230622024910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6150825404952637405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91799bceb64ea144091914bbee3dcf82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conditionContainer: {fileID: 2698101089188948741}
+  firstInstructionsContainer: {fileID: 968605115431716455}
+  secondInstructionsContainer: {fileID: 7431806807875578522}
 --- !u!1001 &631650628914224790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,15 +253,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4852056780401908584, guid: 8717324973fad824c9bfadad1df0daf5, type: 3}
   m_PrefabInstance: {fileID: 631650628914224790}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4672922190033212407 stripped
+--- !u!114 &828770391816887973 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5196484501645938017, guid: 8717324973fad824c9bfadad1df0daf5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 235436920443682867, guid: 8717324973fad824c9bfadad1df0daf5, type: 3}
   m_PrefabInstance: {fileID: 631650628914224790}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8867216842198295349 stripped
@@ -616,6 +632,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4749747581830769196 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2200853277799244846, guid: 0098e77584583d94b8cd35e7fd88193e, type: 3}
+  m_PrefabInstance: {fileID: 6872913216242011650}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d594f023fffe374ba513ac47dbd0415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7431806807875578522 stripped

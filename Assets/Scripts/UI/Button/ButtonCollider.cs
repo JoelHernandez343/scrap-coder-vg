@@ -19,54 +19,32 @@ namespace ScrapCoder.UI {
         IPointerClickHandler {
 
         // Editor variables
-        [SerializeField] ButtonVisualState normalState;
-        [SerializeField] ButtonVisualState overState;
-        [SerializeField] ButtonVisualState pressedState;
-        [SerializeField] ButtonVisualState deactivatedState;
+        [SerializeField] ButtonController controller;
 
-        [SerializeField] ButtonController buttonController;
-
-        // Lazy variables
-        bool usingSimpleSprites => buttonController.usingSimpleSprites;
-
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
+        // State variables
         bool over;
 
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
-            SetStateVisible("pressed");
+            controller.SetState("pressed");
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
-            SetStateVisible(over ? "over" : "normal");
+            controller.SetState(over ? "over" : "normal");
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
             over = true;
-            SetStateVisible("over");
+            controller.SetState("over");
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
             over = false;
-            SetStateVisible("normal");
+            controller.SetState("normal");
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-            buttonController.OnClick();
-        }
-
-        public void SetActive(bool active) {
-            SetStateVisible(active ? "normal" : "deactivated");
-            gameObject.SetActive(active);
-        }
-
-        public void SetStateVisible(string state) {
-            normalState.SetVisible(state == "normal", usingSimpleSprites ? "sprite" : "shape");
-            overState.SetVisible(state == "over", usingSimpleSprites ? "sprite" : "shape");
-            pressedState.SetVisible(state == "pressed", usingSimpleSprites ? "sprite" : "shape");
-            deactivatedState.SetVisible(state == "deactivated", usingSimpleSprites ? "sprite" : "shape");
+            controller.OnClick();
         }
     }
 }

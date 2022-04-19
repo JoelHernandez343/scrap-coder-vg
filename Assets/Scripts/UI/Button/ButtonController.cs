@@ -12,10 +12,12 @@ namespace ScrapCoder.UI {
     public class ButtonController : MonoBehaviour, INodeExpander {
 
         // Editor variables
-        [SerializeField] List<ButtonVisualState> states;
+        [SerializeField] NodeShapeContainer shapeState;
+        [SerializeField] NodeSprite spriteState;
 
-        [SerializeField] ButtonCollider buttonCollider;
-        [SerializeField] public bool usingSimpleSprites = false;
+        [SerializeField] public bool usingSprite = false;
+
+        [SerializeField] List<NodeTransform> itemsToExpand;
 
         [SerializeField] ExpandableText expandableText;
 
@@ -24,11 +26,7 @@ namespace ScrapCoder.UI {
 
         List<System.Action> listeners = new List<System.Action>();
 
-        int? _seed;
-        int seed {
-            get => _seed ??= Utils.Random.Next;
-            set => _seed = value;
-        }
+        string state;
 
         // Lazy state variables
         string _text = null;
@@ -45,10 +43,8 @@ namespace ScrapCoder.UI {
 
         // Methods
         void Start() {
-            SetSeed(this.seed);
-
             SetActive(activated);
-            ownTransform.resizable = !usingSimpleSprites;
+            ownTransform.resizable = !usingSprite;
         }
 
         public void AddListener(System.Action listener) => listeners.Add(listener);
@@ -61,7 +57,8 @@ namespace ScrapCoder.UI {
 
         public void SetActive(bool active) {
             activated = active;
-            buttonCollider.SetActive(active);
+            SetState(activated ? "normal" : "deactivated");
+            gameObject.SetActive(activated);
         }
 
         public void ExpandByText(bool smooth = false) {
@@ -76,24 +73,24 @@ namespace ScrapCoder.UI {
             ownTransform.Expand(dx: delta, smooth: smooth);
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
 
-            states.ForEach(item => item.ownTransform.Expand(dx: dx, smooth: smooth));
-
+            itemsToExpand.ForEach(i => i.Expand(dx: dx, dy: dy, smooth: smooth));
             expandableText.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);
-
-            buttonCollider.ownTransform.Expand(dx: dx);
 
             return (dx, dy);
         }
 
-        void SetSeed(int seed) {
-            this.seed = seed;
-            states.ForEach(state => state.SetSeed(seed));
-        }
-
         public void SetState(string state) {
-            buttonCollider.SetStateVisible(state);
+            if (this.state == state) return;
+
+            this.state = state;
+
+            if (usingSprite && spriteState != null) {
+                spriteState.SetState(state);
+            } else if (shapeState != null) {
+                shapeState.SetState(state);
+            }
         }
 
         public static ButtonController Create(ButtonController prefab, Transform parent, bool activated, string text) {
@@ -102,9 +99,7 @@ namespace ScrapCoder.UI {
             button.activated = activated;
             button.text = text;
 
-            // Will expand in Start(), real dimensions are not here
-
-            // Here we need seed
+            // Real dimensions are not here
 
             return button;
         }

@@ -8,6 +8,7 @@ using UnityEngine;
 namespace ScrapCoder.VisualNodes {
 
     public enum NodeType {
+        None = -1,
         Begin = 0,
         End = 1,
         Repeat = 2,
@@ -28,6 +29,9 @@ namespace ScrapCoder.VisualNodes {
         Condition_detectar = 17,
         RepeatNTimes = 18,
         Girar = 19,
+        TrueConstant = 20,
+        FalseConstant = 21,
+        Variable = 22,
     }
 
 }

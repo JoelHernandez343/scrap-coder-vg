@@ -13,6 +13,18 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] bool hideable;
 
+        [SerializeField]
+        List<string> states = new List<string> {
+            "normal",
+            "over",
+            "pressed",
+            "disabled"
+        };
+
+        [SerializeField] int spriteRange;
+
+        // State variables
+        int state;
         int selectedSprite;
 
         // Lazy state variables
@@ -32,7 +44,7 @@ namespace ScrapCoder.VisualNodes {
 
         // Methods
         void Awake() {
-            ChangeSprite();
+            SelectRandomSprite();
         }
 
         public void SetVisible(bool visible) {
@@ -43,13 +55,26 @@ namespace ScrapCoder.VisualNodes {
 
         public void SetSeed(int seed) {
             rand = new Utils.Random(seed);
-            ChangeSprite();
+            SelectRandomSprite();
+        }
+
+        void SelectRandomSprite() {
+            if (spriteRange > 0) {
+                selectedSprite = rand.NextIntRange(0, spriteRange);
+                ChangeSprite();
+            }
         }
 
         void ChangeSprite() {
-            if (availableSprites.Count != 0) {
-                selectedSprite = rand.NextIntRange(0, availableSprites.Count - 1);
-                spriteRenderer.sprite = availableSprites[selectedSprite];
+            spriteRenderer.sprite = availableSprites[selectedSprite + (this.state * spriteRange)];
+        }
+
+        public void SetState(string state) {
+            var stateIndex = states.IndexOf(state);
+
+            if (stateIndex != -1) {
+                this.state = stateIndex;
+                ChangeSprite();
             }
         }
     }

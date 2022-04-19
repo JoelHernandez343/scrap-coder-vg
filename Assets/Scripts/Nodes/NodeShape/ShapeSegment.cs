@@ -21,8 +21,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // State variables
-        int normalSprite;
-        int rangeSpriteLimit;
+        int randomRange;
 
         int minSeparation;
         int maxSeparation;
@@ -45,74 +44,51 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables
         int? _axis;
-        int axis {
-            get {
-                _axis ??= firstPoint.position[0] == finalPoint.position[0] ? 1 : 0;
-                return (int)_axis;
-            }
-        }
+        int axis => _axis ??= firstPoint.position[0] == finalPoint.position[0] ? 1 : 0;
 
         int? _oppositeAxis;
-        int oppositeAxis {
-            get {
-                _oppositeAxis ??= axis == 0 ? 1 : 0;
-                return (int)_oppositeAxis;
-            }
-        }
+        int oppositeAxis => _oppositeAxis ??= axis == 0 ? 1 : 0;
 
         int? _sign;
-        int sign {
-            get {
-                _sign ??= axis == 0 ? 1 : -1;
-                return (int)_sign;
-            }
-        }
+        int sign => _sign ??= axis == 0 ? 1 : -1;
 
         string _direction;
-        public string direction {
-            get {
-                _direction ??= (sign) * firstPoint.position[axis] < (sign) * finalPoint.position[axis]
-                    ? "forward"
-                    : "backward";
+        public string direction => _direction ??=
+            sign * firstPoint.position[axis] < sign * finalPoint.position[axis]
+                ? "forward"
+                : "backward";
 
-                return _direction;
-            }
-        }
+        ShapePoint _realFirstPoint;
+        public ShapePoint realFirstPoint
+            => _realFirstPoint ??= direction == "forward" ? firstPoint : finalPoint;
 
-        public ShapePoint realFirstPoint => direction == "forward" ? firstPoint : finalPoint;
-        public ShapePoint realFinalPoint => direction == "forward" ? finalPoint : firstPoint;
+        ShapePoint _realFinalPoint;
+        public ShapePoint realFinalPoint
+            => _realFinalPoint ??= direction == "forward" ? finalPoint : firstPoint;
 
-        int firstStep => (int)realFirstPoint.position[axis] + (sign) * (int)spriteSize[axis] / 2;
+        int firstStep => realFirstPoint.position[axis] + (sign * spriteSize[axis] / 2);
 
-        int prevStep => lastRenderedPair == -1
-            ? 0
-            : generatedPairs[lastRenderedPair].finalPoint.step + (sign) * (int)spriteSize[axis] / 2;
+        int prevStep => lastRenderedPair != -1
+            ? generatedPairs[lastRenderedPair].finalPoint.step + (sign * spriteSize[axis] / 2)
+            : 0;
 
-        int finalStep => (int)realFinalPoint.position[axis] - (sign) * ((int)spriteSize[axis] + 1);
+        int finalStep => realFinalPoint.position[axis] - (sign * (spriteSize[axis] + 1));
 
         // Constructor
-        public ShapeSegment(
-            NodeShape shape,
-            int firstIndex,
-            int finalIndex,
-            int normalSprite,
-            int rangeSpriteLimit,
-            Utils.Vector2D? spriteSize = null,
-            int minSeparation = 6,
-            int maxSeparation = 10,
-            Utils.Random rand = null
-        ) {
-            firstPoint = shape.points[firstIndex];
-            finalPoint = shape.points[finalIndex];
+        public ShapeSegment(ShapeSegmentTemplate template, NodeShape shape) {
+            firstPoint = shape.points[template.firstIndex];
+            finalPoint = shape.points[template.finalIndex];
 
-            this.spriteSize = spriteSize ?? new Utils.Vector2D { x = 8, y = 8 };
+            realFirstPoint.segment = this;
 
-            this.normalSprite = normalSprite;
-            this.rangeSpriteLimit = rangeSpriteLimit;
-            this.minSeparation = minSeparation;
-            this.maxSeparation = maxSeparation;
+            randomRange = template.randomRange;
 
-            this.rand = rand;
+            minSeparation = template.minSeparation;
+            maxSeparation = template.maxSeparation;
+
+            spriteSize = template.spriteSize;
+
+            rand = template.rand;
         }
 
         // Methods
@@ -126,11 +102,11 @@ namespace ScrapCoder.VisualNodes {
             var generatedPair = new GeneratedPair {
                 firstPoint = new GeneratedPoint {
                     step = generatedPosition,
-                    sprite = rand.NextIntRange(normalSprite, rangeSpriteLimit)
+                    sprite = rand.NextIntRange(0, randomRange)
                 },
                 finalPoint = new GeneratedPoint {
                     step = generatedPosition + (sign) * (int)spriteSize[axis],
-                    sprite = normalSprite
+                    sprite = 0
                 }
             };
 
@@ -169,21 +145,23 @@ namespace ScrapCoder.VisualNodes {
             var pair = generatedPairs[pairIndex];
 
             return new List<ShapePoint> {
-            new ShapePoint {
-                position = new Utils.Vector2D {
-                    [axis] = firstStep + pair.firstPoint.step,
-                    [oppositeAxis] = firstPoint.position[oppositeAxis]
+                new ShapePoint {
+                    position = new Utils.Vector2D {
+                        [axis] = firstStep + pair.firstPoint.step,
+                        [oppositeAxis] = firstPoint.position[oppositeAxis]
+                    },
+                    spriteIndex = pair.firstPoint.sprite,
+                    segment = this,
                 },
-                spriteIndex = pair.firstPoint.sprite
-            },
-            new ShapePoint {
-                position = new Utils.Vector2D {
-                    [axis] = firstStep + pair.finalPoint.step,
-                    [oppositeAxis] = firstPoint.position[oppositeAxis]
-                },
-                spriteIndex = pair.finalPoint.sprite
-            }
-        };
+                new ShapePoint {
+                    position = new Utils.Vector2D {
+                        [axis] = firstStep + pair.finalPoint.step,
+                        [oppositeAxis] = firstPoint.position[oppositeAxis]
+                    },
+                    spriteIndex = pair.finalPoint.sprite,
+                    segment = this,
+                }
+            };
         }
 
         public int RemovePoints() {

@@ -33,7 +33,9 @@ namespace ScrapCoder.InputManagment {
         }
 
         public void ClearFocus() {
-            handlerWithFocus?.LoseFocus();
+            if (handlerWithFocus == null) return;
+
+            handlerWithFocus.LoseFocus();
             handlerWithFocus = null;
 
             GetRemoverOwnership();
@@ -59,9 +61,9 @@ namespace ScrapCoder.InputManagment {
         }
 
         void Update() {
-            // if (handlerWithFocus is IInputHandler inputHandler) {
-            //     inputHandler.HandleInput();
-            // }
+            if (handlerWithFocus is IInputHandler inputHandler) {
+                inputHandler.HandleInput();
+            }
         }
     }
 

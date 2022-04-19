@@ -13,6 +13,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] ZoneColor color;
 
         List<NodeZone> zones = new List<NodeZone>();
+        List<UI.DragDropZone> dropZones = new List<UI.DragDropZone>();
 
         bool isActive = true;
 
@@ -33,19 +34,36 @@ namespace ScrapCoder.VisualNodes {
         public void SetZoneColor(ZoneColor color) => this.zoneColor = color;
 
         public void OnTriggerEnter2D(Collider2D collider) {
-            var zone = collider.GetComponent<NodeZone>();
+            if (collider.gameObject.tag != "TriggerZone") return;
 
-            if (zone?.tag == "TriggerZone") {
+            var zone = (collider.GetComponent<NodeZone>() as NodeZone);
+
+            if (zone != null) {
                 zones.Add(zone);
+            }
+
+            var dropZone = (collider.GetComponent<UI.DragDropZone>() as UI.DragDropZone);
+
+            if (dropZone != null) {
+                dropZones.Add(dropZone);
+
+                SortList(dropZones);
             }
         }
 
         public void OnTriggerExit2D(Collider2D collider) {
+            if (collider.gameObject.tag != "TriggerZone") return;
 
-            var zone = collider.GetComponent<NodeZone>();
+            var zone = (collider.GetComponent<NodeZone>() as NodeZone);
 
-            if (zone?.tag == "TriggerZone") {
+            if (zone != null) {
                 zones.Remove(zone);
+            }
+
+            var dropZone = (collider.GetComponent<UI.DragDropZone>() as UI.DragDropZone);
+
+            if (dropZone != null) {
+                dropZones.Remove(dropZone);
             }
         }
 
@@ -54,14 +72,18 @@ namespace ScrapCoder.VisualNodes {
                 return false;
             }
 
+            zones = zones.FindAll(zone => zone != null);
+
             var validZones = zones.FindAll(zone =>
                 zone.isActive &&
-                zone.controller.lastController != controller.lastController
+                zone.controller?.lastController != controller.lastController
             );
 
             if (validZones.Count == 0) {
                 return false;
             }
+
+            SortList(validZones);
 
             validZones.Sort((zoneA, zoneB) => {
                 var zA = zoneA.transform.position.z;
@@ -73,9 +95,18 @@ namespace ScrapCoder.VisualNodes {
             return validZones[0].OnDrop(this);
         }
 
-        public bool OnDrop(NodeZone zone) {
-            return controller.OnDrop(zone, this);
+        bool OnDrop(NodeZone incomingZone) => controller.OnDrop(inZone: incomingZone, ownZone: this);
+
+        void SortList<T>(List<T> list) where T : MonoBehaviour {
+            list.Sort((zoneA, zoneB) => {
+                var zA = zoneA.transform.position.z;
+                var zB = zoneB.transform.position.z;
+
+                return zA.CompareTo(zB);
+            });
         }
+
+        public UI.DragDropZone GetTopDragDropZone() => dropZones.Count > 0 ? dropZones[0] : null;
     }
 
 }

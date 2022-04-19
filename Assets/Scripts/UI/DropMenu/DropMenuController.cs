@@ -9,7 +9,7 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.UI {
-    public class DropMenuController : MonoBehaviour, INodeExpander, IFocusable, INodeExpandable {
+    public class DropMenuController : MonoBehaviour, INodeExpander, IFocusable, INodeExpanded {
         // Editor variables
         [SerializeField] List<string> options;
         [SerializeField] ExpandableText text;
@@ -36,11 +36,13 @@ namespace ScrapCoder.UI {
 
         public NodeController controller => ownTransform.controller;
 
-        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
-        bool INodeExpandable.ModifyHeightOfPiece => false;
-        bool INodeExpandable.ModifyWidthOfPiece => true;
+        NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
+        bool INodeExpanded.ModifyHeightOfPiece => false;
+        bool INodeExpanded.ModifyWidthOfPiece => true;
 
         public List<string> GetOptions() => options;
+
+        public string Value => selectedOption;
 
         // Methods
         void Start() {
@@ -60,7 +62,7 @@ namespace ScrapCoder.UI {
 
             ownTransform.Expand(dx: dx, smooth: smooth);
 
-            controller?.AdjustParts(expandable: this, delta: (dx, 0), smooth: smooth);
+            ownTransform.expandable.Expand(dx: dx, smooth: smooth, expanded: this);
         }
 
         public void PositionList() {
@@ -74,7 +76,8 @@ namespace ScrapCoder.UI {
             );
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
+
             itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
             itemsToRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: smooth));
 
@@ -120,7 +123,7 @@ namespace ScrapCoder.UI {
             var raiseDepthLevels =
                 (globalDepthevels > thisDepthLevels
                     ? globalDepthevels - thisDepthLevels
-                    : 0) + 10;
+                    : 0) + HierarchyController.instance.globalRaiseDiff + 10;
 
             ownTransform.Raise(depthLevels: raiseDepthLevels);
 

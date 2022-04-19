@@ -10,9 +10,11 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.UI {
-    public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpandable {
+    public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpanded, INodeExpander {
 
         // Editor variables
+        [SerializeField] int characterLimit = -1;
+
         [SerializeField] NodeTransform cursorSprite;
         [SerializeField] Animator cursorAnimator;
 
@@ -31,12 +33,16 @@ namespace ScrapCoder.UI {
         // State variables
         int cursor = 0;
 
+        List<System.Action> listeners = new List<System.Action>();
+
         // Lazy state variables
         string _text = null;
         string text {
             get => _text ??= expandableText.text;
             set => _text = value;
         }
+
+        bool isFull => characterLimit > 0 && text.Length == characterLimit;
 
         string[] qwerty = {
             "a",  "b",  "c",  "d",  "e",  "f",
@@ -55,21 +61,24 @@ namespace ScrapCoder.UI {
         };
 
         NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
 
-        public NodeController controller => ownTransform.controller;
+        public NodeController controller => ownTransform?.controller;
 
-        NodeTransform INodeExpandable.PieceToExpand => pieceToExpand;
-        bool INodeExpandable.ModifyHeightOfPiece => false;
-        bool INodeExpandable.ModifyWidthOfPiece => true;
+        public string Value {
+            get => text;
+            set {
+                text = value;
+                ExpandByText(smooth: true);
+                MoveCursorTo(0);
+            }
+        }
+
+        NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
+        bool INodeExpanded.ModifyHeightOfPiece => false;
+        bool INodeExpanded.ModifyWidthOfPiece => true;
 
         // Constants
-        const KeyCode delete = KeyCode.Backspace;
-        const KeyCode right = KeyCode.RightArrow;
-        const KeyCode left = KeyCode.LeftArrow;
-        const KeyCode shiftLeft = KeyCode.LeftShift;
-        const KeyCode shiftRight = KeyCode.RightShift;
-
         const int lettersOffset = 8;
         const int cursorLeftOffset = 2;
         const int textLeftOffset = 4;
@@ -79,12 +88,14 @@ namespace ScrapCoder.UI {
 
             if (!Input.anyKeyDown) return;
 
-            if (Input.GetKeyDown(delete)) {
+            if (Input.GetKeyDown(KeyCode.Backspace)) {
                 DeleteCharacterFromCursor();
-            } else if (Input.GetKeyDown(right)) {
+            } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
                 MoveCursor(1);
-            } else if (Input.GetKeyDown(left)) {
+            } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                 MoveCursor(-1);
+            } else if (Input.GetKeyDown(KeyCode.Return)) {
+                Execute();
             } else if (GetPressedCharacter() is var character && character != "") {
                 AddCharacter(character);
             }
@@ -105,7 +116,7 @@ namespace ScrapCoder.UI {
 
             if (keyPressed == ";") keyPressed = "ñ";
 
-            if (Input.GetKey(shiftLeft) || Input.GetKey(shiftRight)) {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                 keyPressed = qwertyUpperCase[letter];
             }
 
@@ -117,22 +128,24 @@ namespace ScrapCoder.UI {
 
             text = text.Remove(cursor - 1, 1);
 
-            ExpandByText();
+            ExpandByText(smooth: true);
             MoveCursor(-1);
         }
 
         void AddCharacter(string character) {
+            if (isFull) return;
+
             if (cursor == text.Length) {
                 text += character;
             } else {
                 text = text.Insert(cursor, character);
             }
 
-            ExpandByText();
+            ExpandByText(smooth: true);
             MoveCursor(1);
         }
 
-        void ExpandByText() {
+        void ExpandByText(bool smooth = false) {
             // Change text and get new delta
             var dx = expandableText.ChangeText(
                 newText: text,
@@ -141,10 +154,10 @@ namespace ScrapCoder.UI {
             );
 
             // Expand items
-            itemsToExpand.ForEach(item => item?.Expand(dx: dx, smooth: true));
+            ownTransform.Expand(dx: dx, smooth: smooth);
 
-            // Update parents with delta
-            controller?.AdjustParts(expandable: this, delta: (dx, 0), smooth: true);
+            // Update parent with delta
+            ownTransform.expandable?.Expand(dx: dx, smooth: smooth);
         }
 
         void MoveCursorTo(int position) {
@@ -224,20 +237,48 @@ namespace ScrapCoder.UI {
             removerRectTransfrom.localPosition = localPosition;
         }
 
-        void IFocusable.LoseFocus() {
-            cursorAnimator.SetBool("isActive", false);
-
-            backgroundShape.SetVisible(false);
-        }
-
         void IFocusable.GetFocus() {
             cursorAnimator.SetBool("isActive", true);
 
             backgroundShape.SetVisible(true);
+
+            if (controller == null) {
+                ownTransform.Raise(depthLevels: 10);
+            }
+        }
+
+        void IFocusable.LoseFocus() {
+            cursorAnimator.SetBool("isActive", false);
+
+            backgroundShape.SetVisible(false);
+
+            ownTransform.ResetRenderOrder();
         }
 
         bool IFocusable.HasFocus() {
             return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
+        }
+
+        public void AddListener(System.Action listener) => listeners.Add(listener);
+
+        public bool RemoveListener(System.Action listener) => listeners.Remove(listener);
+
+        public void Clear() {
+            Value = "";
+        }
+
+        public void Execute() {
+            listeners.ForEach(listener => listener());
+        }
+
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
+            itemsToExpand.ForEach(item => item?.Expand(dx: dx, smooth: smooth));
+
+            return (dx, dy);
+        }
+
+        void Start() {
+            AddListener(() => InputController.instance.ClearFocus());
         }
     }
 }

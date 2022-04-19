@@ -15,22 +15,25 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] List<NodeTransform> itemsToTheRight;
         [SerializeField] List<NodeTransform> itemsToExpand;
 
+        [SerializeField] List<NodeShapeContainer> shapesOfState;
+        [SerializeField] List<NodeSprite> spritesOfState;
+
         // State variables
         int? previousMaxHeight;
 
         // Lazy variables
         NodeTransform _ownTransform;
-        NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         // Methods
         void Start() {
             previousMaxHeight ??= getMaxHeight();
         }
 
-        int GetIndexOfHorizontalExpandable(INodeExpandable expandable)
-            => horizontalItems.FindIndex(item => item.GetComponent<INodeExpandable>() == expandable);
+        int GetIndexOfHorizontalExpandable(INodeExpanded expandable)
+            => horizontalItems.FindIndex(item => item.GetComponent<INodeExpanded>() == expandable);
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable expandable) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded expandable) {
 
             var modified = GetIndexOfHorizontalExpandable(expandable);
             if (modified != -1) {
@@ -38,7 +41,7 @@ namespace ScrapCoder.VisualNodes {
                     horizontalItems[i].SetPositionByDelta(dx: dx, smooth: smooth);
                 }
 
-                dy = centerHorizontalItems(horizontalItems[modified], dy, smooth: smooth);
+                dy = centerHorizontalItems(modified: horizontalItems[modified], dy: dy, smooth: smooth);
             }
 
             itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
@@ -48,12 +51,12 @@ namespace ScrapCoder.VisualNodes {
             return (dx, dy);
         }
 
-        int centerHorizontalItems(NodeTransform modified, int dy, bool smooth) {
-            if (dy == 0) {
-                return 0;
+        int? centerHorizontalItems(NodeTransform modified, int? dy, bool smooth) {
+            if (dy == 0 || dy == null) {
+                return null;
             }
 
-            var (delta, center) = calHorizontalDelta(modified, dy, smooth);
+            var (delta, center) = calHorizontalDelta(modified: modified, dy: dy, smooth: smooth);
 
             if (center != "nothing") {
                 horizontalItems.ForEach(item => {
@@ -74,14 +77,14 @@ namespace ScrapCoder.VisualNodes {
             return maxHeight;
         }
 
-        (int delta, string center) calHorizontalDelta(NodeTransform modified, int dy, bool smooth) {
+        (int? delta, string center) calHorizontalDelta(NodeTransform modified, int? dy, bool smooth) {
             var currentMaxHeight = getMaxHeight();
             var delta = currentMaxHeight - (int)previousMaxHeight;
 
             // If modified is not the longest, then nothing more will be centered
             if (delta == 0) {
                 modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: smooth);
-                return (0, "nothing");
+                return (null, "nothing");
             }
 
             previousMaxHeight = currentMaxHeight;
@@ -98,6 +101,11 @@ namespace ScrapCoder.VisualNodes {
             modified.ResetYToRelative(smooth: smooth);
 
             return (delta, "all_wo_max");
+        }
+
+        public void SetState(string state) {
+            shapesOfState.ForEach(s => s.SetState(state));
+            spritesOfState.ForEach(s => s.SetState(state));
         }
     }
 }

@@ -102,16 +102,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
-  localZLevels: 0
+  publicHeight: 0
+  publicWidth: 0
+  ownDepthLevels: 0
+  localDepthLevels: 0
 --- !u!95 &1220465824648432430
 Animator:
   serializedVersion: 3
@@ -141,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3500322027183536214}
   - component: {fileID: 3500322027183536217}
+  - component: {fileID: 8221266727117902891}
   m_Layer: 5
   m_Name: InputText
   m_TagString: Untagged
@@ -184,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7ac44db44a78b4ab2cc2262e93dc42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterLimit: -1
   cursorSprite: {fileID: 4408461147876864117}
   cursorAnimator: {fileID: 1220465824648432430}
   removerParent: {fileID: 6599529701237877967}
@@ -193,6 +198,33 @@ MonoBehaviour:
   backgroundShape: {fileID: 3261834392640994741}
   initWidth: 37
   expandableText: {fileID: 4514129928641849148}
+  pieceToExpand: {fileID: 0}
+--- !u!114 &8221266727117902891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3500322027183536215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeExpander: {fileID: 3500322027183536217}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 0
+  initWidth: 0
+  minHeight: 0
+  minWidth: 0
+  resizable: 1
+  moveable: 1
+  relativeOrigin: {x: 0, y: 0}
+  publicHeight: 0
+  publicWidth: 0
+  ownDepthLevels: 0
+  localDepthLevels: 0
 --- !u!1 &6599529701237877967
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,16 +341,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6378236259032520230}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
-  localZLevels: 0
+  publicHeight: 0
+  publicWidth: 0
+  ownDepthLevels: 0
+  localDepthLevels: 0
 --- !u!114 &6378236259032520230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,16 +570,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 3261834392640994741}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
   initHeight: 0
   initWidth: 37
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 0}
   relativeOrigin: {x: 0, y: 0}
-  localZLevels: 0
+  publicHeight: 0
+  publicWidth: 0
+  ownDepthLevels: 0
+  localDepthLevels: 0
 --- !u!114 &3261834392640994741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,6 +608,13 @@ MonoBehaviour:
     y: 8
   segmentTemplates: []
   initialPointPosition: {x: 0, y: -8}
+  hideable: 1
+  states:
+  - normal
+  - over
+  - pressed
+  - disabled
+  spriteBreakpoints: []
 --- !u!1001 &3500322028173489935
 PrefabInstance:
   m_ObjectHideFlags: 0

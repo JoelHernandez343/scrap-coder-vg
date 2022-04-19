@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: Borders
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -45
+    m_End: 45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 8401297404820515656, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: 3890141769012621399, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: -4503883338188321176, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: -2196680661894690892, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_Start: 45
+    m_End: 135
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 1183432885873565357, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: -6444429095824025468, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: -2457235034854388944, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_Start: -135
+    m_End: -45
+    m_Order: 0
+    m_Sprites:
+    - {fileID: -3424533063947417913, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: 8835069621077149966, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: -2727431867015846421, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_Start: 135
+    m_End: 225
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 6327526703082236832, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: -6637408436904377388, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+    - {fileID: 650393962117928636, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  m_FillTexture: {fileID: 2800000, guid: b941d0dbc60f16041961cb0add6b9591, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: -2661184282195055938, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: -2661184282195055938, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: -2661184282195055938, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: -2661184282195055938, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
+  m_FillOffset: 0
+  m_UseSpriteBorders: 1

@@ -27,7 +27,9 @@ namespace ScrapCoder.VisualNodes {
         public int Count => nodes.Count;
 
         public NodeController this[int index] => nodes[index];
+
         public NodeController Last => Count == 0 ? null : nodes[Count - 1];
+        public NodeController First => Count == 0 ? null : nodes[0];
 
         bool acceptEnd => controller.siblings == this;
 
@@ -283,9 +285,9 @@ namespace ScrapCoder.VisualNodes {
         void Adjust(int? dy = null, bool smooth = false) {
             int dx = currentMaxWidth - ownTransform.width;
 
-            ownTransform.Expand(dx, dy ?? 0);
+            ownTransform.Expand(dx: dx, dy: dy);
             RefreshLocalDepthLevels();
-            container.AdjustParts(delta: (dx, dy ?? 0), smooth: smooth);
+            container.AdjustParts(dx: dx, dy: dy, smooth: smooth);
         }
 
         void RefreshLocalDepthLevels() {
@@ -344,6 +346,29 @@ namespace ScrapCoder.VisualNodes {
                 node.ownTransform.ResetRenderOrder();
                 node.ownTransform.rectTransform.SetAsLastSibling();
             });
+        }
+
+        public void SetStateAfterThis(NodeController node, string state) {
+            bool passed = false;
+
+            foreach (var n in nodes) {
+                if (n == node) {
+                    passed = true;
+                    continue;
+                } else if (!passed) {
+                    continue;
+                };
+
+                n.SetState(state);
+            }
+        }
+
+        public NodeController Next(NodeController n) {
+            var index = nodes.IndexOf(n);
+
+            if (index == -1) return null;
+
+            return n == Last ? null : this[index + 1];
         }
     }
 }

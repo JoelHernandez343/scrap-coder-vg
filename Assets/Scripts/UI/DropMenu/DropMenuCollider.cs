@@ -9,7 +9,11 @@ using UnityEngine.EventSystems;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
-    public class DropMenuCollider : MonoBehaviour, IPointerDownHandler {
+    public class DropMenuCollider :
+        MonoBehaviour,
+        IPointerDownHandler,
+        IPointerEnterHandler,
+        IPointerExitHandler {
 
         // Lazy variables
         NodeTransform _ownTransform;
@@ -19,6 +23,14 @@ namespace ScrapCoder.UI {
 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
             controller?.GetFocus();
+        }
+
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
+            // controller.SetState("over");
+        }
+
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
+            // controller.SetState("normal");
         }
     }
 }

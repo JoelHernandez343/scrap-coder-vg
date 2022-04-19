@@ -23,11 +23,26 @@ namespace ScrapCoder.VisualNodes {
             public ShapePoint end;
             public bool isExpandable;
 
-            public ShapePointRange(NodeShape shape, int initialStartIndex, int initialEndIndex, bool isExpandable) {
-                start = shape.points[initialStartIndex];
-                end = shape.points[initialEndIndex];
+            public ShapePointRange(ShapePointRangeTemplate template, NodeShape shape) {
+                start = shape.points[template.initialStartIndex];
+                end = shape.points[template.initialEndIndex];
+                isExpandable = template.isExpandable;
+            }
+        }
 
-                this.isExpandable = isExpandable;
+        [System.Serializable]
+        struct SpriteBreakpoint {
+            public int initialStartIndex;
+            public int range;
+        }
+
+        class RangeBreakpoint {
+            public ShapePoint point;
+            public int range;
+
+            public RangeBreakpoint(SpriteBreakpoint template, NodeShape shape) {
+                point = shape.points[template.initialStartIndex];
+                range = template.range;
             }
         }
 
@@ -41,14 +56,28 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] Vector2 initialPointPosition;
 
+        [SerializeField] bool hideable = true;
+
+        [SerializeField]
+        List<string> states = new List<string> {
+            "normal",
+            "over",
+            "pressed",
+            "disabled"
+        };
+
+        [SerializeField] List<SpriteBreakpoint> spriteBreakpoints;
+
         // State Variables
-        List<ShapeSegment> segments = new List<ShapeSegment>();
+        List<ShapeSegment> segments;
 
         List<ShapePoint> _points;
         public List<ShapePoint> points => _points ??= GetShape();
 
         ShapePointRange horizontalRange;
         ShapePointRange verticalRange;
+
+        List<RangeBreakpoint> breakpoints;
 
         // Lazy and other variables
         List<ShapePointRange> _ranges;
@@ -63,13 +92,15 @@ namespace ScrapCoder.VisualNodes {
         SpriteShapeRenderer _spriteShapeRenderer;
         SpriteShapeRenderer spriteShapeRenderer => _spriteShapeRenderer ??= GetComponent<SpriteShapeRenderer>();
 
-        int pixelsPerUnit => NodeTransform.PixelsPerUnit;
+        int ppu => NodeTransform.PixelsPerUnit;
 
         public Spline line => spriteShapeController?.spline;
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
         bool expandingSmoothly => smoothDamp.isWorking;
+
+        int state = 0;
 
         // Methods
         void Awake() {
@@ -84,30 +115,29 @@ namespace ScrapCoder.VisualNodes {
             var points = new List<ShapePoint>();
             var original = new List<ShapePoint>();
 
+            var start = 0;
+
             for (var i = 0; i < line.GetPointCount(); ++i) {
                 var position = line.GetPosition(i);
 
-                original.Add(new ShapePoint {
+                var newPoint = new ShapePoint {
                     position = new Utils.Vector2D {
                         x = (int)System.Math.Round(position.x * NodeTransform.PixelsPerUnit),
                         y = (int)System.Math.Round(position.y * NodeTransform.PixelsPerUnit),
                     },
                     spriteIndex = line.GetSpriteIndex(i)
-                });
+                };
+
+                original.Add(newPoint);
+
+                if (newPoint.position.x == initialPointPosition.x &&
+                    newPoint.position.y == initialPointPosition.y) {
+                    start = i;
+                }
             }
 
-            var start = original.FindIndex(point
-                => point.position.x == initialPointPosition.x &&
-                    point.position.y == initialPointPosition.y
-            );
-
-            for (var i = start; i < original.Count; ++i) {
-                points.Add(original[i]);
-            }
-
-            for (var i = 0; i < start; ++i) {
-                points.Add(original[i]);
-            }
+            points.AddRange(original.GetRange(start, original.Count - start));
+            points.AddRange(original.GetRange(0, start));
 
             return points;
         }
@@ -115,23 +145,31 @@ namespace ScrapCoder.VisualNodes {
         void RenderShape() {
             line.Clear();
 
+            var range = 0;
+            var breakpoint = 0;
+
             for (var i = 0; i < points.Count; ++i) {
                 var point = points[i];
 
-                line.InsertPointAt(i, point.position.unityVector / pixelsPerUnit);
-                line.SetSpriteIndex(i, point.spriteIndex);
+                if (breakpoint < breakpoints.Count && point == breakpoints[breakpoint].point) {
+                    range = breakpoints[breakpoint].range;
+                    breakpoint += 1;
+                }
+
+                line.InsertPointAt(i, point.position.unityVector / ppu);
+                line.SetSpriteIndex(i, (range * state) + point.spriteIndex);
                 line.SetTangentMode(i, ShapeTangentMode.Linear);
             }
 
             spriteShapeController.RefreshSpriteShape();
         }
 
-        (int dx, int dy) INodeExpander.Expand(int dx, int dy, bool smooth, INodeExpandable _) {
+        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
 
             if (smooth) {
                 smoothDamp.AddDeltaToDestination(
-                    dx: ranges[0].isExpandable ? dx : (int?)null,
-                    dy: ranges[1].isExpandable ? dy : (int?)null
+                    dx: ranges[0].isExpandable ? dx : null,
+                    dy: ranges[1].isExpandable ? dy : null
                 );
             } else {
                 Expand(dx: dx, dy: dy);
@@ -167,22 +205,18 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        void Expand(int dx, int dy) {
-            if (dx == 0 && dy == 0) {
-                return;
-            }
-
-            int[] delta = { dx, dy };
+        void Expand(int? dx, int? dy) {
+            int?[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {
                 var range = ranges[axis];
                 var isExpandable = range.isExpandable;
                 var sign = axis == 0 ? 1 : -1;
 
-                if (!isExpandable) continue;
+                if (!isExpandable || delta[axis] == null) continue;
 
                 for (var pointIndex = points.IndexOf(range.start); points[pointIndex - 1] != range.end; ++pointIndex) {
-                    points[pointIndex].position[axis] += (sign) * delta[axis];
+                    points[pointIndex].position[axis] += (sign) * (int)delta[axis];
                 }
             }
 
@@ -191,45 +225,46 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetVisible(bool visible) {
-            spriteShapeRenderer.enabled = visible;
+            if (hideable) {
+                spriteShapeRenderer.enabled = visible;
+            }
         }
 
         public void InitializeSegments(int? seed = null) {
-            segments.Clear();
+            segments = segmentTemplates.ConvertAll(t => {
+                t.spriteSize = this.spriteSize;
+                t.rand = new Utils.Random(seed);
 
-            segmentTemplates.ForEach(t => {
-                segments.Add(new ShapeSegment(
-                    shape: this,
-                    firstIndex: t.firstIndex,
-                    finalIndex: t.finalIndex,
-                    normalSprite: t.normalSprite,
-                    rangeSpriteLimit: t.rangeSpriteLimit,
-                    spriteSize: spriteSize,
-                    minSeparation: t.minSeparation,
-                    maxSeparation: t.maxSeparation,
-                    rand: new Utils.Random(seed)
-                ));
+                return new ShapeSegment(shape: this, template: t);
             });
 
+            Initialize();
+        }
+
+        void Initialize() {
             CreateRanges();
+            CreateBreakpoints();
+
             ChangeSegments();
             RenderShape();
         }
 
         void CreateRanges() {
-            horizontalRange = new ShapePointRange(
-                shape: this,
-                initialStartIndex: horizontalRangeTemplate.initialStartIndex,
-                initialEndIndex: horizontalRangeTemplate.initialEndIndex,
-                isExpandable: horizontalRangeTemplate.isExpandable
-            );
+            horizontalRange = new ShapePointRange(shape: this, template: horizontalRangeTemplate);
+            verticalRange = new ShapePointRange(shape: this, template: verticalRangeTemplate);
+        }
 
-            verticalRange = new ShapePointRange(
-                shape: this,
-                initialStartIndex: verticalRangeTemplate.initialStartIndex,
-                initialEndIndex: verticalRangeTemplate.initialEndIndex,
-                isExpandable: verticalRangeTemplate.isExpandable
-            );
+        void CreateBreakpoints() {
+            breakpoints = spriteBreakpoints.ConvertAll(s => new RangeBreakpoint(shape: this, template: s));
+        }
+
+        public void SetState(string state) {
+            var stateIndex = states.IndexOf(state);
+
+            if (stateIndex != -1) {
+                this.state = stateIndex;
+                RenderShape();
+            }
         }
     }
 }
