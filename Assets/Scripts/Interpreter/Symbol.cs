@@ -1,3 +1,6 @@
+// Joel Harim Hernández Javier @ 2022
+// Github: https://github.com/JoelHernandez343
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +22,8 @@ namespace ScrapCoder.Interpreter {
         public bool isFull => limit > 0 && references.Count == limit;
 
         public int Count => references.Count;
+
+        public NodeController first => Count == 0 ? null : references[0];
 
         // Methods
         public void Add(NodeController reference) {

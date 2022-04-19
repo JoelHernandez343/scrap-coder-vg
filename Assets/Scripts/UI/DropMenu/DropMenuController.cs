@@ -42,6 +42,8 @@ namespace ScrapCoder.UI {
 
         public List<string> GetOptions() => options;
 
+        public string Value => selectedOption;
+
         // Methods
         void Start() {
             if (options.Count > 0 && selectedOption == "") {

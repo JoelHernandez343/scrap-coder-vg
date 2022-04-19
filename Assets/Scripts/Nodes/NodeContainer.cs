@@ -37,6 +37,8 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeController Last => array.Last;
 
+        public bool isEmpty => array.Count == 0;
+
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
         bool INodeExpanded.ModifyHeightOfPiece => modifyHeightOfPiece;
         bool INodeExpanded.ModifyWidthOfPiece => modifyWidthOfPiece;
@@ -91,6 +93,14 @@ namespace ScrapCoder.VisualNodes {
 
         public void RemoveNodesFromTableSymbol() {
             array.nodes.ForEach(n => n.RemoveFromSymbolTable());
+        }
+
+        public bool Analyze() {
+            foreach (var n in array.nodes) {
+                if (!n.Analyze()) return false;
+            }
+
+            return true;
         }
     }
 }

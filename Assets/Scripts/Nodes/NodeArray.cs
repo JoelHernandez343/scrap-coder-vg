@@ -27,7 +27,9 @@ namespace ScrapCoder.VisualNodes {
         public int Count => nodes.Count;
 
         public NodeController this[int index] => nodes[index];
+
         public NodeController Last => Count == 0 ? null : nodes[Count - 1];
+        public NodeController First => Count == 0 ? null : nodes[0];
 
         bool acceptEnd => controller.siblings == this;
 
@@ -359,6 +361,14 @@ namespace ScrapCoder.VisualNodes {
 
                 n.SetState(state);
             }
+        }
+
+        public NodeController Next(NodeController n) {
+            var index = nodes.IndexOf(n);
+
+            if (index == -1) return null;
+
+            return n == Last ? null : this[index + 1];
         }
     }
 }

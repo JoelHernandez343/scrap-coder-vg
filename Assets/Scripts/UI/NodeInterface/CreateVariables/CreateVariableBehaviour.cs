@@ -99,7 +99,8 @@ namespace ScrapCoder.UI {
             SymbolTable.instance.AddSymbol(
                 limit: spawnLimit,
                 symbolName: variableSymbolName,
-                type: NodeType.Variable
+                type: NodeType.Variable,
+                value: "0"
             );
 
             return newPrefab;

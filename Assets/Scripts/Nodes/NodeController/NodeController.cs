@@ -58,6 +58,7 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] Component zoneRefresher;
         [SerializeField] Component selectorModifier;
+        [SerializeField] Component nodeAnalyzer;
 
         // State variables
         NodeArray _parentArray;
@@ -133,6 +134,9 @@ namespace ScrapCoder.VisualNodes {
 
         public UI.DragDropZone previousDrop = null;
         public UI.DragDropZone currentDrop = null;
+
+        IInterpreterElement _interpreterElement;
+        public IInterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<IInterpreterElement>() as IInterpreterElement);
 
         string state;
 
@@ -402,6 +406,41 @@ namespace ScrapCoder.VisualNodes {
 
         public void RemoveMyself() {
             throw new System.NotImplementedException();
+        }
+
+        public bool Analyze() {
+
+            foreach (var container in containers) {
+                if (container.array == siblings) continue;
+
+                if (container.isEmpty) {
+                    Debug.LogError($"This container {container.gameObject.name} is Empty");
+
+                    return false;
+                };
+
+                if (!container.Analyze()) return false;
+            }
+
+            if (!hasParent) {
+                var siblingsContainer = siblings.container;
+
+                if (siblingsContainer.isEmpty) {
+                    Debug.LogError($"There must be childs to execute");
+                    return false;
+                }
+
+                if (!siblingsContainer.Analyze()) return false;
+
+                if (siblingsContainer.Last.type != NodeType.End) {
+                    Debug.LogError($"There must be an end connected");
+                    return false;
+                }
+            }
+
+            if (nodeAnalyzer is INodeAnalyzer analyzer) return analyzer.Analyze();
+
+            return true;
         }
     }
 

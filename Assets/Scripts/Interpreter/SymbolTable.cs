@@ -1,3 +1,6 @@
+// Joel Harim Hernández Javier @ 2022
+// Github: https://github.com/JoelHernandez343
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,10 +34,11 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void AddSymbol(int limit, string symbolName, NodeType type) {
+        public void AddSymbol(int limit, string symbolName, NodeType type, string value = "") {
             symbols[symbolName] = new Symbol {
                 limit = limit,
-                type = type
+                type = type,
+                value = value
             };
         }
 

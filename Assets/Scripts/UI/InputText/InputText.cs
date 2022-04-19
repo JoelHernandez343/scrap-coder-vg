@@ -278,10 +278,7 @@ namespace ScrapCoder.UI {
         }
 
         void Start() {
-            AddListener(() => {
-                InputController.instance.ClearFocus();
-                Clear();
-            });
+            AddListener(() => InputController.instance.ClearFocus());
         }
     }
 }
