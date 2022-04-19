@@ -98,7 +98,6 @@ namespace ScrapCoder.Interpreter {
                 }
 
                 ExecuteInNextFrame(nextAnswer);
-
                 return;
             }
 
@@ -108,13 +107,6 @@ namespace ScrapCoder.Interpreter {
         public void ExecuteInNextFrame(string answer = null) {
             nextLocalAnswer = answer;
             executeNext = true;
-        }
-
-        void LocalAnswer() {
-            var LocalAnswer = nextLocalAnswer;
-            nextLocalAnswer = null;
-
-            ExecuteNext(LocalAnswer);
         }
 
         void ReceiveAnswer(int _) {

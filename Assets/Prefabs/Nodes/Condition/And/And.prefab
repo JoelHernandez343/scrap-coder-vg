@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
+  - component: {fileID: 6759960843473998527}
   m_Layer: 5
   m_Name: And
   m_TagString: Untagged
@@ -63,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   initHeight: 19
@@ -88,7 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97d9a59eae9883469f40a57aaf02835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   topZone: {fileID: 199416042525208940}
   middleZone: {fileID: 0}
   bottomZone: {fileID: 0}
@@ -103,10 +104,26 @@ MonoBehaviour:
   - {fileID: 4429716108445750258}
   staticContainers: []
   zoneRefresher: {fileID: 0}
-  partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
+  nodeAnalyzer: {fileID: 0}
+  symbolName: 
+  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
+--- !u!114 &6759960843473998527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6150825404952637405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e4985ab6f86454ebf21994bb7531a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftContainer: {fileID: 8626375458084672149}
+  rightContainer: {fileID: 4429716108445750258}
 --- !u!1001 &5039936671945791413
 PrefabInstance:
   m_ObjectHideFlags: 0

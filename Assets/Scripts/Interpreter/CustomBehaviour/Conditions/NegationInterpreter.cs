@@ -1,7 +1,6 @@
 // Joel Harim Hernández Javier @ 2022
 // Github: https://github.com/JoelHernandez343
 
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,15 +8,13 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-
-    public class RepeatInterpreter : MonoBehaviour, IInterpreterElement {
+    public class NegationInterpreter : MonoBehaviour, IInterpreterElement {
 
         // Internal types
-        enum Steps { PushingCondition, EvaluatingCondition, ExecutingInstructions }
+        enum Steps { PushingCondition, EvaluatingCondition }
 
         // Editor variables
         [SerializeField] NodeContainer conditionContainer;
-        [SerializeField] NodeContainer instructionsContainer;
 
         // State variables
         Steps currentStep = Steps.PushingCondition;
@@ -32,11 +29,10 @@ namespace ScrapCoder.Interpreter {
             set => _isFinished = value;
         }
 
-        public bool IsExpression => false;
+        public bool IsExpression => true;
         public NodeController Controller => ownTransform.controller;
 
         NodeController condition => conditionContainer.array.First;
-        NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
         public void Execute(string answer) {
@@ -45,8 +41,6 @@ namespace ScrapCoder.Interpreter {
                 PushingCondition();
             } else if (currentStep == Steps.EvaluatingCondition) {
                 EvaluationCondition(answer);
-            } else if (currentStep == Steps.ExecutingInstructions) {
-                ExecutingInstructions();
             }
 
         }
@@ -56,9 +50,7 @@ namespace ScrapCoder.Interpreter {
             currentStep = Steps.PushingCondition;
         }
 
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
-        }
+        public IInterpreterElement GetNextStatement() => null;
 
         void PushingCondition() {
             Debug.Log("Pushing condition");
@@ -72,24 +64,10 @@ namespace ScrapCoder.Interpreter {
         void EvaluationCondition(string value) {
             Debug.Log($"Evaluating condition result: {value}");
 
-            if (value == "true") {
-                currentStep = Steps.ExecutingInstructions;
-            } else {
-                IsFinished = true;
-            }
+            Executer.instance.ExecuteInNextFrame(value == "true" ? "false" : "true");
 
-            Executer.instance.ExecuteInNextFrame();
-        }
-
-        void ExecutingInstructions() {
-            Debug.Log("Executing instructions");
-
-            Executer.instance.PushNext(firstInstruction.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
-
-            currentStep = Steps.PushingCondition;
+            IsFinished = true;
         }
 
     }
-
 }
