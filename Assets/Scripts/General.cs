@@ -6,6 +6,7 @@ using System;
 public static class General
 {
     public static Action<int> evento_Energia;
+    public static Action<int> fade;
 }
 
 public static class SendInstruction

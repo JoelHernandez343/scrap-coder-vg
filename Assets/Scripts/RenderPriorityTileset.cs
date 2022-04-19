@@ -31,13 +31,13 @@ public class RenderPriorityTileset : MonoBehaviour
         SpriteRenderer spriteRendererPlayer = Player.GetComponent<SpriteRenderer>();
         if (direccionPlayer.x > -2 && direccionPlayer.y > 0 || direccionPlayer.x > -0.2 && direccionPlayer.y > 0)
         { //Player arriba
-            spriteRenderer.sortingOrder = 2;
-            spriteRendererPlayer.sortingOrder = 1;
+            spriteRenderer.sortingOrder++;
+            spriteRendererPlayer.sortingOrder--;
         }
         else
         { //Player debajo
-            spriteRenderer.sortingOrder = 1;
-            spriteRendererPlayer.sortingOrder = 2;
+            spriteRenderer.sortingOrder--;
+            spriteRendererPlayer.sortingOrder++;
         }
     }
 

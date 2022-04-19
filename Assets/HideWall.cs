@@ -25,7 +25,7 @@ public class HideWall : MonoBehaviour
         HideWallComs.hide -= Message;
     }
 
-   /*private void OnTriggerEnter2D(Collider2D collision)
+   private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
         {
@@ -45,7 +45,7 @@ public class HideWall : MonoBehaviour
             bolean = false;
         }
         
-    }*/
+    }
 
     private void Message(int id)
     {
