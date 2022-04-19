@@ -7,10 +7,12 @@ public class OtherInputs : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool inspectOn;
+    private BoxCollider2D box;
     [SerializeField] private GameObject cables;
     void Start()
     {
         inspectOn = false;
+        box = GetComponent<BoxCollider2D>();
         DisableSpriteRenderer();
         //cables.SetActive(inspectOn);
     }
@@ -33,6 +35,14 @@ public class OtherInputs : MonoBehaviour
         for (int i = 0; i < cables.transform.childCount; i++)
         {
             cables.transform.GetChild(i).gameObject.GetComponent<SpriteShapeRenderer>().enabled = inspectOn;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "nextArea")
+        {
+            //General.fade((int)5);
         }
     }
 }
