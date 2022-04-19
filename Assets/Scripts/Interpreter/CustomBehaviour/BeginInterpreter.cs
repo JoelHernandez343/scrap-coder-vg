@@ -25,7 +25,7 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         public void Execute(string answer) {
-            Debug.Log("Beginning");
+            // Debug.Log("Beginning");
 
             Executer.instance.ExecuteInNextFrame();
 

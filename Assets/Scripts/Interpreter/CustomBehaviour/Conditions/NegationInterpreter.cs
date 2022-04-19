@@ -53,7 +53,7 @@ namespace ScrapCoder.Interpreter {
         public IInterpreterElement GetNextStatement() => null;
 
         void PushingCondition() {
-            Debug.Log("Pushing condition");
+            // Debug.Log("Pushing condition");
 
             Executer.instance.PushNext(condition.interpreterElement);
             Executer.instance.ExecuteInNextFrame();
@@ -62,7 +62,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void EvaluationCondition(string value) {
-            Debug.Log($"Evaluating condition result: {value}");
+            // Debug.Log($"Evaluating condition result: {value}");
 
             Executer.instance.ExecuteInNextFrame(value == "true" ? "false" : "true");
 

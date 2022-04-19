@@ -23,7 +23,7 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         public void Execute(string answer) {
-            Debug.Log("Returnig false");
+            // Debug.Log("Returnig false");
 
             Executer.instance.ExecuteInNextFrame("false");
 

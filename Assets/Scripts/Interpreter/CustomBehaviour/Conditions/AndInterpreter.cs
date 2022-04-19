@@ -59,7 +59,7 @@ namespace ScrapCoder.Interpreter {
         public IInterpreterElement GetNextStatement() => null;
 
         void PushingCondition(string condition) {
-            Debug.Log($"Pushing {condition} condition");
+            // Debug.Log($"Pushing {condition} condition");
 
             var conditionToPush = condition == "left"
                 ? leftCondition
@@ -74,7 +74,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void EvaluationCondition(string value, string condition) {
-            Debug.Log($"Evaluating {condition} condition result: {value}");
+            // Debug.Log($"Evaluating {condition} condition result: {value}");
 
             if (value == "true") {
                 currentStep = Steps.PushingRightCondition;

@@ -61,7 +61,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void PushingCondition() {
-            Debug.Log("Pushing condition");
+            // Debug.Log("Pushing condition");
 
             Executer.instance.PushNext(condition.interpreterElement);
             Executer.instance.ExecuteInNextFrame();
@@ -70,7 +70,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void EvaluationCondition(string value) {
-            Debug.Log($"Evaluating condition result: {value}");
+            // Debug.Log($"Evaluating condition result: {value}");
 
             if (value == "true") {
                 currentStep = Steps.ExecutingInstructions;
@@ -82,7 +82,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ExecutingInstructions() {
-            Debug.Log("Executing instructions");
+            // Debug.Log("Executing instructions");
 
             Executer.instance.PushNext(firstInstruction.interpreterElement);
             Executer.instance.ExecuteInNextFrame();

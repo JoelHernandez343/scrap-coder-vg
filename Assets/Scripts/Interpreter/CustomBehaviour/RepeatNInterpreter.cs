@@ -74,7 +74,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ExecutingInstructions() {
-            Debug.Log("Executing instructions");
+            // Debug.Log("Executing instructions");
 
             Executer.instance.PushNext(firstInstruction.interpreterElement);
             Executer.instance.ExecuteInNextFrame();
