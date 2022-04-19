@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
+  - component: {fileID: 5648278765853293065}
   m_Layer: 5
   m_Name: Node
   m_TagString: Untagged
@@ -64,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   initHeight: 45
@@ -89,7 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97d9a59eae9883469f40a57aaf02835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   topZone: {fileID: 8867216842198295349}
   middleZone: {fileID: 3236861116283297686}
   bottomZone: {fileID: 1313969303923639431}
@@ -106,10 +107,26 @@ MonoBehaviour:
   - {fileID: 1128402431922292130}
   staticContainers: []
   zoneRefresher: {fileID: 0}
-  partsAdjuster: {fileID: 0}
   selectorModifier: {fileID: 0}
+  nodeAnalyzer: {fileID: 0}
+  symbolName: 
+  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
+--- !u!114 &5648278765853293065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6150825404952637405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2449328c3e118944b947ac0217bc8832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableContainer: {fileID: 2972173848984587017}
+  instructionsContainer: {fileID: 4138850967942077516}
 --- !u!1001 &1027254282405543307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217,6 +234,10 @@ PrefabInstance:
       propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 8225195846273947977, guid: e0f826beec1b97b45b8edc779c08534e, type: 3}
+      propertyPath: m_Name
+      value: variableContainer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0f826beec1b97b45b8edc779c08534e, type: 3}
 --- !u!224 &5445385252483892734 stripped
