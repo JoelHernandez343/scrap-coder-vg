@@ -25,6 +25,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] ButtonController menuButtonPrefab;
 
+        [SerializeField] public bool controlledByExecuter = false;
+
         // State variables
         string selectedOption = "";
 

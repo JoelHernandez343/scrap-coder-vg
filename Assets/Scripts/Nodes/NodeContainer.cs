@@ -79,12 +79,15 @@ namespace ScrapCoder.VisualNodes {
             ownTransform.localDepthLevels = array.ownTransform.depthLevels;
         }
 
-        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
+        public bool AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
             toThisNode ??= controller;
 
             if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
                 array.AddNodes(node: nodeToAdd, toThisNode: toThisNode, smooth: smooth);
+                return true;
             }
+
+            return false;
         }
 
         public void SetState(string state) {

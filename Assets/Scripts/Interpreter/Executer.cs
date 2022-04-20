@@ -5,8 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.InputManagment;
+
 namespace ScrapCoder.Interpreter {
     public class Executer : MonoBehaviour {
+
+        // Internal types
+        enum States { Running, Stopped, Stopping };
 
         // Static variables
         public static Executer instance;
@@ -15,13 +20,17 @@ namespace ScrapCoder.Interpreter {
         Stack<IInterpreterElement> stack = new Stack<IInterpreterElement>();
 
         string nextLocalAnswer = null;
-        bool executeNext;
 
-        public bool stopped;
+        bool waitingForResponse = false;
+        States state = States.Stopped;
 
         // Lazy variables
         Analyzer _analyzer;
         Analyzer analyzer => _analyzer ??= (GetComponent<Analyzer>() as Analyzer);
+
+        public string State => state.ToString();
+
+        public bool isRunning => state == States.Running;
 
         // Methods
         void Awake() {
@@ -34,14 +43,14 @@ namespace ScrapCoder.Interpreter {
         }
 
         void FixedUpdate() {
-            if (stopped) {
-                ResetState();
-            } else if (executeNext) {
+
+            if (state == States.Running && !waitingForResponse) {
                 var localAnswer = nextLocalAnswer;
                 nextLocalAnswer = null;
 
                 ExecuteNext(localAnswer);
             }
+
         }
 
         void Start() {
@@ -50,20 +59,41 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ResetState() {
+            state = States.Running;
             nextLocalAnswer = null;
             stack.Clear();
         }
 
         public void Execute() {
-            stopped = false;
-            ResetState();
+            if (state == States.Running) {
+                Debug.LogWarning("Already executing!");
+                return;
+            }
+            if (state == States.Stopping) {
+                Debug.LogWarning("Waiting for termination.");
+                return;
+            }
+
+            InputController.instance.ClearFocus();
 
             var (isValid, beginning) = analyzer.Analize();
-
             if (!isValid) return;
+
+            ResetState();
 
             PushNext(beginning.interpreterElement);
             ExecuteInNextFrame();
+        }
+
+        public void Stop() {
+            if (state == States.Stopped || state == States.Stopping) return;
+
+            if (waitingForResponse) {
+                state = States.Stopping;
+                waitingForResponse = false;
+            } else {
+                state = States.Stopped;
+            }
         }
 
         public void PushNext(IInterpreterElement e) {
@@ -72,7 +102,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ExecuteNext(string answer = null) {
-            executeNext = false;
+            waitingForResponse = true;
 
             if (stack.Peek().Controller.type == VisualNodes.NodeType.End) {
                 stack.Pop();
@@ -106,15 +136,16 @@ namespace ScrapCoder.Interpreter {
 
         public void ExecuteInNextFrame(string answer = null) {
             nextLocalAnswer = answer;
-            executeNext = true;
+            waitingForResponse = false;
         }
 
         void ReceiveAnswer(int _) {
-            if (stopped) return;
-
-            string answer = null; //RobotController.instance.answer;
-
-            ExecuteNext(answer);
+            if (state == States.Stopping || state == States.Stopped) {
+                state = States.Stopped;
+            } else if (waitingForResponse) {
+                string answer = null; //RobotController.instance.answer;
+                ExecuteNext(answer);
+            }
         }
 
     }

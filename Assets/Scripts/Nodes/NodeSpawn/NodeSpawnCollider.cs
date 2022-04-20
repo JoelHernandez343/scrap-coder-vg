@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using ScrapCoder.Interpreter;
+
 namespace ScrapCoder.VisualNodes {
     public class NodeSpawnCollider : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
 
@@ -14,6 +16,8 @@ namespace ScrapCoder.VisualNodes {
         NodeController spawned => spawnController.spawned;
 
         void IBeginDragHandler.OnBeginDrag(PointerEventData e) {
+            if (Executer.instance.isRunning) return;
+
             spawnController.SpawnNode(
                 newPosition: GetPointerPosition(e),
                 dx: e.delta.x,

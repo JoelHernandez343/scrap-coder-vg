@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using ScrapCoder.Interpreter;
+
 namespace ScrapCoder.VisualNodes {
 
     public class NodeDragger :
@@ -40,6 +42,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
+            if (Executer.instance.isRunning) return;
+
             if (ownTransform.isMovingSmoothly) return;
 
             controller.SetMiddleZone(true);

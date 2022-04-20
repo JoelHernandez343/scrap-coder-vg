@@ -199,8 +199,7 @@ namespace ScrapCoder.VisualNodes {
                     ownZone == container.zone ||
                     ownZone.controller.parentArray == container.array
                 ) {
-                    container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
-                    return true;
+                    return container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
                 }
             }
 
