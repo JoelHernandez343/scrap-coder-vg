@@ -108,6 +108,7 @@ namespace ScrapCoder.Interpreter {
                 stack.Pop();
 
                 Debug.Log("Execution is finished");
+                state = States.Stopped;
                 return;
             }
 

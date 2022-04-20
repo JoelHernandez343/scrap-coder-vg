@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 3340251331429901954, guid: 9756128aeeb45a04c9d4df193afe7bca, type: 3}
+      propertyPath: acceptedCategory
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4981485915424360996, guid: 9756128aeeb45a04c9d4df193afe7bca, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
