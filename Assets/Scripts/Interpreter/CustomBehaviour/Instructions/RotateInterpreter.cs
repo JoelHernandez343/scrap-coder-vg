@@ -35,8 +35,8 @@ namespace ScrapCoder.Interpreter {
 
             Debug.Log($"Rotating in {selectedAction}");
 
-            // SendInstruction.sendInstruction((int)selectedAction);
-            Executer.instance.ExecuteInNextFrame();
+            SendInstruction.sendInstruction((int)selectedAction);
+            // Executer.instance.ExecuteInNextFrame();
 
             IsFinished = true;
         }
