@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 
 using ScrapCoder.Interpreter;
@@ -327,6 +328,8 @@ namespace ScrapCoder.VisualNodes {
             if (hasParent) {
                 ownTransform.ResetRenderOrder();
                 parentController.LoseFocus();
+            } else {
+                SetState("normal");
             }
         }
 
@@ -387,7 +390,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void RemoveFromSymbolTable() {
-            SymbolTable.instance[symbolName].Remove(this);
+            SymbolTable.instance[symbolName]?.Remove(this);
             containers.ForEach(c => c.RemoveNodesFromTableSymbol());
         }
 
@@ -440,6 +443,74 @@ namespace ScrapCoder.VisualNodes {
             if (nodeAnalyzer is INodeAnalyzer analyzer) return analyzer.Analyze();
 
             return true;
+        }
+
+        public Vector2Int BeginDrag(PointerEventData e) {
+
+            SetMiddleZone(true);
+            DetachFromParent();
+
+            HierarchyController.instance.SetOnTopOfCanvas(this);
+
+            Vector2Int previousPosition = new Vector2Int { x = ownTransform.x, y = ownTransform.y };
+
+            ownTransform.SetFloatPositionByDelta(
+                dx: e.delta.x,
+                dy: e.delta.y
+            );
+
+            SetState("over");
+
+            return previousPosition;
+        }
+
+        public void OnDrag(PointerEventData e) {
+            if (e.dragging && isDragging) {
+                ownTransform.SetFloatPositionByDelta(
+                    dx: e.delta.x,
+                    dy: e.delta.y
+                );
+            }
+
+            currentDrop = GetDrop();
+
+            if (currentDrop != previousDrop) {
+                currentDrop?.SetState("over");
+                previousDrop?.SetState("normal");
+
+                previousDrop = currentDrop;
+            }
+        }
+
+        public void OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
+            var dragDropZone = GetDrop();
+
+            isDragging = false;
+            SetState("normal");
+
+            if (dragDropZone?.category == "working") {
+
+                if (!InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(this);
+                SetMiddleZone(false);
+                dragDropZone.SetState("normal");
+
+            } else if (dragDropZone?.category == "erasing") {
+
+                Disappear();
+                dragDropZone.SetState("normal");
+
+            } else {
+                if (discardCallback == null) {
+                    ownTransform.SetPosition(
+                        x: previousPosition?.x ?? 0,
+                        y: previousPosition?.y ?? 0,
+                        smooth: true,
+                        endingCallback: () => HierarchyController.instance.SetOnTopOfNodes(this)
+                    );
+                } else {
+                    discardCallback();
+                }
+            }
         }
     }
 

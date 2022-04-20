@@ -6,19 +6,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using ScrapCoder.VisualNodes;
+
 namespace ScrapCoder.UI {
     public class InputTextCollider : MonoBehaviour, IPointerDownHandler {
         // Editor variables
-        [SerializeField] Camera mainCamera;
         [SerializeField] InputText inputText;
 
         // Lazy variables
-        VisualNodes.NodeTransform _ownTransform;
-        VisualNodes.NodeTransform ownTransform
-            => _ownTransform ??= GetComponent<VisualNodes.NodeTransform>();
+        NodeTransform _ownTransform;
+        NodeTransform ownTransform
+            => _ownTransform ??= GetComponent<NodeTransform>() as NodeTransform;
+
+        Camera _mainCamera;
+        Camera mainCamera =>
+            _mainCamera ??= (GameObject.FindGameObjectWithTag("MainCamera") as GameObject)?.GetComponent<Camera>() as Camera;
 
         // Methods
-        void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
+        public void OnPointerDown(PointerEventData eventData) {
             if (!(inputText as InputManagment.IFocusable).HasFocus()) {
                 InputManagment.InputController.instance.SetFocusOn(inputText);
             }

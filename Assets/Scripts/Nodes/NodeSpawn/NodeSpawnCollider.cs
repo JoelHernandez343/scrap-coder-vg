@@ -28,39 +28,13 @@ namespace ScrapCoder.VisualNodes {
         void IDragHandler.OnDrag(PointerEventData e) {
             if (!e.dragging || spawned == null) return;
 
-            spawned.ownTransform.SetFloatPositionByDelta(dx: e.delta.x, dy: e.delta.y);
-
-            spawned.currentDrop = spawned.GetDrop();
-
-            if (spawned.currentDrop != spawned.previousDrop) {
-                spawned.currentDrop?.SetState("over");
-                spawned.previousDrop?.SetState("normal");
-
-                spawned.previousDrop = spawned.currentDrop;
-            }
+            spawned.OnDrag(e);
         }
 
         void IEndDragHandler.OnEndDrag(PointerEventData e) {
             if (spawned == null) return;
 
-            var dragDropZone = spawned.GetDrop();
-
-            if (dragDropZone?.category == "working") {
-                if (!spawned.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(spawned);
-                spawned.SetMiddleZone(false);
-                spawned.isDragging = false;
-                spawned.SetState("normal");
-
-                dragDropZone.SetState("normal");
-            } else if (dragDropZone?.category == "erasing") {
-                spawned.isDragging = false;
-                spawned.Disappear();
-                spawned.SetState("normal");
-
-                dragDropZone.SetState("normal");
-            } else {
-                spawnController.RemoveSpawned();
-            }
+            spawned.OnEndDrag(discardCallback: () => spawnController.RemoveSpawned());
 
             spawnController.ClearSpawned();
         }

@@ -27,13 +27,10 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] public Vector2 relativeOrigin;
 
-        [SerializeField] int publicHeight;
-        [SerializeField] int publicWidth;
-
         [SerializeField] int ownDepthLevels;
 
         // State Variables
-        [SerializeField] public int localDepthLevels;
+        [System.NonSerialized] public int localDepthLevels;
 
         int? _height;
         public int height {
@@ -43,7 +40,6 @@ namespace ScrapCoder.VisualNodes {
                 if (value < minHeight) throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
 
                 _height = value;
-                publicHeight = value;
             }
 
             get {
@@ -61,7 +57,6 @@ namespace ScrapCoder.VisualNodes {
                 if (value < minWidth) throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
 
                 _width = value;
-                publicWidth = value;
             }
             get {
                 _width ??= initWidth;

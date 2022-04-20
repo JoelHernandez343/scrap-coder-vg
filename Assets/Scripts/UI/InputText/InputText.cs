@@ -30,6 +30,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] public NodeTransform pieceToExpand;
 
+        [SerializeField] Component textHandler;
+
         // State variables
         int cursor = 0;
 
@@ -69,8 +71,8 @@ namespace ScrapCoder.UI {
             get => text;
             set {
                 text = value;
-                ExpandByText(smooth: true);
-                MoveCursorTo(0);
+                // ExpandByText(smooth: true);
+                // MoveCursorTo(0);
             }
         }
 
@@ -96,6 +98,8 @@ namespace ScrapCoder.UI {
                 MoveCursor(-1);
             } else if (Input.GetKeyDown(KeyCode.Return)) {
                 Execute();
+            } else if (textHandler is ITextHandler customTextHandler) {
+                customTextHandler.HandleCharacterInput(this);
             } else if (GetPressedCharacter() is var character && character != "") {
                 AddCharacter(character);
             }
@@ -132,7 +136,7 @@ namespace ScrapCoder.UI {
             MoveCursor(-1);
         }
 
-        void AddCharacter(string character) {
+        public void AddCharacter(string character) {
             if (isFull) return;
 
             if (cursor == text.Length) {
@@ -157,7 +161,7 @@ namespace ScrapCoder.UI {
             ownTransform.Expand(dx: dx, smooth: smooth);
 
             // Update parent with delta
-            ownTransform.expandable?.Expand(dx: dx, smooth: smooth);
+            ownTransform.expandable?.Expand(dx: dx, smooth: smooth, expanded: this);
         }
 
         void MoveCursorTo(int position) {
@@ -239,11 +243,22 @@ namespace ScrapCoder.UI {
 
         void IFocusable.GetFocus() {
             cursorAnimator.SetBool("isActive", true);
-
             backgroundShape.SetVisible(true);
 
             if (controller == null) {
                 ownTransform.Raise(depthLevels: 10);
+            } else {
+                var thisDepthLevels = ownTransform.depthLevelsToThisTransform();
+                var globalDepthevels = ownTransform.controller?.lastController.ownTransform.depthLevels ?? 0;
+
+                var raiseDepthLevels =
+                    (globalDepthevels > thisDepthLevels
+                        ? globalDepthevels - thisDepthLevels
+                        : 0) + HierarchyController.instance.globalRaiseDiff + 10;
+
+                ownTransform.Raise(depthLevels: raiseDepthLevels);
+
+                controller?.GetFocus();
             }
         }
 
@@ -252,7 +267,8 @@ namespace ScrapCoder.UI {
 
             backgroundShape.SetVisible(false);
 
-            ownTransform.ResetRenderOrder();
+            ownTransform.ResetRenderOrder(depthLevels: 1);
+            controller?.LoseFocus();
         }
 
         bool IFocusable.HasFocus() {

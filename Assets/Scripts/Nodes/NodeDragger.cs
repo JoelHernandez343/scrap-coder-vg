@@ -43,74 +43,22 @@ namespace ScrapCoder.VisualNodes {
 
         public void OnBeginDrag(PointerEventData eventData) {
             if (Executer.instance.isRunning) return;
+            if (controller.ownTransform.isMovingSmoothly) return;
 
-            if (ownTransform.isMovingSmoothly) return;
-
-            controller.SetMiddleZone(true);
-            controller.DetachFromParent();
-
-            HierarchyController.instance.SetOnTopOfCanvas(controller);
-
-            previousPosition.x = controller.ownTransform.x;
-            previousPosition.y = controller.ownTransform.y;
-
-            controller.ownTransform.SetFloatPositionByDelta(
-                dx: eventData.delta.x,
-                dy: eventData.delta.y
-            );
+            previousPosition = controller.BeginDrag(eventData);
 
             isDragging = true;
-
-            controller.SetState("over");
         }
 
         public void OnDrag(PointerEventData eventData) {
-            if (ownTransform.isMovingSmoothly) return;
+            if (controller.ownTransform.isMovingSmoothly) return;
 
-            if (eventData.dragging && isDragging) {
-                controller.ownTransform.SetFloatPositionByDelta(
-                    dx: eventData.delta.x,
-                    dy: eventData.delta.y
-                );
-            }
-
-            controller.currentDrop = controller.GetDrop();
-
-            if (controller.currentDrop != controller.previousDrop) {
-                controller.currentDrop?.SetState("over");
-                controller.previousDrop?.SetState("normal");
-
-                controller.previousDrop = controller.currentDrop;
-            }
+            controller.OnDrag(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData) {
             if (isDragging) {
-
-                var dragDropZone = controller.GetDrop();
-
-                if (dragDropZone?.category == "working") {
-                    if (!controller.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(controller);
-                    controller.SetMiddleZone(false);
-                    dragDropZone.SetState("normal");
-                } else if (dragDropZone?.category == "erasing") {
-                    isDragging = false;
-                    controller.SetState("normal");
-                    controller.Disappear();
-                    dragDropZone.SetState("normal");
-                    return;
-                } else {
-                    controller.ownTransform.SetPosition(
-                        x: previousPosition.x,
-                        y: previousPosition.y,
-                        smooth: true,
-                        endingCallback: () => HierarchyController.instance.SetOnTopOfNodes(controller)
-                    );
-                }
-
-                isDragging = false;
-
-                controller.SetState("normal");
+                controller.OnEndDrag(previousPosition);
             }
         }
 
