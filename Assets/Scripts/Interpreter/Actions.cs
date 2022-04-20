@@ -7,12 +7,6 @@ using UnityEngine;
 
 namespace ScrapCoder.Interpreter {
 
-    public enum Actions {
-        None,
-        Walk,
-        RotateLeft,
-        RotateRight,
-        Interact
-    }
+    public enum Actions { Walk, RotateLeft, RotateRight, Interact, None }
 
 }

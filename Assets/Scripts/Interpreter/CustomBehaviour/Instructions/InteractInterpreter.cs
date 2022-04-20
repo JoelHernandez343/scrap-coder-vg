@@ -30,8 +30,8 @@ namespace ScrapCoder.Interpreter {
 
             Debug.Log($"Interacting");
 
-            // SendInstruction.sendInstruction((int)Actions.Interact);
-            Executer.instance.ExecuteInNextFrame();
+            SendInstruction.sendInstruction((int)Actions.Interact);
+            // Executer.instance.ExecuteInNextFrame();
 
             IsFinished = true;
         }

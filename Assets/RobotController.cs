@@ -52,7 +52,7 @@ public class RobotController : MonoBehaviour
                     /* First, he make sure the movement Direction is equals to the direction the robot is facing,
                        then we check if the robot is moving or not, if not, move the point, now the robot will
                        start moving and we will no longer move the point until moving is false again */
-                    print("Caminar");
+                    // print("Caminar");
                     dirMovement = dirFacing;
                     AnimationSet();
                     if (!moving)
