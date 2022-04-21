@@ -34,43 +34,37 @@ namespace ScrapCoder.VisualNodes {
         public int height {
             set {
                 if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
-
                 if (value < minHeight) throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
 
                 _height = value;
             }
 
-            get {
-                _height ??= initHeight;
-
-                return (int)_height;
-            }
+            get => _height ??= initHeight;
         }
 
         int? _width;
         public int width {
             set {
                 if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
-
                 if (value < minWidth) throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
 
                 _width = value;
             }
-            get {
-                _width ??= initWidth;
-
-                return (int)_width;
-            }
+            get => _width ??= initWidth;
         }
 
-        Utils.FloatVector2D floatPosition = new Utils.FloatVector2D { x = 0, y = 0 };
+        Utils.FloatStack _floatX;
+        Utils.FloatStack floatX => _floatX ??= new Utils.FloatStack { realValue = x };
+
+        Utils.FloatStack _floatY;
+        Utils.FloatStack floatY => _floatY ??= new Utils.FloatStack { realValue = y };
 
         // Lazy and other variables<
         RectTransform _rectTransform;
         public RectTransform rectTransform => _rectTransform ??= GetComponent<RectTransform>();
 
-        public Vector2 position {
-            get => new Vector2 {
+        public Vector2Int position {
+            get => new Vector2Int {
                 x = (int)System.Math.Round(rectTransform.anchoredPosition.x),
                 y = (int)System.Math.Round(rectTransform.anchoredPosition.y),
             };
@@ -86,8 +80,8 @@ namespace ScrapCoder.VisualNodes {
         public const int PixelsPerUnit = 24;
         public NodeController controller => directController ?? indirectController?.controller;
 
-        public int x => (int)position.x;
-        public int y => (int)position.y;
+        public int x => position.x;
+        public int y => position.y;
         public int z {
             get => (int)System.Math.Round(transform.localPosition.z);
             set {
@@ -114,7 +108,7 @@ namespace ScrapCoder.VisualNodes {
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
         Utils.SmoothDampController smoothDampForDisappearing = new Utils.SmoothDampController(0.1f);
 
-        Vector2 relativeOrigin;
+        Vector2Int relativeOrigin;
 
         // Methods
         void FixedUpdate() {
@@ -136,17 +130,16 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void ResetFloatPosition() {
-            floatPosition.tuple = (0, 0);
-        }
-
-        void ResetXToRelative() {
-            var x = (int)System.Math.Round(relativeOrigin.x);
-            SetPosition(x, y);
+            floatX.realValue = 0f;
+            floatY.realValue = 0f;
         }
 
         public void ResetYToRelative(bool smooth = false) {
-            var y = (int)System.Math.Round(relativeOrigin.y);
-            SetPosition(x, y, smooth: smooth);
+            SetPosition(
+                x: x,
+                y: relativeOrigin.y,
+                smooth: smooth
+            );
         }
 
         public void RefreshPosition() {
@@ -158,7 +151,9 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void MoveToPosition(int? x = null, int? y = null) {
-            position = new Vector2 {
+            Debug.Log($"{x} {y}");
+
+            position = new Vector2Int {
                 x = x ?? this.x,
                 y = y ?? this.y
             };
@@ -181,7 +176,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (x == null && y == null) return Vector2.zero;
 
-            var delta = new Vector2 { x = x ?? 0, y = y ?? 0 } - position; ;
+            var delta = new Vector2Int { x = x ?? 0, y = y ?? 0 } - position; ;
 
             if (smooth) {
                 smoothDamp.SetDestination(
@@ -239,15 +234,14 @@ namespace ScrapCoder.VisualNodes {
 
             int?[] intDelta = new int?[2];
 
+            Utils.FloatStack[] floatPos = { floatX, floatY };
+            Debug.Log($"> {floatX.realValue} {floatY.realValue}");
+
             for (var axis = 0; axis < 2; ++axis) {
-                if (delta[axis] == null) continue;
+                if (delta[axis] == null) return;
 
-                floatPosition[axis] += (float)delta[axis];
-
-                if (floatPosition[axis] >= 1 || -floatPosition[axis] >= 1) {
-                    intDelta[axis] = floatPosition.getInt(axis);
-                    floatPosition[axis] -= floatPosition.getInt(axis);
-                }
+                floatPos[axis].realValue += (int)delta[axis];
+                intDelta[axis] = floatPos[axis].intValue - position[axis];
             }
 
             SetPositionByDelta(
@@ -317,7 +311,7 @@ namespace ScrapCoder.VisualNodes {
 
         public void Disappear() {
             smoothDampForDisappearing.SetDestination(
-                origin: new Vector2(x: width, y: 0),
+                origin: new Vector2Int { x = width, y = 0 },
                 destinationX: 0
             );
         }

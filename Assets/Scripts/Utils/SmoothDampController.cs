@@ -8,8 +8,8 @@ using UnityEngine;
 namespace ScrapCoder.Utils {
     public class SmoothDampController {
 
-        Vector2 currentDelta = Vector2.zero;
-        Vector2 destinationDelta = Vector2.zero;
+        Vector2Int currentDelta = Vector2Int.zero;
+        Vector2Int destinationDelta = Vector2Int.zero;
 
         public bool isWorking => !(currentDelta == destinationDelta);
         public bool isFinished => !isWorking;
@@ -40,22 +40,22 @@ namespace ScrapCoder.Utils {
             }
         }
 
-        public (Vector2 delta, System.Action endingCallback) NextDelta() {
+        public (Vector2Int delta, System.Action endingCallback) NextDelta() {
             if (isFinished) {
                 var ecb = this.endingCallback;
                 Reset();
-                return (delta: Vector2.zero, endingCallback: ecb);
+                return (delta: Vector2Int.zero, endingCallback: ecb);
             }
 
-            var newValue = new Vector2();
-            var newDelta = Vector2.zero;
+            var newValue = new Vector2Int();
+            var newDelta = Vector2Int.zero;
 
             for (var axis = 0; axis < 2; ++axis) {
                 if (destinationDelta[axis] == currentDelta[axis]) continue;
 
                 var velocity = this.velocity[axis];
 
-                newValue[axis] = Mathf.SmoothDamp(
+                var floatValue = Mathf.SmoothDamp(
                     current: currentDelta[axis],
                     target: destinationDelta[axis],
                     currentVelocity: ref velocity,
@@ -65,10 +65,10 @@ namespace ScrapCoder.Utils {
                 this.velocity[axis] = velocity;
 
                 newValue[axis] = currentDelta[axis] < destinationDelta[axis]
-                    ? (int)System.Math.Ceiling(newValue[axis])
-                    : (int)System.Math.Floor(newValue[axis]);
+                    ? (int)System.Math.Ceiling(floatValue)
+                    : (int)System.Math.Floor(floatValue);
 
-                newDelta[axis] = (int)System.Math.Round(newValue[axis] - currentDelta[axis]);
+                newDelta[axis] = newValue[axis] - currentDelta[axis];
             }
 
             currentDelta = newValue;
@@ -83,13 +83,8 @@ namespace ScrapCoder.Utils {
             return (delta: newDelta, endingCallback: endingCallback);
         }
 
-        Vector2 RoundVector(Vector2 vector) => new Vector2 {
-            x = (int)System.Math.Round(vector.x),
-            y = (int)System.Math.Round(vector.y),
-        };
-
         public void SetDestination(
-            Vector2 origin,
+            Vector2Int origin,
             int? destinationX = null,
             int? destinationY = null,
             System.Action endingCallback = null,
@@ -102,12 +97,12 @@ namespace ScrapCoder.Utils {
                 resetY: destinationY != null
             );
 
-            var final = new Vector2 {
+            var final = new Vector2Int {
                 x = destinationX ?? destinationDelta.x,
                 y = destinationY ?? destinationDelta.y
             };
 
-            destinationDelta = RoundVector(final - origin);
+            destinationDelta = final - origin;
 
             if (!cancelPreviousCallback && this.endingCallback != null) {
                 this.endingCallback();

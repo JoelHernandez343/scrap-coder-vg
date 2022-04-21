@@ -69,6 +69,8 @@ namespace ScrapCoder.VisualNodes {
 
             HierarchyController.instance.SetOnTopOfCanvas(spawned);
 
+            Debug.Log(newPosition);
+
             spawned.ownTransform.SetPosition(
                 x: (int)newPosition.x - (spawned.ownTransform.width * pixelScale) / 2,
                 y: (int)newPosition.y + (spawned.ownTransform.initHeight * pixelScale) / 2

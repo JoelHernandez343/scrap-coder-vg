@@ -199,10 +199,7 @@ namespace ScrapCoder.VisualNodes {
         void ExpandSmoothly() {
             var (delta, _) = smoothDamp.NextDelta();
 
-            Expand(
-                dx: (int)System.Math.Round(delta.x),
-                dy: (int)System.Math.Round(delta.y)
-            );
+            Expand(dx: delta.x, dy: delta.y);
         }
 
         void Expand(int? dx, int? dy) {
