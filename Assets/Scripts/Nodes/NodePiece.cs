@@ -25,13 +25,18 @@ namespace ScrapCoder.VisualNodes {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
+        List<INodeExpanded> _horizontalExpandables;
+        List<INodeExpanded> horizontalExpandables
+            => _horizontalExpandables
+                ??= horizontalItems.ConvertAll(i => (i.GetComponent<INodeExpanded>() as INodeExpanded));
+
         // Methods
         void Start() {
             previousMaxHeight ??= getMaxHeight();
         }
 
         int GetIndexOfHorizontalExpandable(INodeExpanded expandable)
-            => horizontalItems.FindIndex(item => item.GetComponent<INodeExpanded>() == expandable);
+            => horizontalExpandables.FindIndex(i => i == expandable);
 
         (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded expandable) {
 

@@ -25,8 +25,6 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public bool resizable = true;
         [SerializeField] public bool moveable = true;
 
-        [SerializeField] public Vector2 relativeOrigin;
-
         [SerializeField] int ownDepthLevels;
 
         // State Variables
@@ -115,6 +113,8 @@ namespace ScrapCoder.VisualNodes {
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
         Utils.SmoothDampController smoothDampForDisappearing = new Utils.SmoothDampController(0.1f);
+
+        Vector2 relativeOrigin;
 
         // Methods
         void FixedUpdate() {

@@ -8,6 +8,18 @@ TextureImporter:
   - first:
       213: 6800604763316150982
     second: numeric_value
+  - first:
+      213: 2714472248809691207
+    second: sum
+  - first:
+      213: 7244522594687945120
+    second: substraction
+  - first:
+      213: 3781583028092446126
+    second: multiplication
+  - first:
+      213: -4374303853943192834
+    second: division
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -134,6 +146,90 @@ TextureImporter:
       bones: []
       spriteID: 6c2e947400a906e50800000000000000
       internalID: 6800604763316150982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sum
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 60
+        width: 26
+        height: 12
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74815fed02ebba520800000000000000
+      internalID: 2714472248809691207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: substraction
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 26
+        height: 12
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a98aafaae6b98460800000000000000
+      internalID: 7244522594687945120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: multiplication
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 36
+        width: 26
+        height: 12
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea5a8167ab1ea7430800000000000000
+      internalID: 3781583028092446126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: division
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 24
+        width: 26
+        height: 12
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef2081622d95b43c0800000000000000
+      internalID: -4374303853943192834
       vertices: []
       indices: 
       edges: []

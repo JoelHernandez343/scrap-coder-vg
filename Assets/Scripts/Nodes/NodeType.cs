@@ -40,6 +40,10 @@ namespace ScrapCoder.VisualNodes {
         IsGreaterThanCondition = 28,
         IsLessOrEqualCondition = 29,
         IsGreaterOrEqualCondition = 30,
+        SumInstruction = 31,
+        SubstractionInstruction = 32,
+        MultiplicationInstruction = 33,
+        DivisionInstruction = 34,
     }
 
 }
