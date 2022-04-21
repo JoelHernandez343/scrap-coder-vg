@@ -8,26 +8,14 @@ namespace ScrapCoder.UI {
 
         string[] numbers = { "-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
-        Regex minusAndNumber = new Regex("^-\\d$");
-        Regex minusAndTwoNumbers = new Regex("^-\\d\\d$");
-
-        Regex number = new Regex("^\\d$");
-        Regex twoNumbers = new Regex("^\\d\\d$");
+        Regex form = new Regex("^-?\\d?\\d?$");
 
         public void HandleCharacterInput(InputText inputText) {
             var character = GetPressedCharacter();
 
-            if (
-                character == "" ||
-                (inputText.Value == "" && character == "0") ||
-                (inputText.Value == "-" && (character == "0" || character == "-")) ||
-                (minusAndNumber.IsMatch(inputText.Value) && character == "-") ||
-                minusAndTwoNumbers.IsMatch(inputText.Value) ||
-                (number.IsMatch(inputText.Value) && character == "-") ||
-                twoNumbers.IsMatch(inputText.Value)
-            ) {
-                return;
-            }
+            var newText = inputText.Value.Insert(inputText.Cursor, character);
+
+            if (character == "" || !form.IsMatch(newText)) return;
 
             inputText.AddCharacter(character);
 

@@ -76,6 +76,11 @@ namespace ScrapCoder.UI {
             }
         }
 
+        public int Cursor {
+            get => cursor;
+            set => MoveCursorTo(value);
+        }
+
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
         bool INodeExpanded.ModifyHeightOfPiece => false;
         bool INodeExpanded.ModifyWidthOfPiece => true;

@@ -32,6 +32,14 @@ namespace ScrapCoder.VisualNodes {
         TrueConstant = 20,
         FalseConstant = 21,
         Variable = 22,
+        NumericValue = 23,
+        SetVariable = 24,
+        IsEqualCondition = 25,
+        IsDifferentCondition = 26,
+        IsLessThanCondition = 27,
+        IsGreaterThanCondition = 28,
+        IsLessOrEqualCondition = 29,
+        IsGreaterOrEqualCondition = 30,
     }
 
 }

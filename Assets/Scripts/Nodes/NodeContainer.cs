@@ -35,6 +35,7 @@ namespace ScrapCoder.VisualNodes {
 
         public int Count => array.Count;
 
+        public NodeController First => array.First;
         public NodeController Last => array.Last;
 
         public bool isEmpty => array.Count == 0;
@@ -82,7 +83,11 @@ namespace ScrapCoder.VisualNodes {
         public bool AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
             toThisNode ??= controller;
 
-            if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
+            if (
+                acceptedCategory == NodeCategory.All ||
+                acceptedCategory == nodeToAdd.category ||
+                (acceptedCategory == NodeCategory.Value && nodeToAdd.category == NodeCategory.Variable)
+            ) {
                 array.AddNodes(node: nodeToAdd, toThisNode: toThisNode, smooth: smooth);
                 return true;
             }

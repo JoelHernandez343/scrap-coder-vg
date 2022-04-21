@@ -74,10 +74,7 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 3
-  localDepthLevels: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +131,10 @@ PrefabInstance:
       propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 8078557689785207950, guid: 56ba30c8a2cddd04eada1a86f116c9d3, type: 3}
+      propertyPath: acceptedCategory
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8558354329117757257, guid: 56ba30c8a2cddd04eada1a86f116c9d3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

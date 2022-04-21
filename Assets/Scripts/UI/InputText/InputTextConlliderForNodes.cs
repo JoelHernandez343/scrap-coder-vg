@@ -46,7 +46,7 @@ namespace ScrapCoder.UI {
 
         public void OnPointerClick(PointerEventData e) {
 
-            if (!wasDragging) {
+            if (!wasDragging && !Executer.instance.isRunning) {
                 GetFocus(e);
             }
 
@@ -69,6 +69,7 @@ namespace ScrapCoder.UI {
         }
 
         public void OnDrag(PointerEventData e) {
+            if (Executer.instance.isRunning) return;
             if (controller.ownTransform.isMovingSmoothly) return;
 
             controller.OnDrag(e);

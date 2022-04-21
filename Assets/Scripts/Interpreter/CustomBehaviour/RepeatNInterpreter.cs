@@ -13,14 +13,14 @@ namespace ScrapCoder.Interpreter {
     public class RepeatNInterpreter : MonoBehaviour, IInterpreterElement {
 
         // Internal types
-        enum Steps { ComparingWithVariable, ExecutingInstructions }
+        enum Steps { PushingValue, EvaluatingValue, ExecutingInstructions }
 
         // Editor variables
         [SerializeField] NodeContainer variableContainer;
         [SerializeField] NodeContainer instructionsContainer;
 
         // State variables
-        Steps currentStep = Steps.ComparingWithVariable;
+        Steps currentStep = Steps.PushingValue;
         int repetition = 0;
 
         // Lazy variables
@@ -36,14 +36,16 @@ namespace ScrapCoder.Interpreter {
         public bool IsExpression => false;
         public NodeController Controller => ownTransform.controller;
 
-        NodeController variable => variableContainer.array.First;
+        NodeController value => variableContainer.array.First;
         NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
         public void Execute(string answer) {
 
-            if (currentStep == Steps.ComparingWithVariable) {
-                ComparingWithVariable();
+            if (currentStep == Steps.PushingValue) {
+                PushingValue();
+            } else if (currentStep == Steps.EvaluatingValue) {
+                EvaluatingValue(answer);
             } else if (currentStep == Steps.ExecutingInstructions) {
                 ExecutingInstructions();
             }
@@ -52,7 +54,7 @@ namespace ScrapCoder.Interpreter {
 
         public void Reset() {
             IsFinished = false;
-            currentStep = Steps.ComparingWithVariable;
+            currentStep = Steps.PushingValue;
             repetition = 0;
         }
 
@@ -60,10 +62,17 @@ namespace ScrapCoder.Interpreter {
             return Controller.parentArray.Next(Controller)?.interpreterElement;
         }
 
-        void ComparingWithVariable() {
-            var value = System.Int32.Parse(SymbolTable.instance[variable.symbolName].value);
+        void PushingValue() {
+            Executer.instance.PushNext(value.interpreterElement);
+            Executer.instance.ExecuteInNextFrame();
 
-            if (repetition < value) {
+            currentStep = Steps.EvaluatingValue;
+        }
+
+        void EvaluatingValue(string value) {
+            var number = System.Int32.Parse(value);
+
+            if (repetition < number) {
                 repetition += 1;
                 currentStep = Steps.ExecutingInstructions;
             } else {
@@ -79,7 +88,7 @@ namespace ScrapCoder.Interpreter {
             Executer.instance.PushNext(firstInstruction.interpreterElement);
             Executer.instance.ExecuteInNextFrame();
 
-            currentStep = Steps.ComparingWithVariable;
+            currentStep = Steps.PushingValue;
         }
 
     }

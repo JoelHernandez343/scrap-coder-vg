@@ -440,9 +440,7 @@ namespace ScrapCoder.VisualNodes {
                 }
             }
 
-            if (nodeAnalyzer is INodeAnalyzer analyzer) return analyzer.Analyze();
-
-            return true;
+            return (nodeAnalyzer as INodeAnalyzer)?.Analyze() ?? true;
         }
 
         public Vector2Int BeginDrag(PointerEventData e) {
