@@ -53,11 +53,8 @@ namespace ScrapCoder.VisualNodes {
             get => _width ??= initWidth;
         }
 
-        Utils.FloatStack _floatX;
-        Utils.FloatStack floatX => _floatX ??= new Utils.FloatStack { realValue = x };
-
-        Utils.FloatStack _floatY;
-        Utils.FloatStack floatY => _floatY ??= new Utils.FloatStack { realValue = y };
+        Utils.FloatStack floatX = new Utils.FloatStack { realValue = 0f };
+        Utils.FloatStack floatY = new Utils.FloatStack { realValue = 0f };
 
         // Lazy and other variables<
         RectTransform _rectTransform;
@@ -151,8 +148,6 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void MoveToPosition(int? x = null, int? y = null) {
-            Debug.Log($"{x} {y}");
-
             position = new Vector2Int {
                 x = x ?? this.x,
                 y = y ?? this.y
@@ -235,13 +230,14 @@ namespace ScrapCoder.VisualNodes {
             int?[] intDelta = new int?[2];
 
             Utils.FloatStack[] floatPos = { floatX, floatY };
-            Debug.Log($"> {floatX.realValue} {floatY.realValue}");
 
             for (var axis = 0; axis < 2; ++axis) {
-                if (delta[axis] == null) return;
+                if (delta[axis] == null) continue;
 
-                floatPos[axis].realValue += (int)delta[axis];
-                intDelta[axis] = floatPos[axis].intValue - position[axis];
+                floatPos[axis].realValue += delta[axis] ?? 0f;
+                intDelta[axis] = floatPos[axis].intValue;
+
+                floatPos[axis].RemoveIntPart();
             }
 
             SetPositionByDelta(

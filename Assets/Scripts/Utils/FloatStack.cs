@@ -12,5 +12,9 @@ namespace ScrapCoder.Utils {
                 ? (int)System.Math.Floor(realValue)
                 : (int)System.Math.Ceiling(realValue);
 
+        public void RemoveIntPart() {
+            realValue -= intValue;
+        }
+
     }
 }
