@@ -159,7 +159,7 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        public Vector2 SetPosition(
+        public Vector2Int SetPosition(
             int? x = null,
             int? y = null,
             bool resetFloatPosition = true,
@@ -169,7 +169,7 @@ namespace ScrapCoder.VisualNodes {
         ) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-            if (x == null && y == null) return Vector2.zero;
+            if (x == null && y == null) return Vector2Int.zero;
 
             var delta = new Vector2Int { x = x ?? 0, y = y ?? 0 } - position; ;
 
@@ -190,7 +190,7 @@ namespace ScrapCoder.VisualNodes {
             return delta;
         }
 
-        public Vector2 SetPositionByDelta(
+        public Vector2Int SetPositionByDelta(
             int? dx = null,
             int? dy = null,
             bool resetFloatPosition = true,
@@ -200,7 +200,7 @@ namespace ScrapCoder.VisualNodes {
         ) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
-            if (dx == null && dy == null) return Vector2.zero;
+            if (dx == null && dy == null) return Vector2Int.zero;
 
             if (smooth) {
                 smoothDamp.AddDeltaToDestination(
@@ -210,21 +210,19 @@ namespace ScrapCoder.VisualNodes {
                     cancelPreviousCallback: cancelPreviousCallback
                 );
             } else {
-                int?[] change = { x + dx, y + dy };
-
                 SetPosition(
-                    x: change[0],
-                    y: change[1],
+                    x: x + dx,
+                    y: y + dy,
                     resetFloatPosition: resetFloatPosition
                 );
             }
 
             if (resetFloatPosition) ResetFloatPosition();
 
-            return new Vector2 { x = dx ?? 0, y = dy ?? 0 };
+            return new Vector2Int { x = dx ?? 0, y = dy ?? 0 };
         }
 
-        public void SetFloatPositionByDelta(float? dx = null, float? dy = null, bool smooth = false) {
+        public Vector2Int SetFloatPositionByDelta(float? dx = null, float? dy = null, bool smooth = false) {
             float?[] delta = { dx, dy };
 
             int?[] intDelta = new int?[2];
@@ -240,7 +238,7 @@ namespace ScrapCoder.VisualNodes {
                 floatPos[axis].RemoveIntPart();
             }
 
-            SetPositionByDelta(
+            return SetPositionByDelta(
                 dx: intDelta[0],
                 dy: intDelta[1],
                 resetFloatPosition: false,

@@ -267,7 +267,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (hasParent) {
                 parentArray.AdjustParts(changedNode: this, dx: dx, dy: dy, smooth: smooth);
-            } else {
+            } else if (transform.parent == workingZone) {
                 HierarchyController.instance.SetOnTopOfNodes(this);
             }
         }

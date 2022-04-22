@@ -69,10 +69,10 @@ namespace ScrapCoder.UI {
 
         public string Value {
             get => text;
-            set {
+            private set {
                 text = value;
-                // ExpandByText(smooth: true);
-                // MoveCursorTo(0);
+                ExpandByText(smooth: true);
+                MoveCursorTo(0);
             }
         }
 
