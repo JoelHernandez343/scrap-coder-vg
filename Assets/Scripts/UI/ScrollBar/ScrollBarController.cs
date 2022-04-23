@@ -122,19 +122,22 @@ namespace ScrapCoder.UI {
         public void MoveContent(int delta, bool smooth = false) {
             if (delta == 0) return;
 
-            var realDelta = delta * currentScale;
+            if (!smooth) {
+                var newPosition = Round(currentPosition * currentScale);
 
-            // if (futurePosition == 0) {
-            //     realDelta = -contentFuturePosition;
-            // } else if (futurePosition == limit) {
-            //     realDelta = (content - visor) - contentFuturePosition;
-            // }
+                contentT.SetPosition(
+                    x: isHorizontal ? -newPosition : nn,
+                    y: isHorizontal ? nn : newPosition
+                );
+            } else {
+                var realDelta = delta * currentScale;
 
-            contentT.SetFloatPositionByDelta(
-                dx: isHorizontal ? -realDelta : nf,
-                dy: isHorizontal ? nf : realDelta,
-                smooth: smooth
-            );
+                contentT.SetFloatPositionByDelta(
+                    dx: isHorizontal ? -realDelta : nf,
+                    dy: isHorizontal ? nf : realDelta,
+                    smooth: smooth
+                );
+            }
 
         }
 

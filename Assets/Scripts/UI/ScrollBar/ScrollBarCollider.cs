@@ -34,9 +34,15 @@ namespace ScrapCoder.UI {
         int limit;
         int length;
 
+        bool isDragging;
+
         Vector2 pointerPosition = new Vector2();
 
         public void OnBeginDrag(PointerEventData eventData) {
+            if (sliderButton.ownTransform.isMovingSmoothly) return;
+
+            isDragging = true;
+
             scale = scrollBarController.currentScale;
             limit = scrollBarController.limit;
             length = scrollBarController.length;
@@ -45,13 +51,16 @@ namespace ScrapCoder.UI {
         }
 
         public void OnDrag(PointerEventData eventData) {
-            if (CanMove(eventData)) {
+            if (isDragging && CanMove(eventData)) {
                 MoveSlider(delta: isHorizontal ? eventData.delta.x : eventData.delta.y);
             }
         }
 
         public void OnEndDrag(PointerEventData eventData) {
-            MoveSlider(delta: isHorizontal ? eventData.delta.x : eventData.delta.y);
+            if (isDragging) {
+                MoveSlider(delta: isHorizontal ? eventData.delta.x : eventData.delta.y);
+                isDragging = false;
+            }
         }
 
         bool CanMove(PointerEventData eventData) {
