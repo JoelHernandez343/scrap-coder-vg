@@ -56,6 +56,8 @@ namespace ScrapCoder.VisualNodes {
         Utils.FloatStack floatX = new Utils.FloatStack { realValue = 0f };
         Utils.FloatStack floatY = new Utils.FloatStack { realValue = 0f };
 
+        Vector2Int relativeOrigin;
+
         // Lazy and other variables<
         RectTransform _rectTransform;
         public RectTransform rectTransform => _rectTransform ??= GetComponent<RectTransform>();
@@ -105,7 +107,7 @@ namespace ScrapCoder.VisualNodes {
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
         Utils.SmoothDampController smoothDampForDisappearing = new Utils.SmoothDampController(0.1f);
 
-        Vector2Int relativeOrigin;
+        public Vector2Int futurePosition => position + smoothDamp.RemainingDelta;
 
         // Methods
         void FixedUpdate() {
@@ -233,9 +235,8 @@ namespace ScrapCoder.VisualNodes {
                 if (delta[axis] == null) continue;
 
                 floatPos[axis].realValue += delta[axis] ?? 0f;
-                intDelta[axis] = floatPos[axis].intValue;
+                intDelta[axis] = floatPos[axis].RemoveIntPart();
 
-                floatPos[axis].RemoveIntPart();
             }
 
             return SetPositionByDelta(

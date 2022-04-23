@@ -7,13 +7,14 @@ namespace ScrapCoder.Utils {
 
         public float realValue;
 
-        public int intValue
-            => realValue >= 0.0
+        public int RemoveIntPart() {
+            var intValue = realValue >= 0.0
                 ? (int)System.Math.Floor(realValue)
                 : (int)System.Math.Ceiling(realValue);
 
-        public void RemoveIntPart() {
             realValue -= intValue;
+
+            return intValue;
         }
 
     }

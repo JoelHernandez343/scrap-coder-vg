@@ -33,8 +33,6 @@ namespace ScrapCoder.VisualNodes {
 
         Vector2Int previousPosition = Vector2Int.zero;
 
-        bool over;
-
         // Methods
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
@@ -63,23 +61,15 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-            over = true;
 
-            // controller.SetState(isDragging ? "pressed" : "over");
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
-            over = false;
 
-            if (!isDragging) {
-                // controller.SetState("normal");
-            }
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
-            if (!isDragging) {
-                controller.SetState("normal");
-            }
+            controller.SetState("normal");
         }
     }
 }

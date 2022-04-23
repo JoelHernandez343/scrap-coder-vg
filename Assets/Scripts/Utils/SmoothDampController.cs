@@ -14,6 +14,8 @@ namespace ScrapCoder.Utils {
         public bool isWorking => !(currentDelta == destinationDelta);
         public bool isFinished => !isWorking;
 
+        public Vector2Int RemainingDelta => destinationDelta - currentDelta;
+
         float dampingTime;
 
         Vector2 velocity = Vector2.zero;
