@@ -1,3 +1,6 @@
+// Joel Harim Hernández Javier @ 2022
+// Github: https://github.com/JoelHernandez343
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,6 +90,31 @@ namespace ScrapCoder.UI {
             spawners.Add(spawner);
         }
 
+        void RepositionAllSpawners() {
+            var lastPosition = Vector2Int.zero;
+
+            spawners.ForEach(s => {
+                s.ownTransform.SetPosition(
+                    x: lastPosition.x,
+                    y: lastPosition.y
+                );
+
+                lastPosition.y = s.ownTransform.fy - 10;
+            });
+        }
+
+        void DeleteVariable(NodeSpawnController spawn) {
+            var symbolName = spawn.symbolName;
+
+            SymbolTable.instance.RemoveSymbol(symbolName);
+
+            spawners.Remove(spawn);
+
+            Destroy(spawn.gameObject);
+
+            RepositionAllSpawners();
+        }
+
         NodeController CreatePrefab(string variableName, string variableSymbolName) {
             var newPrefab = Instantiate(variablePrefab);
             var newPrefabVariable = (newPrefab.GetComponent<NodeControllerVariable>() as NodeControllerVariable);
@@ -114,6 +142,9 @@ namespace ScrapCoder.UI {
             newSpawner.prefab = prefab;
             newSpawner.canvas = canvas;
             newSpawner.limit = spawnLimit;
+
+            (newSpawner.GetComponent<VariableSpawnController>() as VariableSpawnController)
+                ?.deleteButton.AddListener(() => DeleteVariable(newSpawner));
 
             return newSpawner;
         }

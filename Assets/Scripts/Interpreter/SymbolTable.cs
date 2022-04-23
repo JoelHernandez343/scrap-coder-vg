@@ -15,6 +15,9 @@ namespace ScrapCoder.Interpreter {
         // State variables
         Dictionary<string, Symbol> symbols = new Dictionary<string, Symbol>();
 
+        List<string> variables = new List<string>();
+        public List<string> Variables => new List<string>(variables);
+
         void Awake() {
             if (instance != null) {
                 Destroy(gameObject);
@@ -40,6 +43,32 @@ namespace ScrapCoder.Interpreter {
                 type = type,
                 value = value
             };
+
+            if (type == NodeType.Variable) {
+                variables.Add(symbolName);
+            }
+        }
+
+        public bool RemoveSymbol(string symbolName) {
+            var symbol = this[symbolName];
+            if (symbol == null) return false;
+
+            symbol.RemoveAllReferences();
+            symbols.Remove(symbolName);
+
+            if (symbol.type == NodeType.Variable) {
+                variables.Remove(symbolName);
+            }
+
+            return true;
+        }
+
+        public void CleanReferences() {
+            foreach (var entry in symbols) {
+                var symbol = entry.Value;
+
+                symbol.RemoveReferencesWithoutParent();
+            }
         }
 
     }

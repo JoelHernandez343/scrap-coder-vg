@@ -36,11 +36,18 @@ namespace ScrapCoder.Interpreter {
             references.Remove(reference);
         }
 
-        public void RemoveAll() {
+        public void RemoveAllReferences() {
             references.ForEach(r => r.RemoveMyself());
             references.Clear();
 
             value = "";
+        }
+
+        public void RemoveReferencesWithoutParent() {
+            references.FindAll(r => !r.hasParent).ForEach(r => {
+                r.RemoveMyself();
+                Remove(r);
+            });
         }
     }
 

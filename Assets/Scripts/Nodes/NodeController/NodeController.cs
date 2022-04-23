@@ -144,13 +144,13 @@ namespace ScrapCoder.VisualNodes {
         // Methods
         public void ClearParent() => parentArray = null;
 
-        public void DetachFromParent() {
+        public void DetachFromParent(bool smooth = false) {
             if (!hasParent) return;
 
             if (siblings != null) {
-                siblings.AddNodesFromParent(smooth: true);
+                siblings.AddNodesFromParent(smooth: smooth);
             } else {
-                parentArray.RemoveNodes(fromThisNode: this, smooth: true);
+                parentArray.RemoveNodes(fromThisNode: this, smooth: smooth);
                 RefreshZones();
                 ClearParent();
             }
@@ -367,20 +367,11 @@ namespace ScrapCoder.VisualNodes {
                 );
             };
 
-            Action moveUp = () => {
-                ownTransform.SetPosition(
-                    x: ownTransform.x,
-                    y: ownTransform.y - 500,
-                    smooth: true,
-                    endingCallback: disappear
-                );
-            };
-
             ownTransform.SetPosition(
                 x: ownTransform.x,
                 y: ownTransform.y + 50,
                 smooth: true,
-                endingCallback: moveUp
+                endingCallback: disappear
             );
 
             RemoveFromSymbolTable();
@@ -389,8 +380,23 @@ namespace ScrapCoder.VisualNodes {
             HierarchyController.instance.SortNodes();
         }
 
+        public void RemoveMyself() {
+            DetachFromParent(smooth: false);
+
+            RemoveChildrenFromSymbolTable();
+
+            HierarchyController.instance.DeleteNode(this);
+            HierarchyController.instance.SortNodes();
+
+            Destroy(gameObject);
+        }
+
         public void RemoveFromSymbolTable() {
             SymbolTable.instance[symbolName]?.Remove(this);
+            RemoveChildrenFromSymbolTable();
+        }
+
+        void RemoveChildrenFromSymbolTable() {
             containers.ForEach(c => c.RemoveNodesFromTableSymbol());
         }
 
@@ -404,10 +410,6 @@ namespace ScrapCoder.VisualNodes {
             if (hasParent) {
                 parentArray.SetStateAfterThis(this, state);
             }
-        }
-
-        public void RemoveMyself() {
-            throw new System.NotImplementedException();
         }
 
         public bool Analyze() {
@@ -446,7 +448,7 @@ namespace ScrapCoder.VisualNodes {
         public Vector2Int BeginDrag(PointerEventData e) {
 
             SetMiddleZone(true);
-            DetachFromParent();
+            DetachFromParent(smooth: true);
 
             HierarchyController.instance.SetOnTopOfCanvas(this);
 
