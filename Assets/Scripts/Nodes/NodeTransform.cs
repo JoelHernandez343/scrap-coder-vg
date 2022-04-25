@@ -102,7 +102,7 @@ namespace ScrapCoder.VisualNodes {
 
         public INodeExpandable expandable => (nodeExpandable as INodeExpandable) ?? controller;
 
-        public bool isMovingSmoothly => smoothDamp.isWorking;
+        public bool isMovingSmoothly => smoothDamp.hasNext;
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
@@ -164,21 +164,23 @@ namespace ScrapCoder.VisualNodes {
             bool resetFloatPosition = true,
             bool smooth = false,
             System.Action endingCallback = null,
-            bool cancelPreviousCallback = false
+            bool executePreviousCallback = false
         ) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
             if (x == null && y == null) return Vector2Int.zero;
 
-            var delta = new Vector2Int { x = x ?? 0, y = y ?? 0 } - position; ;
+            var delta = new Vector2Int {
+                x = x - this.x ?? 0,
+                y = y - this.y ?? 0
+            };
 
             if (smooth) {
-                smoothDamp.SetDestination(
-                    origin: position,
-                    destinationX: x,
-                    destinationY: y,
+                smoothDamp.SetDeltaDestination(
+                    newDx: x - this.x,
+                    newDy: y - this.y,
                     endingCallback: endingCallback,
-                    cancelPreviousCallback: cancelPreviousCallback
+                    executePreviousCallback: executePreviousCallback
                 );
             } else {
                 MoveToPosition(x, y);
@@ -195,7 +197,7 @@ namespace ScrapCoder.VisualNodes {
             bool resetFloatPosition = true,
             bool smooth = false,
             System.Action endingCallback = null,
-            bool cancelPreviousCallback = false
+            bool executePreviousCallback = false
         ) {
             if (!moveable) throw new System.InvalidOperationException("This object is not moveable");
 
@@ -206,7 +208,7 @@ namespace ScrapCoder.VisualNodes {
                     dx: dx,
                     dy: dy,
                     endingCallback: endingCallback,
-                    cancelPreviousCallback: cancelPreviousCallback
+                    executePreviousCallback: executePreviousCallback
                 );
             } else {
                 SetPosition(

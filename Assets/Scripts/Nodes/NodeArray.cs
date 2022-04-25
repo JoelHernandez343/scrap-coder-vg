@@ -50,14 +50,14 @@ namespace ScrapCoder.VisualNodes {
 
         // Methods
         void FixedUpdate() {
-            if (auxiliarSmoothDamp.isWorking) UpdateSmoothDamp();
+            if (auxiliarSmoothDamp.hasNext) UpdateSmoothDamp();
         }
 
         void UpdateSmoothDamp() {
             var (_, endingCallback) = auxiliarSmoothDamp.NextDelta();
 
             // If finished, execute callback
-            if (auxiliarSmoothDamp.isFinished && endingCallback != null) {
+            if (auxiliarSmoothDamp.hasNext && endingCallback != null) {
                 endingCallback();
             }
         }
@@ -264,14 +264,14 @@ namespace ScrapCoder.VisualNodes {
                     dx: x,
                     dy: y,
                     smooth: smooth,
-                    endingCallback: smooth ? endingCallback : (System.Action)null
+                    endingCallback: endingCallback
                 );
             } else {
                 change = owner.ownTransform.SetPosition(
                     x: x,
                     y: y,
                     smooth: smooth,
-                    endingCallback: smooth ? endingCallback : (System.Action)null
+                    endingCallback: endingCallback
                 );
             }
 

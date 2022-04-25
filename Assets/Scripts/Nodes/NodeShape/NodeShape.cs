@@ -98,7 +98,7 @@ namespace ScrapCoder.VisualNodes {
 
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
-        bool expandingSmoothly => smoothDamp.isWorking;
+        bool expandingSmoothly => smoothDamp.hasNext;
 
         int state = 0;
 
@@ -108,7 +108,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void FixedUpdate() {
-            if (smoothDamp.isWorking) ExpandSmoothly();
+            if (smoothDamp.hasNext) ExpandSmoothly();
         }
 
         List<ShapePoint> GetShape() {
