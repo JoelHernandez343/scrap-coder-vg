@@ -80,9 +80,9 @@ namespace ScrapCoder.Utils {
                     : (int)System.Math.Floor(floatValue);
 
                 newDelta[axis] = newValue[axis] - currentDelta[axis];
-            }
 
-            currentDelta = newValue;
+                currentDelta[axis] = newValue[axis];
+            }
 
             var endingCallback = Reset(
                 resetX: destinationDelta.x == currentDelta.x,

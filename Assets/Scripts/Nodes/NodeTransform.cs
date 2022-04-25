@@ -153,8 +153,9 @@ namespace ScrapCoder.VisualNodes {
             };
 
             smoothDamp.Reset(
-                resetX: x == null,
-                resetY: y == null
+                resetX: x != null,
+                resetY: y != null,
+                forceResetCallback: true
             );
         }
 
