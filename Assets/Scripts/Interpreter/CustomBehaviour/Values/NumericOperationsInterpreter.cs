@@ -69,7 +69,7 @@ namespace ScrapCoder.Interpreter {
             var valueToPush = condition == "left" ? leftValue : rightValue;
 
             Executer.instance.PushNext(valueToPush.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
 
             currentStep = condition == "left"
                 ? Steps.PushingRightValue
@@ -104,7 +104,7 @@ namespace ScrapCoder.Interpreter {
                 result = leftNumber / rightNumber;
             }
 
-            Executer.instance.ExecuteInNextFrame($"{result}");
+            Executer.instance.ExecuteInmediately(answer: $"{result}");
             IsFinished = true;
 
         }

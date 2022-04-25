@@ -27,7 +27,7 @@ namespace ScrapCoder.Interpreter {
         public void Execute(string answer) {
             var value = SymbolTable.instance[Controller.symbolName].value;
 
-            Executer.instance.ExecuteInNextFrame(value);
+            Executer.instance.ExecuteInmediately(answer: value);
 
             IsFinished = true;
         }

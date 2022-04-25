@@ -6,13 +6,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
-using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class AddToVariableInterpreter : MonoBehaviour, IInterpreterElement {
+    public class ModifyVariableInterpreter : MonoBehaviour, IInterpreterElement {
+
+        // Internal types
+        enum Operation { Add, Decrease }
 
         // Editor variables
         [SerializeField] NodeContainer variableContainer;
+        [SerializeField] Operation operation;
 
         // Lazy variables
         NodeTransform _ownTransform;
@@ -28,31 +31,32 @@ namespace ScrapCoder.Interpreter {
         public NodeController Controller => ownTransform.controller;
 
         NodeController variable => variableContainer.array.First;
+        string symbolName => variable.symbolName;
 
-        // Methods
-        public void Execute(string answer) {
-
-            Debug.Log($"Adding to number variable: {variable.symbolName} with value {SymbolTable.instance[variable.symbolName].value}");
-
-            var value = System.Int32.Parse(SymbolTable.instance[variable.symbolName].value);
-
-            SymbolTable.instance[variable.symbolName].value = $"{value + 1}";
-
-            Executer.instance.ExecuteInNextFrame();
-
-            Debug.Log($"Value of {variable.symbolName} is {SymbolTable.instance[variable.symbolName].value}");
-
-            IsFinished = true;
+        int variableValue {
+            get => System.Int32.Parse(SymbolTable.instance[symbolName].value);
+            set => SymbolTable.instance[symbolName].value = $"{value}";
         }
 
-        public void Reset() {
-            IsFinished = false;
+        public void Execute(string answer) {
+
+            if (operation == Operation.Add) {
+                variableValue = variableValue + 1;
+            } else if (operation == Operation.Decrease) {
+                variableValue = variableValue - 1;
+            }
+
+            Executer.instance.ExecuteInmediately();
+
+            IsFinished = true;
         }
 
         public IInterpreterElement GetNextStatement() {
             return Controller.parentArray.Next(Controller)?.interpreterElement;
         }
 
+        public void Reset() {
+            IsFinished = false;
+        }
     }
-
 }

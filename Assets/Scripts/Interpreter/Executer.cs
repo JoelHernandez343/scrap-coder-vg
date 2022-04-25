@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.VisualNodes;
 using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.Interpreter {
@@ -12,6 +13,7 @@ namespace ScrapCoder.Interpreter {
 
         // Internal types
         enum States { Running, Stopped, Stopping };
+        enum ExecutionState { Stopped, Inmediately, NextFrame, WaitingForRobot }
 
         // Static variables
         public static Executer instance;
@@ -19,10 +21,10 @@ namespace ScrapCoder.Interpreter {
         // State variables
         Stack<IInterpreterElement> stack = new Stack<IInterpreterElement>();
 
-        string nextLocalAnswer = null;
+        string nextAnswer = null;
 
-        bool waitingForResponse = false;
         States state = States.Stopped;
+        ExecutionState executionState = ExecutionState.Stopped;
 
         // Lazy variables
         Analyzer _analyzer;
@@ -43,14 +45,9 @@ namespace ScrapCoder.Interpreter {
         }
 
         void FixedUpdate() {
-
-            if (state == States.Running && !waitingForResponse) {
-                var localAnswer = nextLocalAnswer;
-                nextLocalAnswer = null;
-
-                ExecuteNext(localAnswer);
+            if (state == States.Running && executionState == ExecutionState.NextFrame) {
+                ExecuteNext();
             }
-
         }
 
         void Start() {
@@ -60,7 +57,9 @@ namespace ScrapCoder.Interpreter {
 
         void ResetState() {
             state = States.Running;
-            nextLocalAnswer = null;
+            executionState = ExecutionState.Stopped;
+
+            nextAnswer = null;
             stack.Clear();
         }
 
@@ -82,70 +81,74 @@ namespace ScrapCoder.Interpreter {
             ResetState();
 
             PushNext(beginning.interpreterElement);
-            ExecuteInNextFrame();
+            ExecuteNext();
         }
 
         public void Stop() {
             if (state == States.Stopped || state == States.Stopping) return;
 
-            if (waitingForResponse) {
-                state = States.Stopping;
-                waitingForResponse = false;
-            } else {
-                state = States.Stopped;
-            }
+            Debug.Log("Execution is finished");
+
+            state = executionState == ExecutionState.WaitingForRobot
+                ? States.Stopping
+                : States.Stopped;
+
+            executionState = ExecutionState.Stopped;
         }
 
-        public void PushNext(IInterpreterElement e) {
-            e.Reset();
-            stack.Push(e);
+        public void PushNext(IInterpreterElement next) {
+            if (next == null) return;
+
+            next.Reset();
+            stack.Push(next);
         }
 
-        void ExecuteNext(string answer = null) {
-            waitingForResponse = true;
+        void ExecuteNext() {
+            executionState = ExecutionState.WaitingForRobot;
 
-            if (stack.Peek().Controller.type == VisualNodes.NodeType.End) {
+            if (stack.Peek().Controller.type == NodeType.End) {
                 stack.Pop();
 
-                Debug.Log("Execution is finished");
-                state = States.Stopped;
+                executionState = ExecutionState.Stopped;
+                Stop();
+
                 return;
             }
 
             if (stack.Peek().IsFinished) {
                 var finished = stack.Pop();
-                var nextAnswer = "";
 
                 if (finished.IsExpression) {
-                    nextAnswer = answer;
+                    ExecuteInmediately(answer: nextAnswer);
                 } else {
-                    nextAnswer = null;
-
-                    var next = finished.GetNextStatement();
-
-                    if (next != null) {
-                        PushNext(next);
-                    }
+                    PushNext(next: finished.GetNextStatement());
+                    ExecuteInNextFrame();
                 }
-
-                ExecuteInNextFrame(nextAnswer);
-                return;
+            } else {
+                stack.Peek().Execute(answer: nextAnswer);
             }
 
-            stack.Peek().Execute(answer);
+            if (executionState == ExecutionState.Inmediately) {
+                ExecuteNext();
+            }
         }
 
         public void ExecuteInNextFrame(string answer = null) {
-            nextLocalAnswer = answer;
-            waitingForResponse = false;
+            nextAnswer = answer;
+            executionState = ExecutionState.NextFrame;
+        }
+
+        public void ExecuteInmediately(string answer = null) {
+            nextAnswer = answer;
+            executionState = ExecutionState.Inmediately;
         }
 
         void ReceiveAnswer(int _) {
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
-            } else if (waitingForResponse) {
-                string answer = null; //RobotController.instance.answer;
-                ExecuteNext(answer);
+            } else if (executionState == ExecutionState.WaitingForRobot) {
+                nextAnswer = null; //RobotController.instance.answer;
+                ExecuteNext();
             }
         }
 

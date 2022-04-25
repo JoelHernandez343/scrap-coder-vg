@@ -8,7 +8,15 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class FalseInterpreter : MonoBehaviour, IInterpreterElement {
+    public class ConstantBooleanInterpreter : MonoBehaviour, IInterpreterElement {
+
+        // Internal types
+        enum TypeOfBoolean { True, False }
+
+        // Editor variables
+        [SerializeField] TypeOfBoolean typeOfBoolean;
+
+        // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
@@ -25,7 +33,9 @@ namespace ScrapCoder.Interpreter {
         public void Execute(string answer) {
             // Debug.Log("Returnig false");
 
-            Executer.instance.ExecuteInNextFrame("false");
+            Executer.instance.ExecuteInmediately(
+                answer: typeOfBoolean == TypeOfBoolean.True ? "true" : "false"
+            );
 
             IsFinished = true;
         }

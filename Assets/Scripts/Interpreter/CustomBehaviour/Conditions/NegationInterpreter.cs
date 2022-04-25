@@ -56,7 +56,7 @@ namespace ScrapCoder.Interpreter {
             // Debug.Log("Pushing condition");
 
             Executer.instance.PushNext(condition.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingCondition;
         }
@@ -64,7 +64,7 @@ namespace ScrapCoder.Interpreter {
         void EvaluationCondition(string value) {
             // Debug.Log($"Evaluating condition result: {value}");
 
-            Executer.instance.ExecuteInNextFrame(value == "true" ? "false" : "true");
+            Executer.instance.ExecuteInmediately(value == "true" ? "false" : "true");
 
             IsFinished = true;
         }

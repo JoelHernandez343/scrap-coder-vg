@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: 176063917917985729}
+  - component: {fileID: 8751084884328601389}
   m_Layer: 5
   m_Name: Or
   m_TagString: Untagged
@@ -73,11 +73,7 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 3
-  localDepthLevels: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +106,7 @@ MonoBehaviour:
   workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
---- !u!114 &176063917917985729
+--- !u!114 &8751084884328601389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,11 +115,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6150825404952637405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 715f9a6145b6edc40a3f1ef217684e46, type: 3}
+  m_Script: {fileID: 11500000, guid: 29739dede84593446804d770c0e84337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftContainer: {fileID: 8626375458084672149}
   rightContainer: {fileID: 4429716108445750258}
+  operation: 0
 --- !u!1001 &7220407946923187138
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -63,8 +63,8 @@ namespace ScrapCoder.Interpreter {
         }
 
         void PushingValue() {
-            Executer.instance.PushNext(value.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.PushNext(next: value.interpreterElement);
+            Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingValue;
         }
@@ -79,7 +79,7 @@ namespace ScrapCoder.Interpreter {
                 IsFinished = true;
             }
 
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
         }
 
         void ExecutingInstructions() {

@@ -37,6 +37,8 @@ namespace ScrapCoder.Interpreter {
         NodeController variable => variableContainer.First;
         NodeController value => valueContainer.First;
 
+        string symbolName => variable.symbolName;
+
         // Methods
         public void Execute(string answer) {
 
@@ -50,14 +52,14 @@ namespace ScrapCoder.Interpreter {
 
         void PushingValue() {
             Executer.instance.PushNext(value.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.SettingVariable;
         }
 
         void SettingVariable(string value) {
-            SymbolTable.instance[variable.symbolName].value = value;
-            Executer.instance.ExecuteInNextFrame();
+            SymbolTable.instance[symbolName].value = value;
+            Executer.instance.ExecuteInmediately();
 
             IsFinished = true;
         }
