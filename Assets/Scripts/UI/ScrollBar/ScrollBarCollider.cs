@@ -92,7 +92,7 @@ namespace ScrapCoder.UI {
                 var changed = change[isHorizontal ? 0 : 1] * (isHorizontal ? 1 : -1);
                 // Debug.Log(change[isHorizontal ? 0 : 1] * (isHorizontal ? 1 : -1));
 
-                scrollBarController.MoveContent(changed);
+                scrollBarController.MoveContent(changed, fromDragging: true);
             }
         }
 

@@ -109,7 +109,7 @@ namespace ScrapCoder.UI {
             if ((futurePosition <= limit && currentPosition < limit) || (futurePosition >= 0 && currentPosition > 0)) {
                 var changed = newDelta;
                 // Debug.Log(newDelta);
-                MoveContent(changed, smooth: true);
+                MoveContent(changed);
             }
         }
 
@@ -119,15 +119,16 @@ namespace ScrapCoder.UI {
                 : (int)System.Math.Ceiling(number);
 
 
-        public void MoveContent(int delta, bool smooth = false) {
+        public void MoveContent(int delta, bool fromDragging = false) {
             if (delta == 0) return;
 
-            if (!smooth) {
+            if (fromDragging) {
                 var newPosition = Round(currentPosition * currentScale);
 
                 contentT.SetPosition(
                     x: isHorizontal ? -newPosition : nn,
-                    y: isHorizontal ? nn : newPosition
+                    y: isHorizontal ? nn : newPosition,
+                    smooth: true
                 );
             } else {
                 var realDelta = delta * currentScale;
@@ -135,7 +136,7 @@ namespace ScrapCoder.UI {
                 contentT.SetFloatPositionByDelta(
                     dx: isHorizontal ? -realDelta : nf,
                     dy: isHorizontal ? nf : realDelta,
-                    smooth: smooth
+                    smooth: true
                 );
             }
 
