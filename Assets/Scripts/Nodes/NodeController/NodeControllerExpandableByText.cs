@@ -8,21 +8,23 @@ using UnityEngine;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
-    public class NodeControllerVariable : MonoBehaviour, INodeExpanded {
-
+    public class NodeControllerExpandableByText : MonoBehaviour, INodeExpanded {
+        // Editor variables
         [SerializeField] ExpandableText expandableText;
         [SerializeField] NodeTransform pieceToExpand;
 
         [SerializeField] NodeController directController;
 
+        // State variables {serialized so Unity can copy these fields}
         [SerializeField] public Transform temporalParent;
 
-        public string text;
+        [SerializeField] public string text;
 
-        public bool hideAfterExpand = false;
+        [SerializeField] public bool hideAfterExpand = false;
 
         [SerializeField] bool initialized = false;
 
+        // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 

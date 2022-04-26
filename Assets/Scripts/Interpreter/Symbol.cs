@@ -18,6 +18,8 @@ namespace ScrapCoder.Interpreter {
 
         public string value;
 
+        public List<string> arrayOfValues = new List<string>();
+
         // Lazy variables
         public bool isFull => limit > 0 && references.Count == limit;
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: 2115992917424565746}
+  - component: {fileID: 2401785846089627960}
   - component: {fileID: 6724865072045641007}
   m_Layer: 5
   m_Name: Variable
@@ -105,7 +105,7 @@ MonoBehaviour:
   workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
---- !u!114 &2115992917424565746
+--- !u!114 &2401785846089627960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,16 +114,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6150825404952637405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad813f6f10b09484ea5ee10c7ae67a68, type: 3}
+  m_Script: {fileID: 11500000, guid: d862610a3ff9e0d43a4a71222c83b5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   expandableText: {fileID: 6587308338006020853}
   pieceToExpand: {fileID: 4112723864307745198}
   directController: {fileID: 6150825404952637395}
-  temporalParent: {fileID: 0}
-  text: 
-  hideAfterExpand: 0
-  initialized: 0
 --- !u!114 &6724865072045641007
 MonoBehaviour:
   m_ObjectHideFlags: 0

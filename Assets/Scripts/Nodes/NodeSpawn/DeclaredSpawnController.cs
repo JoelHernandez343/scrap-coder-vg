@@ -9,7 +9,7 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class VariableSpawnController : MonoBehaviour {
+    public class DeclaredSpawnController : MonoBehaviour {
         [SerializeField] public ButtonController deleteButton;
     }
 

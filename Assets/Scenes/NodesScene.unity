@@ -3528,18 +3528,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1180930151}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529aecf25fe358d4e874ee89c9737d8e, type: 3}
+  m_Script: {fileID: 11500000, guid: c60de5ff83a97204b8525b58af7d050c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 2034977777}
   inputText: {fileID: 716775922}
-  variableSpawnerPrefab: {fileID: 7234551584828412079, guid: fc7ca00a865bedc4d8d686417b852aac, type: 3}
-  variablePrefab: {fileID: 6150825404952637395, guid: e394ccaa652d13b44bfb5e99c1eac15e, type: 3}
-  variableTemporalParent: {fileID: 711202031}
+  spawnerPrefab: {fileID: 7234551584828412079, guid: fc7ca00a865bedc4d8d686417b852aac, type: 3}
+  declaredPrefab: {fileID: 6150825404952637395, guid: e394ccaa652d13b44bfb5e99c1eac15e, type: 3}
+  temporalParent: {fileID: 711202031}
   spawnerParent: {fileID: 10222065}
   canvas: {fileID: 2123671303}
   spawnLimit: 10
-  spawners: []
+  declaredPrefix: variable
 --- !u!1001 &1192471746
 PrefabInstance:
   m_ObjectHideFlags: 0
