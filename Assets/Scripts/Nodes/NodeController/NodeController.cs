@@ -326,9 +326,12 @@ namespace ScrapCoder.VisualNodes {
 
         public void LoseFocus() {
             SetState("normal");
-            ownTransform.ResetRenderOrder();
 
-            parentController?.LoseFocus();
+            if (hasParent) {
+                ownTransform.ResetRenderOrder();
+            } else {
+                parentController?.LoseFocus();
+            }
         }
 
         public UI.DragDropZone GetDrop() {
