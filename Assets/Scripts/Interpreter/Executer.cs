@@ -13,7 +13,7 @@ namespace ScrapCoder.Interpreter {
 
         // Internal types
         enum States { Running, Stopped, Stopping };
-        enum ExecutionState { Stopped, Inmediately, NextFrame, WaitingForRobot }
+        enum ExecutionState { Stopped, Immediately, NextFrame, WaitingForRobot }
 
         // Static variables
         public static Executer instance;
@@ -128,7 +128,7 @@ namespace ScrapCoder.Interpreter {
                 stack.Peek().Execute(answer: nextAnswer);
             }
 
-            if (executionState == ExecutionState.Inmediately) {
+            if (executionState == ExecutionState.Immediately) {
                 ExecuteNext();
             }
         }
@@ -140,7 +140,7 @@ namespace ScrapCoder.Interpreter {
 
         public void ExecuteInmediately(string answer = null) {
             nextAnswer = answer;
-            executionState = ExecutionState.Inmediately;
+            executionState = ExecutionState.Immediately;
         }
 
         void ReceiveAnswer(int _) {
