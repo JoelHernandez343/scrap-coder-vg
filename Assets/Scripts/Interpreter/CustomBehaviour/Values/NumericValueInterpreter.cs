@@ -28,10 +28,10 @@ namespace ScrapCoder.Interpreter {
 
         public NodeController Controller => ownTransform.controller;
 
-        public void Execute(string answer) {
+        public void Execute(string argument) {
             var value = inputText.Value;
 
-            Executer.instance.ExecuteInmediately(answer: value);
+            Executer.instance.ExecuteInmediately(argument: value);
 
             IsFinished = true;
         }

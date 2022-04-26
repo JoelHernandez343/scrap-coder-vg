@@ -43,15 +43,15 @@ namespace ScrapCoder.Interpreter {
         NodeController rightValue => rightContainer.First;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (currentStep == Steps.PushingLeftValue) {
-                PushingValue("left");
+                PushingValue(member: "left");
             } else if (currentStep == Steps.PushingRightValue) {
-                StoreValue("left", answer);
+                StoreValue(member: "left", numericValue: argument);
                 PushingValue("right");
             } else if (currentStep == Steps.EvaluatingCondition) {
-                StoreValue("right", answer);
+                StoreValue(member: "right", numericValue: argument);
                 EvaluationCondition();
             }
 
@@ -64,23 +64,23 @@ namespace ScrapCoder.Interpreter {
 
         public IInterpreterElement GetNextStatement() => null;
 
-        void PushingValue(string condition) {
+        void PushingValue(string member) {
 
-            var valueToPush = condition == "left" ? leftValue : rightValue;
+            var valueToPush = member == "left" ? leftValue : rightValue;
 
             Executer.instance.PushNext(valueToPush.interpreterElement);
             Executer.instance.ExecuteInmediately();
 
-            currentStep = condition == "left"
+            currentStep = member == "left"
                 ? Steps.PushingRightValue
                 : Steps.EvaluatingCondition;
         }
 
-        void StoreValue(string which, string value) {
-            if (which == "left") {
-                leftNumber = System.Int32.Parse(value);
+        void StoreValue(string member, string numericValue) {
+            if (member == "left") {
+                leftNumber = System.Int32.Parse(numericValue);
             } else {
-                rightNumber = System.Int32.Parse(value);
+                rightNumber = System.Int32.Parse(numericValue);
             }
         }
 
@@ -102,7 +102,7 @@ namespace ScrapCoder.Interpreter {
                 condition = leftNumber >= rightNumber;
             }
 
-            Executer.instance.ExecuteInmediately(condition ? "true" : "false");
+            Executer.instance.ExecuteInmediately(argument: condition ? "true" : "false");
             IsFinished = true;
 
         }

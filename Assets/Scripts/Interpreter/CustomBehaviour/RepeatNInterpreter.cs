@@ -40,12 +40,12 @@ namespace ScrapCoder.Interpreter {
         NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (currentStep == Steps.PushingValue) {
                 PushingValue();
             } else if (currentStep == Steps.EvaluatingValue) {
-                EvaluatingValue(answer);
+                EvaluatingValue(value: argument);
             } else if (currentStep == Steps.ExecutingInstructions) {
                 ExecutingInstructions();
             }

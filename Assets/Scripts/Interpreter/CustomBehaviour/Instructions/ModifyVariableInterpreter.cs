@@ -38,7 +38,7 @@ namespace ScrapCoder.Interpreter {
             set => SymbolTable.instance[symbolName].value = $"{value}";
         }
 
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (operation == Operation.Add) {
                 variableValue = variableValue + 1;

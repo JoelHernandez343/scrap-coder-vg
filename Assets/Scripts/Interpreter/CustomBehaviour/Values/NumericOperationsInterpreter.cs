@@ -43,15 +43,15 @@ namespace ScrapCoder.Interpreter {
         NodeController rightValue => rightContainer.First;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (currentStep == Steps.PushingLeftValue) {
-                PushingValue("left");
+                PushingValue(member: "left");
             } else if (currentStep == Steps.PushingRightValue) {
-                StoreValue("left", answer);
+                StoreValue(member: "left", numericValue: argument);
                 PushingValue("right");
             } else if (currentStep == Steps.EvaluatingCondition) {
-                StoreValue("right", answer);
+                StoreValue(member: "right", numericValue: argument);
                 EvaluationCondition();
             }
 
@@ -64,23 +64,23 @@ namespace ScrapCoder.Interpreter {
 
         public IInterpreterElement GetNextStatement() => null;
 
-        void PushingValue(string condition) {
+        void PushingValue(string member) {
 
-            var valueToPush = condition == "left" ? leftValue : rightValue;
+            var valueToPush = member == "left" ? leftValue : rightValue;
 
             Executer.instance.PushNext(valueToPush.interpreterElement);
             Executer.instance.ExecuteInmediately();
 
-            currentStep = condition == "left"
+            currentStep = member == "left"
                 ? Steps.PushingRightValue
                 : Steps.EvaluatingCondition;
         }
 
-        void StoreValue(string which, string value) {
-            if (which == "left") {
-                leftNumber = System.Int32.Parse(value);
+        void StoreValue(string member, string numericValue) {
+            if (member == "left") {
+                leftNumber = System.Int32.Parse(numericValue);
             } else {
-                rightNumber = System.Int32.Parse(value);
+                rightNumber = System.Int32.Parse(numericValue);
             }
         }
 
@@ -97,14 +97,14 @@ namespace ScrapCoder.Interpreter {
             } else if (operation == Operation.Division) {
                 if (rightNumber == 0) {
                     Debug.LogError("Division by 0 detected!");
-                    Executer.instance.Stop();
+                    Executer.instance.Stop(force: true);
                     return;
                 }
 
                 result = leftNumber / rightNumber;
             }
 
-            Executer.instance.ExecuteInmediately(answer: $"{result}");
+            Executer.instance.ExecuteInmediately(argument: $"{result}");
             IsFinished = true;
 
         }

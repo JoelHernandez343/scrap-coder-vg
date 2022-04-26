@@ -20,7 +20,7 @@ namespace ScrapCoder.Interpreter {
         public NodeController Controller => ownTransform.controller;
 
         // Methods
-        public void Execute(string answer) { }
+        public void Execute(string argument) { }
         public void Reset() { }
 
         public IInterpreterElement GetNextStatement() => null;

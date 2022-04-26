@@ -39,22 +39,22 @@ namespace ScrapCoder.Interpreter {
         NodeController leftCondition => leftContainer.array.First;
         NodeController rightCondition => rightContainer.array.First;
 
-        bool leftValue;
-        bool rightValue;
+        string leftValue;
+        string rightValue;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (currentStep == Steps.PushingLeftCondition) {
                 PushingCondition("left");
             } else if (currentStep == Steps.EvaluatingLeftCondition) {
-                StoreValue("left", answer);
-                EvaluationCondition(answer, "left");
+                StoreValue(condition: "left", conditionValue: argument);
+                EvaluationCondition(condition: "left");
             } else if (currentStep == Steps.PushingRightCondition) {
                 PushingCondition("right");
             } else if (currentStep == Steps.EvaluatingRightCondition) {
-                StoreValue("right", answer);
-                EvaluationCondition(answer, "right");
+                StoreValue(condition: "right", conditionValue: argument);
+                EvaluationCondition(condition: "right");
             }
 
         }
@@ -67,8 +67,6 @@ namespace ScrapCoder.Interpreter {
         public IInterpreterElement GetNextStatement() => null;
 
         void PushingCondition(string condition) {
-            // Debug.Log($"Pushing {condition} condition");
-
             var conditionToPush = condition == "left"
                 ? leftCondition
                 : rightCondition;
@@ -81,15 +79,17 @@ namespace ScrapCoder.Interpreter {
                 : Steps.EvaluatingRightCondition;
         }
 
-        void EvaluationCondition(string value, string condition) {
+        void EvaluationCondition(string condition) {
+
+            var conditionValue = condition == "left" ? leftValue : rightValue;
 
             if (operation == Operation.Or || operation == Operation.And) {
                 var finisher = operation == Operation.Or ? "true" : "false";
                 var opposite = finisher == "true" ? "false" : "true";
 
-                if (value == finisher) {
+                if (conditionValue == finisher) {
                     IsFinished = true;
-                    Executer.instance.ExecuteInmediately(answer: finisher);
+                    Executer.instance.ExecuteInmediately(argument: finisher);
                 } else {
                     currentStep = Steps.PushingRightCondition;
 
@@ -97,18 +97,18 @@ namespace ScrapCoder.Interpreter {
                         Executer.instance.ExecuteInmediately();
                     } else {
                         IsFinished = true;
-                        Executer.instance.ExecuteInmediately(answer: opposite);
+                        Executer.instance.ExecuteInmediately(argument: opposite);
                     }
                 }
             }
 
         }
 
-        void StoreValue(string which, string value) {
-            if (which == "left") {
-                leftValue = value == "true";
+        void StoreValue(string condition, string conditionValue) {
+            if (condition == "left") {
+                leftValue = conditionValue;
             } else {
-                rightValue = value == "true";
+                rightValue = conditionValue;
             }
         }
 

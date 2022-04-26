@@ -325,12 +325,10 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void LoseFocus() {
-            if (hasParent) {
-                ownTransform.ResetRenderOrder();
-                parentController.LoseFocus();
-            } else {
-                SetState("normal");
-            }
+            SetState("normal");
+            ownTransform.ResetRenderOrder();
+
+            parentController?.LoseFocus();
         }
 
         public UI.DragDropZone GetDrop() {
@@ -404,7 +402,7 @@ namespace ScrapCoder.VisualNodes {
             if (this.state == state) return;
 
             this.state = state;
-            components.ForEach(c => c.SetState(this.state));
+            components.ForEach(c => c.SetState(state));
             containers.ForEach(c => c.SetState(state));
 
             if (hasParent) {

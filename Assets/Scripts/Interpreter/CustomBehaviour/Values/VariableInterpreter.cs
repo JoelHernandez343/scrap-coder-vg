@@ -24,10 +24,10 @@ namespace ScrapCoder.Interpreter {
 
         public NodeController Controller => ownTransform.controller;
 
-        public void Execute(string answer) {
+        public void Execute(string argument) {
             var value = SymbolTable.instance[Controller.symbolName].value;
 
-            Executer.instance.ExecuteInmediately(answer: value);
+            Executer.instance.ExecuteInmediately(argument: value);
 
             IsFinished = true;
         }

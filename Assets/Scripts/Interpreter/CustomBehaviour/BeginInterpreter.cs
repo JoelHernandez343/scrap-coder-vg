@@ -24,7 +24,7 @@ namespace ScrapCoder.Interpreter {
         public NodeController Controller => ownTransform.controller;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
             // Debug.Log("Beginning");
 
             Executer.instance.ExecuteInmediately();

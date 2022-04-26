@@ -29,14 +29,13 @@ namespace ScrapCoder.Interpreter {
         public NodeController Controller => ownTransform.controller;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             var selectedAction = dropMenu.Value == "derecha" ? Actions.RotateRight : Actions.RotateLeft;
 
             Debug.Log($"Rotating in {selectedAction}");
 
             SendInstruction.sendInstruction((int)selectedAction);
-            // Executer.instance.ExecuteInNextFrame();
 
             IsFinished = true;
         }

@@ -40,12 +40,12 @@ namespace ScrapCoder.Interpreter {
         string symbolName => variable.symbolName;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (currentStep == Steps.PushingValue) {
                 PushingValue();
             } else if (currentStep == Steps.SettingVariable) {
-                SettingVariable(answer);
+                SettingVariable(value: argument);
             }
 
         }

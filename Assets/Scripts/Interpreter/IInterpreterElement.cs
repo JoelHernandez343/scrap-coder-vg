@@ -16,7 +16,7 @@ namespace ScrapCoder.Interpreter {
         NodeController Controller { get; }
 
         void Reset();
-        void Execute(string answer);
+        void Execute(string argument);
         IInterpreterElement GetNextStatement();
     }
 

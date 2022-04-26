@@ -21,7 +21,7 @@ namespace ScrapCoder.Interpreter {
         // State variables
         Stack<IInterpreterElement> stack = new Stack<IInterpreterElement>();
 
-        string nextAnswer = null;
+        string nextArgument = null;
 
         States state = States.Stopped;
         ExecutionState executionState = ExecutionState.Stopped;
@@ -59,7 +59,7 @@ namespace ScrapCoder.Interpreter {
             state = States.Running;
             executionState = ExecutionState.Stopped;
 
-            nextAnswer = null;
+            nextArgument = null;
             stack.Clear();
         }
 
@@ -84,14 +84,18 @@ namespace ScrapCoder.Interpreter {
             ExecuteNext();
         }
 
-        public void Stop() {
+        public void Stop(bool force = false) {
             if (state == States.Stopped || state == States.Stopping) return;
 
             Debug.Log("Execution is finished");
 
-            state = executionState == ExecutionState.WaitingForRobot
-                ? States.Stopping
-                : States.Stopped;
+            if (force) {
+                state = States.Stopped;
+            } else {
+                state = executionState == ExecutionState.WaitingForRobot
+                    ? States.Stopping
+                    : States.Stopped;
+            }
 
             executionState = ExecutionState.Stopped;
         }
@@ -109,8 +113,7 @@ namespace ScrapCoder.Interpreter {
             if (stack.Peek().Controller.type == NodeType.End) {
                 stack.Pop();
 
-                executionState = ExecutionState.Stopped;
-                Stop();
+                Stop(force: true);
 
                 return;
             }
@@ -119,13 +122,13 @@ namespace ScrapCoder.Interpreter {
                 var finished = stack.Pop();
 
                 if (finished.IsExpression) {
-                    ExecuteInmediately(answer: nextAnswer);
+                    ExecuteInmediately(argument: nextArgument);
                 } else {
                     PushNext(next: finished.GetNextStatement());
                     ExecuteInNextFrame();
                 }
             } else {
-                stack.Peek().Execute(answer: nextAnswer);
+                stack.Peek().Execute(argument: nextArgument);
             }
 
             if (executionState == ExecutionState.Immediately) {
@@ -133,13 +136,13 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void ExecuteInNextFrame(string answer = null) {
-            nextAnswer = answer;
+        public void ExecuteInNextFrame(string argument = null) {
+            nextArgument = argument;
             executionState = ExecutionState.NextFrame;
         }
 
-        public void ExecuteInmediately(string answer = null) {
-            nextAnswer = answer;
+        public void ExecuteInmediately(string argument = null) {
+            nextArgument = argument;
             executionState = ExecutionState.Immediately;
         }
 
@@ -147,7 +150,7 @@ namespace ScrapCoder.Interpreter {
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {
-                nextAnswer = null; //RobotController.instance.answer;
+                nextArgument = null; //RobotController.instance.answer;
                 ExecuteNext();
             }
         }

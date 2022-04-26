@@ -30,11 +30,11 @@ namespace ScrapCoder.Interpreter {
         public NodeController Controller => ownTransform.controller;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
             // Debug.Log("Returnig false");
 
             Executer.instance.ExecuteInmediately(
-                answer: typeOfBoolean == TypeOfBoolean.True ? "true" : "false"
+                argument: typeOfBoolean == TypeOfBoolean.True ? "true" : "false"
             );
 
             IsFinished = true;

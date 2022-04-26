@@ -39,12 +39,12 @@ namespace ScrapCoder.Interpreter {
         NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
-        public void Execute(string answer) {
+        public void Execute(string argument) {
 
             if (currentStep == Steps.PushingCondition) {
                 PushingCondition();
             } else if (currentStep == Steps.EvaluatingCondition) {
-                EvaluationCondition(answer);
+                EvaluationCondition(conditionValue: argument);
             } else if (currentStep == Steps.ExecutingInstructions) {
                 ExecutingInstructions();
             }
@@ -69,10 +69,10 @@ namespace ScrapCoder.Interpreter {
             currentStep = Steps.EvaluatingCondition;
         }
 
-        void EvaluationCondition(string value) {
+        void EvaluationCondition(string conditionValue) {
             // Debug.Log($"Evaluating condition result: {value}");
 
-            if (value == "true") {
+            if (conditionValue == "true") {
                 currentStep = Steps.ExecutingInstructions;
             } else {
                 IsFinished = true;
