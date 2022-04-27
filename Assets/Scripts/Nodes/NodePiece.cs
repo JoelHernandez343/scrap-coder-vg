@@ -49,7 +49,6 @@ namespace ScrapCoder.VisualNodes {
                     horizontalItems[i].SetPositionByDelta(dx: dx, smooth: smooth);
                 }
 
-                // dy = centerHorizontalItems(modified: horizontalItems[modified], dy: dy, smooth: smooth);
                 dy = CenterHorizontalItems(modified: horizontalItems[modified], dy: dy, smooth: smooth);
             }
 
@@ -60,24 +59,6 @@ namespace ScrapCoder.VisualNodes {
             return (dx, dy);
         }
 
-        int? centerHorizontalItems(NodeTransform modified, int? dy, bool smooth) {
-            if (dy == 0 || dy == null) {
-                return null;
-            }
-
-            var (delta, center) = calHorizontalDelta(modified: modified, dy: dy, smooth: smooth);
-
-            if (center != "nothing") {
-                horizontalItems.ForEach(item => {
-                    if (center == "all" || item != modified) {
-                        item.SetFloatPositionByDelta(dy: -delta / 2f, smooth: smooth);
-                    }
-                });
-            }
-
-            return delta;
-        }
-
         int GetMaxHeight() {
             var maxHeight = 0;
 
@@ -86,49 +67,16 @@ namespace ScrapCoder.VisualNodes {
             return maxHeight;
         }
 
-        (int? delta, string center) calHorizontalDelta(NodeTransform modified, int? dy, bool smooth) {
-            var currentMaxHeight = GetMaxHeight();
-            var delta = currentMaxHeight - (int)previousMaxHeight;
-
-            // If modified is not the longest, then nothing more will be centered
-            if (delta == 0) {
-                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: smooth);
-                return (null, "nothing");
-            }
-
-            previousMaxHeight = currentMaxHeight;
-
-            // The longest decreased
-            if (delta < 0) {
-                // Adjust itself to itself, then center all to the new longest if any
-                modified.SetFloatPositionByDelta(dy: dy / 2f, smooth: smooth);
-                return (delta, "all");
-            }
-
-            // The longest increased, then all must be centered except itself
-            // Longest returns to its original place
-            modified.ResetYToRelative(smooth: smooth);
-
-            return (delta, "all_wo_max");
-        }
-
         int? CenterHorizontalItems(NodeTransform modified, int? dy, bool smooth) {
-            if (dy == 0 || dy == null) {
-                return null;
-            }
+            if (dy == 0 || dy == null) return null;
 
             var currentMaxHeight = GetMaxHeight();
             var newDy = currentMaxHeight - (int)previousMaxHeight;
 
-            Debug.Log($"currentHeight: {currentMaxHeight} delta: {dy} newDy: {newDy} previousMaxHeight: {previousMaxHeight}");
             previousMaxHeight = currentMaxHeight;
 
             horizontalItems.ForEach(i =>
-                CenterItemHorizontally(
-                    item: i,
-                    dy: newDy,
-                    smooth: smooth
-                )
+                CenterItemHorizontally(item: i, dy: newDy, smooth: smooth)
             );
 
             return newDy == 0 ? (int?)null : newDy;
