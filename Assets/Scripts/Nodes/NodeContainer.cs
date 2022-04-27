@@ -22,9 +22,6 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public bool modifyWidthOfPiece;
         [SerializeField] public bool modifyHeightOfPiece;
 
-        [SerializeField] public int defaultHeight;
-        [SerializeField] public int defaultWidth;
-
         [SerializeField] public NodeCategory acceptedCategory;
 
         // Lazy and other variables

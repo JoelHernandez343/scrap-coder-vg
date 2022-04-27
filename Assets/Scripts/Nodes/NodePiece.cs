@@ -19,7 +19,6 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] List<NodeSprite> spritesOfState;
 
         // State variables
-
         int? previousMaxHeight;
 
         // Lazy variables
