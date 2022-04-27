@@ -27,9 +27,7 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         public void Execute(string answer) {
-
             SendInstruction.sendInstruction((int)Actions.Interact);
-
             IsFinished = true;
         }
 

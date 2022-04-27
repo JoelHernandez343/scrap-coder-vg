@@ -30,11 +30,8 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         public void Execute(string argument) {
-
             var selectedAction = dropMenu.Value == "right" ? Actions.RotateRight : Actions.RotateLeft;
-
             SendInstruction.sendInstruction((int)selectedAction);
-
             IsFinished = true;
         }
 

@@ -27,10 +27,7 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         public void Execute(string argument) {
-            Debug.Log("Walking");
-
             SendInstruction.sendInstruction((int)Actions.Walk);
-
             IsFinished = true;
         }
 
