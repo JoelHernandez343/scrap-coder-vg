@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6499269413335634027}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 20
@@ -114,11 +115,9 @@ MonoBehaviour:
   minWidth: 56
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 4
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6499269413335634027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +141,9 @@ MonoBehaviour:
   list: {fileID: 2614852495028331086}
   removerParent: {fileID: 6589765391798436125}
   menuButtonPrefab: {fileID: 3465415418262239324, guid: 1d4e43779c1390b4c8746da202cf1203, type: 3}
+  controlledByExecuter: 0
+  showOptionValue: 0
+  _value: 
 --- !u!210 &1210652324126024679
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -234,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 5087399378635852705}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 1858515329269668120}
   initHeight: 0
@@ -242,11 +245,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5087399378635852705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fd1d704b90af544bbf0c5437aec6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropMenu: {fileID: 6499269413335634027}
 --- !u!1001 &2790268095562047663
 PrefabInstance:
   m_ObjectHideFlags: 0
