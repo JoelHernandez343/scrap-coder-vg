@@ -41,7 +41,8 @@ namespace ScrapCoder.Interpreter {
             symbols[symbolName] = new Symbol {
                 limit = limit,
                 type = type,
-                value = value
+                value = value,
+                symbolName = symbolName
             };
 
             if (type == NodeType.Variable) {

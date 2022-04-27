@@ -31,6 +31,13 @@ namespace ScrapCoder.VisualNodes {
         NumericOperation = 35,
         NumericValueComparison = 36,
         Array = 37,
+        AddToArray = 38,
+        ClearArray = 39,
+        RemoveFromArray = 40,
+        ValueOfArray = 41,
+        LengthOfArray = 42,
+        SetValueOfArray = 43,
+        InsertInArray = 44,
     }
 
 }
