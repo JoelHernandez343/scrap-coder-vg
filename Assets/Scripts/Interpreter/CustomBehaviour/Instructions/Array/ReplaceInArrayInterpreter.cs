@@ -68,7 +68,9 @@ namespace ScrapCoder.Interpreter {
             Executer.instance.PushNext(elementToPush);
             Executer.instance.ExecuteInmediately();
 
-            currentStep = Steps.ReplacingInArray;
+            currentStep = which == "value"
+                ? Steps.PushingIndex
+                : Steps.ReplacingInArray;
         }
 
         void ReplacingInArray(string indexValue) {

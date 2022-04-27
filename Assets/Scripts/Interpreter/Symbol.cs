@@ -88,7 +88,7 @@ namespace ScrapCoder.Interpreter {
             }
 
             if (index > ArrayLength) {
-                var missing = index - ArrayLength - 1;
+                var missing = index - ArrayLength;
 
                 for (var i = 0; i < missing; ++i) {
                     arrayOfValues.Add("0");

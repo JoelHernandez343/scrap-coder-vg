@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: 1501335512400490315}
   - component: {fileID: 1806731852176425454}
   m_Layer: 5
   m_Name: ArrayLength
@@ -99,7 +98,6 @@ MonoBehaviour:
   components:
   - {fileID: 8235600677061446908}
   containers:
-  - {fileID: 0}
   - {fileID: 4429716108445750258}
   staticContainers: []
   zoneRefresher: {fileID: 0}
@@ -109,20 +107,6 @@ MonoBehaviour:
   workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
---- !u!114 &1501335512400490315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6150825404952637405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94d28598e4849b744bf323a7f812553d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indexContainer: {fileID: 0}
-  arrayContainer: {fileID: 4429716108445750258}
 --- !u!114 &1806731852176425454
 MonoBehaviour:
   m_ObjectHideFlags: 0

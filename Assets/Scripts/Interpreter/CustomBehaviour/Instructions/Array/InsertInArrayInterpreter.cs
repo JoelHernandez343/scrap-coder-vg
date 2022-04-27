@@ -57,6 +57,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void StoreValue(string value) {
+            Debug.Log(value);
             valueObtained = value;
         }
 
@@ -68,7 +69,9 @@ namespace ScrapCoder.Interpreter {
             Executer.instance.PushNext(elementToPush);
             Executer.instance.ExecuteInmediately();
 
-            currentStep = Steps.InsertingToArray;
+            currentStep = which == "value"
+                ? Steps.PushingIndex
+                : Steps.InsertingToArray;
         }
 
         void InsertingToArray(string indexValue) {
