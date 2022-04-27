@@ -36,8 +36,6 @@ namespace ScrapCoder.UI {
             set => controller.isDragging = value;
         }
 
-        bool wasDragging;
-
         Vector2Int previousPosition = Vector2Int.zero;
 
         public void OnPointerDown(PointerEventData eventData) {
@@ -59,7 +57,6 @@ namespace ScrapCoder.UI {
             previousPosition = controller.BeginDrag(e);
 
             isDragging = true;
-            wasDragging = true;
         }
 
         public void OnDrag(PointerEventData e) {
