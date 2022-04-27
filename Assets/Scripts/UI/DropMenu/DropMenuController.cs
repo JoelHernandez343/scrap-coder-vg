@@ -134,17 +134,22 @@ namespace ScrapCoder.UI {
 
         void IFocusable.GetFocus() {
 
-            var thisDepthLevels = ownTransform.depthLevelsToThisTransform();
-            var globalDepthevels = ownTransform.controller?.lastController.ownTransform.depthLevels ?? 0;
+            if (controller == null) {
+                ownTransform.Raise(depthLevels: 10);
+            } else {
+                var thisDepthLevels = ownTransform.depthLevelsToThisTransform();
+                var globalDepthevels = ownTransform.controller?.lastController.ownTransform.depthLevels ?? 0;
 
-            var raiseDepthLevels =
-                (globalDepthevels > thisDepthLevels
-                    ? globalDepthevels - thisDepthLevels
-                    : 0) + HierarchyController.instance.globalRaiseDiff + 10;
+                var raiseDepthLevels =
+                    (globalDepthevels > thisDepthLevels
+                        ? globalDepthevels - thisDepthLevels
+                        : 0) + HierarchyController.instance.globalRaiseDiff + 10;
 
-            ownTransform.Raise(depthLevels: raiseDepthLevels);
+                ownTransform.Raise(depthLevels: raiseDepthLevels);
 
-            controller?.GetFocus();
+                controller?.GetFocus();
+            }
+
             list.SetVisible(true);
 
             if (initializeList) {
