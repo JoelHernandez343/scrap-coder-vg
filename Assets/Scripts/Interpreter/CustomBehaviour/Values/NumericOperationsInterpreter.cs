@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
     public class NumericOperationsInterpreter : MonoBehaviour, IInterpreterElement {
@@ -18,7 +19,7 @@ namespace ScrapCoder.Interpreter {
         [SerializeField] NodeContainer leftContainer;
         [SerializeField] NodeContainer rightContainer;
 
-        [SerializeField] Operation operation;
+        [SerializeField] DropMenuController dropMenu;
 
         // State variables
         Steps currentStep;
@@ -41,6 +42,15 @@ namespace ScrapCoder.Interpreter {
 
         NodeController leftValue => leftContainer.First;
         NodeController rightValue => rightContainer.First;
+
+        Operation selectedOperation
+            => dropMenu.Value == "a"
+                ? Operation.Sum
+                : dropMenu.Value == "s"
+                ? Operation.Substraction
+                : dropMenu.Value == "m"
+                ? Operation.Multiplication
+                : Operation.Division;
 
         // Methods
         public void Execute(string argument) {
@@ -87,6 +97,7 @@ namespace ScrapCoder.Interpreter {
         void EvaluationCondition() {
 
             var result = 0;
+            var operation = selectedOperation;
 
             if (operation == Operation.Sum) {
                 result = leftNumber + rightNumber;

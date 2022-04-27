@@ -10,8 +10,9 @@ using ScrapCoder.InputManagment;
 
 namespace ScrapCoder.UI {
     public class DropMenuController : MonoBehaviour, INodeExpander, IFocusable, INodeExpanded {
+
         // Editor variables
-        [SerializeField] List<string> options;
+        [SerializeField] List<DropMenuOption> options;
         [SerializeField] ExpandableText text;
 
         [SerializeField] List<NodeTransform> itemsToExpand;
@@ -27,8 +28,16 @@ namespace ScrapCoder.UI {
 
         [SerializeField] public bool controlledByExecuter = false;
 
+        [SerializeField] bool showOptionValue = false;
+
         // State variables
-        string selectedOption = "";
+        [SerializeField] string _value = "";
+        public string Value {
+            get => _value;
+            private set => _value = value;
+        }
+
+        List<System.Action> listeners = new List<System.Action>();
 
         bool initializeList = true;
 
@@ -42,22 +51,18 @@ namespace ScrapCoder.UI {
         bool INodeExpanded.ModifyHeightOfPiece => false;
         bool INodeExpanded.ModifyWidthOfPiece => true;
 
-        public List<string> GetOptions() => options;
-
-        public string Value => selectedOption;
-
         // Methods
         void Start() {
-            if (options.Count > 0 && selectedOption == "") {
+            if (options.Count > 0 && Value == "") {
                 ChangeOption(options[0]);
             }
         }
 
-        public void ChangeOption(string newOption, bool smooth = false) {
-            selectedOption = newOption;
+        public void ChangeOption(DropMenuOption newOption, bool smooth = false) {
+            Value = newOption.value;
 
             var dx = text.ChangeText(
-                newText: selectedOption,
+                newText: showOptionValue ? newOption.value : newOption.text,
                 minWidth: ownTransform.minWidth,
                 lettersOffset: 20
             );
@@ -65,7 +70,13 @@ namespace ScrapCoder.UI {
             ownTransform.Expand(dx: dx, smooth: smooth);
 
             ownTransform.expandable.Expand(dx: dx, smooth: smooth, expanded: this);
+
+            ExecuteListeners();
         }
+
+        public void AddListener(System.Action cb) => listeners.Add(cb);
+
+        void ExecuteListeners() => listeners.ForEach(listener => listener?.Invoke());
 
         public void PositionList() {
             var listWidth = list.ownTransform.width;
@@ -90,18 +101,22 @@ namespace ScrapCoder.UI {
 
         void InitializeList() {
             list.ClearButtons();
-            list.buttons = options.ConvertAll(option => ButtonController.Create(menuButtonPrefab, list.transform, true, option));
+            list.buttons = options.ConvertAll(option => {
+                var button = ButtonController.Create(
+                    prefab: menuButtonPrefab,
+                    parent: list.transform,
+                    text: option.text
+                );
+
+                button.AddListener(() => {
+                    ChangeOption(newOption: option, smooth: true);
+                    button.SetState("normal");
+                    InputController.instance.ClearFocus();
+                });
+
+                return button;
+            });
             list.SetButtons();
-            list.buttons.ForEach(button => button.AddListener(() => {
-                // Refresh own text
-                ChangeOption(newOption: button.text, smooth: true);
-
-                // Set state of button in normal
-                button.SetState("normal");
-
-                // Lose focus
-                InputController.instance.ClearFocus();
-            }));
 
             PositionList();
         }
@@ -148,5 +163,6 @@ namespace ScrapCoder.UI {
         bool IFocusable.HasFocus() {
             return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
         }
+
     }
 }

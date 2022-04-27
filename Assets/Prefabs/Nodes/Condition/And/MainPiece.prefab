@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 1685854560556364758}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 8998798037566281243}
   initHeight: 0
@@ -93,11 +94,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &8622792204965688227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,19 +194,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 4016024072755206985}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 19
-  initWidth: 44
+  initWidth: 84
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &4016024072755206985
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -59,6 +59,7 @@ namespace ScrapCoder.UI {
         }
 
         public void OnBeginDrag(PointerEventData e) {
+            if (hasFocus) return;
             if (Executer.instance.isRunning) return;
             if (ownTransform.isMovingSmoothly) return;
 
@@ -69,6 +70,7 @@ namespace ScrapCoder.UI {
         }
 
         public void OnDrag(PointerEventData e) {
+            if (hasFocus) return;
             if (Executer.instance.isRunning) return;
             if (controller.ownTransform.isMovingSmoothly) return;
 

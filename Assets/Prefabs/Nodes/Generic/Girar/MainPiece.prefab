@@ -111,11 +111,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &2096795073928190578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,11 +402,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &1943481011356583200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,11 +647,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &2486342513386013452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,11 +892,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6418719433563313832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,11 +1090,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &8542575785220001217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,11 +1234,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!1 &5020924704341103943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,11 +1348,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &3841398722723002200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1505,11 +1491,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &2130623210045472985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1777,11 +1761,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &7984926638639360681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1938,11 +1920,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6982963179370600047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2045,17 +2025,15 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 19
-  initWidth: 149
+  initHeight: 26
+  initWidth: 131
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &2376210985917955717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2226,12 +2204,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
-      propertyPath: options.Array.data[0]
+      propertyPath: options.Array.data[0].text
       value: derecha
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
-      propertyPath: options.Array.data[1]
+      propertyPath: options.Array.data[1].text
       value: izquierda
+      objectReference: {fileID: 0}
+    - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
+      propertyPath: options.Array.data[0].value
+      value: right
+      objectReference: {fileID: 0}
+    - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
+      propertyPath: options.Array.data[1].value
+      value: left
       objectReference: {fileID: 0}
     - target: {fileID: 6692282909340399105, guid: bae9f642656363a4f8aa362052b46929, type: 3}
       propertyPath: m_Name

@@ -69,13 +69,14 @@ MonoBehaviour:
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 19
-  initWidth: 44
+  initWidth: 84
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &2171890872190449055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +196,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6788504032455581045
 MonoBehaviour:
   m_ObjectHideFlags: 0

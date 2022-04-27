@@ -111,11 +111,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6860716833436970990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,11 +237,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &4784120061343138236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,16 +339,14 @@ MonoBehaviour:
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 19
-  initWidth: 77
+  initWidth: 24
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &177079198809909590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,11 +519,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!1 &7703753866722795697
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,11 +680,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &1407715265412320139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,11 +889,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &7575219179014063649
 MonoBehaviour:
   m_ObjectHideFlags: 0

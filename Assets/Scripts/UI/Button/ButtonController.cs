@@ -93,7 +93,7 @@ namespace ScrapCoder.UI {
             }
         }
 
-        public static ButtonController Create(ButtonController prefab, Transform parent, bool activated, string text) {
+        public static ButtonController Create(ButtonController prefab, Transform parent, string text, bool activated = true) {
             var button = Instantiate(prefab, parent);
 
             button.activated = activated;

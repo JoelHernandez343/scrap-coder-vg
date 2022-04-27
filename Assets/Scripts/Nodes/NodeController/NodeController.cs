@@ -329,8 +329,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (hasParent) {
                 ownTransform.ResetRenderOrder();
-            } else {
-                parentController?.LoseFocus();
+                parentController.LoseFocus();
             }
         }
 

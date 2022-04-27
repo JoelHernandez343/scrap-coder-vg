@@ -74,6 +74,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 3
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6150825404952637404}
     m_Modifications:
+    - target: {fileID: 1474649222846035994, guid: df46ec9dfda80ce43a6fd85fcc271154, type: 3}
+      propertyPath: initWidth
+      value: 44
+      objectReference: {fileID: 0}
     - target: {fileID: 1474649222846035994, guid: df46ec9dfda80ce43a6fd85fcc271154, type: 3}
       propertyPath: directController
       value: 

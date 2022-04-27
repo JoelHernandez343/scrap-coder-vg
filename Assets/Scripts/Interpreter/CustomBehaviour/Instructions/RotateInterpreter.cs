@@ -31,9 +31,7 @@ namespace ScrapCoder.Interpreter {
         // Methods
         public void Execute(string argument) {
 
-            var selectedAction = dropMenu.Value == "derecha" ? Actions.RotateRight : Actions.RotateLeft;
-
-            Debug.Log($"Rotating in {selectedAction}");
+            var selectedAction = dropMenu.Value == "right" ? Actions.RotateRight : Actions.RotateLeft;
 
             SendInstruction.sendInstruction((int)selectedAction);
 

@@ -111,8 +111,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &4742221042883128251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,8 +286,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6673616308875970025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,14 +387,15 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 19
-  initWidth: 77
+  initHeight: 18
+  initWidth: 40
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &2057289482235751683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,8 +595,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 0
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &8636070927861269108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -744,8 +748,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &968516803794309086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,8 +928,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!1001 &826542580497326186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1177,6 +1183,10 @@ PrefabInstance:
       propertyPath: indirectController
       value: 
       objectReference: {fileID: 6328993836725706833}
+    - target: {fileID: 8552432940531046514, guid: e5fe313467c9126449f588a11b4e3e91, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5fe313467c9126449f588a11b4e3e91, type: 3}
 --- !u!224 &4342219248391922416 stripped

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.UI;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
@@ -12,13 +13,13 @@ namespace ScrapCoder.Interpreter {
 
         // Internal types
         enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
-        enum Comparison { IsEqual, IsDifferent, IsLessThan, IsGreaterThan, IsLessOrEqual, IsGreaterOrEqual }
+        enum Comparison { IsEqual, IsNotEqual, IsLessThan, IsLessOrEqual, IsGreaterThan, IsGreaterOrEqual }
 
         // Editor variables
         [SerializeField] NodeContainer leftContainer;
         [SerializeField] NodeContainer rightContainer;
 
-        [SerializeField] Comparison comparison;
+        [SerializeField] DropMenuController dropMenu;
 
         // State variables
         Steps currentStep;
@@ -41,6 +42,20 @@ namespace ScrapCoder.Interpreter {
 
         NodeController leftValue => leftContainer.First;
         NodeController rightValue => rightContainer.First;
+
+        Comparison comparisonSelected
+            => dropMenu.Value == "0"
+                ? Comparison.IsEqual
+                : dropMenu.Value == "1"
+                ? Comparison.IsNotEqual
+                : dropMenu.Value == "2"
+                ? Comparison.IsLessThan
+                : dropMenu.Value == "3"
+                ? Comparison.IsLessOrEqual
+                : dropMenu.Value == "4"
+                ? Comparison.IsGreaterThan
+                : Comparison.IsGreaterOrEqual;
+
 
         // Methods
         public void Execute(string argument) {
@@ -87,10 +102,11 @@ namespace ScrapCoder.Interpreter {
         void EvaluationCondition() {
 
             var condition = false;
+            var comparison = comparisonSelected;
 
             if (comparison == Comparison.IsEqual) {
                 condition = leftNumber == rightNumber;
-            } else if (comparison == Comparison.IsDifferent) {
+            } else if (comparison == Comparison.IsNotEqual) {
                 condition = leftNumber != rightNumber;
             } else if (comparison == Comparison.IsLessThan) {
                 condition = leftNumber < rightNumber;

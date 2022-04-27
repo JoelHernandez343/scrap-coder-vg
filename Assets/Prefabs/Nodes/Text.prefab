@@ -186,16 +186,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 1024231459686797363}
-  initHeight: 0
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 10
   initWidth: 0
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 0}
-  relativeOrigin: {x: 0, y: 0}
-  localZLevels: 0
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &1024231459686797363
 MonoBehaviour:
   m_ObjectHideFlags: 0

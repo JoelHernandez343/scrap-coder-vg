@@ -30,13 +30,16 @@ namespace ScrapCoder.VisualNodes {
         // State Variables
         [System.NonSerialized] public int localDepthLevels;
 
+        [SerializeField] int currentHeight;
+        [SerializeField] int currentWidth;
+
         int? _height;
         public int height {
             set {
                 if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
                 if (value < minHeight) throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
 
-                _height = value;
+                _height = currentHeight = value;
             }
 
             get => _height ??= initHeight;
@@ -48,7 +51,7 @@ namespace ScrapCoder.VisualNodes {
                 if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
                 if (value < minWidth) throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
 
-                _width = value;
+                _width = currentWidth = value;
             }
             get => _width ??= initWidth;
         }
@@ -107,6 +110,8 @@ namespace ScrapCoder.VisualNodes {
         Utils.SmoothDampController smoothDamp = new Utils.SmoothDampController(0.1f);
 
         public Vector2Int futurePosition => position + smoothDamp.RemainingDelta;
+
+        int previousSortingOrder;
 
         // Methods
         void FixedUpdate() {
@@ -254,12 +259,12 @@ namespace ScrapCoder.VisualNodes {
 
             if (dx == 0 && dy == 0 || dx == null && dy == null) return (dx, dy);
 
-            width += dx ?? 0;
-            height += dy ?? 0;
-
             if (nodeExpander is INodeExpander expander) {
                 (dx, dy) = expander.Expand(dx: dx, dy: dy, smooth: smooth, expanded: expanded);
             }
+
+            width += dx ?? 0;
+            height += dy ?? 0;
 
             return (dx, dy);
         }
@@ -276,10 +281,12 @@ namespace ScrapCoder.VisualNodes {
 
         public void ResetRenderOrder(int depthLevels = 0) {
             depth = depthLevels;
-            sorter.sortingOrder = 0;
+            sorter.sortingOrder = previousSortingOrder;
         }
 
         public void Raise(int deltaOrder = 1, int depthLevels = 1) {
+            previousSortingOrder = sorter.sortingOrder;
+
             sorter.sortingOrder += deltaOrder;
             depth += depthLevels;
         }

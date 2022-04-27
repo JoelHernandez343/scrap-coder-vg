@@ -74,6 +74,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 3
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6150825404952637404}
     m_Modifications:
+    - target: {fileID: 2222344523888676143, guid: 201e24f6ada138747b762be1509ccbb2, type: 3}
+      propertyPath: initWidth
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 2222344523888676143, guid: 201e24f6ada138747b762be1509ccbb2, type: 3}
+      propertyPath: initHeight
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4055915067083131490, guid: 201e24f6ada138747b762be1509ccbb2, type: 3}
       propertyPath: directController
       value: 
@@ -224,6 +234,14 @@ PrefabInstance:
       propertyPath: directController
       value: 
       objectReference: {fileID: 6150825404952637395}
+    - target: {fileID: 7530722578200427196, guid: 201e24f6ada138747b762be1509ccbb2, type: 3}
+      propertyPath: initWidth
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530722578200427196, guid: 201e24f6ada138747b762be1509ccbb2, type: 3}
+      propertyPath: initHeight
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8813403406101992356, guid: 201e24f6ada138747b762be1509ccbb2, type: 3}
       propertyPath: m_SortingOrder
       value: 2

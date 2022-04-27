@@ -40,6 +40,9 @@ namespace ScrapCoder.VisualNodes {
 
         public bool isEmpty => array.Count == 0;
 
+        int initHeight => ownTransform.initHeight;
+        int initWidth => ownTransform.initWidth;
+
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
         bool INodeExpanded.ModifyHeightOfPiece => modifyHeightOfPiece;
         bool INodeExpanded.ModifyWidthOfPiece => modifyWidthOfPiece;
@@ -66,11 +69,11 @@ namespace ScrapCoder.VisualNodes {
             dy ??= 0;
 
             if (array.previousCount == 0) {
-                dy -= defaultHeight;
-                dx -= defaultWidth;
+                dx -= initWidth;
+                dy -= initHeight;
             } else if (array.Count == 0) {
-                dy += defaultHeight;
-                dx += defaultWidth;
+                dx += initWidth;
+                dy += initHeight;
             }
 
             return (dx, dy);
