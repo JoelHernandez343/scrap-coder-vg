@@ -46,6 +46,7 @@ namespace ScrapCoder.VisualNodes {
         DivisionInstruction = 34,
         NumericOperation = 35,
         NumericValueComparison = 36,
+        Array = 37,
     }
 
 }

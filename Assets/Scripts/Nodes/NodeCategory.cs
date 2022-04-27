@@ -12,7 +12,8 @@ namespace ScrapCoder.VisualNodes {
         Condition,
         Instruction,
         Value,
-        Variable
+        Variable,
+        Array,
     }
 
 }
