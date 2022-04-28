@@ -9,7 +9,7 @@ using ScrapCoder.UI;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class NumericComparisonInterpreter : MonoBehaviour, IInterpreterElement {
+    public class NumericComparisonInterpreter : InterpreterElement {
 
         // Internal types
         enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
@@ -28,17 +28,7 @@ namespace ScrapCoder.Interpreter {
         int rightNumber;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => true;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => true;
 
         NodeController leftValue => leftContainer.First;
         NodeController rightValue => rightContainer.First;
@@ -58,7 +48,7 @@ namespace ScrapCoder.Interpreter {
 
 
         // Methods
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingLeftValue) {
                 PushingValue(member: "left");
@@ -72,12 +62,11 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingLeftValue;
         }
 
-        public IInterpreterElement GetNextStatement() => null;
+        public override InterpreterElement GetNextStatement() => null;
 
         void PushingValue(string member) {
 
@@ -122,6 +111,7 @@ namespace ScrapCoder.Interpreter {
             IsFinished = true;
 
         }
+
     }
 
 }

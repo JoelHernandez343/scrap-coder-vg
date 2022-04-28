@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class ModifyVariableInterpreter : MonoBehaviour, IInterpreterElement {
+    public class ModifyVariableInterpreter : InterpreterElement {
 
         // Internal types
         enum Operation { Add, Decrease }
@@ -18,17 +18,7 @@ namespace ScrapCoder.Interpreter {
         [SerializeField] Operation operation;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => false;
 
         NodeController variable => variableContainer.array.First;
         string symbolName => variable.symbolName;
@@ -38,7 +28,7 @@ namespace ScrapCoder.Interpreter {
             set => SymbolTable.instance[symbolName].value = $"{value}";
         }
 
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
 
             if (operation == Operation.Add) {
                 variableValue = variableValue + 1;
@@ -51,12 +41,5 @@ namespace ScrapCoder.Interpreter {
             IsFinished = true;
         }
 
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
-        }
-
-        public void Reset() {
-            IsFinished = false;
-        }
     }
 }

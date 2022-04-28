@@ -9,26 +9,15 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class NumericValueInterpreter : MonoBehaviour, IInterpreterElement {
+    public class NumericValueInterpreter : InterpreterElement {
 
         // Editor variables
         [SerializeField] InputText inputText;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public override bool IsExpression => true;
 
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => true;
-
-        public NodeController Controller => ownTransform.controller;
-
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
             var value = inputText.Value;
 
             Executer.instance.ExecuteInmediately(argument: value);
@@ -36,10 +25,7 @@ namespace ScrapCoder.Interpreter {
             IsFinished = true;
         }
 
-        public IInterpreterElement GetNextStatement() => null;
+        public override InterpreterElement GetNextStatement() => null;
 
-        public void Reset() {
-            IsFinished = false;
-        }
     }
 }

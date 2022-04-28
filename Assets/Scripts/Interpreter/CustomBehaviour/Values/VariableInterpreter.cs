@@ -8,23 +8,12 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class VariableInterpreter : MonoBehaviour, IInterpreterElement {
+    public class VariableInterpreter : InterpreterElement {
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public override bool IsExpression => true;
 
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => true;
-
-        public NodeController Controller => ownTransform.controller;
-
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
             var value = SymbolTable.instance[Controller.symbolName].value;
 
             Executer.instance.ExecuteInmediately(argument: value);
@@ -32,10 +21,7 @@ namespace ScrapCoder.Interpreter {
             IsFinished = true;
         }
 
-        public IInterpreterElement GetNextStatement() => null;
+        public override InterpreterElement GetNextStatement() => null;
 
-        public void Reset() {
-            IsFinished = false;
-        }
     }
 }

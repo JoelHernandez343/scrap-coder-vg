@@ -757,6 +757,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7348884789744326324, guid: e8e3066e023b5724fa86ddda35b2dbc9, type: 3}
+    - target: {fileID: 7773764473642237688, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8146353603354791145, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Name
       value: buttonStatic

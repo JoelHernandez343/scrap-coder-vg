@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class RepeatNInterpreter : MonoBehaviour, IInterpreterElement {
+    public class RepeatNInterpreter : InterpreterElement {
 
         // Internal types
         enum Steps { PushingValue, EvaluatingValue, ExecutingInstructions }
@@ -24,23 +24,13 @@ namespace ScrapCoder.Interpreter {
         int repetition = 0;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => false;
 
         NodeController value => variableContainer.array.First;
         NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingValue) {
                 PushingValue();
@@ -52,14 +42,9 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingValue;
             repetition = 0;
-        }
-
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
         }
 
         void PushingValue() {

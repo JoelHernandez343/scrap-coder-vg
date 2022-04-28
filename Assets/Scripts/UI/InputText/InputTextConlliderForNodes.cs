@@ -55,7 +55,7 @@ namespace ScrapCoder.UI {
 
         public void OnPointerDown(PointerEventData e) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
-            controller.SetState("over");
+            controller.SetState(state: "over", propagation: true);
         }
 
         public void OnBeginDrag(PointerEventData e) {
@@ -85,12 +85,12 @@ namespace ScrapCoder.UI {
 
         public void OnPointerUp(PointerEventData e) {
             if (!isDragging && !hasFocus) {
-                controller.SetState("normal");
+                controller.SetState(state: "normal", propagation: true);
             }
         }
 
         void GetFocus(PointerEventData e) {
-            controller.SetState("over");
+            controller.SetState(state: "over", propagation: true);
 
             if (!hasFocus) {
                 InputManagment.InputController.instance.SetFocusOn(inputText);

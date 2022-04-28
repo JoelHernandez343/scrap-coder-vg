@@ -19,12 +19,23 @@ namespace ScrapCoder.Interpreter {
         public static Executer instance;
 
         // State variables
-        Stack<IInterpreterElement> stack = new Stack<IInterpreterElement>();
+        Stack<InterpreterElement> stack = new Stack<InterpreterElement>();
 
         string nextArgument = null;
 
         States state = States.Stopped;
         ExecutionState executionState = ExecutionState.Stopped;
+
+        float timer = 0f;
+        float waitTime;
+
+        ExecuterTiming _timing = ExecuterTiming.Immediately;
+        public ExecuterTiming timing {
+            private set => _timing = value;
+            get => _timing;
+        }
+
+        InterpreterElement currentElementWithFocus;
 
         // Lazy variables
         Analyzer _analyzer;
@@ -36,6 +47,8 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         void Awake() {
+            UpdateWaitTime();
+
             if (instance != null) {
                 Destroy(gameObject);
                 return;
@@ -44,10 +57,42 @@ namespace ScrapCoder.Interpreter {
             instance = this;
         }
 
-        void FixedUpdate() {
-            if (state == States.Running && executionState == ExecutionState.NextFrame) {
+        void Update() {
+            if (state != States.Running || executionState != ExecutionState.NextFrame) return;
+
+            timer += Time.deltaTime;
+
+            if (timer >= waitTime) {
+                // Timer soft reset, min ~ timer -= waitTaime
+                timer -= (int)System.Math.Floor(timer / waitTime) * waitTime;
+
                 ExecuteNext();
             }
+        }
+
+        public void SetTiming(ExecuterTiming newTiming) {
+            if (timing == newTiming) return;
+
+            var previousTiming = timing;
+            timing = newTiming;
+
+            UpdateWaitTime();
+
+            if (previousTiming < newTiming) {
+                timer = waitTime;
+            }
+        }
+
+        void UpdateWaitTime() {
+            if (timing == ExecuterTiming.Immediately) {
+                waitTime = Time.fixedDeltaTime;
+            } else if (timing == ExecuterTiming.EverySecond) {
+                waitTime = 1f;
+            } else if (timing == ExecuterTiming.EveryThreeSeconds) {
+                waitTime = 3f;
+            }
+
+            Debug.Log(waitTime);
         }
 
         void Start() {
@@ -58,6 +103,7 @@ namespace ScrapCoder.Interpreter {
         void ResetState() {
             state = States.Running;
             executionState = ExecutionState.Stopped;
+            timer = 0f;
 
             nextArgument = null;
             stack.Clear();
@@ -98,9 +144,11 @@ namespace ScrapCoder.Interpreter {
             }
 
             executionState = ExecutionState.Stopped;
+
+            ClearCurrentFocus();
         }
 
-        public void PushNext(IInterpreterElement next) {
+        public void PushNext(InterpreterElement next) {
             if (next == null) return;
 
             next.Reset();
@@ -110,29 +158,35 @@ namespace ScrapCoder.Interpreter {
         void ExecuteNext() {
             executionState = ExecutionState.WaitingForRobot;
 
-            if (stack.Peek().Controller.type == NodeType.End) {
-                stack.Pop();
+            var current = stack.Peek();
 
+            if (current.Controller.type == NodeType.End) {
+                stack.Pop();
                 Stop(force: true);
 
                 return;
             }
 
-            if (stack.Peek().IsFinished) {
-                var finished = stack.Pop();
+            if (current.IsFinished) {
+                stack.Pop();
 
-                if (finished.IsExpression) {
+                if (current.IsExpression) {
                     ExecuteInmediately(argument: nextArgument);
                 } else {
-                    PushNext(next: finished.GetNextStatement());
+                    PushNext(next: current.GetNextStatement());
                     ExecuteInNextFrame();
                 }
             } else {
-                stack.Peek().Execute(argument: nextArgument);
+                SetFocusOn(current);
+                current.Execute(argument: nextArgument);
             }
 
             if (executionState == ExecutionState.Immediately) {
-                ExecuteNext();
+                if (timing != ExecuterTiming.Immediately) {
+                    ExecuteInNextFrame(argument: nextArgument);
+                } else {
+                    ExecuteNext();
+                }
             }
         }
 
@@ -144,6 +198,22 @@ namespace ScrapCoder.Interpreter {
         public void ExecuteInmediately(string argument = null) {
             nextArgument = argument;
             executionState = ExecutionState.Immediately;
+        }
+
+        void SetFocusOn(InterpreterElement element) {
+            if (currentElementWithFocus == element) return;
+
+            currentElementWithFocus?.LoseFocus();
+
+            if (timing != ExecuterTiming.Immediately) {
+                currentElementWithFocus = element;
+                currentElementWithFocus.GetFocus();
+            }
+        }
+
+        void ClearCurrentFocus() {
+            currentElementWithFocus?.LoseFocus();
+            currentElementWithFocus = null;
         }
 
         void ReceiveAnswer(int _) {

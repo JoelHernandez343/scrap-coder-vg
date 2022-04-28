@@ -36,7 +36,7 @@ namespace ScrapCoder.VisualNodes {
         // Methods
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
-            controller.SetState("over");
+            controller.SetState(state: "over", propagation: true);
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
@@ -69,7 +69,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
-            controller.SetState("normal");
+            controller.SetState(state: "normal", propagation: true);
         }
     }
 }

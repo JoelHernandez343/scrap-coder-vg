@@ -359,7 +359,7 @@ namespace ScrapCoder.VisualNodes {
                     continue;
                 };
 
-                n.SetState(state);
+                n.SetState(state: state, propagation: true);
             }
         }
 

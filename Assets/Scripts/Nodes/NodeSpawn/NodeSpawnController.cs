@@ -82,7 +82,7 @@ namespace ScrapCoder.VisualNodes {
             spawned.isDragging = true;
 
             spawned.SetMiddleZone(true);
-            spawned.SetState("over");
+            spawned.SetState(state: "over", propagation: true);
         }
 
         bool InstantiateNode() {

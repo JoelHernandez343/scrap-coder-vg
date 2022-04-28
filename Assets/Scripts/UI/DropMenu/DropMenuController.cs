@@ -54,11 +54,11 @@ namespace ScrapCoder.UI {
         // Methods
         void Start() {
             if (options.Count > 0 && Value == "") {
-                ChangeOption(options[0]);
+                ChangeOption(newOption: options[0], executeListeners: false);
             }
         }
 
-        public void ChangeOption(DropMenuOption newOption, bool smooth = false) {
+        public void ChangeOption(DropMenuOption newOption, bool smooth = false, bool executeListeners = true) {
             Value = newOption.value;
 
             var dx = text.ChangeText(
@@ -69,9 +69,11 @@ namespace ScrapCoder.UI {
 
             ownTransform.Expand(dx: dx, smooth: smooth);
 
-            ownTransform.expandable.Expand(dx: dx, smooth: smooth, expanded: this);
+            ownTransform.expandable?.Expand(dx: dx, smooth: smooth, expanded: this);
 
-            ExecuteListeners();
+            if (executeListeners) {
+                ExecuteListeners();
+            }
         }
 
         public void AddListener(System.Action cb) => listeners.Add(cb);

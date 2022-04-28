@@ -136,8 +136,8 @@ namespace ScrapCoder.VisualNodes {
         public UI.DragDropZone previousDrop = null;
         public UI.DragDropZone currentDrop = null;
 
-        IInterpreterElement _interpreterElement;
-        public IInterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<IInterpreterElement>() as IInterpreterElement);
+        InterpreterElement _interpreterElement;
+        public InterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<InterpreterElement>() as InterpreterElement);
 
         string state;
 
@@ -325,7 +325,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void LoseFocus() {
-            SetState("normal");
+            SetState(state: "normal", propagation: true);
 
             if (hasParent) {
                 ownTransform.ResetRenderOrder();
@@ -400,16 +400,16 @@ namespace ScrapCoder.VisualNodes {
             containers.ForEach(c => c.RemoveNodesFromTableSymbol());
         }
 
-        public void SetState(string state) {
+        public void SetState(string state, bool propagation = false) {
             if (this.state == state) return;
 
             this.state = state;
             components.ForEach(c => c.SetState(state));
-            containers.ForEach(c => c.SetState(state));
 
-            if (hasParent) {
-                parentArray.SetStateAfterThis(this, state);
-            }
+            if (!propagation) return;
+
+            containers.ForEach(c => c.SetState(state));
+            parentArray?.SetStateAfterThis(this, state);
         }
 
         public bool Analyze() {
@@ -459,7 +459,7 @@ namespace ScrapCoder.VisualNodes {
                 dy: e.delta.y
             );
 
-            SetState("over");
+            SetState(state: "over", propagation: true);
 
             return previousPosition;
         }
@@ -486,7 +486,7 @@ namespace ScrapCoder.VisualNodes {
             var dragDropZone = GetDrop();
 
             isDragging = false;
-            SetState("normal");
+            SetState(state: "normal", propagation: true);
 
             if (dragDropZone?.category == "working") {
 

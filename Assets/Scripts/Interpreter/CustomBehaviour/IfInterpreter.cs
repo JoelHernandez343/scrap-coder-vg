@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class IfInterpreter : MonoBehaviour, IInterpreterElement {
+    public class IfInterpreter : InterpreterElement {
 
         // Internal types
         enum Steps { PushingCondition, EvaluatingCondition, ExecutingInstructions }
@@ -23,23 +23,14 @@ namespace ScrapCoder.Interpreter {
         Steps currentStep = Steps.PushingCondition;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => false;
 
         NodeController condition => conditionContainer.array.First;
         NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingCondition) {
                 PushingCondition();
@@ -51,13 +42,8 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingCondition;
-        }
-
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
         }
 
         void PushingCondition() {

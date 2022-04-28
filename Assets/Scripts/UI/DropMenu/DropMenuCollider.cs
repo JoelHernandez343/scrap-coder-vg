@@ -44,7 +44,7 @@ namespace ScrapCoder.UI {
             if (hasFocus) return;
 
             HierarchyController.instance.SetOnTopOfNodes(controller);
-            controller.SetState("over");
+            controller.SetState(state: "over", propagation: true);
         }
 
         public void OnBeginDrag(PointerEventData e) {
@@ -81,7 +81,7 @@ namespace ScrapCoder.UI {
             if (!hasController) return;
 
             if (!isDragging && !hasFocus) {
-                controller.SetState("normal");
+                controller.SetState(state: "normal", propagation: true);
             }
         }
     }

@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class BooleanOperationInterpreter : MonoBehaviour, IInterpreterElement {
+    public class BooleanOperationInterpreter : InterpreterElement {
 
         // Internal types
         enum Steps { PushingLeftCondition, EvaluatingLeftCondition, PushingRightCondition, EvaluatingRightCondition }
@@ -24,17 +24,7 @@ namespace ScrapCoder.Interpreter {
         Steps currentStep = Steps.PushingLeftCondition;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => true;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => true;
 
         NodeController leftCondition => leftContainer.array.First;
         NodeController rightCondition => rightContainer.array.First;
@@ -43,7 +33,7 @@ namespace ScrapCoder.Interpreter {
         string rightValue;
 
         // Methods
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingLeftCondition) {
                 PushingCondition("left");
@@ -59,12 +49,11 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingLeftCondition;
         }
 
-        public IInterpreterElement GetNextStatement() => null;
+        public override InterpreterElement GetNextStatement() => null;
 
         void PushingCondition(string condition) {
             var conditionToPush = condition == "left"

@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class ReplaceInArrayInterpreter : MonoBehaviour, IInterpreterElement {
+    public class ReplaceInArrayInterpreter : InterpreterElement {
 
         // Private types
         enum Steps { PushingValue, PushingIndex, ReplacingInArray }
@@ -22,17 +22,7 @@ namespace ScrapCoder.Interpreter {
         Steps currentStep;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => false;
 
         NodeController array => arrayContainer.First;
         NodeController valueToAdd => valueContainer.First;
@@ -43,7 +33,7 @@ namespace ScrapCoder.Interpreter {
         string valueObtained;
 
         // Methods
-        public void Execute(string argument) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingValue) {
                 Pushing(which: "value");
@@ -90,13 +80,8 @@ namespace ScrapCoder.Interpreter {
             IsFinished = true;
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingValue;
-        }
-
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
         }
 
     }
