@@ -80,11 +80,11 @@ namespace ScrapCoder.UI {
 
         void ExecuteListeners() => listeners.ForEach(listener => listener?.Invoke());
 
-        public void PositionList() {
+        public void PositionList(int? dx = null) {
             var listWidth = list.ownTransform.width;
             var unionOffset = 12;
             var menuRightOffset = 8;
-            var menuWidth = ownTransform.width;
+            var menuWidth = ownTransform.width + (dx ?? 0);
 
             list.ownTransform.SetPosition(
                 x: (menuWidth - menuRightOffset) - (listWidth - unionOffset)
@@ -96,7 +96,7 @@ namespace ScrapCoder.UI {
             itemsToExpand.ForEach(item => item.Expand(dx: dx, dy: dy, smooth: smooth));
             itemsToRight.ForEach(item => item.SetPositionByDelta(dx: dx, smooth: smooth));
 
-            PositionList();
+            PositionList(dx: dx);
 
             return (dx, dy);
         }
