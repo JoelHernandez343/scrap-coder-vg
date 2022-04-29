@@ -23,15 +23,20 @@ namespace ScrapCoder.UI {
 
         // Editor variables
         [SerializeField] ButtonController controller;
+        [SerializeField] List<NodeTransform> itemsToDown;
         [SerializeField] bool canDrag = false;
 
         // State variables
         bool over;
+        bool isPressed = false;
         bool isDragging = false;
 
         // Methods
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
             controller.SetState("pressed");
+            itemsToDown.ForEach(i => i.SetPositionByDelta(dy: -1));
+
+            isPressed = true;
 
             if (canDrag) {
                 isDragging = true;
@@ -43,7 +48,10 @@ namespace ScrapCoder.UI {
                 isDragging = false;
             }
 
+            isPressed = false;
+
             controller.SetState(over ? "over" : "normal");
+            itemsToDown.ForEach(i => i.SetPositionByDelta(dy: over ? 1 : 0));
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
@@ -58,10 +66,13 @@ namespace ScrapCoder.UI {
             if (!isDragging) {
                 controller.SetState("normal");
             }
+
+            if (isPressed) {
+                itemsToDown.ForEach(i => i.SetPositionByDelta(dy: 1));
+            }
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-
             controller.OnClick();
         }
 
