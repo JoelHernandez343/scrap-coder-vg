@@ -29,7 +29,7 @@ namespace ScrapCoder.UI {
             ? sliderButton.ownTransform.x
             : -sliderButton.ownTransform.y;
 
-        // Lazy variables
+        // Lazy and other variables variables
         int content => isHorizontal ? contentT.width : contentT.height;
 
         float? _previousScale;
@@ -42,9 +42,11 @@ namespace ScrapCoder.UI {
 
         int sliderLength => (int)System.Math.Round(visor / currentScale);
 
+        const int sliderOffset = 2;
+
         public int length => isHorizontal
-            ? ownTransform.width - firstButton.ownTransform.width - finalButton.ownTransform.width + 2
-            : ownTransform.height - firstButton.ownTransform.height - finalButton.ownTransform.height + 2;
+            ? ownTransform.width - firstButton.ownTransform.width - finalButton.ownTransform.width - (sliderOffset * 2)
+            : ownTransform.height - firstButton.ownTransform.height - finalButton.ownTransform.height - (sliderOffset * 2);
 
         public int limit => length - sliderLength;
 
@@ -120,26 +122,20 @@ namespace ScrapCoder.UI {
 
 
         public void MoveContent(int delta, bool fromDragging = false) {
-            if (delta == 0) return;
+            if (delta == 0) {
+                Debug.Log("Hmmm");
+                return;
+            };
 
-            if (fromDragging) {
-                var newPosition = Round(currentPosition * currentScale);
+            var newPosition = futurePosition == limit
+                ? content - visor
+                : Round(futurePosition * currentScale);
 
-                contentT.SetPosition(
-                    x: isHorizontal ? -newPosition : nn,
-                    y: isHorizontal ? nn : newPosition,
-                    smooth: true
-                );
-            } else {
-                var realDelta = delta * currentScale;
-
-                contentT.SetFloatPositionByDelta(
-                    dx: isHorizontal ? -realDelta : nf,
-                    dy: isHorizontal ? nf : realDelta,
-                    smooth: true
-                );
-            }
-
+            contentT.SetPosition(
+                x: isHorizontal ? -newPosition : nn,
+                y: isHorizontal ? nn : newPosition,
+                smooth: true
+            );
         }
 
     }

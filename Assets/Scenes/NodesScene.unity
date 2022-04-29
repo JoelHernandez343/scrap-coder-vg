@@ -2863,6 +2863,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5438428185523726636, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
+      propertyPath: m_LocalAABB.m_Center.y
+      value: -1.4375
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438428185523726636, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.x
+      value: 0.29166698
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438428185523726636, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.y
+      value: 1.4375005
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464579122604207429, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
+      propertyPath: m_LocalAABB.m_Center.y
+      value: -0.2708333
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464579122604207429, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.x
+      value: 0.29166672
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464579122604207429, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.y
+      value: 0.27083337
+      objectReference: {fileID: 0}
     - target: {fileID: 7039005104448199374, guid: 3d97c0ea021237f409e737e94071515d, type: 3}
       propertyPath: m_Name
       value: verticalScrollBar
@@ -7638,6 +7662,14 @@ PrefabInstance:
     - target: {fileID: 5438428185523726636, guid: a198234503fa6be4b8fb9521c5559734, type: 3}
       propertyPath: m_DynamicOccludee
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438428185523726636, guid: a198234503fa6be4b8fb9521c5559734, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.y
+      value: 0.29166692
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464579122604207429, guid: a198234503fa6be4b8fb9521c5559734, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.y
+      value: 0.29166675
       objectReference: {fileID: 0}
     - target: {fileID: 7039005104448199374, guid: a198234503fa6be4b8fb9521c5559734, type: 3}
       propertyPath: m_Name
