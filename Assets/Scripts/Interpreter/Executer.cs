@@ -91,8 +91,6 @@ namespace ScrapCoder.Interpreter {
             } else if (timing == ExecuterTiming.EveryThreeSeconds) {
                 waitTime = 3f;
             }
-
-            Debug.Log(waitTime);
         }
 
         void Start() {
