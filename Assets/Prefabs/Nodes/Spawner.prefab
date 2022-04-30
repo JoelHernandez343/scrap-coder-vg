@@ -1768,7 +1768,7 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 0
+  initHeight: 36
   initWidth: 0
   minHeight: 0
   minWidth: 0
@@ -1789,14 +1789,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb5b233e15b435499b8bf44f938dada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
   nodeToSpawn: 6
-  limit: 0
+  spawnLimit: 0
   title: 
   titleText: {fileID: 2836476312613648032}
   shapeState: {fileID: 94738302217146337}
-  counter: {fileID: 755948853026157464}
+  iconSprite: {fileID: 0}
   infinityIcon: {fileID: 1647699628399663545}
+  counter: {fileID: 755948853026157464}
   discardButton: {fileID: 2801759953145989866}
 --- !u!1 &7847095422085181342
 GameObject:

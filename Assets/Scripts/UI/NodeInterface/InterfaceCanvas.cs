@@ -19,7 +19,6 @@ namespace ScrapCoder.UI {
         [SerializeField] public NodeTransform workingZone;
 
         // Lazy variables
-
         Canvas _canvas;
         public Canvas canvas => _canvas ??= (GetComponent<Canvas>() as Canvas);
 
@@ -27,6 +26,9 @@ namespace ScrapCoder.UI {
         public RectTransform canvasRectTransform => _canvasRectTransform ??= (GetComponent<RectTransform>() as RectTransform);
 
         public new Camera camera => canvas.worldCamera;
+
+        // Constants
+        public const int OutsideFactor = 2;
 
         // Methods
         void Awake() {

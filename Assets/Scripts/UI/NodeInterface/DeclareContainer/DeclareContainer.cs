@@ -99,8 +99,8 @@ namespace ScrapCoder.UI {
 
             spawner.ownTransform.depth = 0;
             spawner.ownTransform.SetScale(x: 2, y: 2, z: 1);
-            spawner.ownTransform.SetPosition(x: 0, y: spawner.ownTransform.height + 10);
-            spawner.ownTransform.SetPosition(y: lastY, smooth: true);
+            spawner.ownTransform.SetPosition(x: 0, y: (spawner.ownTransform.height + 10) * InterfaceCanvas.OutsideFactor);
+            spawner.ownTransform.SetPosition(y: lastY * InterfaceCanvas.OutsideFactor, smooth: true);
 
             spawners.Add(spawner);
         }
@@ -109,7 +109,7 @@ namespace ScrapCoder.UI {
             var lastY = 0;
 
             spawners.ForEach(s => {
-                s.ownTransform.SetPosition(x: 0, y: lastY, smooth: true);
+                s.ownTransform.SetPosition(x: 0, y: lastY * InterfaceCanvas.OutsideFactor, smooth: true);
                 lastY -= s.ownTransform.height + 10;
             });
         }
