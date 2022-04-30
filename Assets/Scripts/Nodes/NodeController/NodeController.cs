@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using System;
 
 using ScrapCoder.Interpreter;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
 
@@ -82,7 +83,7 @@ namespace ScrapCoder.VisualNodes {
         public string symbolName;
 
         // Lazy and other variables
-        public Transform workingZone;
+        public Transform workingZone => InterfaceCanvas.instance.workingZone.transform;
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
@@ -380,10 +381,14 @@ namespace ScrapCoder.VisualNodes {
             HierarchyController.instance.SortNodes();
         }
 
-        public void RemoveMyself() {
+        public void RemoveMyself(bool removeChildren) {
             DetachFromParent(smooth: false);
 
-            RemoveChildrenFromSymbolTable();
+            if (removeChildren) {
+                RemoveChildrenFromSymbolTable();
+            } else {
+                EjectChildren();
+            }
 
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
@@ -392,12 +397,16 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void RemoveFromSymbolTable() {
-            SymbolTable.instance[symbolName]?.Remove(this);
+            SymbolTable.instance[symbolName]?.RemoveReference(this);
             RemoveChildrenFromSymbolTable();
         }
 
         void RemoveChildrenFromSymbolTable() {
             containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+        }
+
+        void EjectChildren() {
+            containers.ForEach(c => c.First?.DetachFromParent(smooth: false));
         }
 
         public void SetState(string state, bool propagation = false) {
@@ -511,6 +520,15 @@ namespace ScrapCoder.VisualNodes {
                     discardCallback();
                 }
             }
+        }
+
+        public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
+            var newNode = Instantiate(original: prefab, parent: parent);
+
+            newNode.name = template.name;
+            newNode.symbolName = template.symbolName;
+
+            return newNode;
         }
     }
 

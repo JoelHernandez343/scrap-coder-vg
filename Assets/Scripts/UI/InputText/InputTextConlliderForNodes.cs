@@ -100,7 +100,7 @@ namespace ScrapCoder.UI {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rect: ownTransform.rectTransform,
                 screenPoint: e.position,
-                cam: mainCamera,
+                cam: InterfaceCanvas.instance.camera,
                 localPoint: out clickPosition
             );
 

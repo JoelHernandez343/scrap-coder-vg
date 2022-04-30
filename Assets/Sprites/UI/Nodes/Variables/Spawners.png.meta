@@ -4,22 +4,22 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 2873453964865190243
-    second: variable
+    second: var_simple
   - first:
       213: 6800604763316150982
-    second: numeric_value
+    second: var_numeric_value
   - first:
       213: 2714472248809691207
-    second: sum
+    second: var_sum
   - first:
       213: 7244522594687945120
-    second: substraction
+    second: var_substraction
   - first:
       213: 3781583028092446126
-    second: multiplication
+    second: var_multiplication
   - first:
       213: -4374303853943192834
-    second: division
+    second: var_division
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,7 +109,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: variable
+      name: var_simple
       rect:
         serializedVersion: 2
         x: 0
@@ -130,7 +130,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: numeric_value
+      name: var_numeric_value
       rect:
         serializedVersion: 2
         x: 0
@@ -151,7 +151,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sum
+      name: var_sum
       rect:
         serializedVersion: 2
         x: 0
@@ -172,7 +172,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: substraction
+      name: var_substraction
       rect:
         serializedVersion: 2
         x: 0
@@ -193,7 +193,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: multiplication
+      name: var_multiplication
       rect:
         serializedVersion: 2
         x: 0
@@ -214,7 +214,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: division
+      name: var_division
       rect:
         serializedVersion: 2
         x: 0

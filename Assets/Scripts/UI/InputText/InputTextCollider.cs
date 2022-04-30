@@ -18,10 +18,6 @@ namespace ScrapCoder.UI {
         NodeTransform ownTransform
             => _ownTransform ??= GetComponent<NodeTransform>() as NodeTransform;
 
-        Camera _mainCamera;
-        Camera mainCamera =>
-            _mainCamera ??= (GameObject.FindGameObjectWithTag("MainCamera") as GameObject)?.GetComponent<Camera>() as Camera;
-
         // Methods
         public void OnPointerDown(PointerEventData eventData) {
             if (!(inputText as InputManagment.IFocusable).HasFocus()) {
@@ -32,7 +28,7 @@ namespace ScrapCoder.UI {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rect: ownTransform.rectTransform,
                 screenPoint: eventData.position,
-                cam: mainCamera,
+                cam: InterfaceCanvas.instance.camera,
                 localPoint: out clickPosition
             );
 

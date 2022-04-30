@@ -28,6 +28,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] string declaredPrefix;
 
+        [SerializeField] string spawnerIcon;
+
         // State variables
         List<NodeSpawnController> spawners = new List<NodeSpawnController>();
 
@@ -61,15 +63,32 @@ namespace ScrapCoder.UI {
                 return;
             }
 
-            var newPrefab = CreatePrefab(
+            var newPrefab = NodeControllerExpandableByText.Create(
+                prefab: declaredPrefab,
+                parent: temporalParent,
                 name: name,
                 symbolName: symbolName
             );
 
-            var newSpawner = CreateSpawn(
-                prefab: newPrefab,
-                name: name,
-                symbolName: symbolName
+            var newSpawner = NodeSpawnController.Create(
+                spawnerPrefab: spawnerPrefab,
+                parent: spawnerParent,
+                prefabToSpawn: newPrefab,
+                discardCallback: () => DeleteDeclared(symbolName),
+                template: new NodeSpawnTemplate {
+                    title = name,
+                    symbolName = symbolName,
+                    spawnLimit = spawnLimit,
+                    selectedIcon = spawnerIcon
+                }
+            );
+
+            SymbolTable.instance.AddSymbol(
+                limit: spawnLimit,
+                symbolName: symbolName,
+                type: newPrefab.type,
+                value: "0",
+                spawner: newSpawner
             );
 
             PositionSpawner(newSpawner);
@@ -95,51 +114,21 @@ namespace ScrapCoder.UI {
             });
         }
 
-        void DeleteVariable(NodeSpawnController spawn) {
-            SymbolTable.instance.RemoveSymbol(spawn.symbolName);
+        void DeleteDeclared(string symbolName) {
+            var spawner = spawners.Find(s => s.symbolName == symbolName);
 
-            spawners.Remove(spawn);
+            SymbolTable.instance.DeleteSymbol(symbolName);
 
-            Destroy(spawn.gameObject);
+            spawners.Remove(spawner);
+
+            spawner.ownTransform.SetPositionByDelta(
+                dx: -1000,
+                smooth: true,
+                endingCallback: () => Destroy(spawner.gameObject)
+            );
 
             RepositionAllSpawners();
         }
 
-        NodeController CreatePrefab(string name, string symbolName) {
-            var newPrefab = Instantiate(declaredPrefab);
-            var newPrefabExpandable = (newPrefab.GetComponent<NodeControllerExpandableByText>() as NodeControllerExpandableByText);
-
-            newPrefab.symbolName = symbolName;
-
-            newPrefabExpandable.name = name;
-            newPrefabExpandable.text = name;
-            newPrefabExpandable.hideAfterExpand = true;
-            newPrefabExpandable.temporalParent = temporalParent;
-
-            SymbolTable.instance.AddSymbol(
-                limit: spawnLimit,
-                symbolName: symbolName,
-                type: newPrefab.type,
-                value: "0"
-            );
-
-            return newPrefab;
-        }
-
-        NodeSpawnController CreateSpawn(NodeController prefab, string name, string symbolName) {
-            var newSpawner = Instantiate(original: spawnerPrefab, parent: spawnerParent);
-
-            newSpawner.name = $"spawner_{symbolName}";
-            newSpawner.symbolName = symbolName;
-            newSpawner.limit = spawnLimit;
-            newSpawner.canvas = canvas;
-            newSpawner.prefab = prefab;
-            newSpawner.text = name;
-
-            (newSpawner.GetComponent<DeclaredSpawnController>() as DeclaredSpawnController)
-                ?.deleteButton?.AddListener(() => DeleteVariable(newSpawner));
-
-            return newSpawner;
-        }
     }
 }

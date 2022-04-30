@@ -11,17 +11,22 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
 
-    public class NodeSpawnController : MonoBehaviour, INodeExpander {
+    public class NodeSpawnController : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] public Canvas canvas;
         [SerializeField] NodeType nodeToSpawn;
-        [SerializeField] public int limit;
+        [SerializeField] int spawnLimit;
 
-        [SerializeField] public string text;
-        [SerializeField] ExpandableText expandableText;
+        [SerializeField] public string title;
+        [SerializeField] ExpandableText titleText;
 
-        [SerializeField] List<NodeTransform> itemsToExpand;
+        [SerializeField] NodeShapeContainer shapeState;
+
+        [SerializeField] NodeSprite iconSprite;
+        [SerializeField] NodeSprite infinityIcon;
+        [SerializeField] ExpandableText counter;
+
+        [SerializeField] ButtonController discardButton;
 
         // State variables
         string _symbolName = null;
@@ -30,37 +35,64 @@ namespace ScrapCoder.VisualNodes {
             set => _symbolName = value;
         }
 
-        NodeController _prefab;
-        public NodeController prefab {
-            get => _prefab ??= NodeDictionaryController.instance[nodeToSpawn];
-            set => _prefab = value;
+        NodeController _prefabToSpawn;
+        public NodeController prefabToSpawn {
+            get => _prefabToSpawn ??= NodeDictionaryController.instance[nodeToSpawn];
+            set => _prefabToSpawn = value;
         }
+
+        string state;
+        string selectedIcon;
+
+        bool initialized = false;
 
         // Lazy and other variables
         [System.NonSerialized] public NodeController spawned;
         const int pixelScale = 2;
 
-        RectTransform _canvasTransform;
-        public RectTransform canvasTransform => _canvasTransform ??= canvas.GetComponent<RectTransform>();
-
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
+        int spawnedCount => SymbolTable.instance[symbolName]?.Count ?? 0;
+        bool showingInfinity => spawnLimit == -1;
+
         // Methods
         void Start() {
-            ExpandByText();
+            Initialize();
         }
 
-        void ExpandByText() {
-            if (expandableText.text != "") return;
+        void Initialize() {
+            if (initialized) return;
 
-            var dx = expandableText.ChangeText(
-                newText: text,
+            SetIcon();
+            SetTitle();
+            SetState("normal");
+            SetDiscardButton();
+            RefreshCounter();
+
+            initialized = true;
+        }
+
+        void SetTitle() {
+            if (titleText.text != "") return;
+
+            titleText.ChangeText(
+                newText: title,
                 minWidth: 0,
                 lettersOffset: 9
             );
+        }
 
-            ownTransform.Expand(dx: dx, smooth: false);
+        void SetDiscardButton(System.Action discardCallback = null) {
+            discardCallback ??= () => SymbolTable.instance[symbolName]?.RemoveAllReferences(removeChildren: false);
+
+            if (discardButton?.ListenerCount == 0) {
+                discardButton.AddListener(discardCallback);
+            }
+        }
+
+        void SetIcon() {
+            iconSprite?.SetState(selectedIcon);
         }
 
         public void SpawnNode(Vector2 newPosition, float dx, float dy) {
@@ -78,7 +110,6 @@ namespace ScrapCoder.VisualNodes {
 
             spawned.symbolName = symbolName;
             spawned.gameObject.name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]";
-            spawned.workingZone = HierarchyController.instance.workingZone;
             spawned.isDragging = true;
 
             spawned.SetMiddleZone(true);
@@ -88,36 +119,78 @@ namespace ScrapCoder.VisualNodes {
         bool InstantiateNode() {
             if (SymbolTable.instance[symbolName] == null) {
                 SymbolTable.instance.AddSymbol(
-                    limit: limit,
+                    limit: spawnLimit,
                     symbolName: symbolName,
-                    type: nodeToSpawn
+                    type: nodeToSpawn,
+                    spawner: this
                 );
             } else if (SymbolTable.instance[symbolName].isFull) {
                 return false;
             }
 
-            spawned = Instantiate(original: prefab, parent: canvas.transform);
+            spawned = NodeController.Create(
+                prefab: prefabToSpawn,
+                parent: InterfaceCanvas.instance.nodeInterfaceContainer.transform,
+                template: new NodeControllerTemplate {
+                    symbolName = symbolName,
+                    name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]"
+                }
+            );
 
-            SymbolTable.instance[symbolName].Add(spawned);
+            SymbolTable.instance[symbolName].AddReference(spawned);
+
+            RefreshCounter();
 
             return true;
         }
 
         public void RemoveSpawned() {
-            SymbolTable.instance[symbolName].Remove(spawned);
+            SymbolTable.instance[symbolName].RemoveReference(spawned);
             Destroy(spawned.gameObject);
 
             ClearSpawned();
         }
 
-        public void ClearSpawned() {
-            spawned = null;
+        public void ClearSpawned() => spawned = null;
+
+        public void SetState(string state) {
+            if (this.state == state) return;
+
+            this.state = state;
+
+            shapeState?.SetState(state);
         }
 
-        (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded expanded) {
-            itemsToExpand.ForEach(i => i.Expand(dx: dx, dy: dy, smooth: smooth));
+        public void RefreshCounter() {
+            if (showingInfinity) return;
 
-            return (dx, dy);
+            infinityIcon?.SetVisible(false);
+            counter?.ChangeText($"{spawnLimit - spawnedCount}", 0, 0);
+        }
+
+        public static NodeSpawnController Create(
+            NodeSpawnController spawnerPrefab,
+            Transform parent,
+            NodeSpawnTemplate template,
+            NodeController prefabToSpawn = null,
+            System.Action discardCallback = null
+        ) {
+            var newSpawner = Instantiate(original: spawnerPrefab, parent: parent);
+
+            newSpawner.name = $"spawner_{template.symbolName}";
+            newSpawner.symbolName = template.symbolName;
+            newSpawner.spawnLimit = template.spawnLimit;
+            newSpawner.title = template.title;
+            newSpawner.selectedIcon = template.selectedIcon;
+
+            newSpawner.nodeToSpawn = template.nodeToSpawn;
+            newSpawner.prefabToSpawn = prefabToSpawn;
+
+            newSpawner.SetDiscardButton(discardCallback: discardCallback);
+
+            newSpawner.Initialize();
+
+            return newSpawner;
         }
     }
 

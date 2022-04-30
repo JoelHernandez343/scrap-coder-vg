@@ -22,6 +22,8 @@ namespace ScrapCoder.Interpreter {
 
         public List<string> arrayOfValues = new List<string>();
 
+        public NodeSpawnController spawner;
+
         // Lazy variables
         public bool isFull => limit > 0 && references.Count == limit;
 
@@ -30,27 +32,31 @@ namespace ScrapCoder.Interpreter {
         public NodeController first => Count == 0 ? null : references[0];
 
         // Methods
-        public void Add(NodeController reference) {
+        public void AddReference(NodeController reference) {
             if (isFull) throw new System.OverflowException($"The symbol has reached its limit: {limit}");
 
             references.Add(reference);
         }
 
-        public void Remove(NodeController reference) {
-            references.Remove(reference);
+        public void RemoveReference(NodeController reference) {
+            if (references.Remove(reference)) {
+                spawner.RefreshCounter();
+            }
         }
 
-        public void RemoveAllReferences() {
-            references.ForEach(r => r.RemoveMyself());
+        public void RemoveAllReferences(bool removeChildren) {
+            references.ForEach(r => r.RemoveMyself(removeChildren: removeChildren));
             references.Clear();
+
+            spawner.RefreshCounter();
 
             value = "";
         }
 
         public void RemoveReferencesWithoutParent() {
             references.FindAll(r => !r.hasParent).ForEach(r => {
-                r.RemoveMyself();
-                Remove(r);
+                r.RemoveMyself(removeChildren: true);
+                RemoveReference(r);
             });
         }
 

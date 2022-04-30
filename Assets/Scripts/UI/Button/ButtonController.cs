@@ -31,13 +31,15 @@ namespace ScrapCoder.UI {
         // Lazy state variables
         string _text = null;
         public string text {
-            get => _text ??= expandableText.text;
+            get => _text ??= expandableText?.text;
             private set => _text = value;
         }
 
         // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public int ListenerCount => listeners.Count;
 
         const int lettersOffset = 9;
 
@@ -51,6 +53,8 @@ namespace ScrapCoder.UI {
 
         public bool RemoveListener(System.Action listener) => listeners.Remove(listener);
 
+        public void ClearListeners() => listeners.Clear();
+
         public void OnClick() {
             listeners.ForEach(listener => listener());
         }
@@ -62,6 +66,8 @@ namespace ScrapCoder.UI {
         }
 
         public void ExpandByText(bool smooth = false) {
+            if (expandableText == null) return;
+
             var delta = expandableText.ChangeText(
                 newText: text,
                 minWidth: 0,
@@ -76,7 +82,7 @@ namespace ScrapCoder.UI {
         (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
 
             itemsToExpand.ForEach(i => i.Expand(dx: dx, dy: dy, smooth: smooth));
-            expandableText.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);
+            expandableText?.ownTransform.SetFloatPositionByDelta(dx: dx / 2.0f, smooth: smooth);
 
             return (dx, dy);
         }

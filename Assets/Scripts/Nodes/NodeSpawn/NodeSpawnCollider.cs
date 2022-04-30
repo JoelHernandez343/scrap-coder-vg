@@ -7,17 +7,25 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using ScrapCoder.Interpreter;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
-    public class NodeSpawnCollider : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
+    public class NodeSpawnCollider :
+        MonoBehaviour,
+        IBeginDragHandler,
+        IEndDragHandler,
+        IDragHandler,
+        IPointerEnterHandler,
+        IPointerExitHandler {
 
         [SerializeField] NodeSpawnController spawnController;
 
         NodeController spawned => spawnController.spawned;
 
-        void IBeginDragHandler.OnBeginDrag(PointerEventData e) {
+        public void OnBeginDrag(PointerEventData e) {
             if (Executer.instance.isRunning) return;
 
+            spawnController.SetState("normal");
             spawnController.SpawnNode(
                 newPosition: GetPointerPosition(e),
                 dx: e.delta.x,
@@ -25,32 +33,38 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        void IDragHandler.OnDrag(PointerEventData e) {
+        public void OnDrag(PointerEventData e) {
             if (!e.dragging || spawned == null) return;
 
             spawned.OnDrag(e);
         }
 
-        void IEndDragHandler.OnEndDrag(PointerEventData e) {
+        public void OnEndDrag(PointerEventData e) {
             if (spawned == null) return;
 
             spawned.OnEndDrag(discardCallback: () => spawnController.RemoveSpawned());
-
             spawnController.ClearSpawned();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) {
+            spawnController.SetState("over");
+        }
+
+        public void OnPointerExit(PointerEventData eventData) {
+            spawnController.SetState("normal");
         }
 
         Vector2 GetPointerPosition(PointerEventData eventData) {
             var newPosition = new Vector2();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rect: spawnController.canvasTransform,
+                rect: InterfaceCanvas.instance.nodeInterfaceContainer.rectTransform,
                 screenPoint: eventData.position,
-                cam: spawnController.canvas.worldCamera,
+                cam: InterfaceCanvas.instance.camera,
                 localPoint: out newPosition
             );
 
             return newPosition;
         }
-
 
     }
 }

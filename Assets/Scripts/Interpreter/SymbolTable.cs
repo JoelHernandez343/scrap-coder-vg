@@ -37,11 +37,12 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void AddSymbol(int limit, string symbolName, NodeType type, string value = "") {
+        public void AddSymbol(int limit, string symbolName, NodeType type, NodeSpawnController spawner, string value = "") {
             symbols[symbolName] = new Symbol {
-                limit = limit,
                 type = type,
+                limit = limit,
                 value = value,
+                spawner = spawner,
                 symbolName = symbolName
             };
 
@@ -50,11 +51,11 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public bool RemoveSymbol(string symbolName) {
+        public bool DeleteSymbol(string symbolName) {
             var symbol = this[symbolName];
             if (symbol == null) return false;
 
-            symbol.RemoveAllReferences();
+            symbol.RemoveAllReferences(removeChildren: true);
             symbols.Remove(symbolName);
 
             if (symbol.type == NodeType.Variable) {
@@ -64,7 +65,7 @@ namespace ScrapCoder.Interpreter {
             return true;
         }
 
-        public void CleanReferences() {
+        public void CleanReferencesWihoutParent() {
             foreach (var entry in symbols) {
                 var symbol = entry.Value;
 

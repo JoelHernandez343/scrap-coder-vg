@@ -1,13 +1,7 @@
 fileFormatVersion: 2
-guid: 1ed967c6dda4ecc4780b89222ae29304
+guid: eae1bcce2f8251d47b412347bdd877ea
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 2873453964865190243
-    second: conditional_simple
-  - first:
-      213: 6800604763316150982
-    second: conditional_compound
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -47,10 +41,10 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 0
-  alignment: 0
+  alignment: 1
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -95,49 +89,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: conditional_simple
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 30
-        width: 26
-        height: 22
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3693a36282f80e720800000000000000
-      internalID: 2873453964865190243
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: conditional_compound
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 26
-        height: 30
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c2e947400a906e50800000000000000
-      internalID: 6800604763316150982
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []

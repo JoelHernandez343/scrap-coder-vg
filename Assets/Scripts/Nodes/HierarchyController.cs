@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.UI;
+
 namespace ScrapCoder.VisualNodes {
 
     public class HierarchyController : MonoBehaviour {
@@ -22,9 +24,11 @@ namespace ScrapCoder.VisualNodes {
         // State variables
         [SerializeField] List<NodeController> nodes = new List<NodeController>();
 
-        [SerializeField] Transform canvas;
-        [SerializeField] public Transform workingZone;
-        [SerializeField] NodeTransform UIContainer;
+        // Laizy variables
+
+        Transform canvasTransform => InterfaceCanvas.instance.canvas.transform;
+        NodeTransform workingZone => InterfaceCanvas.instance.workingZone;
+        NodeTransform nodeUIContainer => InterfaceCanvas.instance.nodeUIContainer;
 
         int? _lastNodeDepth;
         int lastNodeDepth {
@@ -33,10 +37,10 @@ namespace ScrapCoder.VisualNodes {
         }
 
         int initialUIDepth {
-            get => UIContainer.depth;
-            set => UIContainer.depth = value;
+            get => nodeUIContainer.depth;
+            set => nodeUIContainer.depth = value;
         }
-        int lastUIDepth => initialUIDepth + UIContainer.depthLevels;
+        int lastUIDepth => initialUIDepth + nodeUIContainer.depthLevels;
 
         public int globalRaiseDiff => lastUIDepth + (initialUIDepth - lastNodeDepth);
 
@@ -53,7 +57,7 @@ namespace ScrapCoder.VisualNodes {
         public void SetOnTopOfNodes(NodeController controller) {
             controller = controller.lastController;
 
-            controller.transform.SetParent(workingZone);
+            controller.transform.SetParent(workingZone.transform);
             controller.transform.SetAsLastSibling();
 
             var index = nodes.IndexOf(controller);
@@ -69,7 +73,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetOnTopOfCanvas(NodeController controller) {
-            controller.transform.SetParent(canvas);
+            controller.transform.SetParent(canvasTransform);
             controller.ownTransform.sorter.sortingOrder = 2;
             controller.ownTransform.depth = lastUIDepth + 10;
         }
