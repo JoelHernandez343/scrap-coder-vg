@@ -51,7 +51,7 @@ namespace ScrapCoder.UI {
             isPressed = false;
 
             controller.SetState(over ? "over" : "normal");
-            itemsToDown.ForEach(i => i.SetPositionByDelta(dy: over ? 1 : 0));
+            itemsToDown.ForEach(i => i.ResetYToRelative());
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
@@ -68,7 +68,7 @@ namespace ScrapCoder.UI {
             }
 
             if (isPressed) {
-                itemsToDown.ForEach(i => i.SetPositionByDelta(dy: 1));
+                itemsToDown.ForEach(i => i.ResetYToRelative());
             }
         }
 
