@@ -4,12 +4,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
     public class ButtonController : MonoBehaviour, INodeExpander {
+
+        // Internal types
+        class ListenersContainer {
+            List<System.Action>[] listenersArray =
+                new List<System.Action>[
+                    System.Enum.GetNames(typeof(ButtonEventType)).Length
+                ];
+
+            public List<System.Action> this[ButtonEventType eventType] {
+                get => listenersArray[(int)eventType] ??= new List<System.Action>();
+            }
+        }
 
         // Editor variables
         [SerializeField] NodeShapeContainer shapeState;
@@ -24,7 +35,7 @@ namespace ScrapCoder.UI {
         // State variable
         [SerializeField] bool activated = true;
 
-        List<System.Action> listeners = new List<System.Action>();
+        ListenersContainer listenersContainer = new ListenersContainer();
 
         string state;
 
@@ -39,8 +50,6 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        public int ListenerCount => listeners.Count;
-
         const int lettersOffset = 9;
 
         // Methods
@@ -49,14 +58,20 @@ namespace ScrapCoder.UI {
             ownTransform.resizable = !usingSprite;
         }
 
-        public void AddListener(System.Action listener) => listeners.Add(listener);
+        public void AddListener(System.Action listener, ButtonEventType eventType = ButtonEventType.OnClick) {
+            listenersContainer[eventType].Add(listener);
+        }
 
-        public bool RemoveListener(System.Action listener) => listeners.Remove(listener);
+        public void ClearListeners(ButtonEventType eventType = ButtonEventType.OnClick) {
+            listenersContainer[eventType].Clear();
+        }
 
-        public void ClearListeners() => listeners.Clear();
+        public void OnTriggerEvent(ButtonEventType eventType = ButtonEventType.OnClick) {
+            listenersContainer[eventType].ForEach(listener => listener?.Invoke());
+        }
 
-        public void OnClick() {
-            listeners.ForEach(listener => listener());
+        public int GetListenersCount(ButtonEventType eventType) {
+            return listenersContainer[eventType].Count;
         }
 
         public void SetActive(bool active) {

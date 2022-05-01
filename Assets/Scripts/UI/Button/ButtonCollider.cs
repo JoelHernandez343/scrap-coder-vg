@@ -58,6 +58,7 @@ namespace ScrapCoder.UI {
             over = true;
 
             controller.SetState(isDragging ? "pressed" : "over");
+            controller.OnTriggerEvent(eventType: ButtonEventType.OnPointerEnter);
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
@@ -65,6 +66,7 @@ namespace ScrapCoder.UI {
 
             if (!isDragging) {
                 controller.SetState("normal");
+                controller.OnTriggerEvent(eventType: ButtonEventType.OnPointerExit);
             }
 
             if (isPressed) {
@@ -73,7 +75,7 @@ namespace ScrapCoder.UI {
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
-            controller.OnClick();
+            controller.OnTriggerEvent(eventType: ButtonEventType.OnClick);
         }
 
         void IBeginDragHandler.OnBeginDrag(PointerEventData eventData) {

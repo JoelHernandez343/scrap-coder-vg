@@ -86,7 +86,7 @@ namespace ScrapCoder.VisualNodes {
         void SetDiscardButton(System.Action discardCallback = null) {
             discardCallback ??= () => SymbolTable.instance[symbolName]?.RemoveAllReferences(removeChildren: false);
 
-            if (discardButton?.ListenerCount == 0) {
+            if (discardButton?.GetListenersCount(ButtonEventType.OnClick) == 0) {
                 discardButton.AddListener(discardCallback);
             }
         }
