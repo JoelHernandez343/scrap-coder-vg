@@ -829,6 +829,7 @@ GameObject:
   - component: {fileID: 440881713564111050}
   - component: {fileID: 3330930876776429058}
   - component: {fileID: 7465353314340132344}
+  - component: {fileID: 1566058375781736489}
   m_Layer: 5
   m_Name: horizontalScrollBar
   m_TagString: Untagged
@@ -903,6 +904,17 @@ MonoBehaviour:
   sliderButton: {fileID: 406740192972294923}
   visor: 0
   contentT: {fileID: 0}
+--- !u!210 &1566058375781736489
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039005104448199374}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &8332610188326920420
 GameObject:
   m_ObjectHideFlags: 0

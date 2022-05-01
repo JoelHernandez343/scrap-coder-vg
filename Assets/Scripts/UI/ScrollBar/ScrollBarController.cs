@@ -61,10 +61,10 @@ namespace ScrapCoder.UI {
 
         // Methods
         void Start() {
-            if (sliderLength > length) {
-                gameObject.SetActive(false);
-                return;
-            }
+            Initialize();
+        }
+
+        void Initialize() {
 
             RefreshSlider();
 
@@ -73,6 +73,13 @@ namespace ScrapCoder.UI {
         }
 
         public void RefreshSlider() {
+
+            if (sliderLength >= length) {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            Debug.Log(content);
 
             var newPosition = (int)(currentPosition * previousScale / currentScale);
 
@@ -87,6 +94,8 @@ namespace ScrapCoder.UI {
             );
 
             previousScale = currentScale;
+
+            gameObject.SetActive(true);
         }
 
         void MoveSliderBy(int delta) {

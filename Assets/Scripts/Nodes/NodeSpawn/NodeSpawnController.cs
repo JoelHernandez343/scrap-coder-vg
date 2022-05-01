@@ -177,6 +177,9 @@ namespace ScrapCoder.VisualNodes {
         ) {
             var newSpawner = Instantiate(original: spawnerPrefab, parent: parent);
 
+            newSpawner.ownTransform.depth = 0;
+            newSpawner.ownTransform.SetScale(x: 1, y: 1, z: 1);
+
             newSpawner.name = $"spawner_{template.symbolName}";
             newSpawner.symbolName = template.symbolName;
             newSpawner.spawnLimit = template.spawnLimit;

@@ -528,6 +528,9 @@ namespace ScrapCoder.VisualNodes {
             newNode.name = template.name;
             newNode.symbolName = template.symbolName;
 
+            newNode.ownTransform.depth = 0;
+            newNode.ownTransform.SetScale(x: 1, y: 1, z: 1);
+
             return newNode;
         }
     }

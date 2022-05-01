@@ -65,8 +65,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 150, y: 0}
-      - {x: 150, y: -36}
+      - {x: 232, y: 0}
+      - {x: 232, y: -36}
       - {x: 0, y: -36}
 --- !u!114 &4586799846347724943
 MonoBehaviour:
@@ -161,7 +161,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 146, y: -32}
+  m_AnchoredPosition: {x: 228, y: -32}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &225582721606644944
@@ -288,10 +288,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6887730464535420151}
-  - {fileID: 8797743147771710180}
   - {fileID: 2494073587115887228}
   - {fileID: 1274195326875612738}
   - {fileID: 8265997622051641807}
+  - {fileID: 873543716212502440}
   m_Father: {fileID: 3557251884337693475}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -464,7 +464,7 @@ RectTransform:
   m_LocalScale: {x: 24, y: 24, z: 1}
   m_Children: []
   m_Father: {fileID: 4793924016802481933}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -631,8 +631,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 3.0416684, y: -0.66666657, z: 0}
-    m_Extent: {x: 3.0416684, y: 0.66666657, z: 0}
+    m_Center: {x: 4.7500005, y: -0.66666657, z: 0}
+    m_Extent: {x: 4.7500005, y: 0.66666657, z: 0}
 --- !u!114 &5950207885942000820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 6.083336, y: -0.16666663, z: 0.00036621094}
+    - position: {x: 9.5, y: -0.16666663, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -678,7 +678,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 6.083336, y: -1.333333, z: 0.00036621094}
+    - position: {x: 9.5, y: -1.333333, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -856,8 +856,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 3.0416684, y: -0.66666657, z: 0}
-    m_Extent: {x: 3.0416684, y: 0.66666657, z: 0}
+    m_Center: {x: 4.7500005, y: -0.66666657, z: 0}
+    m_Extent: {x: 4.7500005, y: 0.66666657, z: 0}
 --- !u!114 &6555635149749811406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,7 +893,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 6.083336, y: -0.16666663, z: 0.00036621094}
+    - position: {x: 9.5, y: -0.16666663, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -903,7 +903,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 6.083336, y: -1.333333, z: 0.00036621094}
+    - position: {x: 9.5, y: -1.333333, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -1017,7 +1017,7 @@ RectTransform:
   m_LocalScale: {x: 24, y: 24, z: 1}
   m_Children: []
   m_Father: {fileID: 4793924016802481933}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1110,7 +1110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 146, y: -4}
+  m_AnchoredPosition: {x: 228, y: -4}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &8521220612143830730
@@ -1571,8 +1571,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 3.1250014, y: -0.7499998, z: -0.0002003}
-    m_Extent: {x: 3.125002, y: 0.74999994, z: 0.0002003}
+    m_Center: {x: 4.833334, y: -0.7499998, z: -0.0002003}
+    m_Extent: {x: 4.833334, y: 0.74999994, z: 0.0002003}
 --- !u!114 &2772848587420036761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1608,7 +1608,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 6.083336, y: -0.16666663, z: 0.00036621094}
+    - position: {x: 9.5, y: -0.16666663, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -1618,7 +1618,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 6.083336, y: -1.333333, z: 0.00036621094}
+    - position: {x: 9.5, y: -1.333333, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -1769,7 +1769,7 @@ MonoBehaviour:
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 36
-  initWidth: 0
+  initWidth: 232
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -1794,11 +1794,11 @@ MonoBehaviour:
   title: 
   titleText: {fileID: 2836476312613648032}
   shapeState: {fileID: 94738302217146337}
-  iconSprite: {fileID: 0}
+  iconSprite: {fileID: 1576859244450447259}
   infinityIcon: {fileID: 1647699628399663545}
   counter: {fileID: 755948853026157464}
   discardButton: {fileID: 2801759953145989866}
---- !u!1 &7847095422085181342
+--- !u!1 &7892776772370677755
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1806,8 +1806,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8797743147771710180}
-  - component: {fileID: 215750211411557065}
+  - component: {fileID: 873543716212502440}
+  - component: {fileID: 2236250612093276776}
+  - component: {fileID: 1576859244450447259}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -1815,32 +1816,32 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &8797743147771710180
+--- !u!224 &873543716212502440
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7847095422085181342}
+  m_GameObject: {fileID: 7892776772370677755}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 24, y: 24, z: 1}
   m_Children: []
   m_Father: {fileID: 4793924016802481933}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8, y: -8}
+  m_AnchoredPosition: {x: 8, y: -6}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!212 &215750211411557065
+--- !u!212 &2236250612093276776
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7847095422085181342}
+  m_GameObject: {fileID: 7892776772370677755}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -1874,7 +1875,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 2873453964865190243, guid: c21cce81e1d39c6448b773b004dada52, type: 3}
+  m_Sprite: {fileID: 2873453964865190243, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1885,6 +1886,60 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1576859244450447259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7892776772370677755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce87666bf17ce2c449fbe96f38f29d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableSprites:
+  - {fileID: 2873453964865190243, guid: ffa2e4f482a23f74cb0425b026622274, type: 3}
+  - {fileID: 6800604763316150982, guid: ffa2e4f482a23f74cb0425b026622274, type: 3}
+  - {fileID: 2873453964865190243, guid: c21cce81e1d39c6448b773b004dada52, type: 3}
+  - {fileID: 2714472248809691207, guid: ac05411f78bd8594e9a2d6528a4349d1, type: 3}
+  - {fileID: -4374303853943192834, guid: ac05411f78bd8594e9a2d6528a4349d1, type: 3}
+  - {fileID: 7244522594687945120, guid: ac05411f78bd8594e9a2d6528a4349d1, type: 3}
+  - {fileID: 6800604763316150982, guid: ac05411f78bd8594e9a2d6528a4349d1, type: 3}
+  - {fileID: 2873453964865190243, guid: ac05411f78bd8594e9a2d6528a4349d1, type: 3}
+  - {fileID: 3781583028092446126, guid: ac05411f78bd8594e9a2d6528a4349d1, type: 3}
+  - {fileID: 6800604763316150982, guid: 1ed967c6dda4ecc4780b89222ae29304, type: 3}
+  - {fileID: 2873453964865190243, guid: 1ed967c6dda4ecc4780b89222ae29304, type: 3}
+  - {fileID: 2873453964865190243, guid: 565d2af3e24c9054881e9e2ad9ae2ea6, type: 3}
+  - {fileID: -4374303853943192834, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
+  - {fileID: 3781583028092446126, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
+  - {fileID: 6800604763316150982, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
+  - {fileID: 7244522594687945120, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
+  - {fileID: 2714472248809691207, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
+  - {fileID: 2873453964865190243, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
+  - {fileID: 2873453964865190243, guid: 1bd72a9a73d9ea549bc78fab24c613d3, type: 3}
+  hideable: 0
+  states:
+  - begin
+  - end
+  - simple_instruction
+  - cond_double
+  - cond_double_numeric_values
+  - cond_false
+  - cond_negation
+  - cond_simple
+  - cond_true
+  - conditional_compund
+  - conditional_simple
+  - repeat_simple
+  - var_division
+  - var_multiplication
+  - var_numeric_value
+  - var_substraction
+  - var_sum
+  - var_simple
+  - array_simple
+  spriteRange: 1
 --- !u!1 &8303107108510186963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,7 +2122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2240,7 +2295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 131
+      value: 211
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_AnchoredPosition.y

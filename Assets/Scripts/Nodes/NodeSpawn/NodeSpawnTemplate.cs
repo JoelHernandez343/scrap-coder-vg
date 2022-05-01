@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
+
+    [System.Serializable]
     public class NodeSpawnTemplate {
 
         public string title;
