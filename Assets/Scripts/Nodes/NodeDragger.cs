@@ -40,7 +40,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
-            if (Executer.instance.isRunning) return;
+            if (Executer.instance.isRunning && controller.hasParent) return;
             if (controller.ownTransform.isMovingSmoothly) return;
 
             previousPosition = controller.BeginDrag(eventData);

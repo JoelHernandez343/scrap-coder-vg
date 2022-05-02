@@ -499,11 +499,14 @@ namespace ScrapCoder.VisualNodes {
 
             if (dragDropZone?.category == "working") {
 
-                if (!InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(this);
+                if (Executer.instance.isRunning || InvokeZones()) {
+                    HierarchyController.instance.SetOnTopOfNodes(this);
+                }
+
                 SetMiddleZone(false);
                 dragDropZone.SetState("normal");
 
-            } else if (dragDropZone?.category == "erasing") {
+            } else if (dragDropZone?.category == "erasing" && !Executer.instance.isRunning) {
 
                 Disappear();
                 dragDropZone.SetState("normal");

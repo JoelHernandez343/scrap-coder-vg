@@ -60,7 +60,7 @@ namespace ScrapCoder.UI {
 
         public void OnBeginDrag(PointerEventData e) {
             if (hasFocus) return;
-            if (Executer.instance.isRunning) return;
+            if (Executer.instance.isRunning && controller.hasParent) return;
             if (ownTransform.isMovingSmoothly) return;
 
             previousPosition = controller.BeginDrag(e);
@@ -71,7 +71,6 @@ namespace ScrapCoder.UI {
 
         public void OnDrag(PointerEventData e) {
             if (hasFocus) return;
-            if (Executer.instance.isRunning) return;
             if (controller.ownTransform.isMovingSmoothly) return;
 
             controller.OnDrag(e);

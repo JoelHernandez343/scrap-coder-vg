@@ -14,7 +14,11 @@ public class CleanWorkingZoneButton : MonoBehaviour {
 
     void Start() {
 
-        button.AddListener(() => SymbolTable.instance.CleanReferencesWihoutParent());
+        button.AddListener(() => {
+            if (!Executer.instance.isRunning) {
+                SymbolTable.instance.CleanReferencesWihoutParent();
+            }
+        });
 
     }
 }
