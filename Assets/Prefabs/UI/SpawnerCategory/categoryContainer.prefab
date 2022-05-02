@@ -632,10 +632,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 2, y: -2}
-      - {x: 280, y: -2}
-      - {x: 280, y: -454}
-      - {x: 2, y: -454}
+    - - {x: 0, y: 0}
+      - {x: 282, y: 0}
+      - {x: 282, y: -454}
+      - {x: 0, y: -454}
 --- !u!1 &2541179099199076572
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,8 +745,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 280, y: 0}
-      - {x: 280, y: -54}
+      - {x: 282, y: 0}
+      - {x: 282, y: -54}
       - {x: 0, y: -54}
 --- !u!1 &2955482846095789348
 GameObject:
@@ -2375,7 +2375,7 @@ MonoBehaviour:
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 454
-  initWidth: 280
+  initWidth: 282
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -2409,58 +2409,8 @@ MonoBehaviour:
   scrollBar: {fileID: 7643495774220360425}
   content: {fileID: 193301672832946285}
   children: {fileID: 8065666957453971367}
+  returnButton: {fileID: 3169060145200932502}
   spawnerPrefab: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
-  templates:
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
-  - title: Inicio
-    symbolName: Begin
-    spawnLimit: 1
-    nodeToSpawn: 0
-    selectedIcon: begin
 --- !u!1 &7406679211128090778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2657,8 +2607,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 280, y: 0}
-      - {x: 280, y: -54}
+      - {x: 282, y: 0}
+      - {x: 282, y: -54}
       - {x: 0, y: -54}
 --- !u!1 &7903665712244578954
 GameObject:
@@ -3480,6 +3430,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 321623070388792643, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
   m_PrefabInstance: {fileID: 2012374144097853130}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3169060145200932502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3465415418262239324, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
+  m_PrefabInstance: {fileID: 2012374144097853130}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e16db7c694c15448bfa95e0fa4eecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7033602699843175106
 PrefabInstance:
   m_ObjectHideFlags: 0

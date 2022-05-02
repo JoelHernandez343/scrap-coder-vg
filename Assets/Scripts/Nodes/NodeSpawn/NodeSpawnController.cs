@@ -56,6 +56,8 @@ namespace ScrapCoder.VisualNodes {
         int spawnedCount => SymbolTable.instance[symbolName]?.Count ?? 0;
         bool showingInfinity => spawnLimit == -1;
 
+        public System.Action ReturnCallback { private set; get; }
+
         // Methods
         void Start() {
             Initialize();
@@ -173,7 +175,8 @@ namespace ScrapCoder.VisualNodes {
             Transform parent,
             NodeSpawnTemplate template,
             NodeController prefabToSpawn = null,
-            System.Action discardCallback = null
+            System.Action discardCallback = null,
+            System.Action returnCallback = null
         ) {
             var newSpawner = Instantiate(original: spawnerPrefab, parent: parent);
 
@@ -189,6 +192,7 @@ namespace ScrapCoder.VisualNodes {
             newSpawner.nodeToSpawn = template.nodeToSpawn;
             newSpawner.prefabToSpawn = prefabToSpawn;
 
+            newSpawner.ReturnCallback = returnCallback;
             newSpawner.SetDiscardButton(discardCallback: discardCallback);
 
             newSpawner.Initialize();

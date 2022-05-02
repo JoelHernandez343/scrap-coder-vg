@@ -10,9 +10,6 @@ using ScrapCoder.VisualNodes;
 namespace ScrapCoder.UI {
     public class SelectionCategoryButton : MonoBehaviour {
 
-        // Internal types
-        public enum VisibleState { HalfVisible, FullVisible, FullHidden }
-
         // Editor variables
         [SerializeField] NodeSprite iconSprite;
         [SerializeField] ExpandableText titleText;
@@ -21,7 +18,7 @@ namespace ScrapCoder.UI {
         public string title;
         public string icon;
 
-        public VisibleState visibleState = VisibleState.HalfVisible;
+        public SelectionCategoryButtonState visibleState = SelectionCategoryButtonState.HalfVisible;
 
         // Lazy variables
         ButtonController _button;
@@ -34,10 +31,11 @@ namespace ScrapCoder.UI {
 
         // Methods
         void Start() {
-            Initialize();
+            Initialize(title: title, icon: icon);
         }
 
-        public void Initialize() {
+        public void Initialize(string title, string icon, System.Action callback = null) {
+
             if (initialized) return;
 
             titleText.ChangeText(
@@ -49,34 +47,39 @@ namespace ScrapCoder.UI {
             iconSprite.SetState(icon);
 
             button.AddListener(
-                listener: () => SetVisibleState(VisibleState.FullVisible),
+                listener: () => SetVisibleState(SelectionCategoryButtonState.FullVisible),
                 eventType: ButtonEventType.OnPointerEnter
             );
 
             button.AddListener(
-                listener: () => SetVisibleState(VisibleState.FullHidden),
+                listener: () => {
+                    SetVisibleState(SelectionCategoryButtonState.FullHidden);
+                    callback?.Invoke();
+                },
                 eventType: ButtonEventType.OnClick
             );
 
             button.AddListener(
                 listener: () => {
-                    if (visibleState == VisibleState.FullVisible) {
-                        SetVisibleState(VisibleState.HalfVisible);
+                    if (visibleState == SelectionCategoryButtonState.FullVisible) {
+                        SetVisibleState(SelectionCategoryButtonState.HalfVisible);
                     }
                 },
                 eventType: ButtonEventType.OnPointerExit
             );
 
+            SetVisibleState(SelectionCategoryButtonState.HalfVisible);
+
             initialized = true;
         }
 
-        void SetVisibleState(VisibleState state) {
-            if (state == VisibleState.FullVisible) {
+        public void SetVisibleState(SelectionCategoryButtonState state) {
+            if (state == SelectionCategoryButtonState.FullVisible) {
                 ownTransform.SetPosition(x: -6, smooth: true);
-            } else if (state == VisibleState.HalfVisible) {
-                ownTransform.SetPosition(x: -112 * InterfaceCanvas.OutsideFactor, smooth: true);
-            } else if (state == VisibleState.FullHidden) {
-                ownTransform.SetPosition(x: -ownTransform.width * InterfaceCanvas.OutsideFactor - 10, smooth: true);
+            } else if (state == SelectionCategoryButtonState.HalfVisible) {
+                ownTransform.SetPosition(x: -112, smooth: true);
+            } else if (state == SelectionCategoryButtonState.FullHidden) {
+                ownTransform.SetPosition(x: -(ownTransform.width + 10), smooth: true);
             }
 
             visibleState = state;

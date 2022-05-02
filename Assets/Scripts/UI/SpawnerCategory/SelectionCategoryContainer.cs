@@ -14,11 +14,13 @@ namespace ScrapCoder.UI {
         [SerializeField] ScrollBarController scrollBar;
         [SerializeField] NodeTransform content;
         [SerializeField] Transform children;
+        [SerializeField] ButtonController returnButton;
 
         [SerializeField] NodeSpawnController spawnerPrefab;
 
-        [SerializeField] List<NodeSpawnTemplate> templates;
-
+        // Lazy variables
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
 
         // State variables
         bool initialized = false;
@@ -30,20 +32,37 @@ namespace ScrapCoder.UI {
             Initialize();
         }
 
-        public void Initialize() {
+        public void Initialize(
+            List<NodeSpawnTemplate> spawnersTemplates = null,
+            System.Action returnCallback = null
+        ) {
             if (initialized) return;
 
-            spawners = CreateSpawners();
+            System.Action dissapearAndReturn = () => {
+                returnCallback?.Invoke();
+                SetVisible(visible: false, smooth: true);
+            };
+
+            spawners = CreateSpawners(
+                spawnersTemplates: spawnersTemplates,
+                returnCallback: dissapearAndReturn
+            );
+
             var newY = PositionAllSpawners();
             RefreshDimensions(-newY);
+
+            returnButton.AddListener(dissapearAndReturn);
+
+            SetVisible(visible: false, smooth: false);
 
             initialized = true;
         }
 
-        List<NodeSpawnController> CreateSpawners() {
-            return templates.ConvertAll(t => NodeSpawnController.Create(
+        List<NodeSpawnController> CreateSpawners(List<NodeSpawnTemplate> spawnersTemplates, System.Action returnCallback) {
+            return spawnersTemplates?.ConvertAll(t => NodeSpawnController.Create(
                 spawnerPrefab: spawnerPrefab,
                 parent: children,
+                returnCallback: returnCallback,
                 template: t
             ));
         }
@@ -51,7 +70,7 @@ namespace ScrapCoder.UI {
         int PositionAllSpawners() {
             var lastY = -14;
 
-            spawners.ForEach(s => {
+            spawners?.ForEach(s => {
                 s.ownTransform.SetPosition(x: 18, y: lastY);
                 lastY -= s.ownTransform.height + 10;
             });
@@ -65,6 +84,13 @@ namespace ScrapCoder.UI {
                 scrollBar.RefreshSlider();
             }
 
+        }
+
+        public void SetVisible(bool visible, bool smooth = false) {
+            ownTransform.SetPosition(
+                x: visible ? 6 : -(ownTransform.width + 10),
+                smooth: smooth
+            );
         }
 
     }
