@@ -8,26 +8,26 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
-    public class SelectionCategoryButton : MonoBehaviour {
+    public class SpawnerSelectionButton : MonoBehaviour {
 
         // Editor variables
         [SerializeField] NodeSprite iconSprite;
         [SerializeField] ExpandableText titleText;
 
-        [SerializeField] SelectionCategoryController categoryController;
+        [SerializeField] SpawnerSelectionController categoryController;
 
         // State variables
         public string title;
         public string icon;
 
-        public SelectionCategoryButtonState visibleState = SelectionCategoryButtonState.HalfVisible;
+        public SpawnerSelectionButtonState visibleState = SpawnerSelectionButtonState.HalfVisible;
 
         // Lazy variables
         ButtonController _button;
         public ButtonController button => _button ??= (GetComponent<ButtonController>() as ButtonController);
 
         NodeTransform _ownTransform;
-        NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
+        public NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
 
         bool initialized = false;
 
@@ -49,7 +49,7 @@ namespace ScrapCoder.UI {
             iconSprite.SetState(icon);
 
             button.AddListener(
-                listener: () => SetVisibleState(SelectionCategoryButtonState.FullVisible),
+                listener: () => SetVisibleState(SpawnerSelectionButtonState.FullVisible),
                 eventType: ButtonEventType.OnPointerEnter
             );
 
@@ -60,24 +60,24 @@ namespace ScrapCoder.UI {
 
             button.AddListener(
                 listener: () => {
-                    if (visibleState == SelectionCategoryButtonState.FullVisible) {
-                        SetVisibleState(SelectionCategoryButtonState.HalfVisible);
+                    if (visibleState == SpawnerSelectionButtonState.FullVisible) {
+                        SetVisibleState(SpawnerSelectionButtonState.HalfVisible);
                     }
                 },
                 eventType: ButtonEventType.OnPointerExit
             );
 
-            SetVisibleState(SelectionCategoryButtonState.HalfVisible);
+            SetVisibleState(SpawnerSelectionButtonState.HalfVisible);
 
             initialized = true;
         }
 
-        public void SetVisibleState(SelectionCategoryButtonState state) {
-            if (state == SelectionCategoryButtonState.FullVisible) {
+        public void SetVisibleState(SpawnerSelectionButtonState state) {
+            if (state == SpawnerSelectionButtonState.FullVisible) {
                 ownTransform.SetPosition(x: -6, smooth: true);
-            } else if (state == SelectionCategoryButtonState.HalfVisible) {
+            } else if (state == SpawnerSelectionButtonState.HalfVisible) {
                 ownTransform.SetPosition(x: -112, smooth: true);
-            } else if (state == SelectionCategoryButtonState.FullHidden) {
+            } else if (state == SpawnerSelectionButtonState.FullHidden) {
                 ownTransform.SetPosition(x: -(ownTransform.width + 10), smooth: true);
             }
 

@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -110,11 +111,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!95 &1220465824648432430
 Animator:
   serializedVersion: 3
@@ -145,6 +144,7 @@ GameObject:
   - component: {fileID: 3500322027183536214}
   - component: {fileID: 3500322027183536217}
   - component: {fileID: 8221266727117902891}
+  - component: {fileID: 4519023982113357309}
   m_Layer: 5
   m_Name: InputText
   m_TagString: Untagged
@@ -199,6 +199,7 @@ MonoBehaviour:
   initWidth: 37
   expandableText: {fileID: 4514129928641849148}
   pieceToExpand: {fileID: 0}
+  textHandler: {fileID: 0}
 --- !u!114 &8221266727117902891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 3500322027183536217}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -220,11 +222,20 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
+--- !u!210 &4519023982113357309
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3500322027183536215}
+  m_Enabled: 1
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
+  m_SortingOrder: 0
 --- !u!1 &6599529701237877967
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3056932508174486343}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: remover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +284,7 @@ GameObject:
   - component: {fileID: 3094906590913309701}
   - component: {fileID: 6378236259032520230}
   - component: {fileID: 1918558763444601302}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,6 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6378236259032520230}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -349,11 +361,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6378236259032520230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc9fda10b2598f44896f19871f9f632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
   inputText: {fileID: 3500322027183536217}
 --- !u!1 &8692680952554736680
 GameObject:
@@ -401,7 +410,7 @@ GameObject:
   - component: {fileID: 7973476556103849202}
   - component: {fileID: 2828579621147156603}
   - component: {fileID: 3261834392640994741}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,6 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 3261834392640994741}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 0
@@ -578,11 +588,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &3261834392640994741
 MonoBehaviour:
   m_ObjectHideFlags: 0

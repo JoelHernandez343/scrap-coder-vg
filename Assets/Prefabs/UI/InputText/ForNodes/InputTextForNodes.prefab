@@ -111,8 +111,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!95 &1220465824648432430
 Animator:
   serializedVersion: 3
@@ -184,8 +185,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3500322027183536215}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!114 &8221266727117902891
 MonoBehaviour:
@@ -209,8 +210,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 4
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &3500322027183536217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3056932508174486343}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: remover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +297,7 @@ GameObject:
   - component: {fileID: 3094906590913309701}
   - component: {fileID: 6378236259032520230}
   - component: {fileID: 1877276637738025057}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,8 +374,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6378236259032520230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +423,7 @@ GameObject:
   - component: {fileID: 7973476556103849202}
   - component: {fileID: 2828579621147156603}
   - component: {fileID: 3261834392640994741}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,8 +601,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &3261834392640994741
 MonoBehaviour:
   m_ObjectHideFlags: 0

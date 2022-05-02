@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.UI {
-    public class SelectionCategoryContainer : MonoBehaviour {
+    public class SpawnerSelectionContainer : MonoBehaviour {
 
         // Editor variables
         [SerializeField] ScrollBarController scrollBar;
@@ -16,7 +16,7 @@ namespace ScrapCoder.UI {
         [SerializeField] Transform children;
         [SerializeField] ButtonController returnButton;
 
-        [SerializeField] public SelectionCategoryController categoryController;
+        [SerializeField] public SpawnerSelectionController categoryController;
 
         [SerializeField] NodeSpawnController spawnerPrefab;
 

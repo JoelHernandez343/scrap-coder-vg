@@ -79,8 +79,6 @@ namespace ScrapCoder.UI {
                 return;
             }
 
-            Debug.Log(content);
-
             var newPosition = (int)(currentPosition * previousScale / currentScale);
 
             sliderButton.ownTransform.SetPosition(
@@ -131,10 +129,7 @@ namespace ScrapCoder.UI {
 
 
         public void MoveContent(int delta, bool fromDragging = false) {
-            if (delta == 0) {
-                Debug.Log("Hmmm");
-                return;
-            };
+            if (delta == 0) return;
 
             var newPosition = futurePosition == limit
                 ? content - visor

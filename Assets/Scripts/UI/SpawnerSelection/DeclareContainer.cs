@@ -16,31 +16,42 @@ namespace ScrapCoder.UI {
         [SerializeField] ButtonController button;
         [SerializeField] InputText inputText;
 
-        [SerializeField] NodeSpawnController spawnerPrefab;
-        [SerializeField] NodeController declaredPrefab;
-
         [SerializeField] Transform temporalParent;
         [SerializeField] Transform spawnerParent;
 
-        [SerializeField] Canvas canvas;
+        [SerializeField] NodeSpawnController spawnerPrefab;
 
         [SerializeField] int spawnLimit = 10;
-
         [SerializeField] string declaredPrefix;
-
         [SerializeField] string spawnerIcon;
-
-        [SerializeField] public SelectionCategoryContainer categoryContainer;
 
         // State variables
         List<NodeSpawnController> spawners = new List<NodeSpawnController>();
+
+        NodeController declaredPrefab;
 
         // Lazy variables
         int Count => spawners.Count;
         NodeSpawnController Last => spawners.Count > 0 ? spawners[Count - 1] : null;
 
+        SpawnerSelectionContainer _categoryContainer;
+        SpawnerSelectionContainer categoryContainer
+            => _categoryContainer
+                ??= (GetComponent<SpawnerSelectionContainer>() as SpawnerSelectionContainer);
+
         // Methods
-        void Start() {
+        public void Initialize(
+            int spawnLimit,
+            string declaredPrefix,
+            string spawnerIcon,
+            NodeController declaredPrefab
+        ) {
+            // Copy of data
+            this.spawnLimit = spawnLimit;
+            this.declaredPrefix = declaredPrefix;
+            this.spawnerIcon = spawnerIcon;
+            this.declaredPrefab = declaredPrefab;
+
             System.Action declare = () => {
                 Declare();
                 InputController.instance.ClearFocus();

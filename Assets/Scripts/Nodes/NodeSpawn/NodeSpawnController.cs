@@ -46,7 +46,7 @@ namespace ScrapCoder.VisualNodes {
 
         bool initialized = false;
 
-        public SelectionCategoryContainer categoryContainer;
+        public SpawnerSelectionContainer categoryContainer;
 
         // Lazy and other variables
         [System.NonSerialized] public NodeController spawned;
@@ -174,7 +174,7 @@ namespace ScrapCoder.VisualNodes {
             NodeSpawnController spawnerPrefab,
             Transform parent,
             NodeSpawnTemplate template,
-            SelectionCategoryContainer categoryContainer,
+            SpawnerSelectionContainer categoryContainer,
             NodeController prefabToSpawn = null,
             System.Action discardCallback = null
         ) {

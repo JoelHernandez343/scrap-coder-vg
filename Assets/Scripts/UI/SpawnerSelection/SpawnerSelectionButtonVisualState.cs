@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrapCoder.UI {
-    public enum SelectionCategoryButtonState {
+    public enum SpawnerSelectionButtonState {
         HalfVisible, FullVisible, FullHidden
     }
 }

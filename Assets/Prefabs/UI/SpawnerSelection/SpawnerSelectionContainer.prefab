@@ -634,8 +634,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: 0}
       - {x: 282, y: 0}
-      - {x: 282, y: -454}
-      - {x: 0, y: -454}
+      - {x: 282, y: -463}
+      - {x: 0, y: -463}
 --- !u!1 &2541179099199076572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2329,7 +2329,7 @@ GameObject:
   - component: {fileID: 2661453575566534619}
   - component: {fileID: 3066142363446692152}
   m_Layer: 5
-  m_Name: categoryContainer
+  m_Name: SpawnerSelectionContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2410,6 +2410,7 @@ MonoBehaviour:
   content: {fileID: 193301672832946285}
   children: {fileID: 8065666957453971367}
   returnButton: {fileID: 3169060145200932502}
+  categoryController: {fileID: 0}
   spawnerPrefab: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
 --- !u!1 &7406679211128090778
 GameObject:
@@ -3522,7 +3523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4348182291501408495, guid: 2d8a595dbc898a940a1ed673889eadc2, type: 3}
       propertyPath: m_LocalAABB.m_Center.y
-      value: -8.320664
+      value: -1.9999735
       objectReference: {fileID: 0}
     - target: {fileID: 4348182291501408495, guid: 2d8a595dbc898a940a1ed673889eadc2, type: 3}
       propertyPath: m_LocalAABB.m_Center.z
@@ -3534,7 +3535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4348182291501408495, guid: 2d8a595dbc898a940a1ed673889eadc2, type: 3}
       propertyPath: m_LocalAABB.m_Extent.y
-      value: 8.320676
+      value: 2.0000265
       objectReference: {fileID: 0}
     - target: {fileID: 4348182291501408495, guid: 2d8a595dbc898a940a1ed673889eadc2, type: 3}
       propertyPath: m_LocalAABB.m_Extent.z
@@ -3614,7 +3615,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4574384010435185623, guid: 2d8a595dbc898a940a1ed673889eadc2, type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.data[1].position.y
-      value: -16.64134
+      value: -16.666672
       objectReference: {fileID: 0}
     - target: {fileID: 4574384010435185623, guid: 2d8a595dbc898a940a1ed673889eadc2, type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.data[2].position.x
