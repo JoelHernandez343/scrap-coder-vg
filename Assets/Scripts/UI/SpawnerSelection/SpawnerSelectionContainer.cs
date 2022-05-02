@@ -81,7 +81,7 @@ namespace ScrapCoder.UI {
                 lastY -= s.ownTransform.height + 10;
             });
 
-            return lastY - 14;
+            return -(lastY - 14);
         }
 
         public void RemoveSpawner(string symbolName, bool smooth = false) {

@@ -238,8 +238,8 @@ namespace ScrapCoder.UI {
                     spawnerIcon = "var_simple",
                 },
                 new SpawnerSelectionTemplate {
-                    title = "Variables",
-                    icon = "variable",
+                    title = "Arreglos",
+                    icon = "array",
                     declarationType = "array",
                     spawnLimit = 10,
                     declaredPrefix = "array_",
