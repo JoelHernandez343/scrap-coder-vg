@@ -13,6 +13,8 @@ namespace ScrapCoder.VisualNodes {
 
         [SerializeField] bool hideable;
 
+        [SerializeField] bool selectRandomSprite = true;
+
         [SerializeField]
         List<string> states = new List<string> {
             "normal",
@@ -59,10 +61,17 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SelectRandomSprite() {
+            if (!selectRandomSprite) return;
+
             if (spriteRange > 0) {
                 selectedSprite = rand.NextIntRange(0, spriteRange);
                 ChangeSprite();
             }
+        }
+
+        public void ChangeSelectedSprite(int newSprite) {
+            selectedSprite = newSprite;
+            ChangeSprite();
         }
 
         void ChangeSprite() {

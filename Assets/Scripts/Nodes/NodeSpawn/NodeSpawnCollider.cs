@@ -26,6 +26,7 @@ namespace ScrapCoder.VisualNodes {
             if (Executer.instance.isRunning) return;
 
             spawnController.SetState("normal");
+            spawnController.HideContainer();
             spawnController.SpawnNode(
                 newPosition: GetPointerPosition(e),
                 dx: e.delta.x,

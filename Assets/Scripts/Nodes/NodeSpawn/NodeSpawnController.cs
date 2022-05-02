@@ -170,6 +170,12 @@ namespace ScrapCoder.VisualNodes {
             counter?.ChangeText($"{spawnLimit - spawnedCount}", 0, 0);
         }
 
+        public void HideContainer() {
+            if (!categoryContainer.isLocked) {
+                categoryContainer.categoryController.LoseFocus();
+            }
+        }
+
         public static NodeSpawnController Create(
             NodeSpawnController spawnerPrefab,
             Transform parent,

@@ -15,7 +15,9 @@ namespace ScrapCoder.UI {
         [SerializeField] ScrollBarController scrollBar;
         [SerializeField] NodeTransform content;
         [SerializeField] Transform children;
+
         [SerializeField] ButtonController returnButton;
+        [SerializeField] SpawnerSelectionContainerLockButton lockButton;
 
         [SerializeField] public SpawnerSelectionController categoryController;
 
@@ -24,6 +26,8 @@ namespace ScrapCoder.UI {
         // Lazy variables
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
+
+        public bool isLocked => lockButton.isLocked;
 
         // State variables
         bool initialized = false;

@@ -24,7 +24,7 @@ namespace ScrapCoder.UI {
 
         // Editor variables
         [SerializeField] NodeShapeContainer shapeState;
-        [SerializeField] NodeSprite spriteState;
+        [SerializeField] public NodeSprite spriteState;
 
         [SerializeField] public bool usingSprite = false;
 

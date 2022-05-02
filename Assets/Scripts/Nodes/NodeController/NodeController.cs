@@ -499,7 +499,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (dragDropZone?.category == "working") {
 
-                if (Executer.instance.isRunning || InvokeZones()) {
+                if (Executer.instance.isRunning || !InvokeZones()) {
                     HierarchyController.instance.SetOnTopOfNodes(this);
                 }
 
