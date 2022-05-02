@@ -26,17 +26,12 @@ namespace ScrapCoder.UI {
         [SerializeField] string spawnerIcon;
 
         // State variables
-        List<NodeSpawnController> spawners = new List<NodeSpawnController>();
-
         NodeController declaredPrefab;
 
         // Lazy variables
-        int Count => spawners.Count;
-        NodeSpawnController Last => spawners.Count > 0 ? spawners[Count - 1] : null;
-
-        SpawnerSelectionContainer _categoryContainer;
-        SpawnerSelectionContainer categoryContainer
-            => _categoryContainer
+        SpawnerSelectionContainer _selectionContainer;
+        SpawnerSelectionContainer selectionContainer
+            => _selectionContainer
                 ??= (GetComponent<SpawnerSelectionContainer>() as SpawnerSelectionContainer);
 
         // Methods
@@ -87,14 +82,14 @@ namespace ScrapCoder.UI {
                 spawnerPrefab: spawnerPrefab,
                 parent: spawnerParent,
                 prefabToSpawn: newPrefab,
-                discardCallback: () => DeleteDeclared(symbolName),
+                discardCallback: () => selectionContainer.RemoveSpawner(symbolName: symbolName, smooth: true),
                 template: new NodeSpawnTemplate {
                     title = name,
                     symbolName = symbolName,
                     spawnLimit = spawnLimit,
                     selectedIcon = spawnerIcon
                 },
-                categoryContainer: categoryContainer
+                categoryContainer: selectionContainer
             );
 
             SymbolTable.instance.AddSymbol(
@@ -105,43 +100,7 @@ namespace ScrapCoder.UI {
                 spawner: newSpawner
             );
 
-            PositionSpawner(newSpawner);
-        }
-
-        void PositionSpawner(NodeSpawnController spawner) {
-            var lastY = Last?.ownTransform.fy - 10 ?? 0;
-
-            spawner.ownTransform.depth = 0;
-            spawner.ownTransform.SetScale(x: 2, y: 2, z: 1);
-            spawner.ownTransform.SetPosition(x: 0, y: (spawner.ownTransform.height + 10) * InterfaceCanvas.OutsideFactor);
-            spawner.ownTransform.SetPosition(y: lastY * InterfaceCanvas.OutsideFactor, smooth: true);
-
-            spawners.Add(spawner);
-        }
-
-        void RepositionAllSpawners() {
-            var lastY = 0;
-
-            spawners.ForEach(s => {
-                s.ownTransform.SetPosition(x: 0, y: lastY * InterfaceCanvas.OutsideFactor, smooth: true);
-                lastY -= s.ownTransform.height + 10;
-            });
-        }
-
-        void DeleteDeclared(string symbolName) {
-            var spawner = spawners.Find(s => s.symbolName == symbolName);
-
-            SymbolTable.instance.DeleteSymbol(symbolName);
-
-            spawners.Remove(spawner);
-
-            spawner.ownTransform.SetPositionByDelta(
-                dx: -1000,
-                smooth: true,
-                endingCallback: () => Destroy(spawner.gameObject)
-            );
-
-            RepositionAllSpawners();
+            selectionContainer.AddSpawner(spawner: newSpawner, smooth: true);
         }
 
     }

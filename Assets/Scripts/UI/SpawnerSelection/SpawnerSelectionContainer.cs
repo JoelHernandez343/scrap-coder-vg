@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.Interpreter;
 
 namespace ScrapCoder.UI {
     public class SpawnerSelectionContainer : MonoBehaviour {
@@ -38,9 +39,7 @@ namespace ScrapCoder.UI {
             if (initialized) return;
 
             spawners = CreateSpawners(spawnersTemplates: spawnersTemplates);
-
-            var newY = PositionAllSpawners();
-            RefreshDimensions(-newY);
+            RefreshSpawnerPositions();
 
             returnButton.AddListener(() => categoryController.LoseFocus());
 
@@ -55,26 +54,49 @@ namespace ScrapCoder.UI {
                 parent: children,
                 categoryContainer: this,
                 template: t
-            ));
+            )) ?? new List<NodeSpawnController>();
         }
 
-        int PositionAllSpawners() {
+        public void AddSpawner(NodeSpawnController spawner, bool smooth = false) {
+            spawners.Add(spawner);
+
+            RefreshSpawnerPositions(smooth: smooth);
+        }
+
+        void RefreshSpawnerPositions(bool smooth = false) {
+            var newY = PositionAllSpawners(smooth: smooth);
+
+            if (newY > content.height) {
+                content.Expand(dy: newY - content.height);
+                scrollBar.RefreshSlider();
+            }
+        }
+
+        int PositionAllSpawners(bool smooth = false) {
             var lastY = -14;
 
             spawners?.ForEach(s => {
-                s.ownTransform.SetPosition(x: 18, y: lastY);
+                s.ownTransform.SetPosition(x: 18);
+                s.ownTransform.SetPosition(x: 18, y: lastY, smooth: smooth);
                 lastY -= s.ownTransform.height + 10;
             });
 
             return lastY - 14;
         }
 
-        void RefreshDimensions(int newY) {
-            if (newY > content.height) {
-                content.Expand(dy: newY - content.height);
-                scrollBar.RefreshSlider();
-            }
+        public void RemoveSpawner(string symbolName, bool smooth = false) {
+            var spawner = spawners.Find(s => s.symbolName == symbolName);
 
+            SymbolTable.instance.DeleteSymbol(symbolName);
+            spawners.Remove(spawner);
+
+            spawner.ownTransform.SetPositionByDelta(
+                dx: -1000,
+                smooth: true,
+                endingCallback: () => Destroy(spawner.gameObject)
+            );
+
+            RefreshSpawnerPositions(smooth: smooth);
         }
 
         public void SetVisible(bool visible, bool smooth = false) {

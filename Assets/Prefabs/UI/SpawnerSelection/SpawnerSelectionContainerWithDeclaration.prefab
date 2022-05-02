@@ -646,7 +646,6 @@ MonoBehaviour:
   temporalParent: {fileID: 4971185467046587750}
   spawnerParent: {fileID: 5341710084259080533}
   spawnerPrefab: {fileID: 5541214980654035048, guid: bce543c343d2447419bf0a0e57c42b02, type: 3}
-  declaredPrefab: {fileID: 0}
   spawnLimit: 0
   declaredPrefix: 
   spawnerIcon: 
@@ -1017,47 +1016,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalRangeTemplate:
-    initialStartIndex: 1
-    initialEndIndex: 2
-    isExpandable: 1
+    initialStartIndex: 0
+    initialEndIndex: 0
+    isExpandable: 0
   verticalRangeTemplate:
-    initialStartIndex: 2
-    initialEndIndex: 3
-    isExpandable: 1
+    initialStartIndex: 0
+    initialEndIndex: 0
+    isExpandable: 0
   spriteSize:
     x: 8
     y: 8
-  segmentTemplates:
-  - randomRange: 3
-    minSeparation: 6
-    maxSeparation: 10
-    firstIndex: 0
-    finalIndex: 1
-  - randomRange: 3
-    minSeparation: 6
-    maxSeparation: 10
-    firstIndex: 1
-    finalIndex: 2
-  - randomRange: 3
-    minSeparation: 6
-    maxSeparation: 10
-    firstIndex: 2
-    finalIndex: 3
-  - randomRange: 3
-    minSeparation: 6
-    maxSeparation: 10
-    firstIndex: 3
-    finalIndex: 0
-  initialPointPosition: {x: 4, y: -4}
+  segmentTemplates: []
+  initialPointPosition: {x: 3, y: -8}
   hideable: 1
   states:
   - normal
   - over
   - pressed
   - disabled
-  spriteBreakpoints:
-  - initialStartIndex: 0
-    range: 3
+  spriteBreakpoints: []
 --- !u!210 &988584044719055539
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1195,7 +1172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1500,7 +1477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7201795800303988927, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_Name
-      value: categoryContainerWithDeclaration
+      value: SpawnerSelectionContainerWithDeclaration
       objectReference: {fileID: 0}
     - target: {fileID: 7309992415366698770, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_Pivot.x
@@ -1630,6 +1607,18 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3261834392640994741, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
+      propertyPath: horizontalRangeTemplate.isExpandable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3261834392640994741, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
+      propertyPath: horizontalRangeTemplate.initialEndIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3261834392640994741, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
+      propertyPath: horizontalRangeTemplate.initialStartIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3500322027183536214, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1688,7 +1677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3500322027183536214, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3500322027183536214, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1748,7 +1737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7884168718159729666, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7884168718159729666, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: m_SortingOrder

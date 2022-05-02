@@ -232,30 +232,18 @@ namespace ScrapCoder.UI {
                 new SpawnerSelectionTemplate {
                     title = "Variables",
                     icon = "variable",
-                    spawnersTemplates = new List<NodeSpawnTemplate> {
-                        new NodeSpawnTemplate {
-                            title = "Inicio",
-                            nodeToSpawn = NodeType.Begin,
-                            selectedIcon = "begin",
-                            spawnLimit = -1,
-                            symbolName = null
-                        }
-                    },
-                    declarationType = "none"
+                    declarationType = "variable",
+                    spawnLimit = 10,
+                    declaredPrefix = "var_",
+                    spawnerIcon = "var_simple",
                 },
                 new SpawnerSelectionTemplate {
-                    title = "Arreglos",
-                    icon = "array",
-                    spawnersTemplates = new List<NodeSpawnTemplate> {
-                        new NodeSpawnTemplate {
-                            title = "Inicio",
-                            nodeToSpawn = NodeType.Begin,
-                            selectedIcon = "begin",
-                            spawnLimit = -1,
-                            symbolName = null
-                        }
-                    },
-                    declarationType = "none"
+                    title = "Variables",
+                    icon = "variable",
+                    declarationType = "array",
+                    spawnLimit = 10,
+                    declaredPrefix = "array_",
+                    spawnerIcon = "array_simple",
                 },
             };
 
@@ -266,7 +254,12 @@ namespace ScrapCoder.UI {
                         : categoryWithDeclarationPrefab,
                     parent: categoriesParent,
                     template: template,
-                    selectionController: this
+                    selectionController: this,
+                    prefabToSpawn: template.declarationType == "none"
+                        ? null
+                        : template.declarationType == "variable"
+                        ? variablePrefab
+                        : arrayPrefab
                 )
             );
 
