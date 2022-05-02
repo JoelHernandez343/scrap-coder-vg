@@ -45,22 +45,23 @@ namespace ScrapCoder.UI {
         }
 
         void ConfigureContainer(List<NodeSpawnTemplate> spawnersTemplates) {
-            container.Initialize(
-                spawnersTemplates: spawnersTemplates,
-                returnCallback: () => {
-                    button.SetVisibleState(state: SelectionCategoryButtonState.HalfVisible);
-                }
-            );
+            container.Initialize(spawnersTemplates: spawnersTemplates);
         }
 
         void ConfigureButton(string title, string icon) {
-            button.Initialize(
-                title: title,
-                icon: icon,
-                callback: () => {
-                    container.SetVisible(visible: true, smooth: true);
-                }
-            );
+            button.Initialize(title: title, icon: icon);
+        }
+
+        public void GetFocus() {
+            container.SetVisible(visible: true, smooth: true);
+            button.SetVisibleState(SelectionCategoryButtonState.FullHidden);
+            // Here we hide other buttons;
+        }
+
+        public void LoseFocus() {
+            container.SetVisible(visible: false, smooth: true);
+            button.SetVisibleState(state: SelectionCategoryButtonState.HalfVisible);
+            // Here we show other buttons;
         }
 
     }

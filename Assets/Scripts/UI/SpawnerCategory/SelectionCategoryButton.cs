@@ -14,6 +14,8 @@ namespace ScrapCoder.UI {
         [SerializeField] NodeSprite iconSprite;
         [SerializeField] ExpandableText titleText;
 
+        [SerializeField] SelectionCategoryController categoryController;
+
         // State variables
         public string title;
         public string icon;
@@ -34,7 +36,7 @@ namespace ScrapCoder.UI {
             Initialize(title: title, icon: icon);
         }
 
-        public void Initialize(string title, string icon, System.Action callback = null) {
+        public void Initialize(string title, string icon) {
 
             if (initialized) return;
 
@@ -52,10 +54,7 @@ namespace ScrapCoder.UI {
             );
 
             button.AddListener(
-                listener: () => {
-                    SetVisibleState(SelectionCategoryButtonState.FullHidden);
-                    callback?.Invoke();
-                },
+                listener: () => categoryController.GetFocus(),
                 eventType: ButtonEventType.OnClick
             );
 

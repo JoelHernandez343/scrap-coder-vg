@@ -30,6 +30,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] string spawnerIcon;
 
+        [SerializeField] public SelectionCategoryContainer categoryContainer;
+
         // State variables
         List<NodeSpawnController> spawners = new List<NodeSpawnController>();
 
@@ -80,7 +82,8 @@ namespace ScrapCoder.UI {
                     symbolName = symbolName,
                     spawnLimit = spawnLimit,
                     selectedIcon = spawnerIcon
-                }
+                },
+                categoryContainer: categoryContainer
             );
 
             SymbolTable.instance.AddSymbol(

@@ -46,6 +46,8 @@ namespace ScrapCoder.VisualNodes {
 
         bool initialized = false;
 
+        public SelectionCategoryContainer categoryContainer;
+
         // Lazy and other variables
         [System.NonSerialized] public NodeController spawned;
         const int pixelScale = 2;
@@ -55,8 +57,6 @@ namespace ScrapCoder.VisualNodes {
 
         int spawnedCount => SymbolTable.instance[symbolName]?.Count ?? 0;
         bool showingInfinity => spawnLimit == -1;
-
-        public System.Action ReturnCallback { private set; get; }
 
         // Methods
         void Start() {
@@ -174,9 +174,9 @@ namespace ScrapCoder.VisualNodes {
             NodeSpawnController spawnerPrefab,
             Transform parent,
             NodeSpawnTemplate template,
+            SelectionCategoryContainer categoryContainer,
             NodeController prefabToSpawn = null,
-            System.Action discardCallback = null,
-            System.Action returnCallback = null
+            System.Action discardCallback = null
         ) {
             var newSpawner = Instantiate(original: spawnerPrefab, parent: parent);
 
@@ -192,7 +192,8 @@ namespace ScrapCoder.VisualNodes {
             newSpawner.nodeToSpawn = template.nodeToSpawn;
             newSpawner.prefabToSpawn = prefabToSpawn;
 
-            newSpawner.ReturnCallback = returnCallback;
+            newSpawner.categoryContainer = categoryContainer;
+
             newSpawner.SetDiscardButton(discardCallback: discardCallback);
 
             newSpawner.Initialize();

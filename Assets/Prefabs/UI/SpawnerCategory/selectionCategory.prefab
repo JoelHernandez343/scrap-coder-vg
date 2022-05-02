@@ -71,6 +71,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 176501606461021556}
     m_Modifications:
+    - target: {fileID: 3066142363446692152, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
+      propertyPath: categoryController
+      value: 
+      objectReference: {fileID: 160414272500889772}
     - target: {fileID: 7201795800303988927, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_Name
       value: categoryContainer
@@ -280,6 +284,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8439895030912044975, guid: 532a91791bab6aa47ab09611e3cd0d83, type: 3}
+      propertyPath: categoryController
+      value: 
+      objectReference: {fileID: 160414272500889772}
     - target: {fileID: 8666688861078238597, guid: 532a91791bab6aa47ab09611e3cd0d83, type: 3}
       propertyPath: m_Name
       value: categoryButton

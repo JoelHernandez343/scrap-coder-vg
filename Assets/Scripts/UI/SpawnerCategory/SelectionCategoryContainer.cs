@@ -16,6 +16,8 @@ namespace ScrapCoder.UI {
         [SerializeField] Transform children;
         [SerializeField] ButtonController returnButton;
 
+        [SerializeField] public SelectionCategoryController categoryController;
+
         [SerializeField] NodeSpawnController spawnerPrefab;
 
         // Lazy variables
@@ -32,37 +34,26 @@ namespace ScrapCoder.UI {
             Initialize();
         }
 
-        public void Initialize(
-            List<NodeSpawnTemplate> spawnersTemplates = null,
-            System.Action returnCallback = null
-        ) {
+        public void Initialize(List<NodeSpawnTemplate> spawnersTemplates = null) {
             if (initialized) return;
 
-            System.Action dissapearAndReturn = () => {
-                returnCallback?.Invoke();
-                SetVisible(visible: false, smooth: true);
-            };
-
-            spawners = CreateSpawners(
-                spawnersTemplates: spawnersTemplates,
-                returnCallback: dissapearAndReturn
-            );
+            spawners = CreateSpawners(spawnersTemplates: spawnersTemplates);
 
             var newY = PositionAllSpawners();
             RefreshDimensions(-newY);
 
-            returnButton.AddListener(dissapearAndReturn);
+            returnButton.AddListener(() => categoryController.LoseFocus());
 
             SetVisible(visible: false, smooth: false);
 
             initialized = true;
         }
 
-        List<NodeSpawnController> CreateSpawners(List<NodeSpawnTemplate> spawnersTemplates, System.Action returnCallback) {
+        List<NodeSpawnController> CreateSpawners(List<NodeSpawnTemplate> spawnersTemplates) {
             return spawnersTemplates?.ConvertAll(t => NodeSpawnController.Create(
                 spawnerPrefab: spawnerPrefab,
                 parent: children,
-                returnCallback: returnCallback,
+                categoryContainer: this,
                 template: t
             ));
         }
