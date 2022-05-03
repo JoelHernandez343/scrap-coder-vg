@@ -497,7 +497,7 @@ namespace ScrapCoder.VisualNodes {
             isDragging = false;
             SetState(state: "normal", propagation: true);
 
-            if (dragDropZone?.category == "working") {
+            if (dragDropZone?.category == DragDropZone.Category.Working) {
 
                 if (Executer.instance.isRunning || !InvokeZones()) {
                     HierarchyController.instance.SetOnTopOfNodes(this);
@@ -506,7 +506,7 @@ namespace ScrapCoder.VisualNodes {
                 SetMiddleZone(false);
                 dragDropZone.SetState("normal");
 
-            } else if (dragDropZone?.category == "erasing" && !Executer.instance.isRunning) {
+            } else if (dragDropZone?.category == DragDropZone.Category.Erasing && !Executer.instance.isRunning) {
 
                 Disappear();
                 dragDropZone.SetState("normal");

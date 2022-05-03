@@ -587,6 +587,7 @@ MonoBehaviour:
   - {fileID: -3311166113238024884, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -6410789367403454637, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -730,6 +731,7 @@ MonoBehaviour:
   - {fileID: -3064005030135073762, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -6345603003235765376, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -873,6 +875,7 @@ MonoBehaviour:
   - {fileID: 9080658270222181734, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -3321491428408610887, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -892,9 +895,10 @@ GameObject:
   - component: {fileID: 6307453423335967475}
   - component: {fileID: 760213262247589615}
   - component: {fileID: 912130368636528773}
+  - component: {fileID: 147037084719973586}
   m_Layer: 5
   m_Name: collider
-  m_TagString: Untagged
+  m_TagString: TriggerZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1008,6 +1012,19 @@ MonoBehaviour:
     begin: 2
     end: 3
     isExpandable: 1
+--- !u!114 &147037084719973586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3558317652142315179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb93a90645918b47a1f915f6644af58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: Neutral
 --- !u!1 &3772858483565578220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,6 +1981,7 @@ MonoBehaviour:
   - {fileID: -8691083257605298062, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: 4727896532711480388, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over

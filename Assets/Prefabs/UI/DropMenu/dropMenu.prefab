@@ -168,9 +168,10 @@ GameObject:
   - component: {fileID: 7595167902900237846}
   - component: {fileID: 5087399378635852705}
   - component: {fileID: 3062740948293131691}
+  - component: {fileID: 4008280551185536507}
   m_Layer: 0
   m_Name: collider
-  m_TagString: Untagged
+  m_TagString: TriggerZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,6 +282,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropMenu: {fileID: 6499269413335634027}
+--- !u!114 &4008280551185536507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041964093103598014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb93a90645918b47a1f915f6644af58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 0
 --- !u!1001 &2790268095562047663
 PrefabInstance:
   m_ObjectHideFlags: 0

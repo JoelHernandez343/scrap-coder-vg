@@ -11,8 +11,11 @@ namespace ScrapCoder.UI {
 
     public class DragDropZone : MonoBehaviour {
 
+        // Internal types
+        public enum Category { Neutral, Working, Erasing }
+
         // Editor variables
-        [SerializeField] public string category;
+        [SerializeField] public Category category;
 
         // State variables
         string previousState = "";
