@@ -24,34 +24,42 @@ public class ButtonPress : PowerScript
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (objectsInside == 0)
-            objectsInside++;
-        if (!power)
+        if (!collision.isTrigger)
         {
-            power = true;
-            General.evento_Energia(id);
-            spriteRenderer.sprite = sprites[1];
+            if (objectsInside == 0)
+                objectsInside++;
+            if (!power)
+            {
+                power = true;
+                General.evento_Energia(id);
+                spriteRenderer.sprite = sprites[1];
+            }
+
         }
-        
-        
         //General.evento_Energia(power);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        objectsInside++;
+        if (!collision.isTrigger)
+        {
+            objectsInside++;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        objectsInside--;
-        if (power)
+        if (!collision.isTrigger)
         {
-            if (objectsInside < 1)
+            objectsInside--;
+            if (power)
             {
-                power = false;
-                General.evento_Energia(id);
-                spriteRenderer.sprite = sprites[0];
+                if (objectsInside < 1)
+                {
+                    power = false;
+                    General.evento_Energia(id);
+                    spriteRenderer.sprite = sprites[0];
+                }
             }
         }
        
