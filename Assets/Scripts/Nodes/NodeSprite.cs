@@ -76,6 +76,11 @@ namespace ScrapCoder.VisualNodes {
 
         void ChangeSprite() {
             spriteRenderer.sprite = availableSprites[selectedSprite + (this.state * spriteRange)];
+
+            if (ownTransform != null) {
+                ownTransform.width = (int)System.Math.Round(spriteRenderer.sprite.rect.width);
+                ownTransform.height = (int)System.Math.Round(spriteRenderer.sprite.rect.height);
+            }
         }
 
         public void SetState(string state) {

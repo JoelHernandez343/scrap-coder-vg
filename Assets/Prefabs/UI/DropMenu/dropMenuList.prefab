@@ -102,19 +102,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 2699133709030705946}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
-  resizable: 0
+  resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5860859095080717240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableSprites: []
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -237,19 +237,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 2699133709030705946}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
-  resizable: 0
+  resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5266911003484148276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +266,7 @@ MonoBehaviour:
   - {fileID: -220593044414835413, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   - {fileID: 1226402037071802232, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -375,19 +375,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 2699133709030705946}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
-  resizable: 0
+  resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5353951224974694299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +404,7 @@ MonoBehaviour:
   - {fileID: 6383254899765576520, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   - {fileID: 6735470580079786836, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -513,19 +513,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 2699133709030705946}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
-  resizable: 0
+  resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &7395879140155694778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +542,7 @@ MonoBehaviour:
   - {fileID: 9120749588650679938, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   - {fileID: 2103447711312580881, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -618,6 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 6123189024851173424}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 28
@@ -626,11 +627,9 @@ MonoBehaviour:
   minWidth: 28
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6123189024851173424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -802,19 +801,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 2699133709030705946}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
-  resizable: 0
+  resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &7624910864044973370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -832,6 +830,7 @@ MonoBehaviour:
   - {fileID: 2505916572105436782, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   - {fileID: -3791550129949257014, guid: b2bd9ad72f2e06046bc3b7becb51f207, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over

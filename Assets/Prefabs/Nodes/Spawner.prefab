@@ -256,6 +256,7 @@ MonoBehaviour:
   - {fileID: 7401896663633826634, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   - {fileID: -6591663207565612784, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -430,6 +431,7 @@ MonoBehaviour:
   - {fileID: -7779772245507925811, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   - {fileID: 716929634459042934, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -536,6 +538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableSprites: []
   hideable: 1
+  selectRandomSprite: 1
   states: []
   spriteRange: 0
 --- !u!1 &3817245126735781530
@@ -1205,6 +1208,7 @@ MonoBehaviour:
   - {fileID: -628012141879501752, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   - {fileID: 8262077947868551193, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1339,6 +1343,7 @@ MonoBehaviour:
   - {fileID: -4017403286846450815, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   - {fileID: -7618398745848318846, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1798,6 +1803,7 @@ MonoBehaviour:
   infinityIcon: {fileID: 1647699628399663545}
   counter: {fileID: 755948853026157464}
   discardButton: {fileID: 2801759953145989866}
+  categoryContainer: {fileID: 0}
 --- !u!1 &7892776772370677755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,6 +1815,7 @@ GameObject:
   - component: {fileID: 873543716212502440}
   - component: {fileID: 2236250612093276776}
   - component: {fileID: 1576859244450447259}
+  - component: {fileID: 6993323201560837556}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -1919,6 +1926,7 @@ MonoBehaviour:
   - {fileID: 2873453964865190243, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
   - {fileID: 2873453964865190243, guid: 1bd72a9a73d9ea549bc78fab24c613d3, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - begin
   - end
@@ -1940,6 +1948,31 @@ MonoBehaviour:
   - var_simple
   - array_simple
   spriteRange: 1
+--- !u!114 &6993323201560837556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7892776772370677755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 0
+  initWidth: 0
+  minHeight: 0
+  minWidth: 0
+  resizable: 1
+  moveable: 1
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!1 &8303107108510186963
 GameObject:
   m_ObjectHideFlags: 0

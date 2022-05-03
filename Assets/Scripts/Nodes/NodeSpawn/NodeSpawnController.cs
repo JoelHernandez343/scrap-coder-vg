@@ -94,7 +94,11 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SetIcon() {
-            iconSprite?.SetState(selectedIcon);
+            iconSprite.SetState(selectedIcon);
+
+            iconSprite.ownTransform.SetPosition(
+                y: -(ownTransform.height / 2) + iconSprite.ownTransform.height / 2
+            );
         }
 
         public void SpawnNode(Vector2 newPosition, float dx, float dy) {
