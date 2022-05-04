@@ -72,6 +72,7 @@ namespace ScrapCoder.UI {
         }
 
         void MoveSlider(float delta) {
+            delta /= 2;
             delta *= isHorizontal ? 1 : -1;
 
             if (currentPosition == limit && delta > 0 || currentPosition == 0 && delta < 0) return;
