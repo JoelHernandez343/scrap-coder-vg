@@ -40,8 +40,8 @@ namespace ScrapCoder.VisualNodes {
 
             if (stateIndex == -1) return;
 
-            shape.SetState(state);
-            corners.ForEach(c => c.SetState(state));
+            shape?.SetState(state);
+            corners.ForEach(c => c?.SetState(state));
 
             for (var i = 0; i < fillStates.Count; ++i) {
                 fillStates[i].SetVisible(i == stateIndex);
