@@ -58,7 +58,7 @@ namespace ScrapCoder.VisualNodes {
         Vector2 GetPointerPosition(PointerEventData eventData) {
             var newPosition = new Vector2();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rect: InterfaceCanvas.instance.nodeInterfaceContainer.rectTransform,
+                rect: InterfaceCanvas.instance.nodeEditorContainer.rectTransform,
                 screenPoint: eventData.position,
                 cam: InterfaceCanvas.instance.camera,
                 localPoint: out newPosition

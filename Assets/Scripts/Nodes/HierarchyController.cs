@@ -29,6 +29,9 @@ namespace ScrapCoder.VisualNodes {
         Transform canvasTransform => InterfaceCanvas.instance.canvas.transform;
         NodeTransform workingZone => InterfaceCanvas.instance.workingZone;
         NodeTransform nodeUIContainer => InterfaceCanvas.instance.nodeUIContainer;
+        NodeTransform nodeEditorContainer => InterfaceCanvas.instance.nodeEditorContainer;
+
+        NodeTransform focusParent => InterfaceCanvas.instance.focusParent;
 
         int? _lastNodeDepth;
         int lastNodeDepth {
@@ -72,8 +75,8 @@ namespace ScrapCoder.VisualNodes {
             SortNodes();
         }
 
-        public void SetOnTopOfCanvas(NodeController controller) {
-            controller.transform.SetParent(canvasTransform);
+        public void SetOnTopOfEditorContainer(NodeController controller) {
+            controller.transform.SetParent(nodeEditorContainer.transform);
             controller.ownTransform.sorter.sortingOrder = 2;
             controller.ownTransform.depth = lastUIDepth + 10;
         }
@@ -105,12 +108,13 @@ namespace ScrapCoder.VisualNodes {
                 var delta = depth - lastNodeDepth;
 
                 lastNodeDepth = depth;
-                MoveUI(delta);
+                MoveElementsAboveNodes(delta);
             }
         }
 
-        void MoveUI(int delta) {
+        void MoveElementsAboveNodes(int delta) {
             initialUIDepth += delta;
+            focusParent.depth += delta;
         }
     }
 

@@ -14,9 +14,11 @@ namespace ScrapCoder.UI {
         public static InterfaceCanvas instance;
 
         // Editor variables
-        [SerializeField] public NodeTransform nodeInterfaceContainer;
+        [SerializeField] public NodeTransform nodeEditorContainer;
         [SerializeField] public NodeTransform nodeUIContainer;
         [SerializeField] public NodeTransform workingZone;
+
+        [SerializeField] public NodeTransform focusParent;
 
         // Lazy variables
         Canvas _canvas;
