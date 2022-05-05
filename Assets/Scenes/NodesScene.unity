@@ -229,6 +229,79 @@ PolygonCollider2D:
       - {x: 1868, y: -48}
       - {x: 1868, y: -920}
       - {x: 48, y: -920}
+--- !u!1 &125418558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 125418559}
+  - component: {fileID: 125418560}
+  - component: {fileID: 125418561}
+  m_Layer: 5
+  m_Name: FocusParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &125418559
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125418558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2123671304}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &125418560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125418558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 0
+  initWidth: 0
+  minHeight: 0
+  minWidth: 0
+  resizable: 1
+  moveable: 1
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
+--- !u!210 &125418561
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125418558}
+  m_Enabled: 1
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
+  m_SortingOrder: 10
 --- !u!1 &133880213
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +314,7 @@ GameObject:
   - component: {fileID: 133880215}
   - component: {fileID: 133880216}
   m_Layer: 5
-  m_Name: NodeInterfaceContainer
+  m_Name: NodeEditorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1107,7 +1180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b471981f4cf074da5c9f2f7fd0b5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 2123671303}
   remover: {fileID: 2035726115}
 --- !u!4 &1310002699
 Transform:
@@ -2406,6 +2478,7 @@ RectTransform:
   m_Children:
   - {fileID: 2035726116}
   - {fileID: 133880214}
+  - {fileID: 125418559}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2437,9 +2510,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907a0f9a3e6178f47a45ce13933ffc63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeInterfaceContainer: {fileID: 133880215}
+  nodeEditorContainer: {fileID: 133880215}
   nodeUIContainer: {fileID: 2115102598}
   workingZone: {fileID: 1478742250}
+  focusParent: {fileID: 125418560}
 --- !u!114 &2123671307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2873,7 +2947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4192028520146422211, guid: 0ce45ad17a48a3447817b08560d8b774, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -880
+      value: -890
       objectReference: {fileID: 0}
     - target: {fileID: 4192028520146422211, guid: 0ce45ad17a48a3447817b08560d8b774, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

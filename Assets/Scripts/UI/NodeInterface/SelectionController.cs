@@ -25,14 +25,10 @@ namespace ScrapCoder.UI {
         bool initialized = false;
 
         // Methods
-        void Start() {
-            Initialize();
-        }
-
-        void Initialize() {
+        public void Initialize(List<SpawnerSelectionTemplate> categoryTemplates = null) {
             if (initialized) return;
 
-            var categoryTemplates = new List<SpawnerSelectionTemplate> {
+            categoryTemplates ??= new List<SpawnerSelectionTemplate> {
                 new SpawnerSelectionTemplate {
                     title = "Control",
                     icon = "control",

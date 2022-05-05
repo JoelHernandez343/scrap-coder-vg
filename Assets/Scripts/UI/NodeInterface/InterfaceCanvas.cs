@@ -29,6 +29,9 @@ namespace ScrapCoder.UI {
 
         public new Camera camera => canvas.worldCamera;
 
+        SelectionController _nodesMenu;
+        public SelectionController nodesMenu => _nodesMenu ??= (nodeEditorContainer.GetComponent<SelectionController>() as SelectionController);
+
         // Constants
         public const int OutsideFactor = 2;
 
