@@ -14,7 +14,7 @@ namespace ScrapCoder.Interpreter {
         public override bool IsExpression => true;
 
         public override void Execute(string argument) {
-            var value = SymbolTable.instance[Controller.symbolName].value;
+            var value = SymbolTable.instance[Controller.symbolName].Value;
 
             Executer.instance.ExecuteInmediately(argument: value);
 

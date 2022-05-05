@@ -24,8 +24,8 @@ namespace ScrapCoder.Interpreter {
         string symbolName => variable.symbolName;
 
         int variableValue {
-            get => System.Int32.Parse(SymbolTable.instance[symbolName].value);
-            set => SymbolTable.instance[symbolName].value = $"{value}";
+            get => System.Int32.Parse(SymbolTable.instance[symbolName].Value);
+            set => SymbolTable.instance[symbolName].SetValue(newValue: $"{value}");
         }
 
         public override void Execute(string argument) {

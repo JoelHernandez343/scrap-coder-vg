@@ -48,7 +48,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void SettingVariable(string value) {
-            SymbolTable.instance[symbolName].value = value;
+            SymbolTable.instance[symbolName].SetValue(newValue: value);
             Executer.instance.ExecuteInmediately();
 
             IsFinished = true;

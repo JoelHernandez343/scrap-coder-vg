@@ -15,8 +15,8 @@ namespace ScrapCoder.Interpreter {
         // State variables
         Dictionary<string, Symbol> symbols = new Dictionary<string, Symbol>();
 
-        List<string> variables = new List<string>();
-        public List<string> Variables => new List<string>(variables);
+        public List<string> variables_symbols = new List<string>();
+        public List<string> arrays_symbols = new List<string>();
 
         void Awake() {
             if (instance != null) {
@@ -38,16 +38,18 @@ namespace ScrapCoder.Interpreter {
         }
 
         public void AddSymbol(int limit, string symbolName, NodeType type, NodeSpawnController spawner, string value = "") {
-            symbols[symbolName] = new Symbol {
-                type = type,
-                limit = limit,
-                value = value,
-                spawner = spawner,
-                symbolName = symbolName
-            };
+            symbols[symbolName] = new Symbol(
+                type: type,
+                limit: limit,
+                initValue: value,
+                spawner: spawner,
+                symbolName: symbolName
+            );
 
             if (type == NodeType.Variable) {
-                variables.Add(symbolName);
+                variables_symbols.Add(symbolName);
+            } else if (type == NodeType.Array) {
+                arrays_symbols.Add(symbolName);
             }
         }
 
@@ -58,8 +60,10 @@ namespace ScrapCoder.Interpreter {
             symbol.RemoveAllReferences(removeChildren: true);
             symbols.Remove(symbolName);
 
-            if (symbol.type == NodeType.Variable) {
-                variables.Remove(symbolName);
+            if (symbol.Type == NodeType.Variable) {
+                variables_symbols.Remove(symbolName);
+            } else if (symbol.Type == NodeType.Array) {
+                arrays_symbols.Remove(symbolName);
             }
 
             return true;

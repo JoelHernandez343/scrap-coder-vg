@@ -14,15 +14,18 @@ namespace ScrapCoder.Interpreter {
 
         List<NodeController> references = new List<NodeController>();
 
-        public NodeType type;
+        NodeType type;
+        public NodeType Type => type;
 
-        public string value;
+        string value;
+        public string Value => value;
 
-        public string symbolName;
+        string symbolName;
+        public string SymbolName;
 
-        public List<string> arrayOfValues = new List<string>();
+        List<string> arrayOfValues = new List<string>();
 
-        public NodeSpawnController spawner;
+        NodeSpawnController spawner;
 
         // Lazy variables
         public bool isFull => limit > 0 && references.Count == limit;
@@ -32,6 +35,14 @@ namespace ScrapCoder.Interpreter {
         public NodeController first => Count == 0 ? null : references[0];
 
         // Methods
+        public Symbol(string symbolName, NodeType type, string initValue, int limit, NodeSpawnController spawner) {
+            this.type = type;
+            this.limit = limit;
+            this.value = initValue;
+            this.spawner = spawner;
+            this.symbolName = symbolName;
+        }
+
         public void AddReference(NodeController reference) {
             if (isFull) throw new System.OverflowException($"The symbol has reached its limit: {limit}");
 
@@ -58,6 +69,11 @@ namespace ScrapCoder.Interpreter {
                 r.RemoveMyself(removeChildren: true);
                 RemoveReference(r);
             });
+        }
+
+        // Variables methods
+        public void SetValue(string newValue) {
+            value = newValue;
         }
 
         // Array methods
