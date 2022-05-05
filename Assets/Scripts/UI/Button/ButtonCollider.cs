@@ -55,7 +55,6 @@ namespace ScrapCoder.UI {
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-            if (controller.ownTransform.isMovingSmoothly) return;
 
             over = true;
 

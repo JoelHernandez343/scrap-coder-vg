@@ -121,13 +121,6 @@ namespace ScrapCoder.UI {
                             spawnLimit = -1,
                             symbolName = null
                         },
-                        new NodeSpawnTemplate {
-                            title = "Comparación_numérica",
-                            nodeToSpawn = NodeType.NumericValueComparison,
-                            selectedIcon = "cond_double_numeric_values",
-                            spawnLimit = -1,
-                            symbolName = null
-                        },
                     },
                     declarationType = "none"
                 },
