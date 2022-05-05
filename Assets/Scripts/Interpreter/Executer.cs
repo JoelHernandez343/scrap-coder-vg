@@ -29,10 +29,10 @@ namespace ScrapCoder.Interpreter {
         float timer = 0f;
         float waitTime;
 
-        ExecuterTiming _timing = ExecuterTiming.Immediately;
-        public ExecuterTiming timing {
-            private set => _timing = value;
-            get => _timing;
+        ExecuterVelocity _velocity = ExecuterVelocity.Immediately;
+        public ExecuterVelocity velocity {
+            private set => _velocity = value;
+            get => _velocity;
         }
 
         InterpreterElement currentElementWithFocus;
@@ -70,25 +70,25 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void SetTiming(ExecuterTiming newTiming) {
-            if (timing == newTiming) return;
+        public void SetVelocity(ExecuterVelocity newVelocity) {
+            if (velocity == newVelocity) return;
 
-            var previousTiming = timing;
-            timing = newTiming;
+            var previousTiming = velocity;
+            velocity = newVelocity;
 
             UpdateWaitTime();
 
-            if (previousTiming < newTiming) {
+            if (previousTiming < newVelocity) {
                 timer = waitTime;
             }
         }
 
         void UpdateWaitTime() {
-            if (timing == ExecuterTiming.Immediately) {
+            if (velocity == ExecuterVelocity.Immediately) {
                 waitTime = Time.fixedDeltaTime;
-            } else if (timing == ExecuterTiming.EverySecond) {
+            } else if (velocity == ExecuterVelocity.EverySecond) {
                 waitTime = 1f;
-            } else if (timing == ExecuterTiming.EveryThreeSeconds) {
+            } else if (velocity == ExecuterVelocity.EveryThreeSeconds) {
                 waitTime = 3f;
             }
         }
@@ -180,7 +180,7 @@ namespace ScrapCoder.Interpreter {
             }
 
             if (executionState == ExecutionState.Immediately) {
-                if (timing != ExecuterTiming.Immediately) {
+                if (velocity != ExecuterVelocity.Immediately) {
                     ExecuteInNextFrame(argument: nextArgument);
                 } else {
                     ExecuteNext();
@@ -203,7 +203,7 @@ namespace ScrapCoder.Interpreter {
 
             currentElementWithFocus?.LoseFocus();
 
-            if (timing != ExecuterTiming.Immediately) {
+            if (velocity != ExecuterVelocity.Immediately) {
                 currentElementWithFocus = element;
                 currentElementWithFocus.GetFocus();
             }

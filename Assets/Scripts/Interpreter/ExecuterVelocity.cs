@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrapCoder.Interpreter {
-    public enum ExecuterTiming {
+    public enum ExecuterVelocity {
         Immediately,
         EverySecond,
         EveryThreeSeconds,

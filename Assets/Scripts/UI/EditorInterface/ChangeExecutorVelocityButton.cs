@@ -19,38 +19,38 @@ namespace ScrapCoder.UI {
         ButtonController button => _button ??= (GetComponent<ButtonController>() as ButtonController);
 
         // State variables
-        ExecuterTiming currentTiming;
+        ExecuterVelocity currentVelocity;
 
         void Start() {
-            currentTiming = Executer.instance.timing;
+            currentVelocity = Executer.instance.velocity;
             icon.SetState(GetIcon());
 
             button.AddListener(() => {
-                currentTiming = NextTiming();
+                currentVelocity = NextVelocity();
                 icon.SetState(GetIcon());
 
-                Executer.instance.SetTiming(currentTiming);
+                Executer.instance.SetVelocity(currentVelocity);
             });
 
         }
 
-        ExecuterTiming NextTiming() {
-            if (currentTiming == ExecuterTiming.Immediately) {
-                return ExecuterTiming.EverySecond;
-            } else if (currentTiming == ExecuterTiming.EverySecond) {
-                return ExecuterTiming.EveryThreeSeconds;
+        ExecuterVelocity NextVelocity() {
+            if (currentVelocity == ExecuterVelocity.Immediately) {
+                return ExecuterVelocity.EverySecond;
+            } else if (currentVelocity == ExecuterVelocity.EverySecond) {
+                return ExecuterVelocity.EveryThreeSeconds;
             } else {
-                return ExecuterTiming.Immediately;
+                return ExecuterVelocity.Immediately;
             }
         }
 
         string GetIcon() {
-            if (currentTiming == ExecuterTiming.Immediately) {
-                return $"{ExecuterTiming.Immediately}";
-            } else if (currentTiming == ExecuterTiming.EverySecond) {
-                return $"{ExecuterTiming.EverySecond}";
+            if (currentVelocity == ExecuterVelocity.Immediately) {
+                return $"{ExecuterVelocity.Immediately}";
+            } else if (currentVelocity == ExecuterVelocity.EverySecond) {
+                return $"{ExecuterVelocity.EverySecond}";
             } else {
-                return $"{ExecuterTiming.EveryThreeSeconds}";
+                return $"{ExecuterVelocity.EveryThreeSeconds}";
             }
         }
 
