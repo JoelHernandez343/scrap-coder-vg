@@ -29,6 +29,8 @@ namespace ScrapCoder.UI {
 
         public bool isLocked => lockButton.isLocked;
 
+        public int SpawnersCount => spawners.Count;
+
         // State variables
         bool initialized = false;
 

@@ -24,6 +24,7 @@ namespace ScrapCoder.UI {
         [SerializeField] int spawnLimit = 10;
         [SerializeField] string declaredPrefix;
         [SerializeField] string spawnerIcon;
+        [SerializeField] int declarationLimit;
 
         // State variables
         NodeController declaredPrefab;
@@ -39,13 +40,15 @@ namespace ScrapCoder.UI {
             int spawnLimit,
             string declaredPrefix,
             string spawnerIcon,
-            NodeController declaredPrefab
+            NodeController declaredPrefab,
+            int declarationLimit
         ) {
             // Copy of data
             this.spawnLimit = spawnLimit;
             this.declaredPrefix = declaredPrefix;
             this.spawnerIcon = spawnerIcon;
             this.declaredPrefab = declaredPrefab;
+            this.declarationLimit = declarationLimit;
 
             System.Action declare = () => {
                 Declare();
@@ -58,6 +61,11 @@ namespace ScrapCoder.UI {
         }
 
         void Declare() {
+            if (selectionContainer.SpawnersCount == declarationLimit) {
+                Debug.LogWarning("Cannot declare more!");
+                return;
+            }
+
             var symbolName = $"{declaredPrefix}_{inputText.Value}";
             var name = inputText.Value;
 

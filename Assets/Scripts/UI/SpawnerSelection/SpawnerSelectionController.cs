@@ -94,7 +94,8 @@ namespace ScrapCoder.UI {
                     spawnLimit: template.spawnLimit,
                     declaredPrefix: template.declaredPrefix,
                     spawnerIcon: template.spawnerIcon,
-                    declaredPrefab: prefabToSpawn
+                    declaredPrefab: prefabToSpawn,
+                    declarationLimit: template.declarationLimit
                 );
             }
 

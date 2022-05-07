@@ -20,5 +20,7 @@ namespace ScrapCoder.UI {
         public string declaredPrefix;
         public string spawnerIcon;
 
+        public int declarationLimit;
+
     }
 }
