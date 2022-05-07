@@ -123,7 +123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: states.Array.size
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+      propertyPath: selectRandomSprite
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: states.Array.data[0]
@@ -147,11 +151,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: states.Array.data[5]
-      value: instructions
+      value: table
       objectReference: {fileID: 0}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: availableSprites.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: availableSprites.Array.data[0]
@@ -173,6 +177,10 @@ PrefabInstance:
       propertyPath: availableSprites.Array.data[4]
       value: 
       objectReference: {fileID: 1202984965197363600, guid: 64a4dfe344fd70443bc586c809f34707, type: 3}
+    - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+      propertyPath: availableSprites.Array.data[5]
+      value: 
+      objectReference: {fileID: -1863859237976802683, guid: 64a4dfe344fd70443bc586c809f34707, type: 3}
     - target: {fileID: 5886871971402455249, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_Name
       value: Icon

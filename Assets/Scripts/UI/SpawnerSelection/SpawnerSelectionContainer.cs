@@ -36,7 +36,7 @@ namespace ScrapCoder.UI {
 
         // Methods
         void Start() {
-            // Initialize();
+            Initialize();
         }
 
         public void Initialize(List<NodeSpawnTemplate> spawnersTemplates = null) {

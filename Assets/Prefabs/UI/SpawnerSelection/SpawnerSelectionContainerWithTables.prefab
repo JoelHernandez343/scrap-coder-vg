@@ -494,6 +494,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5578968157296276227, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7201795800303988927, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_Name
       value: SpawnerSelectionContainerWithTables

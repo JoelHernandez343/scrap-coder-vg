@@ -18,7 +18,7 @@ namespace ScrapCoder.UI {
         // State variables
         bool initialized = false;
 
-        SelectionController selectionController;
+        public SelectionController selectionController;
 
         // Lazy variables
         NodeTransform _ownTransform;
