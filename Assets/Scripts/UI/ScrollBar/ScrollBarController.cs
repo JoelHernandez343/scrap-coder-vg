@@ -20,16 +20,19 @@ namespace ScrapCoder.UI {
         [SerializeField] public ButtonController sliderButton;
 
         [SerializeField] int visor;
-        // [SerializeField] int content;
 
         [SerializeField] NodeTransform contentT;
 
         // State variables
+        public float currentScale;
+
+        int sliderLength;
+
+        // Lazy and other variables variables
         public int currentPosition => isHorizontal
             ? sliderButton.ownTransform.x
             : -sliderButton.ownTransform.y;
 
-        // Lazy and other variables variables
         int content => isHorizontal ? contentT.width : contentT.height;
 
         float? _previousScale;
@@ -38,11 +41,11 @@ namespace ScrapCoder.UI {
             set => _previousScale = value;
         }
 
-        public float currentScale => content / (float)length;
-
-        int sliderLength => (int)System.Math.Round(visor / currentScale);
-
-        const int sliderOffset = 2;
+        int? _previousSliderLength;
+        int previousSliderLength {
+            get => _previousSliderLength ??= sliderLength;
+            set => _previousSliderLength = value;
+        }
 
         public int length => isHorizontal
             ? ownTransform.width - firstButton.ownTransform.width - finalButton.ownTransform.width - (sliderOffset * 2)
@@ -50,14 +53,19 @@ namespace ScrapCoder.UI {
 
         public int limit => length - sliderLength;
 
-        float? nf => null;
-        int? nn => null;
-
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         int futurePosition => sliderButton.ownTransform.futurePosition[isHorizontal ? 0 : 1] * (isHorizontal ? 1 : -1);
         int contentFuturePosition => contentT.futurePosition[isHorizontal ? 0 : 1] * (isHorizontal ? 1 : -1);
+
+        int minSliderLength => isHorizontal
+            ? sliderButton.ownTransform.minWidth
+            : sliderButton.ownTransform.minHeight;
+
+        const int sliderOffset = 2;
+        float? nf => null;
+        int? nn => null;
 
         // Methods
         void Start() {
@@ -65,21 +73,46 @@ namespace ScrapCoder.UI {
         }
 
         void Initialize() {
-
             RefreshSlider();
 
-            firstButton.AddListener(() => MoveSliderBy(-sliderLength / 3));
-            finalButton.AddListener(() => MoveSliderBy(sliderLength / 3));
+            firstButton.AddListener(() => MoveSliderBy(-sliderLength / 13));
+            finalButton.AddListener(() => MoveSliderBy(sliderLength / 13));
+        }
+
+        void RefreshDimensions() {
+            currentScale = content / (float)length;
+            sliderLength = (int)System.Math.Round(visor / currentScale);
         }
 
         public void RefreshSlider() {
+            RefreshDimensions();
 
             if (sliderLength >= length) {
+                sliderButton.ownTransform.SetPosition(
+                    x: isHorizontal ? 0 : nn,
+                    y: isHorizontal ? nn : -0
+                );
+
+                SetContentPosition();
+
                 gameObject.SetActive(false);
                 return;
             }
 
-            var newPosition = (int)(currentPosition * previousScale / currentScale);
+            if (sliderLength < minSliderLength) {
+                currentScale = visor / (float)minSliderLength;
+                sliderLength = minSliderLength;
+            }
+
+            var newPosition = currentPosition +
+                (currentPosition == 0 ? 0 : (previousSliderLength - sliderLength));
+
+            newPosition = newPosition < 0
+                ? 0
+                : newPosition > limit
+                ? limit
+                : newPosition;
+
 
             sliderButton.ownTransform.SetPosition(
                 x: isHorizontal ? newPosition : nn,
@@ -91,7 +124,9 @@ namespace ScrapCoder.UI {
                 newHeight: isHorizontal ? nn : sliderLength
             );
 
-            previousScale = currentScale;
+            previousSliderLength = sliderLength;
+
+            SetContentPosition();
 
             gameObject.SetActive(true);
         }
@@ -117,8 +152,8 @@ namespace ScrapCoder.UI {
 
             if ((futurePosition <= limit && currentPosition < limit) || (futurePosition >= 0 && currentPosition > 0)) {
                 var changed = newDelta;
-                // Debug.Log(newDelta);
-                MoveContent(changed);
+
+                SetContentPosition();
             }
         }
 
@@ -128,9 +163,7 @@ namespace ScrapCoder.UI {
                 : (int)System.Math.Ceiling(number);
 
 
-        public void MoveContent(int delta, bool fromDragging = false) {
-            if (delta == 0) return;
-
+        public void SetContentPosition() {
             var newPosition = futurePosition == limit
                 ? content - visor
                 : Round(futurePosition * currentScale);

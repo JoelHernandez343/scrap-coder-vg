@@ -89,12 +89,7 @@ namespace ScrapCoder.UI {
                 y: isHorizontal ? nn : -adjustment
             );
 
-            if (currentPosition <= limit && currentPosition >= 0) {
-                var changed = change[isHorizontal ? 0 : 1] * (isHorizontal ? 1 : -1);
-                // Debug.Log(change[isHorizontal ? 0 : 1] * (isHorizontal ? 1 : -1));
-
-                scrollBarController.MoveContent(changed, fromDragging: true);
-            }
+            scrollBarController.SetContentPosition();
         }
 
         void GetPointerPosition(PointerEventData eventData) {
