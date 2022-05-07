@@ -79,6 +79,7 @@ namespace ScrapCoder.Interpreter {
         // Variables methods
         public void SetValue(string newValue) {
             value = newValue;
+            table.ChangeDescription(value);
         }
 
         // Array methods
@@ -92,6 +93,7 @@ namespace ScrapCoder.Interpreter {
 
         public void ClearArray() {
             arrayOfValues.Clear();
+            table.ClearAllRows();
         }
 
         public void AddToArray(string value) {
@@ -102,6 +104,7 @@ namespace ScrapCoder.Interpreter {
             }
 
             arrayOfValues.Add(value);
+            table.AddRow(value);
         }
 
         public void InsertToArray(int index, string value) {
@@ -119,10 +122,12 @@ namespace ScrapCoder.Interpreter {
 
                 for (var i = 0; i < missing; ++i) {
                     arrayOfValues.Add("0");
+                    table.AddRow("0");
                 }
             }
 
             arrayOfValues.Insert(index, value);
+            table.InsertRowAt(index: index, value: value);
         }
 
         public void RemoveFromArray(int index) {
@@ -133,6 +138,7 @@ namespace ScrapCoder.Interpreter {
             }
 
             arrayOfValues.RemoveAt(index);
+            table.RemoveRowAt(index);
         }
 
         public string GetValueFromArray(int index) {
@@ -153,6 +159,7 @@ namespace ScrapCoder.Interpreter {
             }
 
             arrayOfValues[index] = newValue;
+            table.ChangeRowValue(index: index, newValue: newValue);
         }
 
     }

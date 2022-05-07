@@ -34,7 +34,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 18, y: -30}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9176284529803259094
 MonoBehaviour:
@@ -176,7 +176,7 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 0
+  initHeight: 30
   initWidth: 0
   minHeight: 0
   minWidth: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 0
+  initHeight: 30
   initWidth: 0
   minHeight: 0
   minWidth: 0
@@ -265,6 +265,8 @@ MonoBehaviour:
   arraysContainer: {fileID: 6709367000744422397}
   arraysParent: {fileID: 9176284529803259094}
   tablePrefab: {fileID: 4809934357547493709, guid: 04558b6c2aad69d4592d2091c7b10ec0, type: 3}
+  variableTables: []
+  arrayTables: []
 --- !u!1001 &4526199518571898646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -531,6 +533,14 @@ PrefabInstance:
     - target: {fileID: 7309992415366698770, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7309992415366698770, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7309992415366698770, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7309992415366698770, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_LocalPosition.x

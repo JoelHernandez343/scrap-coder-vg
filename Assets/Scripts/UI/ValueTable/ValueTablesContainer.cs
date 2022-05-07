@@ -59,7 +59,7 @@ namespace ScrapCoder.UI {
 
             tablesList.Add(newTable);
 
-            var dy = newTable.ownTransform.height - borderOffset;
+            var dy = newTable.ownTransform.height - (tablesList.Count == 1 ? 0 : borderOffset);
 
             Adjust(dy: dy, nodeType: nodeType);
 
@@ -75,7 +75,7 @@ namespace ScrapCoder.UI {
 
             Destroy(tableToRemove.gameObject);
 
-            var dy = tableToRemove.ownTransform.height - borderOffset;
+            var dy = tableToRemove.ownTransform.height - (tablesList.Count == 0 ? 0 : borderOffset);
 
             Adjust(dy: -dy, nodeType: nodeType);
         }
@@ -96,11 +96,22 @@ namespace ScrapCoder.UI {
                 ? variableTables
                 : arrayTables;
 
+            var container = nodeType == NodeType.Variable
+                ? variablesContainer
+                : arraysContainer;
+
             var nextContainer = nodeType == NodeType.Variable
                 ? arraysContainer
                 : null;
 
-            var newY = PositionTables(tablesList);
+            PositionTables(tablesList);
+
+            container.Expand(dy: dy);
+            nextContainer?.SetPositionByDelta(dy: -dy, smooth: smoothExpanding);
+
+
+            var newY = -arraysContainer.fy + 24;
+            Debug.Log($"FinalY of array: {newY}");
 
             if (newY >= content.initHeight) {
                 content.Expand(dy: newY - content.height);
@@ -109,7 +120,6 @@ namespace ScrapCoder.UI {
             }
 
             scrollBar.RefreshSlider();
-            nextContainer?.SetPositionByDelta(dy: -dy, smooth: smoothExpanding);
         }
 
     }

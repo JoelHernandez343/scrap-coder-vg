@@ -11,7 +11,8 @@ using ScrapCoder.VisualNodes;
 namespace ScrapCoder.UI {
     public class ValueTableController : MonoBehaviour {
 
-        // Editor variables
+        // Editor variables\
+        [SerializeField] NodeTransform body;
         [SerializeField] Transform rowsParent;
 
         [SerializeField] ExpandableText titleText;
@@ -48,6 +49,21 @@ namespace ScrapCoder.UI {
         }
 
         // Arrow methods
+        public void AddRow(string value) {
+            var newRow = ValueRowController.Create(
+                prefab: rowPrefab,
+                parent: rowsParent,
+                index: rows.Count,
+                value: value
+            );
+
+            rows.Add(newRow);
+
+            var dy = rows.Count == 1 ? 0 : newRow.ownTransform.height - borderOffset;
+
+            AdjustDimensions(dy: dy);
+        }
+
         public void InsertRowAt(int index, string value) {
             var newRow = ValueRowController.Create(
                 prefab: rowPrefab,
@@ -70,18 +86,46 @@ namespace ScrapCoder.UI {
             var deletedRow = rows[index];
             rows.RemoveAt(index);
 
+            Destroy(deletedRow.gameObject);
+
             var dy = rows.Count == 0 ? 0 : deletedRow.ownTransform.height - borderOffset;
 
             AdjustDimensions(dy: -dy);
         }
 
-        void PositionRows(bool smooth = false) {
+        public void ChangeRowValue(int index, string newValue) {
+            rows[index].ChangeValue(newValue: newValue);
+        }
+
+        public void ClearAllRows() {
+            var dy = 0;
+
+            if (rows.Count == 1 || rows.Count == 0) {
+                dy = 0;
+                rows.ForEach(row => Destroy(row.gameObject));
+            } else {
+                rows.ForEach(row => {
+                    dy += row.ownTransform.height - borderOffset;
+                    Destroy(row.gameObject);
+                });
+                dy -= body.initHeight - borderOffset;
+            }
+
+            rows.Clear();
+
+            AdjustDimensions(dy: -dy);
+
+        }
+
+        int PositionRows(bool smooth = false) {
             var y = 0;
 
             rows.ForEach(row => {
                 row.ownTransform.SetPosition(x: 0, y: -y, smooth: smooth);
                 y += row.ownTransform.height - borderOffset;
             });
+
+            return y;
         }
 
         void AdjustDimensions(int dy) {

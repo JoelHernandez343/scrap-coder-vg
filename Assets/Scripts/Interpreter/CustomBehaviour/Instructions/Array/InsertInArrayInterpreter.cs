@@ -47,7 +47,6 @@ namespace ScrapCoder.Interpreter {
         }
 
         void StoreValue(string value) {
-            Debug.Log(value);
             valueObtained = value;
         }
 
