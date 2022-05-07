@@ -6,11 +6,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
     public class SymbolTable : MonoBehaviour {
+
+        // Static variables 
         public static SymbolTable instance;
+
+        // Editor variables
+        [SerializeField] ValueTablesContainer tablesContainer;
 
         // State variables
         Dictionary<string, Symbol> symbols = new Dictionary<string, Symbol>();
@@ -38,19 +44,32 @@ namespace ScrapCoder.Interpreter {
         }
 
         public void AddSymbol(int limit, string symbolName, NodeType type, NodeSpawnController spawner, string value = "") {
+
+            ValueTableController table = null;
+
+            if (type == NodeType.Variable || type == NodeType.Array) {
+
+                var list = type == NodeType.Variable
+                   ? variables_symbols
+                   : arrays_symbols;
+
+                table = tablesContainer.AddElement(
+                    symbolName: symbolName,
+                    description: type == NodeType.Variable ? value : "<vacío>",
+                    nodeType: type
+                );
+
+                list.Add(symbolName);
+            }
+
             symbols[symbolName] = new Symbol(
                 type: type,
                 limit: limit,
                 initValue: value,
                 spawner: spawner,
-                symbolName: symbolName
+                symbolName: symbolName,
+                table: table
             );
-
-            if (type == NodeType.Variable) {
-                variables_symbols.Add(symbolName);
-            } else if (type == NodeType.Array) {
-                arrays_symbols.Add(symbolName);
-            }
         }
 
         public bool DeleteSymbol(string symbolName) {
@@ -60,11 +79,15 @@ namespace ScrapCoder.Interpreter {
             symbol.RemoveAllReferences(removeChildren: true);
             symbols.Remove(symbolName);
 
-            if (symbol.Type == NodeType.Variable) {
-                variables_symbols.Remove(symbolName);
-            } else if (symbol.Type == NodeType.Array) {
-                arrays_symbols.Remove(symbolName);
-            }
+            var list = symbol.Type == NodeType.Variable
+                ? variables_symbols
+                : arrays_symbols;
+
+            list.Remove(symbolName);
+            tablesContainer.RemoveElement(
+                tableToRemove: symbol.Table,
+                nodeType: symbol.Type
+            );
 
             return true;
         }

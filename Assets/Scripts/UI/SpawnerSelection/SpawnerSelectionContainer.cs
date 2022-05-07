@@ -12,8 +12,8 @@ namespace ScrapCoder.UI {
     public class SpawnerSelectionContainer : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] ScrollBarController scrollBar;
-        [SerializeField] NodeTransform content;
+        [SerializeField] public ScrollBarController scrollBar;
+        [SerializeField] public NodeTransform content;
         [SerializeField] Transform children;
 
         [SerializeField] ButtonController returnButton;
@@ -36,7 +36,7 @@ namespace ScrapCoder.UI {
 
         // Methods
         void Start() {
-            Initialize();
+            // Initialize();
         }
 
         public void Initialize(List<NodeSpawnTemplate> spawnersTemplates = null) {
@@ -70,10 +70,13 @@ namespace ScrapCoder.UI {
         void RefreshSpawnerPositions(bool smooth = false) {
             var newY = PositionAllSpawners(smooth: smooth);
 
-            if (newY > content.height) {
+            if (newY >= content.initHeight) {
                 content.Expand(dy: newY - content.height);
-                scrollBar.RefreshSlider();
+            } else {
+                content.Expand(dy: -(content.height - content.initHeight));
             }
+
+            scrollBar.RefreshSlider();
         }
 
         int PositionAllSpawners(bool smooth = false) {

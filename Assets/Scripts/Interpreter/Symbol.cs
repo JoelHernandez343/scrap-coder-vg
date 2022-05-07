@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
@@ -27,6 +28,9 @@ namespace ScrapCoder.Interpreter {
 
         NodeSpawnController spawner;
 
+        ValueTableController table;
+        public ValueTableController Table => table;
+
         // Lazy variables
         public bool isFull => limit > 0 && references.Count == limit;
 
@@ -35,9 +39,10 @@ namespace ScrapCoder.Interpreter {
         public NodeController first => Count == 0 ? null : references[0];
 
         // Methods
-        public Symbol(string symbolName, NodeType type, string initValue, int limit, NodeSpawnController spawner) {
+        public Symbol(string symbolName, NodeType type, string initValue, int limit, NodeSpawnController spawner, ValueTableController table = null) {
             this.type = type;
             this.limit = limit;
+            this.table = table;
             this.value = initValue;
             this.spawner = spawner;
             this.symbolName = symbolName;
