@@ -38,6 +38,8 @@ namespace ScrapCoder.Interpreter {
 
         public NodeController first => Count == 0 ? null : references[0];
 
+        public const int ArrayLimit = 20;
+
         // Methods
         public Symbol(string symbolName, NodeType type, string initValue, int limit, NodeSpawnController spawner, ValueTableController table = null) {
             this.type = type;
@@ -99,7 +101,7 @@ namespace ScrapCoder.Interpreter {
         public void AddToArray(string value) {
             CheckArray();
 
-            if (ArrayLength == 100) {
+            if (ArrayLength == ArrayLimit) {
                 throw new System.OverflowException($"Array has reached its limit");
             }
 
@@ -110,10 +112,10 @@ namespace ScrapCoder.Interpreter {
         public void InsertToArray(int index, string value) {
             CheckArray();
 
-            if (index < 0 || index >= 100) {
+            if (index < 0 || index >= ArrayLimit) {
                 throw new System.IndexOutOfRangeException($"{index} is out of bounds");
             }
-            if (ArrayLength == 100) {
+            if (ArrayLength == ArrayLimit) {
                 throw new System.OverflowException($"Array has reached its limit");
             }
 

@@ -50,7 +50,7 @@ namespace ScrapCoder.Interpreter {
         void AddingToArray(string value) {
             var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
 
-            if (arrayLength == 100) {
+            if (arrayLength == Symbol.ArrayLimit) {
                 Debug.LogError("Array has reached its limit.");
                 Executer.instance.Stop(force: true);
                 return;

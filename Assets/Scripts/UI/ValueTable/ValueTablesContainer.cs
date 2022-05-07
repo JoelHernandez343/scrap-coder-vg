@@ -109,9 +109,7 @@ namespace ScrapCoder.UI {
             container.Expand(dy: dy);
             nextContainer?.SetPositionByDelta(dy: -dy, smooth: smoothExpanding);
 
-
             var newY = -arraysContainer.fy + 24;
-            Debug.Log($"FinalY of array: {newY}");
 
             if (newY >= content.initHeight) {
                 content.Expand(dy: newY - content.height);
