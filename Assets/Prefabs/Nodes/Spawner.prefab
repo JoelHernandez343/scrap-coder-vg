@@ -203,7 +203,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7401896663633826634, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -378,7 +378,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -7779772245507925811, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -512,7 +512,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 406b69a07661f5a4892cb79c47af4d9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -620,7 +620,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: c2cfb3bdde8f23c43b78c18e96704ce0, type: 3}
@@ -845,7 +845,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: dabaed35b0f0b5049a79a0a862f408f1, type: 3}
@@ -1066,7 +1066,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: eae1bcce2f8251d47b412347bdd877ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1155,7 +1155,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -628012141879501752, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1290,7 +1290,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -4017403286846450815, guid: 915675aed3365f14e8739beb675bc12b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1358,7 +1358,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3557251884337693475}
   - component: {fileID: 6556504862725262848}
-  - component: {fileID: 6830467900087636120}
   m_Layer: 5
   m_Name: spawnerBackground
   m_TagString: Untagged
@@ -1413,17 +1412,6 @@ MonoBehaviour:
   ownDepthLevels: 0
   currentHeight: 0
   currentWidth: 0
---- !u!210 &6830467900087636120
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4910874914619007625}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &5031227181297454389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1421,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7122184918877138493}
-  - component: {fileID: 5260369558846649858}
   m_Layer: 0
   m_Name: corners
   m_TagString: Untagged
@@ -1464,17 +1451,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &5260369558846649858
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031227181297454389}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
 --- !u!1 &5788241292417544489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,7 +1857,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 2873453964865190243, guid: d6ba79b5816c6a84ab4bd2fd5a90eea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1982,7 +1958,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2041691742199910419}
-  - component: {fileID: 2850394047793564419}
   m_Layer: 0
   m_Name: fillStates
   m_TagString: Untagged
@@ -2011,17 +1986,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &2850394047793564419
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8303107108510186963}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &8716061201932188339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,7 +1995,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7592249783839166379}
-  - component: {fileID: 6700894274465791956}
   - component: {fileID: 94738302217146337}
   - component: {fileID: 3893519765948981407}
   m_Layer: 0
@@ -2063,17 +2026,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &6700894274465791956
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8716061201932188339}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!114 &94738302217146337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2388,7 +2340,7 @@ PrefabInstance:
       objectReference: {fileID: 13369812101220344, guid: 2b6f5a883582df242ac658d0b8aeaee7, type: 3}
     - target: {fileID: 7773764473642237688, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8058669990708895840, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: minWidth

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -7779772245507925811, guid: 20830812be344ff47b4657418016f603, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   - {fileID: -7618398745848318846, guid: 20830812be344ff47b4657418016f603, type: 3}
   - {fileID: -2101191147135844891, guid: 20830812be344ff47b4657418016f603, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -152,7 +153,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 817996520160126270}
-  - component: {fileID: 761647662474175370}
   - component: {fileID: 2953270650216026833}
   - component: {fileID: 6057552594764963937}
   m_Layer: 0
@@ -184,17 +184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &761647662474175370
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4724788294853146330}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!114 &2953270650216026833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +245,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2791356375091700332}
-  - component: {fileID: 591790754947143207}
   m_Layer: 0
   m_Name: fillStates
   m_TagString: Untagged
@@ -283,17 +271,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &591790754947143207
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4730955442085786901}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &5005856049072815337
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +348,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 2685536252115957730, guid: 20830812be344ff47b4657418016f603, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -431,6 +408,7 @@ MonoBehaviour:
   - {fileID: 2417556265497816128, guid: 20830812be344ff47b4657418016f603, type: 3}
   - {fileID: -199085866478161183, guid: 20830812be344ff47b4657418016f603, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -660,7 +638,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1287447086810140207}
-  - component: {fileID: 4945522205712585993}
   m_Layer: 0
   m_Name: corners
   m_TagString: Untagged
@@ -689,17 +666,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &4945522205712585993
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7424520119218819124}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
 --- !u!1 &7577898334157219754
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,9 +913,7 @@ PrefabInstance:
       objectReference: {fileID: 7089354738448953760}
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_text
-      value: '
-
-'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_Pivot.x
@@ -1041,7 +1005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9143980122744722598, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}

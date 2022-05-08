@@ -79,7 +79,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 9c72bb10ccd80964ab388032522de693, type: 3}
@@ -181,6 +181,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 0
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &8627918527347503396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +226,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285425965170444055}
-  - component: {fileID: 2021603886654614595}
   - component: {fileID: 2509176066065032184}
   - component: {fileID: 6404282662514686609}
   m_Layer: 0
@@ -256,17 +257,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &2021603886654614595
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 869580356484698778}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!114 &2509176066065032184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +318,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!1 &1437673707326146950
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +533,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 0
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &1437673707326147066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,7 +664,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 3551ca7ce5950484980944a19a132d9e, type: 3}
@@ -772,6 +766,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 0
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &9007863681262631587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,7 +811,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1455470118386116193}
-  - component: {fileID: 8007374625595502689}
   m_Layer: 0
   m_Name: fillStates
   m_TagString: Untagged
@@ -845,17 +840,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &8007374625595502689
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3657613573620199132}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &4257920804913748758
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,7 +919,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 35bb1334de5672e409a074f50d7cd4b8, type: 3}
@@ -1037,6 +1021,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 0
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &703060149670281701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1148,7 +1134,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7401896663633826634, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1183,6 +1169,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &4463732072662148872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1206,6 +1194,7 @@ MonoBehaviour:
   - {fileID: -912954083328268751, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   - {fileID: -7949367353494526863, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1289,7 +1278,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -4017403286846450815, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1324,6 +1313,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5714902286645207972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1347,6 +1338,7 @@ MonoBehaviour:
   - {fileID: 6140347966490670009, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   - {fileID: 3878945050543244015, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1430,7 +1422,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -628012141879501752, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1465,6 +1457,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5506847460663476802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1488,6 +1482,7 @@ MonoBehaviour:
   - {fileID: -1070870573651896384, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   - {fileID: -1777001337369824181, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1503,7 +1498,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5213921492290087149}
-  - component: {fileID: 7162402857195565105}
   m_Layer: 0
   m_Name: corners
   m_TagString: Untagged
@@ -1534,17 +1528,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &7162402857195565105
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639158681406260025}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
 --- !u!1 &8711914884302846784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,7 +1605,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -7779772245507925811, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1657,6 +1640,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &4585870656163536822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1680,6 +1665,7 @@ MonoBehaviour:
   - {fileID: 680905294799776517, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   - {fileID: -3702030178475710640, guid: b871f3631122d6d4c82c9c97f216a6c8, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over

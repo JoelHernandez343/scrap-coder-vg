@@ -247,7 +247,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5890982631272026136}
-  - component: {fileID: 8926271213194730758}
   m_Layer: 0
   m_Name: corners
   m_TagString: Untagged
@@ -278,17 +277,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &8926271213194730758
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2232549340010853770}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
 --- !u!1 &2873582089262008397
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +354,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 3846337272658362264, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -426,6 +414,7 @@ MonoBehaviour:
   - {fileID: -8178588393214126068, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   - {fileID: -1070870573651896384, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -511,7 +500,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: f4b718778bf249e4e95891fbc8a5650c, type: 3}
@@ -756,7 +745,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: 2c3638b0f4bf72544951ab3049ba2c76, type: 3}
@@ -931,7 +920,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6423328991526589598}
-  - component: {fileID: 6341334948143297664}
   - component: {fileID: 1299546063744583603}
   - component: {fileID: 6267732814173761704}
   m_Layer: 0
@@ -963,17 +951,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &6341334948143297664
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5400897719026091565}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!114 &1299546063744583603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,7 +1091,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -5025893163154812015, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1174,6 +1151,7 @@ MonoBehaviour:
   - {fileID: -2599061116440126487, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   - {fileID: 680905294799776517, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1257,7 +1235,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 5893902764827806906, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1317,6 +1295,7 @@ MonoBehaviour:
   - {fileID: -7964304771886452742, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   - {fileID: 6140347966490670009, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1400,7 +1379,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1497387858635647833, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1460,6 +1439,7 @@ MonoBehaviour:
   - {fileID: -1020875144365324943, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   - {fileID: 2685536252115957730, guid: 96c2b51f68ae5d74abaecd045d81a811, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1475,7 +1455,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4320551302945992001}
-  - component: {fileID: 1781753863206557288}
   m_Layer: 0
   m_Name: fillStates
   m_TagString: Untagged
@@ -1505,17 +1484,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!210 &1781753863206557288
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6894771518844421458}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &7901838283967383810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,7 +1563,7 @@ SpriteShapeRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: cf1c110b25ed5fe4cb4754618743a5cd, type: 3}
@@ -2333,7 +2301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692091485620265625, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_SortingOrder
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8464035009664199562, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2496,13 +2464,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: siblings
       objectReference: {fileID: 0}
+    - target: {fileID: 7692091485620265625, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
---- !u!224 &179135843752334494 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4093386343709591165, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
-  m_PrefabInstance: {fileID: 4229665277167211235}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3788973665986473713 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1020040377345113106, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
@@ -2525,6 +2492,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce87666bf17ce2c449fbe96f38f29d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &179135843752334494 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4093386343709591165, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
+  m_PrefabInstance: {fileID: 4229665277167211235}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4753082756410190406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2788,7 +2760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7692091485620265625, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8464035009664199562, guid: 4c4248e1f8ba23345aaa76daadebfc10, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3058,11 +3030,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
---- !u!224 &570164093249573745 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
-  m_PrefabInstance: {fileID: 8148276568546601237}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &9199002211758393053 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1062028846624124872, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
@@ -3074,3 +3041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &570164093249573745 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
+  m_PrefabInstance: {fileID: 8148276568546601237}
+  m_PrefabAsset: {fileID: 0}
