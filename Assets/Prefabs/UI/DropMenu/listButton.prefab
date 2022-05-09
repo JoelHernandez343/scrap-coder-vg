@@ -587,6 +587,7 @@ MonoBehaviour:
   - {fileID: -3311166113238024884, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -6410789367403454637, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -730,6 +731,7 @@ MonoBehaviour:
   - {fileID: -3064005030135073762, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -6345603003235765376, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -873,6 +875,7 @@ MonoBehaviour:
   - {fileID: 9080658270222181734, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -3321491428408610887, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over
@@ -1518,10 +1521,10 @@ SpriteShapeRenderer:
   - {fileID: 579816651239131083, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: -1896685681270642313, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: 8532238125425011188, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
-  - {fileID: 6209592613646754297, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
-  - {fileID: 8525448754908062408, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
-  - {fileID: -5576775712237234519, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
-  - {fileID: 7597105017540033524, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
+  - {fileID: 21300000, guid: 203783ca971a98e4b901eab98ae28d8f, type: 3}
+  - {fileID: 21300000, guid: 203783ca971a98e4b901eab98ae28d8f, type: 3}
+  - {fileID: 21300000, guid: 203783ca971a98e4b901eab98ae28d8f, type: 3}
+  - {fileID: 21300000, guid: 203783ca971a98e4b901eab98ae28d8f, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
@@ -1824,8 +1827,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8146353603354791145}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!1 &8540286985714014034
 GameObject:
@@ -1964,6 +1967,7 @@ MonoBehaviour:
   - {fileID: -8691083257605298062, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   - {fileID: 4727896532711480388, guid: 15aed4e83c5803548afcd39239356b40, type: 3}
   hideable: 0
+  selectRandomSprite: 1
   states:
   - normal
   - over

@@ -1828,6 +1828,7 @@ GameObject:
   - component: {fileID: 4818912849722591394}
   - component: {fileID: 5093344371671436154}
   - component: {fileID: 4532083562853072098}
+  - component: {fileID: 7997897238590145917}
   m_Layer: 0
   m_Name: row
   m_TagString: Untagged
@@ -1915,6 +1916,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indexText: {fileID: 7487733148049832452}
   valueText: {fileID: 9094694720292526547}
+--- !u!210 &7997897238590145917
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8164817853730294901}
+  m_Enabled: 1
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
+  m_SortingOrder: 0
 --- !u!1001 &7628825873109756471
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,31 +11,31 @@ namespace ScrapCoder.UI {
     public class SelectionController : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] Transform categoriesParent;
+        [SerializeField] Transform selectionParent;
 
-        [SerializeField] SpawnerSelectionController categoryPrefab;
-        [SerializeField] SpawnerSelectionController categoryWithDeclarationPrefab;
+        [SerializeField] SpawnerSelectionController selectionPrefab;
+        [SerializeField] SpawnerSelectionController selectionWithDeclarationPrefab;
 
-        [SerializeField] SpawnerSelectionController categoryWithTables;
+        [SerializeField] SpawnerSelectionController selectionWithTables;
 
         [SerializeField] NodeController variablePrefab;
         [SerializeField] NodeController arrayPrefab;
 
         // State variables
-        List<SpawnerSelectionController> categoryControllers;
+        List<SpawnerSelectionController> selectionSpawnersControllers;
 
         bool initialized = false;
 
         // Methods
-        public void Initialize(List<SpawnerSelectionTemplate> categoryTemplates = null) {
+        public void Initialize(List<SpawnerSelectionTemplate> selectionTemplates = null) {
             if (initialized) return;
 
-            categoryControllers = categoryTemplates.ConvertAll(
+            selectionSpawnersControllers = selectionTemplates.ConvertAll(
                 template => SpawnerSelectionController.Create(
                     prefab: template.declarationType == "none"
-                        ? categoryPrefab
-                        : categoryWithDeclarationPrefab,
-                    parent: categoriesParent,
+                        ? selectionPrefab
+                        : selectionWithDeclarationPrefab,
+                    parent: selectionParent,
                     template: template,
                     selectionController: this,
                     prefabToSpawn: template.declarationType == "none"
@@ -46,27 +46,35 @@ namespace ScrapCoder.UI {
                 )
             );
 
-            categoryWithTables.selectionController = this;
+            selectionWithTables.selectionController = this;
 
-            categoryControllers.Add(categoryWithTables);
+            selectionSpawnersControllers.Add(selectionWithTables);
 
-            LocateButtons();
+            PositionAndOrderButtons();
 
             initialized = true;
         }
 
-        void LocateButtons() {
+        void PositionAndOrderButtons() {
             var y = 10;
+            var menuOrder = HierarchyController.instance.lastNodesOrder + 10;
 
-            categoryControllers.ForEach(c => y += c.LocateButton(y) + 10);
+            selectionSpawnersControllers.ForEach(s => {
+                y += s.PositionButton(y) + 10;
+                s.SetOrder(order: menuOrder);
+            });
         }
 
         public void HideAllButtons() {
-            categoryControllers.ForEach(c => c.SetButtonVisible(visible: false));
+            selectionSpawnersControllers.ForEach(s => s.SetButtonVisible(visible: false));
         }
 
         public void ShowAllButtons() {
-            categoryControllers.ForEach(c => c.SetButtonVisible(visible: true));
+            selectionSpawnersControllers.ForEach(s => s.SetButtonVisible(visible: true));
+        }
+
+        public void SetSelectionMenusOrderByDelta(int delta) {
+            selectionSpawnersControllers.ForEach(s => s.SetOrderByDelta(delta));
         }
 
     }

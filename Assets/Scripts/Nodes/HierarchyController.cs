@@ -18,34 +18,41 @@ namespace ScrapCoder.VisualNodes {
         }
 
         // Editor variables
-        [SerializeField] int initialNodeDepth = 0;
-        [SerializeField] int publicLastZOrder;
+        [SerializeField] int initialNodesDepth = 0;
+        [SerializeField] int initialNodesOrder = 0;
+
+        [SerializeField] int publicLastNodesDepth;
+        [SerializeField] int publicLastNodesOrder;
 
         // State variables
         [SerializeField] List<NodeController> nodes = new List<NodeController>();
 
         // Laizy variables
-
         Transform canvasTransform => InterfaceCanvas.instance.canvas.transform;
+        NodeTransform editor => InterfaceCanvas.instance.editor;
+
         NodeTransform workingZone => InterfaceCanvas.instance.workingZone;
-        NodeTransform nodeUIContainer => InterfaceCanvas.instance.nodeUIContainer;
-        NodeTransform nodeEditorContainer => InterfaceCanvas.instance.nodeEditorContainer;
+        NodeTransform editorControls => InterfaceCanvas.instance.editorControls;
+        NodeTransform onTopOfEditor => InterfaceCanvas.instance.onTopOfEditor;
 
         NodeTransform focusParent => InterfaceCanvas.instance.focusParent;
 
-        int? _lastNodeDepth;
-        int lastNodeDepth {
-            get => _lastNodeDepth ??= initialNodeDepth;
-            set => _lastNodeDepth = publicLastZOrder = value;
+        SelectionController selectionMenus => InterfaceCanvas.instance.selectionMenus;
+        NodeTransform controls => InterfaceCanvas.instance.controls;
+
+        int? _lastNodesDepth;
+        public int lastNodesDepth {
+            get => _lastNodesDepth ??= initialNodesDepth;
+            private set => _lastNodesDepth = publicLastNodesDepth = value;
         }
 
-        int initialUIDepth {
-            get => nodeUIContainer.depth;
-            set => nodeUIContainer.depth = value;
+        int? _lastNodesOrder;
+        public int lastNodesOrder {
+            get => _lastNodesOrder ??= initialNodesOrder;
+            private set => _lastNodesOrder = publicLastNodesOrder = value;
         }
-        int lastUIDepth => initialUIDepth + nodeUIContainer.depthLevels;
 
-        public int globalRaiseDiff => lastUIDepth + (initialUIDepth - lastNodeDepth);
+        int lastEditorControlsDepth => editorControls.depth + editorControls.depthLevels;
 
         // Methods
         void Awake() {
@@ -75,10 +82,10 @@ namespace ScrapCoder.VisualNodes {
             SortNodes();
         }
 
-        public void SetOnTopOfEditorContainer(NodeController controller) {
-            controller.transform.SetParent(nodeEditorContainer.transform);
+        public void SetOnTopOfEditor(NodeController controller) {
+            controller.transform.SetParent(onTopOfEditor.transform);
             controller.ownTransform.sorter.sortingOrder = 2;
-            controller.ownTransform.depth = lastUIDepth + 10;
+            controller.ownTransform.depth = lastEditorControlsDepth + 10;
         }
 
         public bool DeleteNode(NodeController controller) {
@@ -92,9 +99,10 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SortNodes() {
-            var depth = initialNodeDepth;
+            var depth = initialNodesDepth;
+            var order = initialNodesOrder;
 
-            for (int i = 0, order = initialNodeDepth; i < nodes.Count; ++i, ++order) {
+            for (int i = 0; i < nodes.Count; ++i) {
                 var node = nodes[i];
                 if (node.hasParent) { Debug.Log("wut"); continue; }
 
@@ -102,20 +110,37 @@ namespace ScrapCoder.VisualNodes {
                 node.ownTransform.depth = depth;
 
                 depth += node.ownTransform.depthLevels;
+                order += 1;
             }
 
-            if (depth != lastNodeDepth) {
-                var delta = depth - lastNodeDepth;
+            if (depth != lastNodesDepth) {
+                var depthDelta = depth - lastNodesDepth;
 
-                lastNodeDepth = depth;
-                MoveElementsAboveNodes(delta);
+                lastNodesDepth = depth;
+                MoveDepthAboveNodes(depthDelta);
+            }
+
+            if (order != lastNodesOrder) {
+                var orderDelta = order - lastNodesOrder;
+
+                lastNodesOrder = order;
+                MoveOrderAboveNodes(orderDelta);
             }
         }
 
-        void MoveElementsAboveNodes(int delta) {
-            initialUIDepth += delta;
+        void MoveDepthAboveNodes(int delta) {
+            editorControls.depth += delta;
+            onTopOfEditor.depth += delta;
             focusParent.depth += delta;
         }
+
+        void MoveOrderAboveNodes(int delta) {
+            selectionMenus.SetSelectionMenusOrderByDelta(delta);
+            controls.sorter.sortingOrder += delta;
+            onTopOfEditor.sorter.sortingOrder += delta;
+            focusParent.sorter.sortingOrder += delta;
+        }
+
     }
 
 }

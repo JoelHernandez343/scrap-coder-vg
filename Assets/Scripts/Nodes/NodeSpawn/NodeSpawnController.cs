@@ -105,7 +105,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (!InstantiateNode()) return;
 
-            HierarchyController.instance.SetOnTopOfEditorContainer(spawned);
+            HierarchyController.instance.SetOnTopOfEditor(spawned);
 
             spawned.ownTransform.SetPosition(
                 x: (int)newPosition.x - (spawned.ownTransform.width * pixelScale) / 2,
@@ -136,7 +136,7 @@ namespace ScrapCoder.VisualNodes {
 
             spawned = NodeController.Create(
                 prefab: prefabToSpawn,
-                parent: InterfaceCanvas.instance.nodeEditorContainer.transform,
+                parent: InterfaceCanvas.instance.editor.transform,
                 template: new NodeControllerTemplate {
                     symbolName = symbolName,
                     name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]"

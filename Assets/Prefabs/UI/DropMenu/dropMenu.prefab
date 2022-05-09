@@ -152,8 +152,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6692282909340399105}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!1 &8041964093103598014
 GameObject:
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   category: 0
+  shapeState: {fileID: 0}
 --- !u!1001 &2790268095562047663
 PrefabInstance:
   m_ObjectHideFlags: 0

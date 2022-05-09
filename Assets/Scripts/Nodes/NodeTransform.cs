@@ -63,7 +63,7 @@ namespace ScrapCoder.VisualNodes {
 
         // Lazy and other variables<
         RectTransform _rectTransform;
-        public RectTransform rectTransform => _rectTransform ??= GetComponent<RectTransform>();
+        public RectTransform rectTransform => _rectTransform ??= (GetComponent<RectTransform>() as RectTransform);
 
         public Vector2Int position {
             get => new Vector2Int {

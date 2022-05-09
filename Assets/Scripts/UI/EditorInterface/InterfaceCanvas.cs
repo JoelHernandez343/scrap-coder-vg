@@ -14,11 +14,14 @@ namespace ScrapCoder.UI {
         public static InterfaceCanvas instance;
 
         // Editor variables
-        [SerializeField] public NodeTransform nodeEditorContainer;
-        [SerializeField] public NodeTransform nodeUIContainer;
-        [SerializeField] public NodeTransform workingZone;
-
+        [SerializeField] public NodeTransform editor;
         [SerializeField] public NodeTransform focusParent;
+
+        [SerializeField] public NodeTransform workingZone;
+        [SerializeField] public NodeTransform editorControls;
+        [SerializeField] public NodeTransform onTopOfEditor;
+
+        [SerializeField] public NodeTransform controls;
 
         // Lazy variables
         Canvas _canvas;
@@ -29,8 +32,8 @@ namespace ScrapCoder.UI {
 
         public new Camera camera => canvas.worldCamera;
 
-        SelectionController _nodesMenu;
-        public SelectionController nodesMenu => _nodesMenu ??= (nodeEditorContainer.GetComponent<SelectionController>() as SelectionController);
+        SelectionController _selectionMenus;
+        public SelectionController selectionMenus => _selectionMenus ??= (editor.GetComponent<SelectionController>() as SelectionController);
 
         // Constants
         public const int OutsideFactor = 2;

@@ -775,6 +775,7 @@ GameObject:
   - component: {fileID: 4192028520146422209}
   - component: {fileID: 4192028520146422208}
   - component: {fileID: 4192028520146422210}
+  - component: {fileID: 2931395424926561409}
   m_Layer: 5
   m_Name: ErasingZone
   m_TagString: TriggerZone
@@ -871,6 +872,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   shapeState: {fileID: 4110113911823680095}
+--- !u!210 &2931395424926561409
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4192028520146422212}
+  m_Enabled: 1
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
+  m_SortingOrder: 0
 --- !u!1 &4413772989108478722
 GameObject:
   m_ObjectHideFlags: 0

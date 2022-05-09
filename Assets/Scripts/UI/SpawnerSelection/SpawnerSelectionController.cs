@@ -62,10 +62,20 @@ namespace ScrapCoder.UI {
             );
         }
 
-        public int LocateButton(int y) {
+        public int PositionButton(int y) {
             button.ownTransform.SetPosition(y: -y);
 
             return button.ownTransform.height;
+        }
+
+        public void SetOrder(int order) {
+            button.ownTransform.sorter.sortingOrder = order + 1;
+            container.ownTransform.sorter.sortingOrder = order;
+        }
+
+        public void SetOrderByDelta(int delta) {
+            button.ownTransform.sorter.sortingOrder += delta;
+            container.ownTransform.sorter.sortingOrder += delta;
         }
 
         public static SpawnerSelectionController Create(

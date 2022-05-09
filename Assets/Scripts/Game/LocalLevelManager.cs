@@ -31,8 +31,8 @@ namespace ScrapCoder.Game {
 
         public void ChangeToLevel(int level) {
             // Configuring menu of editor
-            InterfaceCanvas.instance.nodesMenu.Initialize(
-                categoryTemplates: Newtonsoft.Json.JsonConvert.DeserializeObject<List<SpawnerSelectionTemplate>>(
+            InterfaceCanvas.instance.selectionMenus.Initialize(
+                selectionTemplates: Newtonsoft.Json.JsonConvert.DeserializeObject<List<SpawnerSelectionTemplate>>(
                     puzzleNodesTemplates[level].text
                 )
             );

@@ -459,7 +459,7 @@ namespace ScrapCoder.VisualNodes {
             SetMiddleZone(true);
             DetachFromParent(smooth: true);
 
-            HierarchyController.instance.SetOnTopOfEditorContainer(this);
+            HierarchyController.instance.SetOnTopOfEditor(this);
 
             Vector2Int previousPosition = new Vector2Int { x = ownTransform.x, y = ownTransform.y };
 
