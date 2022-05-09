@@ -6,7 +6,7 @@ using UnityEngine;
 public class InteractCopper : InteractScript
 {
     // Start is called before the first frame update
-    [SerializeField] private GameObject scriptEnviorment;
+    //[SerializeField] private GameObject scriptEnviorment;
     void Start()
     {
         interactCollider = GetComponent<BoxCollider2D>();
@@ -17,7 +17,7 @@ public class InteractCopper : InteractScript
     // Update is called once per frame
     void Update()
     {
-        if (interactable && Input.GetButtonDown("Interact") || !interactable && scriptEnviorment.activeSelf)
+        if (interactable && Input.GetButtonDown("Interact") || !interactable /*&& scriptEnviorment.activeSelf*/)
         {
             Programar();
         }
@@ -26,6 +26,6 @@ public class InteractCopper : InteractScript
     void Programar()
     {
         //SceneManager.LoadScene("NodesScene");
-        scriptEnviorment.SetActive(!scriptEnviorment.activeSelf);
+        //scriptEnviorment.SetActive(!scriptEnviorment.activeSelf);
     }
 }

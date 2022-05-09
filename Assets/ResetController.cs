@@ -11,7 +11,7 @@ public class ResetController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdatePosition(true);
+        //UpdatePosition(true);
     }
 
     void OnEnable()
@@ -29,7 +29,7 @@ public class ResetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ResetPosition(true);
+        //ResetPosition(true);
         if (Input.GetButtonDown("Reset") /* || dies */)
         {
             ResetPosition(true);
