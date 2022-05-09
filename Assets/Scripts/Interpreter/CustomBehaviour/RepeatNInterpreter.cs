@@ -10,67 +10,61 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class RepeatNInterpreter : MonoBehaviour, IInterpreterElement {
+    public class RepeatNInterpreter : InterpreterElement {
 
         // Internal types
-        enum Steps { ComparingWithVariable, ExecutingInstructions }
+        enum Steps { PushingValue, EvaluatingValue, ExecutingInstructions }
 
         // Editor variables
         [SerializeField] NodeContainer variableContainer;
         [SerializeField] NodeContainer instructionsContainer;
 
         // State variables
-        Steps currentStep = Steps.ComparingWithVariable;
+        Steps currentStep = Steps.PushingValue;
         int repetition = 0;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public override bool IsExpression => false;
 
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
-
-        NodeController variable => variableContainer.array.First;
+        NodeController value => variableContainer.array.First;
         NodeController firstInstruction => instructionsContainer.array.First;
 
         // Methods
-        public void Execute(string answer) {
+        public override void Execute(string argument) {
 
-            if (currentStep == Steps.ComparingWithVariable) {
-                ComparingWithVariable();
+            if (currentStep == Steps.PushingValue) {
+                PushingValue();
+            } else if (currentStep == Steps.EvaluatingValue) {
+                EvaluatingValue(value: argument);
             } else if (currentStep == Steps.ExecutingInstructions) {
                 ExecutingInstructions();
             }
 
         }
 
-        public void Reset() {
-            IsFinished = false;
-            currentStep = Steps.ComparingWithVariable;
+        protected override void CustomReset() {
+            currentStep = Steps.PushingValue;
             repetition = 0;
         }
 
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
+        void PushingValue() {
+            Executer.instance.PushNext(next: value.interpreterElement);
+            Executer.instance.ExecuteInmediately();
+
+            currentStep = Steps.EvaluatingValue;
         }
 
-        void ComparingWithVariable() {
-            var value = System.Int32.Parse(SymbolTable.instance[variable.symbolName].value);
+        void EvaluatingValue(string value) {
+            var number = System.Int32.Parse(value);
 
-            if (repetition < value) {
+            if (repetition < number) {
                 repetition += 1;
                 currentStep = Steps.ExecutingInstructions;
             } else {
                 IsFinished = true;
             }
 
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
         }
 
         void ExecutingInstructions() {
@@ -79,7 +73,7 @@ namespace ScrapCoder.Interpreter {
             Executer.instance.PushNext(firstInstruction.interpreterElement);
             Executer.instance.ExecuteInNextFrame();
 
-            currentStep = Steps.ComparingWithVariable;
+            currentStep = Steps.PushingValue;
         }
 
     }

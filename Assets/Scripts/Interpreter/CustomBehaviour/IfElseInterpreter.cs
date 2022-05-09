@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class IfElseInterpreter : MonoBehaviour, IInterpreterElement {
+    public class IfElseInterpreter : InterpreterElement {
 
         // Internal types
         enum Steps { PushingCondition, EvaluatingCondition, ExecutingFirst, ExecutingSecond }
@@ -24,30 +24,19 @@ namespace ScrapCoder.Interpreter {
         Steps currentStep = Steps.PushingCondition;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => false;
 
         NodeController condition => conditionContainer.array.First;
-
         NodeController firstInstruction => firstInstructionsContainer.array.First;
         NodeController secondInstruction => secondInstructionsContainer.array.First;
 
         // Methods
-        public void Execute(string answer) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingCondition) {
                 PushingCondition();
             } else if (currentStep == Steps.EvaluatingCondition) {
-                EvaluationCondition(answer);
+                EvaluationCondition(conditionValue: argument);
             } else if (currentStep == Steps.ExecutingFirst) {
                 ExecutingInstructions("first");
             } else if (currentStep == Steps.ExecutingSecond) {
@@ -56,34 +45,29 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingCondition;
-        }
-
-        public IInterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
         }
 
         void PushingCondition() {
             // Debug.Log("Pushing condition");
 
             Executer.instance.PushNext(condition.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingCondition;
         }
 
-        void EvaluationCondition(string value) {
+        void EvaluationCondition(string conditionValue) {
             // Debug.Log($"Evaluating condition result: {value}");
 
-            if (value == "true") {
+            if (conditionValue == "true") {
                 currentStep = Steps.ExecutingFirst;
             } else {
                 currentStep = Steps.ExecutingSecond;
             }
 
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
         }
 
         void ExecutingInstructions(string instructions) {

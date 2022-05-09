@@ -6,14 +6,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using ScrapCoder.Interpreter;
+using ScrapCoder.UI;
+
 namespace ScrapCoder.VisualNodes {
-    public class NodeSpawnCollider : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
+    public class NodeSpawnCollider :
+        MonoBehaviour,
+        IBeginDragHandler,
+        IEndDragHandler,
+        IDragHandler,
+        IPointerEnterHandler,
+        IPointerExitHandler {
 
         [SerializeField] NodeSpawnController spawnController;
 
         NodeController spawned => spawnController.spawned;
 
-        void IBeginDragHandler.OnBeginDrag(PointerEventData e) {
+        public void OnBeginDrag(PointerEventData e) {
+            if (Executer.instance.isRunning) return;
+
+            spawnController.SetState("normal");
+            spawnController.HideContainer();
             spawnController.SpawnNode(
                 newPosition: GetPointerPosition(e),
                 dx: e.delta.x,
@@ -21,58 +34,38 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        void IDragHandler.OnDrag(PointerEventData e) {
+        public void OnDrag(PointerEventData e) {
             if (!e.dragging || spawned == null) return;
 
-            spawned.ownTransform.SetFloatPositionByDelta(dx: e.delta.x, dy: e.delta.y);
-
-            spawned.currentDrop = spawned.GetDrop();
-
-            if (spawned.currentDrop != spawned.previousDrop) {
-                spawned.currentDrop?.SetState("over");
-                spawned.previousDrop?.SetState("normal");
-
-                spawned.previousDrop = spawned.currentDrop;
-            }
+            spawned.OnDrag(e);
         }
 
-        void IEndDragHandler.OnEndDrag(PointerEventData e) {
+        public void OnEndDrag(PointerEventData e) {
             if (spawned == null) return;
 
-            var dragDropZone = spawned.GetDrop();
-
-            if (dragDropZone?.category == "working") {
-                if (!spawned.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(spawned);
-                spawned.SetMiddleZone(false);
-                spawned.isDragging = false;
-                spawned.SetState("normal");
-
-                dragDropZone.SetState("normal");
-            } else if (dragDropZone?.category == "erasing") {
-                spawned.isDragging = false;
-                spawned.Disappear();
-                spawned.SetState("normal");
-
-                dragDropZone.SetState("normal");
-            } else {
-                spawnController.RemoveSpawned();
-            }
-
+            spawned.OnEndDrag(discardCallback: () => spawnController.RemoveSpawned());
             spawnController.ClearSpawned();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) {
+            spawnController.SetState("over");
+        }
+
+        public void OnPointerExit(PointerEventData eventData) {
+            spawnController.SetState("normal");
         }
 
         Vector2 GetPointerPosition(PointerEventData eventData) {
             var newPosition = new Vector2();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rect: spawnController.canvasTransform,
+                rect: InterfaceCanvas.instance.editor.rectTransform,
                 screenPoint: eventData.position,
-                cam: spawnController.canvas.worldCamera,
+                cam: InterfaceCanvas.instance.camera,
                 localPoint: out newPosition
             );
 
             return newPosition;
         }
-
 
     }
 }

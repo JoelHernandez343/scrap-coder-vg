@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6150825404952637393}
   - component: {fileID: 6150825404952637394}
   - component: {fileID: 6150825404952637395}
-  - component: {fileID: -9158774899080031319}
+  - component: {fileID: -1522909592207112827}
   m_Layer: 5
   m_Name: False
   m_TagString: Untagged
@@ -48,8 +48,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6150825404952637405}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!114 &6150825404952637394
 MonoBehaviour:
@@ -73,11 +73,7 @@ MonoBehaviour:
   minWidth: 0
   resizable: 0
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 3
-  localDepthLevels: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +104,7 @@ MonoBehaviour:
   workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
---- !u!114 &-9158774899080031319
+--- !u!114 &-1522909592207112827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,9 +113,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6150825404952637405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92984d0ffe98959418aac20c19ab957d, type: 3}
+  m_Script: {fileID: 11500000, guid: 74a94c3c68d535c4f85076b2c03bb775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeOfBoolean: 1
 --- !u!1001 &4757730422114491661
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -65,20 +65,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
-  initHeight: 0
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 10
   initWidth: 0
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 0}
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
-  localZLevels: -1
   ownDepthLevels: 1
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &5177636434978128433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,20 +201,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 1020040377345113106}
   initHeight: 0
   initWidth: 0
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 1020040377345113106}
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
-  localZLevels: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &449421557564414003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +227,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableSprites: []
   hideable: 0
+  states:
+  - normal
+  - over
+  - pressed
+  - disabled
+  spriteRange: 0
 --- !u!1001 &4103558883992647683
 PrefabInstance:
   m_ObjectHideFlags: 0

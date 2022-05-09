@@ -4,7 +4,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.InputManagment;
@@ -29,6 +28,8 @@ namespace ScrapCoder.UI {
         [SerializeField] ExpandableText expandableText;
 
         [SerializeField] public NodeTransform pieceToExpand;
+
+        [SerializeField] Component textHandler;
 
         // State variables
         int cursor = 0;
@@ -67,11 +68,16 @@ namespace ScrapCoder.UI {
 
         public string Value {
             get => text;
-            set {
+            private set {
                 text = value;
                 ExpandByText(smooth: true);
                 MoveCursorTo(0);
             }
+        }
+
+        public int Cursor {
+            get => cursor;
+            set => MoveCursorTo(value);
         }
 
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
@@ -96,6 +102,8 @@ namespace ScrapCoder.UI {
                 MoveCursor(-1);
             } else if (Input.GetKeyDown(KeyCode.Return)) {
                 Execute();
+            } else if (textHandler is ITextHandler customTextHandler) {
+                customTextHandler.HandleCharacterInput(this);
             } else if (GetPressedCharacter() is var character && character != "") {
                 AddCharacter(character);
             }
@@ -132,7 +140,7 @@ namespace ScrapCoder.UI {
             MoveCursor(-1);
         }
 
-        void AddCharacter(string character) {
+        public void AddCharacter(string character) {
             if (isFull) return;
 
             if (cursor == text.Length) {
@@ -157,7 +165,7 @@ namespace ScrapCoder.UI {
             ownTransform.Expand(dx: dx, smooth: smooth);
 
             // Update parent with delta
-            ownTransform.expandable?.Expand(dx: dx, smooth: smooth);
+            ownTransform.expandable?.Expand(dx: dx, smooth: smooth, expanded: this);
         }
 
         void MoveCursorTo(int position) {
@@ -178,24 +186,16 @@ namespace ScrapCoder.UI {
         }
 
         void RenderCursor() {
-            Vector2 delta;
+            var x = cursor > 0
+                ? (int)System.Math.Round(expandableText.characterInfo[cursor - 1].topRight.x)
+                : 0;
 
-            if (cursor == 0) {
-                delta = cursorSprite.SetPosition(
-                    x: cursorLeftOffset,
-                    y: cursorSprite.y,
-                    smooth: true,
-                    endingCallback: () => cursorAnimator.SetBool("isMoving", false)
-                );
-            } else {
-                var x = (int)System.Math.Round(expandableText.characterInfo[cursor - 1].topRight.x);
-                delta = cursorSprite.SetPosition(
-                    x: x + cursorLeftOffset,
-                    y: cursorSprite.y,
-                    smooth: true,
-                    endingCallback: () => cursorAnimator.SetBool("isMoving", false)
-                );
-            }
+            var delta = cursorSprite.SetPosition(
+                x: cursorLeftOffset + x,
+                y: cursorSprite.y,
+                smooth: true,
+                endingCallback: () => cursorAnimator.SetBool("isMoving", false)
+            );
 
             // Change state AFTER possible previous callback is called if were transition
             if (delta != Vector2.zero) {
@@ -238,21 +238,22 @@ namespace ScrapCoder.UI {
         }
 
         void IFocusable.GetFocus() {
-            cursorAnimator.SetBool("isActive", true);
+            InputController.instance.SetFocusParentOnFocusable();
 
+            cursorAnimator.SetBool("isActive", true);
             backgroundShape.SetVisible(true);
 
-            if (controller == null) {
-                ownTransform.Raise(depthLevels: 10);
-            }
+            controller?.GetFocus();
         }
 
         void IFocusable.LoseFocus() {
+            InputController.instance.RemoveFromFocusParent();
+
             cursorAnimator.SetBool("isActive", false);
 
             backgroundShape.SetVisible(false);
 
-            ownTransform.ResetRenderOrder();
+            controller?.LoseFocus();
         }
 
         bool IFocusable.HasFocus() {

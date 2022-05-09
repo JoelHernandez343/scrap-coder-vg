@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using ScrapCoder.Interpreter;
+
 namespace ScrapCoder.VisualNodes {
 
     public class NodeDragger :
@@ -31,103 +33,43 @@ namespace ScrapCoder.VisualNodes {
 
         Vector2Int previousPosition = Vector2Int.zero;
 
-        bool over;
-
         // Methods
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
-            controller.SetState("over");
+            controller.SetState(state: "over", propagation: true);
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
-            if (ownTransform.isMovingSmoothly) return;
+            if (Executer.instance.isRunning && controller.hasParent) return;
+            if (controller.ownTransform.isMovingSmoothly) return;
 
-            controller.SetMiddleZone(true);
-            controller.DetachFromParent();
-
-            HierarchyController.instance.SetOnTopOfCanvas(controller);
-
-            previousPosition.x = controller.ownTransform.x;
-            previousPosition.y = controller.ownTransform.y;
-
-            controller.ownTransform.SetFloatPositionByDelta(
-                dx: eventData.delta.x,
-                dy: eventData.delta.y
-            );
+            previousPosition = controller.BeginDrag(eventData);
 
             isDragging = true;
-
-            controller.SetState("over");
         }
 
         public void OnDrag(PointerEventData eventData) {
-            if (ownTransform.isMovingSmoothly) return;
+            if (controller.ownTransform.isMovingSmoothly) return;
 
-            if (eventData.dragging && isDragging) {
-                controller.ownTransform.SetFloatPositionByDelta(
-                    dx: eventData.delta.x,
-                    dy: eventData.delta.y
-                );
-            }
-
-            controller.currentDrop = controller.GetDrop();
-
-            if (controller.currentDrop != controller.previousDrop) {
-                controller.currentDrop?.SetState("over");
-                controller.previousDrop?.SetState("normal");
-
-                controller.previousDrop = controller.currentDrop;
-            }
+            controller.OnDrag(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData) {
             if (isDragging) {
-
-                var dragDropZone = controller.GetDrop();
-
-                if (dragDropZone?.category == "working") {
-                    if (!controller.InvokeZones()) HierarchyController.instance.SetOnTopOfNodes(controller);
-                    controller.SetMiddleZone(false);
-                    dragDropZone.SetState("normal");
-                } else if (dragDropZone?.category == "erasing") {
-                    isDragging = false;
-                    controller.SetState("normal");
-                    controller.Disappear();
-                    dragDropZone.SetState("normal");
-                    return;
-                } else {
-                    controller.ownTransform.SetPosition(
-                        x: previousPosition.x,
-                        y: previousPosition.y,
-                        smooth: true,
-                        endingCallback: () => HierarchyController.instance.SetOnTopOfNodes(controller)
-                    );
-                }
-
-                isDragging = false;
-
-                controller.SetState("normal");
+                controller.OnEndDrag(previousPosition);
             }
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-            over = true;
 
-            // controller.SetState(isDragging ? "pressed" : "over");
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
-            over = false;
 
-            if (!isDragging) {
-                // controller.SetState("normal");
-            }
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
-            if (!isDragging) {
-                controller.SetState("normal");
-            }
+            controller.SetState(state: "normal", propagation: true);
         }
     }
 }

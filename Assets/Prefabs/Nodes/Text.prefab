@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7446158247027931828}
   - component: {fileID: 1062028846624124872}
   - component: {fileID: 1024231459686797363}
-  - component: {fileID: 9143980122744722598}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -79,7 +78,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7446158247027931828
 MonoBehaviour:
@@ -186,16 +185,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 1024231459686797363}
-  initHeight: 0
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 10
   initWidth: 0
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
-  directController: {fileID: 0}
-  indirectController: {fileID: 0}
-  relativeOrigin: {x: 0, y: 0}
-  localZLevels: 0
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &1024231459686797363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,14 +210,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 7446158247027931828}
---- !u!210 &9143980122744722598
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8574254898219661927}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0

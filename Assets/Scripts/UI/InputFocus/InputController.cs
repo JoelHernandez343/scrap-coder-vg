@@ -5,11 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.UI;
+
 namespace ScrapCoder.InputManagment {
 
     public class InputController : MonoBehaviour {
 
-        [SerializeField] Canvas canvas;
         [SerializeField] GameObject remover;
 
         // Lazy and other variables
@@ -21,7 +22,33 @@ namespace ScrapCoder.InputManagment {
         RectTransform _removerRectTransform;
         RectTransform removerRectTransform => _removerRectTransform ??= remover.GetComponent<RectTransform>();
 
+        Canvas canvas => InterfaceCanvas.instance.canvas;
+
+        // State variables
         public IFocusable handlerWithFocus;
+        int previousDepth;
+        int previousSortingOrder;
+        Transform previousParent;
+
+        public void SetFocusParentOnFocusable() {
+            if (handlerWithFocus == null) return;
+
+            previousDepth = handlerWithFocus.ownTransform.depth;
+            previousParent = handlerWithFocus.ownTransform.transform.parent;
+            previousSortingOrder = handlerWithFocus.ownTransform.sorter.sortingOrder;
+
+            handlerWithFocus.ownTransform.transform.SetParent(InterfaceCanvas.instance.focusParent.transform);
+            handlerWithFocus.ownTransform.depth = 0;
+            handlerWithFocus.ownTransform.sorter.sortingOrder = 0;
+        }
+
+        public void RemoveFromFocusParent(Transform newParent = null, int? previousDepth = null, int? previousSortingOrder = null) {
+            if (handlerWithFocus == null) return;
+
+            handlerWithFocus.ownTransform.transform.SetParent(newParent ?? previousParent);
+            handlerWithFocus.ownTransform.depth = previousDepth ?? this.previousDepth;
+            handlerWithFocus.ownTransform.sorter.sortingOrder = previousSortingOrder ?? this.previousSortingOrder;
+        }
 
         public void SetFocusOn(IFocusable focusable) {
             ClearFocus();

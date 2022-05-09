@@ -4,9 +4,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 
 using ScrapCoder.Interpreter;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
 
@@ -81,7 +83,7 @@ namespace ScrapCoder.VisualNodes {
         public string symbolName;
 
         // Lazy and other variables
-        public Transform workingZone;
+        public Transform workingZone => InterfaceCanvas.instance.workingZone.transform;
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
@@ -135,21 +137,21 @@ namespace ScrapCoder.VisualNodes {
         public UI.DragDropZone previousDrop = null;
         public UI.DragDropZone currentDrop = null;
 
-        IInterpreterElement _interpreterElement;
-        public IInterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<IInterpreterElement>() as IInterpreterElement);
+        InterpreterElement _interpreterElement;
+        public InterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<InterpreterElement>() as InterpreterElement);
 
         string state;
 
         // Methods
         public void ClearParent() => parentArray = null;
 
-        public void DetachFromParent() {
+        public void DetachFromParent(bool smooth = false) {
             if (!hasParent) return;
 
             if (siblings != null) {
-                siblings.AddNodesFromParent(smooth: true);
+                siblings.AddNodesFromParent(smooth: smooth);
             } else {
-                parentArray.RemoveNodes(fromThisNode: this, smooth: true);
+                parentArray.RemoveNodes(fromThisNode: this, smooth: smooth);
                 RefreshZones();
                 ClearParent();
             }
@@ -199,8 +201,7 @@ namespace ScrapCoder.VisualNodes {
                     ownZone == container.zone ||
                     ownZone.controller.parentArray == container.array
                 ) {
-                    container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
-                    return true;
+                    return container.AddNodes(nodeToAdd: inZone.controller, toThisNode: toThisNode, smooth: true);
                 }
             }
 
@@ -267,7 +268,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (hasParent) {
                 parentArray.AdjustParts(changedNode: this, dx: dx, dy: dy, smooth: smooth);
-            } else {
+            } else if (transform.parent == workingZone) {
                 HierarchyController.instance.SetOnTopOfNodes(this);
             }
         }
@@ -325,6 +326,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void LoseFocus() {
+            SetState(state: "normal", propagation: true);
+
             if (hasParent) {
                 ownTransform.ResetRenderOrder();
                 parentController.LoseFocus();
@@ -365,20 +368,11 @@ namespace ScrapCoder.VisualNodes {
                 );
             };
 
-            Action moveUp = () => {
-                ownTransform.SetPosition(
-                    x: ownTransform.x,
-                    y: ownTransform.y - 500,
-                    smooth: true,
-                    endingCallback: disappear
-                );
-            };
-
             ownTransform.SetPosition(
                 x: ownTransform.x,
                 y: ownTransform.y + 50,
                 smooth: true,
-                endingCallback: moveUp
+                endingCallback: disappear
             );
 
             RemoveFromSymbolTable();
@@ -387,25 +381,44 @@ namespace ScrapCoder.VisualNodes {
             HierarchyController.instance.SortNodes();
         }
 
+        public void RemoveMyself(bool removeChildren) {
+            DetachFromParent(smooth: false);
+
+            if (removeChildren) {
+                RemoveChildrenFromSymbolTable();
+            } else {
+                EjectChildren();
+            }
+
+            HierarchyController.instance.DeleteNode(this);
+            HierarchyController.instance.SortNodes();
+
+            Destroy(gameObject);
+        }
+
         public void RemoveFromSymbolTable() {
-            SymbolTable.instance[symbolName].Remove(this);
+            SymbolTable.instance[symbolName]?.RemoveReference(this);
+            RemoveChildrenFromSymbolTable();
+        }
+
+        void RemoveChildrenFromSymbolTable() {
             containers.ForEach(c => c.RemoveNodesFromTableSymbol());
         }
 
-        public void SetState(string state) {
+        void EjectChildren() {
+            containers.ForEach(c => c.First?.DetachFromParent(smooth: false));
+        }
+
+        public void SetState(string state, bool propagation = false) {
             if (this.state == state) return;
 
             this.state = state;
-            components.ForEach(c => c.SetState(this.state));
+            components.ForEach(c => c.SetState(state));
+
+            if (!propagation) return;
+
             containers.ForEach(c => c.SetState(state));
-
-            if (hasParent) {
-                parentArray.SetStateAfterThis(this, state);
-            }
-        }
-
-        public void RemoveMyself() {
-            throw new System.NotImplementedException();
+            parentArray?.SetStateAfterThis(this, state);
         }
 
         public bool Analyze() {
@@ -438,9 +451,90 @@ namespace ScrapCoder.VisualNodes {
                 }
             }
 
-            if (nodeAnalyzer is INodeAnalyzer analyzer) return analyzer.Analyze();
+            return (nodeAnalyzer as INodeAnalyzer)?.Analyze() ?? true;
+        }
 
-            return true;
+        public Vector2Int BeginDrag(PointerEventData e) {
+
+            SetMiddleZone(true);
+            DetachFromParent(smooth: true);
+
+            HierarchyController.instance.SetOnTopOfEditor(this);
+
+            Vector2Int previousPosition = new Vector2Int { x = ownTransform.x, y = ownTransform.y };
+
+            ownTransform.SetFloatPositionByDelta(
+                dx: e.delta.x,
+                dy: e.delta.y
+            );
+
+            SetState(state: "over", propagation: true);
+
+            return previousPosition;
+        }
+
+        public void OnDrag(PointerEventData e) {
+            if (e.dragging && isDragging) {
+                ownTransform.SetFloatPositionByDelta(
+                    dx: e.delta.x,
+                    dy: e.delta.y
+                );
+            }
+
+            currentDrop = GetDrop();
+
+            if (currentDrop != previousDrop) {
+                currentDrop?.SetState("over");
+                previousDrop?.SetState("normal");
+
+                previousDrop = currentDrop;
+            }
+        }
+
+        public void OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
+            var dragDropZone = GetDrop();
+
+            isDragging = false;
+            SetState(state: "normal", propagation: true);
+
+            if (dragDropZone?.category == DragDropZone.Category.Working) {
+
+                if (Executer.instance.isRunning || !InvokeZones()) {
+                    HierarchyController.instance.SetOnTopOfNodes(this);
+                }
+
+                SetMiddleZone(false);
+                dragDropZone.SetState("normal");
+
+            } else if (dragDropZone?.category == DragDropZone.Category.Erasing && !Executer.instance.isRunning) {
+
+                Disappear();
+                dragDropZone.SetState("normal");
+
+            } else {
+                if (discardCallback == null) {
+                    ownTransform.SetPosition(
+                        x: previousPosition?.x ?? 0,
+                        y: previousPosition?.y ?? 0,
+                        smooth: true,
+                        endingCallback: () => HierarchyController.instance.SetOnTopOfNodes(this)
+                    );
+                } else {
+                    discardCallback();
+                }
+            }
+        }
+
+        public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
+            var newNode = Instantiate(original: prefab, parent: parent);
+
+            newNode.name = template.name;
+            newNode.symbolName = template.symbolName;
+
+            newNode.ownTransform.depth = 0;
+            newNode.ownTransform.SetScale(x: 1, y: 1, z: 1);
+
+            return newNode;
         }
     }
 

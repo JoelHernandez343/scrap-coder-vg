@@ -8,21 +8,17 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class EndInterpreter : MonoBehaviour, IInterpreterElement {
+    public class EndInterpreter : InterpreterElement {
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+        public override bool IsFinished => true;
 
-        public bool IsFinished => true;
-
-        public bool IsExpression => false;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => false;
 
         // Methods
-        public void Execute(string answer) { }
-        public void Reset() { }
+        public override void Execute(string argument) { }
 
-        public IInterpreterElement GetNextStatement() => null;
+        public override InterpreterElement GetNextStatement() => null;
+
     }
 }

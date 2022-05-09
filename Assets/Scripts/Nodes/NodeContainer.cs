@@ -22,9 +22,6 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public bool modifyWidthOfPiece;
         [SerializeField] public bool modifyHeightOfPiece;
 
-        [SerializeField] public int defaultHeight;
-        [SerializeField] public int defaultWidth;
-
         [SerializeField] public NodeCategory acceptedCategory;
 
         // Lazy and other variables
@@ -35,9 +32,13 @@ namespace ScrapCoder.VisualNodes {
 
         public int Count => array.Count;
 
+        public NodeController First => array.First;
         public NodeController Last => array.Last;
 
         public bool isEmpty => array.Count == 0;
+
+        int initHeight => ownTransform.initHeight;
+        int initWidth => ownTransform.initWidth;
 
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
         bool INodeExpanded.ModifyHeightOfPiece => modifyHeightOfPiece;
@@ -65,11 +66,11 @@ namespace ScrapCoder.VisualNodes {
             dy ??= 0;
 
             if (array.previousCount == 0) {
-                dy -= defaultHeight;
-                dx -= defaultWidth;
+                dx -= initWidth;
+                dy -= initHeight;
             } else if (array.Count == 0) {
-                dy += defaultHeight;
-                dx += defaultWidth;
+                dx += initWidth;
+                dy += initHeight;
             }
 
             return (dx, dy);
@@ -79,16 +80,23 @@ namespace ScrapCoder.VisualNodes {
             ownTransform.localDepthLevels = array.ownTransform.depthLevels;
         }
 
-        public void AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
+        public bool AddNodes(NodeController nodeToAdd, NodeController toThisNode = null, bool smooth = false) {
             toThisNode ??= controller;
 
-            if (acceptedCategory == NodeCategory.All || acceptedCategory == nodeToAdd.category) {
+            if (
+                acceptedCategory == NodeCategory.All ||
+                acceptedCategory == nodeToAdd.category ||
+                (acceptedCategory == NodeCategory.Value && nodeToAdd.category == NodeCategory.Variable)
+            ) {
                 array.AddNodes(node: nodeToAdd, toThisNode: toThisNode, smooth: smooth);
+                return true;
             }
+
+            return false;
         }
 
         public void SetState(string state) {
-            array.nodes.ForEach(n => n.SetState(state));
+            array.nodes.ForEach(n => n.SetState(state: state, propagation: true));
         }
 
         public void RemoveNodesFromTableSymbol() {

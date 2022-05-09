@@ -4,10 +4,10 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 2873453964865190243
-    second: simple
+    second: conditional_simple
   - first:
       213: 6800604763316150982
-    second: compound
+    second: conditional_compound
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: simple
+      name: conditional_simple
       rect:
         serializedVersion: 2
         x: 0
@@ -118,7 +118,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: compound
+      name: conditional_compound
       rect:
         serializedVersion: 2
         x: 0

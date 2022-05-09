@@ -13,7 +13,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] ZoneColor color;
 
         List<NodeZone> zones = new List<NodeZone>();
-        List<UI.DragDropZone> dropZones = new List<UI.DragDropZone>();
+        [SerializeField] List<UI.DragDropZone> dropZones = new List<UI.DragDropZone>();
 
         bool isActive = true;
 
@@ -46,6 +46,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (dropZone != null) {
                 dropZones.Add(dropZone);
+                dropZones = dropZones.FindAll(zone => zone != null);
 
                 SortList(dropZones);
             }

@@ -11,11 +11,14 @@ namespace ScrapCoder.UI {
 
     public class DragDropZone : MonoBehaviour {
 
+        // Internal types
+        public enum Category { Neutral, Working, Erasing }
+
         // Editor variables
-        [SerializeField] public string category;
+        [SerializeField] public Category category;
+        [SerializeField] NodeShapeContainer shapeState;
 
         // State variables
-        string previousState = "";
         string currentState = "";
 
         // Lazy variables
@@ -23,18 +26,16 @@ namespace ScrapCoder.UI {
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         // Methods
+        void Start() {
+            shapeState?.SetState("normal");
+        }
+
         public void SetState(string state) {
+
+            if (currentState == state) return;
+
             currentState = state;
-
-            if (currentState == "over" && previousState != currentState) {
-                // Here switch to over state
-                // Debug.Log("Over");
-            } else if (currentState == "normal" && previousState != currentState) {
-                // Here switch to normal state
-                // Debug.Log("Normal");
-            }
-
-            previousState = currentState;
+            shapeState?.SetState(state);
         }
     }
 

@@ -48,7 +48,7 @@ namespace ScrapCoder.UI {
             return (dx, dy);
         }
 
-        public int ChangeText(string newText, int minWidth, int lettersOffset) {
+        public int ChangeText(string newText, int minWidth = 0, int lettersOffset = 0) {
             if (text == newText) return 0;
 
             // Update text

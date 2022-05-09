@@ -5,26 +5,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.VisualNodes;
+using ScrapCoder.InputManagment;
+
 namespace ScrapCoder.Interpreter {
     public class Executer : MonoBehaviour {
+
+        // Internal types
+        enum States { Running, Stopped, Stopping };
+        enum ExecutionState { Stopped, Immediately, NextFrame, WaitingForRobot }
 
         // Static variables
         public static Executer instance;
 
         // State variables
-        Stack<IInterpreterElement> stack = new Stack<IInterpreterElement>();
+        Stack<InterpreterElement> stack = new Stack<InterpreterElement>();
 
-        string nextLocalAnswer = null;
-        bool executeNext;
+        string nextArgument = null;
 
-        public bool stopped;
+        States state = States.Stopped;
+        ExecutionState executionState = ExecutionState.Stopped;
+
+        float timer = 0f;
+        float waitTime;
+
+        ExecuterVelocity _velocity = ExecuterVelocity.Immediately;
+        public ExecuterVelocity velocity {
+            private set => _velocity = value;
+            get => _velocity;
+        }
+
+        InterpreterElement currentElementWithFocus;
 
         // Lazy variables
         Analyzer _analyzer;
         Analyzer analyzer => _analyzer ??= (GetComponent<Analyzer>() as Analyzer);
 
+        public string State => state.ToString();
+
+        public bool isRunning => state == States.Running;
+
         // Methods
         void Awake() {
+            UpdateWaitTime();
+
             if (instance != null) {
                 Destroy(gameObject);
                 return;
@@ -33,14 +57,39 @@ namespace ScrapCoder.Interpreter {
             instance = this;
         }
 
-        void FixedUpdate() {
-            if (stopped) {
-                ResetState();
-            } else if (executeNext) {
-                var localAnswer = nextLocalAnswer;
-                nextLocalAnswer = null;
+        void Update() {
+            if (state != States.Running || executionState != ExecutionState.NextFrame) return;
 
-                ExecuteNext(localAnswer);
+            timer += Time.deltaTime;
+
+            if (timer >= waitTime) {
+                // Timer soft reset, min ~ timer -= waitTaime
+                timer -= (int)System.Math.Floor(timer / waitTime) * waitTime;
+
+                ExecuteNext();
+            }
+        }
+
+        public void SetVelocity(ExecuterVelocity newVelocity) {
+            if (velocity == newVelocity) return;
+
+            var previousTiming = velocity;
+            velocity = newVelocity;
+
+            UpdateWaitTime();
+
+            if (previousTiming < newVelocity) {
+                timer = waitTime;
+            }
+        }
+
+        void UpdateWaitTime() {
+            if (velocity == ExecuterVelocity.Immediately) {
+                waitTime = Time.fixedDeltaTime;
+            } else if (velocity == ExecuterVelocity.EverySecond) {
+                waitTime = 1f;
+            } else if (velocity == ExecuterVelocity.EveryThreeSeconds) {
+                waitTime = 3f;
             }
         }
 
@@ -50,71 +99,128 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ResetState() {
-            nextLocalAnswer = null;
+            state = States.Running;
+            executionState = ExecutionState.Stopped;
+            timer = 0f;
+
+            nextArgument = null;
             stack.Clear();
         }
 
         public void Execute() {
-            stopped = false;
-            ResetState();
+            if (state == States.Running) {
+                Debug.LogWarning("Already executing!");
+                return;
+            }
+            if (state == States.Stopping) {
+                Debug.LogWarning("Waiting for termination.");
+                return;
+            }
+
+            InputController.instance.ClearFocus();
 
             var (isValid, beginning) = analyzer.Analize();
-
             if (!isValid) return;
 
+            ResetState();
+
             PushNext(beginning.interpreterElement);
-            ExecuteInNextFrame();
+            ExecuteNext();
         }
 
-        public void PushNext(IInterpreterElement e) {
-            e.Reset();
-            stack.Push(e);
+        public void Stop(bool force = false) {
+            if (state == States.Stopped || state == States.Stopping) return;
+
+            Debug.Log("Execution is finished");
+
+            if (force) {
+                state = States.Stopped;
+            } else {
+                state = executionState == ExecutionState.WaitingForRobot
+                    ? States.Stopping
+                    : States.Stopped;
+            }
+
+            executionState = ExecutionState.Stopped;
+
+            ClearCurrentFocus();
         }
 
-        void ExecuteNext(string answer = null) {
-            executeNext = false;
+        public void PushNext(InterpreterElement next) {
+            if (next == null) return;
 
-            if (stack.Peek().Controller.type == VisualNodes.NodeType.End) {
+            next.Reset();
+            stack.Push(next);
+        }
+
+        void ExecuteNext() {
+            executionState = ExecutionState.WaitingForRobot;
+
+            var current = stack.Peek();
+
+            if (current.Controller.type == NodeType.End) {
+                stack.Pop();
+                Stop(force: true);
+
+                return;
+            }
+
+            if (current.IsFinished) {
                 stack.Pop();
 
-                Debug.Log("Execution is finished");
-                return;
-            }
-
-            if (stack.Peek().IsFinished) {
-                var finished = stack.Pop();
-                var nextAnswer = "";
-
-                if (finished.IsExpression) {
-                    nextAnswer = answer;
+                if (current.IsExpression) {
+                    ExecuteInmediately(argument: nextArgument);
                 } else {
-                    nextAnswer = null;
-
-                    var next = finished.GetNextStatement();
-
-                    if (next != null) {
-                        PushNext(next);
-                    }
+                    PushNext(next: current.GetNextStatement());
+                    ExecuteInNextFrame();
                 }
-
-                ExecuteInNextFrame(nextAnswer);
-                return;
+            } else {
+                SetFocusOn(current);
+                current.Execute(argument: nextArgument);
             }
 
-            stack.Peek().Execute(answer);
+            if (executionState == ExecutionState.Immediately) {
+                if (velocity != ExecuterVelocity.Immediately) {
+                    ExecuteInNextFrame(argument: nextArgument);
+                } else {
+                    ExecuteNext();
+                }
+            }
         }
 
-        public void ExecuteInNextFrame(string answer = null) {
-            nextLocalAnswer = answer;
-            executeNext = true;
+        public void ExecuteInNextFrame(string argument = null) {
+            nextArgument = argument;
+            executionState = ExecutionState.NextFrame;
+        }
+
+        public void ExecuteInmediately(string argument = null) {
+            nextArgument = argument;
+            executionState = ExecutionState.Immediately;
+        }
+
+        void SetFocusOn(InterpreterElement element) {
+            if (currentElementWithFocus == element) return;
+
+            currentElementWithFocus?.LoseFocus();
+
+            if (velocity != ExecuterVelocity.Immediately) {
+                currentElementWithFocus = element;
+                currentElementWithFocus.GetFocus();
+            }
+        }
+
+        void ClearCurrentFocus() {
+            currentElementWithFocus?.LoseFocus();
+            currentElementWithFocus = null;
         }
 
         void ReceiveAnswer(int _) {
-            if (stopped) return;
-
-            string answer = null; //RobotController.instance.answer;
-
-            ExecuteNext(answer);
+            if (state == States.Stopping || state == States.Stopped) {
+                state = States.Stopped;
+            } else if (executionState == ExecutionState.WaitingForRobot) {
+                nextArgument = null; //RobotController.instance.answer;
+                ExecuteNext();
+            }
         }
 
     }

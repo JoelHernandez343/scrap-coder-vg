@@ -8,6 +8,7 @@ using UnityEngine;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.InputManagment;
+using ScrapCoder.Interpreter;
 
 namespace ScrapCoder.UI {
     public class DropMenuSelectButton : MonoBehaviour {
@@ -23,6 +24,10 @@ namespace ScrapCoder.UI {
         // Methods
         void Start() {
             button.AddListener(() => {
+                if (dropMenuController.controlledByExecuter && Executer.instance.isRunning) {
+                    return;
+                }
+
                 // Set controller focus
                 if (!(dropMenuController as IFocusable).HasFocus()) {
                     InputController.instance.SetFocusOn(dropMenuController);

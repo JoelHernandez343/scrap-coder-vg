@@ -7,13 +7,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.Interpreter;
 
 namespace ScrapCoder.UI {
     public class DropMenuCollider :
         MonoBehaviour,
         IPointerDownHandler,
-        IPointerEnterHandler,
-        IPointerExitHandler {
+        IBeginDragHandler,
+        IDragHandler,
+        IEndDragHandler,
+        IPointerUpHandler {
+
+        // Editor variables
+        [SerializeField] DropMenuController dropMenu;
 
         // Lazy variables
         NodeTransform _ownTransform;
@@ -21,16 +27,61 @@ namespace ScrapCoder.UI {
 
         public NodeController controller => ownTransform.controller;
 
-        void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
-            controller?.GetFocus();
+        bool hasFocus => (dropMenu as InputManagment.IFocusable).HasFocus();
+
+        bool hasController => controller != null;
+
+        bool isDragging {
+            get => controller.isDragging;
+            set => controller.isDragging = value;
         }
 
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
-            // controller.SetState("over");
+        Vector2Int previousPosition = Vector2Int.zero;
+
+        public void OnPointerDown(PointerEventData eventData) {
+            if (!hasController) return;
+
+            if (hasFocus) return;
+
+            HierarchyController.instance.SetOnTopOfNodes(controller);
+            controller.SetState(state: "over", propagation: true);
         }
 
-        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
-            // controller.SetState("normal");
+        public void OnBeginDrag(PointerEventData e) {
+            if (!hasController) return;
+
+            if (hasFocus) return;
+            if (Executer.instance.isRunning && controller.hasParent) return;
+            if (ownTransform.isMovingSmoothly) return;
+
+            previousPosition = controller.BeginDrag(e);
+
+            isDragging = true;
+        }
+
+        public void OnDrag(PointerEventData e) {
+            if (!hasController) return;
+
+            if (hasFocus) return;
+            if (controller.ownTransform.isMovingSmoothly) return;
+
+            controller.OnDrag(e);
+        }
+
+        public void OnEndDrag(PointerEventData e) {
+            if (!hasController) return;
+
+            if (isDragging) {
+                controller.OnEndDrag(previousPosition);
+            }
+        }
+
+        public void OnPointerUp(PointerEventData e) {
+            if (!hasController) return;
+
+            if (!isDragging && !hasFocus) {
+                controller.SetState(state: "normal", propagation: true);
+            }
         }
     }
 }

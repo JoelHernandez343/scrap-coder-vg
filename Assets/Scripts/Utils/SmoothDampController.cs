@@ -8,11 +8,19 @@ using UnityEngine;
 namespace ScrapCoder.Utils {
     public class SmoothDampController {
 
-        Vector2 currentDelta = Vector2.zero;
-        Vector2 destinationDelta = Vector2.zero;
+        Vector2Int currentDelta = Vector2Int.zero;
+        Vector2Int destinationDelta = Vector2Int.zero;
 
-        public bool isWorking => !(currentDelta == destinationDelta);
-        public bool isFinished => !isWorking;
+        public bool hasNext => state != "finished";
+
+        public string state
+            => (currentDelta != destinationDelta)
+                ? "working"
+                : (endingCallback != null)
+                ? "pendingToFinish"
+                : "finished";
+
+        public Vector2Int RemainingDelta => destinationDelta - currentDelta;
 
         float dampingTime;
 
@@ -24,38 +32,41 @@ namespace ScrapCoder.Utils {
             this.dampingTime = dampingTime;
         }
 
-        public void Reset(bool resetX = true, bool resetY = true) {
+        public System.Action Reset(bool resetX = true, bool resetY = false, bool forceResetCallback = false) {
             bool[] reset = { resetX, resetY };
 
             for (var axis = 0; axis < 2; ++axis) {
                 if (!reset[axis]) continue;
 
-                currentDelta[axis] = 0;
-                destinationDelta[axis] = 0;
-
+                currentDelta[axis] = destinationDelta[axis] = 0;
             }
 
-            if (isFinished) {
-                endingCallback = null;
-            }
+            return (state == "pendingToFinish" || state == "finished" || forceResetCallback) ? ResetCallback() : null;
         }
 
-        public (Vector2 delta, System.Action endingCallback) NextDelta() {
-            if (isFinished) {
-                var ecb = this.endingCallback;
-                Reset();
-                return (delta: Vector2.zero, endingCallback: ecb);
+        System.Action ResetCallback() {
+            System.Action cb;
+
+            (cb, endingCallback) = (endingCallback, null);
+
+            return cb;
+        }
+
+
+        public (Vector2Int delta, System.Action endingCallback) NextDelta() {
+            if (state == "pendingToFinish" || state == "finished") {
+                return (delta: Vector2Int.zero, endingCallback: Reset());
             }
 
-            var newValue = new Vector2();
-            var newDelta = Vector2.zero;
+            var newValue = new Vector2Int();
+            var newDelta = Vector2Int.zero;
 
             for (var axis = 0; axis < 2; ++axis) {
                 if (destinationDelta[axis] == currentDelta[axis]) continue;
 
                 var velocity = this.velocity[axis];
 
-                newValue[axis] = Mathf.SmoothDamp(
+                var floatValue = Mathf.SmoothDamp(
                     current: currentDelta[axis],
                     target: destinationDelta[axis],
                     currentVelocity: ref velocity,
@@ -65,17 +76,15 @@ namespace ScrapCoder.Utils {
                 this.velocity[axis] = velocity;
 
                 newValue[axis] = currentDelta[axis] < destinationDelta[axis]
-                    ? (int)System.Math.Ceiling(newValue[axis])
-                    : (int)System.Math.Floor(newValue[axis]);
+                    ? (int)System.Math.Ceiling(floatValue)
+                    : (int)System.Math.Floor(floatValue);
 
-                newDelta[axis] = (int)System.Math.Round(newValue[axis] - currentDelta[axis]);
+                newDelta[axis] = newValue[axis] - currentDelta[axis];
+
+                currentDelta[axis] = newValue[axis];
             }
 
-            currentDelta = newValue;
-
-            var endingCallback = isFinished ? this.endingCallback : (System.Action)null;
-
-            Reset(
+            var endingCallback = Reset(
                 resetX: destinationDelta.x == currentDelta.x,
                 resetY: destinationDelta.y == currentDelta.y
             );
@@ -83,70 +92,44 @@ namespace ScrapCoder.Utils {
             return (delta: newDelta, endingCallback: endingCallback);
         }
 
-        Vector2 RoundVector(Vector2 vector) => new Vector2 {
-            x = (int)System.Math.Round(vector.x),
-            y = (int)System.Math.Round(vector.y),
-        };
-
-        public void SetDestination(
-            Vector2 origin,
-            int? destinationX = null,
-            int? destinationY = null,
+        public void SetDeltaDestination(
+            int? newDx = null,
+            int? newDy = null,
             System.Action endingCallback = null,
-            bool cancelPreviousCallback = false
+            bool executePreviousCallback = false
         ) {
-            if (destinationX == null && destinationY == null) return;
+            if (newDx == null && newDy == null) return;
 
-            Reset(
-                resetX: destinationX != null,
-                resetY: destinationY != null
-            );
+            int?[] newDelta = { newDx, newDy };
 
-            var final = new Vector2 {
-                x = destinationX ?? destinationDelta.x,
-                y = destinationY ?? destinationDelta.y
-            };
+            for (var axis = 0; axis < 2; ++axis) {
+                if (newDelta[axis] == null) continue;
 
-            destinationDelta = RoundVector(final - origin);
+                destinationDelta[axis] = (int)newDelta[axis];
+                currentDelta[axis] = 0;
+            }
 
-            if (!cancelPreviousCallback && this.endingCallback != null) {
-                this.endingCallback();
+            if (executePreviousCallback) {
+                ResetCallback()?.Invoke();
             }
 
             this.endingCallback = endingCallback;
-
-            if (isFinished) {
-                Reset();
-                if (endingCallback != null) endingCallback();
-            }
         }
 
         public void AddDeltaToDestination(
             int? dx = null,
             int? dy = null,
             System.Action endingCallback = null,
-            bool cancelPreviousCallback = false
+            bool executePreviousCallback = false
         ) {
-            if (dx == null && dy == null) return;
+            destinationDelta.x += dx ?? 0;
+            destinationDelta.y += dy ?? 0;
 
-            if (dx is int Dx) {
-                destinationDelta.x += Dx;
-            }
-
-            if (dy is int Dy) {
-                destinationDelta.y += Dy;
-            }
-
-            if (!cancelPreviousCallback && this.endingCallback != null) {
-                this.endingCallback();
+            if (executePreviousCallback) {
+                ResetCallback()?.Invoke();
             }
 
             this.endingCallback = endingCallback;
-
-            if (isFinished) {
-                Reset();
-                if (endingCallback != null) endingCallback();
-            }
         }
     }
 }

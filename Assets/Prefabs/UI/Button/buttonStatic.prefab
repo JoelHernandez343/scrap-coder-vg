@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6307453423335967475}
   - component: {fileID: 760213262247589615}
   - component: {fileID: 912130368636528773}
+  - component: {fileID: 1018708629851909119}
   m_Layer: 5
   m_Name: collider
-  m_TagString: Untagged
+  m_TagString: TriggerZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,6 +82,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 3465415418262239324}
+  itemsToDown: []
+  canDrag: 0
 --- !u!114 &760213262247589615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 912130368636528773}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 8058669990708895840}
   initHeight: 20
@@ -102,11 +106,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 1
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &912130368636528773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +129,20 @@ MonoBehaviour:
     begin: 2
     end: 3
     isExpandable: 1
+--- !u!114 &1018708629851909119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3558317652142315179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebb93a90645918b47a1f915f6644af58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 0
+  shapeState: {fileID: 0}
 --- !u!1 &8146353603354791145
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeExpander: {fileID: 3465415418262239324}
+  nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 20
@@ -207,11 +224,9 @@ MonoBehaviour:
   minWidth: 0
   resizable: 0
   moveable: 1
-  relativeOrigin: {x: 0, y: 0}
-  publicHeight: 0
-  publicWidth: 0
   ownDepthLevels: 0
-  localDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!210 &7773764473642237688
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -220,8 +235,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8146353603354791145}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2130069865
+  m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!1001 &6928688322372725892
 PrefabInstance:
@@ -438,6 +453,10 @@ PrefabInstance:
     - target: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450222330301122245, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5886871971402455249, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_Name

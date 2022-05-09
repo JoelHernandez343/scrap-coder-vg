@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class NegationInterpreter : MonoBehaviour, IInterpreterElement {
+    public class NegationInterpreter : InterpreterElement {
 
         // Internal types
         enum Steps { PushingCondition, EvaluatingCondition }
@@ -20,51 +20,40 @@ namespace ScrapCoder.Interpreter {
         Steps currentStep = Steps.PushingCondition;
 
         // Lazy variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
-
-        bool _isFinished = false;
-        public bool IsFinished {
-            get => _isFinished;
-            set => _isFinished = value;
-        }
-
-        public bool IsExpression => true;
-        public NodeController Controller => ownTransform.controller;
+        public override bool IsExpression => true;
 
         NodeController condition => conditionContainer.array.First;
 
         // Methods
-        public void Execute(string answer) {
+        public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingCondition) {
                 PushingCondition();
             } else if (currentStep == Steps.EvaluatingCondition) {
-                EvaluationCondition(answer);
+                EvaluationCondition(conditionValue: argument);
             }
 
         }
 
-        public void Reset() {
-            IsFinished = false;
+        protected override void CustomReset() {
             currentStep = Steps.PushingCondition;
         }
 
-        public IInterpreterElement GetNextStatement() => null;
+        public override InterpreterElement GetNextStatement() => null;
 
         void PushingCondition() {
             // Debug.Log("Pushing condition");
 
             Executer.instance.PushNext(condition.interpreterElement);
-            Executer.instance.ExecuteInNextFrame();
+            Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingCondition;
         }
 
-        void EvaluationCondition(string value) {
+        void EvaluationCondition(string conditionValue) {
             // Debug.Log($"Evaluating condition result: {value}");
 
-            Executer.instance.ExecuteInNextFrame(value == "true" ? "false" : "true");
+            Executer.instance.ExecuteInmediately(argument: conditionValue == "true" ? "false" : "true");
 
             IsFinished = true;
         }
