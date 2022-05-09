@@ -358,8 +358,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 48, y: -48}
       - {x: 1868, y: -48}
-      - {x: 1868, y: -920}
-      - {x: 48, y: -920}
+      - {x: 1868, y: -1000}
+      - {x: 48, y: -1000}
 --- !u!210 &118781470
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -2296,8 +2296,8 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 2000
-  initWidth: 2000
+  initHeight: 10000
+  initWidth: 10000
   minHeight: 0
   minWidth: 0
   resizable: 1
