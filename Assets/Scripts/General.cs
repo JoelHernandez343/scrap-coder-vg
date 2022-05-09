@@ -19,3 +19,9 @@ public static class HideWallComs
 {
     public static Action<int> hide;
 }
+
+public static class ResetPositionEvent
+{
+    public static Action<bool> reset;
+    public static Action<bool> newPosition;
+}

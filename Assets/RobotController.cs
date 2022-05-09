@@ -7,10 +7,12 @@ public class RobotController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform movePoint;
     [SerializeField] private enum Direction { Left, Up, Right, Down, None }
-    [SerializeField] private enum Action { Walk, RotateLeft, RotateRight, Interact, None }
+    [SerializeField] private enum Action { Walk, RotateLeft, RotateRight, Scan, Interact, None }
     [SerializeField] private Direction dirMovement, dirFacing;
     [SerializeField] private Action action;
     [SerializeField] private int steps;
+    [SerializeField] private enum Color { Green, Blue, Oranje, Gray, Brown, Red, None }
+    [SerializeField] private Color color;
     private bool moving;
     private Animator anim;
 
@@ -26,6 +28,7 @@ public class RobotController : MonoBehaviour
         moving = false;
         rotate = 0;
         rotateAux = 0;
+        color = Color.None;
     }
 
     private void Awake()
@@ -69,6 +72,9 @@ public class RobotController : MonoBehaviour
                 case 2:
                     rotate = 1;
                     Rotate();
+                    break;
+                case 3:
+                    ScanColor();
                     break;
             }
             dirMovement = Direction.None;
@@ -148,6 +154,27 @@ public class RobotController : MonoBehaviour
             print("finished");
         }
         
+    }
+
+    private void ScanColor()
+    {
+        SendInstruction.finishInstruction((int)color);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "ColorPlate")
+        {
+            color = (Color)collision.GetComponent<ColorPlateScript>().getColor();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "ColorPlate" && color == (Color)collision.GetComponent<ColorPlateScript>().getColor())
+        {
+            color = Color.None;
+        }
     }
 }
     
