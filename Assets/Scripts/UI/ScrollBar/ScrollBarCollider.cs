@@ -77,7 +77,7 @@ namespace ScrapCoder.UI {
 
             if (currentPosition == limit && delta > 0 || currentPosition == 0 && delta < 0) return;
 
-            var change = sliderButton.ownTransform.SetFloatPositionByDelta(
+            sliderButton.ownTransform.SetFloatPositionByDelta(
                 dx: isHorizontal ? delta : nf,
                 dy: isHorizontal ? nf : -delta
             );

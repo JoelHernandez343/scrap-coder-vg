@@ -122,15 +122,8 @@ namespace ScrapCoder.Utils {
             System.Action endingCallback = null,
             bool executePreviousCallback = false
         ) {
-            if (dx == null && dy == null) return;
-
-            if (dx is int Dx) {
-                destinationDelta.x += Dx;
-            }
-
-            if (dy is int Dy) {
-                destinationDelta.y += Dy;
-            }
+            destinationDelta.x += dx ?? 0;
+            destinationDelta.y += dy ?? 0;
 
             if (executePreviousCallback) {
                 ResetCallback()?.Invoke();

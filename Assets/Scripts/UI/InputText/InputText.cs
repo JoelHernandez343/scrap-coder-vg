@@ -186,24 +186,16 @@ namespace ScrapCoder.UI {
         }
 
         void RenderCursor() {
-            Vector2 delta;
+            var x = cursor > 0
+                ? (int)System.Math.Round(expandableText.characterInfo[cursor - 1].topRight.x)
+                : 0;
 
-            if (cursor == 0) {
-                delta = cursorSprite.SetPosition(
-                    x: cursorLeftOffset,
-                    y: cursorSprite.y,
-                    smooth: true,
-                    endingCallback: () => cursorAnimator.SetBool("isMoving", false)
-                );
-            } else {
-                var x = (int)System.Math.Round(expandableText.characterInfo[cursor - 1].topRight.x);
-                delta = cursorSprite.SetPosition(
-                    x: x + cursorLeftOffset,
-                    y: cursorSprite.y,
-                    smooth: true,
-                    endingCallback: () => cursorAnimator.SetBool("isMoving", false)
-                );
-            }
+            var delta = cursorSprite.SetPosition(
+                x: cursorLeftOffset + x,
+                y: cursorSprite.y,
+                smooth: true,
+                endingCallback: () => cursorAnimator.SetBool("isMoving", false)
+            );
 
             // Change state AFTER possible previous callback is called if were transition
             if (delta != Vector2.zero) {

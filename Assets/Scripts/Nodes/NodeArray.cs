@@ -13,7 +13,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public NodeContainer container;
 
         // State Variables
-        [System.NonSerialized] public List<NodeController> nodes = new List<NodeController>();
+        public List<NodeController> nodes = new List<NodeController>();
         public int previousCount { get; private set; }
 
         // Lazy and other variables
@@ -167,7 +167,7 @@ namespace ScrapCoder.VisualNodes {
                     smooth: smooth
                 );
             }
-            if (smooth) {
+            if (smooth && dy != null) {
                 // If smooth, add callback when changedNode finish expanding to reverse top
                 auxiliarSmoothDamp.AddDeltaToDestination(
                     dy: dy,
@@ -232,8 +232,8 @@ namespace ScrapCoder.VisualNodes {
             if (smooth) {
                 // When the last change finish, then order nodes
                 auxiliarSmoothDamp.AddDeltaToDestination(
-                    dx: (int)System.Math.Round(maxChange.x),
-                    dy: (int)System.Math.Round(maxChange.y),
+                    dx: maxChange.x,
+                    dy: maxChange.y,
                     endingCallback: () => OrderNodes()
                 );
             } else {
@@ -244,35 +244,27 @@ namespace ScrapCoder.VisualNodes {
             Adjust(dy - (firstIndex == 0 && lastNode == Last ? borderOffset : 0), smooth: smooth);
         }
 
-        Vector2 MoveChunkOfNodes(int startIndex, int endIndex, int? x = null, int? y = null, bool smooth = false) {
+        Vector2Int MoveChunkOfNodes(int startIndex, int endIndex, int? x = null, int? y = null, bool smooth = false) {
             return MoveChunk(startIndex, endIndex, x, y, smooth, false);
         }
 
-        Vector2 MoveChunkOfNodesByDelta(int startIndex, int endIndex, int? dx = null, int? dy = null, bool smooth = false) {
+        Vector2Int MoveChunkOfNodesByDelta(int startIndex, int endIndex, int? dx = null, int? dy = null, bool smooth = false) {
             return MoveChunk(startIndex, endIndex, dx, dy, smooth, true);
         }
 
-        Vector2 MoveChunk(int startIndex, int endIndex, int? x, int? y, bool smooth, bool isByDelta) {
+        Vector2Int MoveChunk(int startIndex, int endIndex, int? x, int? y, bool smooth, bool isByDelta) {
+            if (x == null && y == null) return Vector2Int.zero;
+
             var (owner, ownership) = SetOwnership(startIndex, endIndex + 1);
 
             System.Action endingCallback = () => RevertOwnership(ownership);
 
-            Vector2 change;
+            Vector2Int change;
 
             if (isByDelta) {
-                change = owner.ownTransform.SetPositionByDelta(
-                    dx: x,
-                    dy: y,
-                    smooth: smooth,
-                    endingCallback: endingCallback
-                );
+                change = owner.ownTransform.SetPositionByDelta(dx: x, dy: y, smooth: smooth, endingCallback: endingCallback);
             } else {
-                change = owner.ownTransform.SetPosition(
-                    x: x,
-                    y: y,
-                    smooth: smooth,
-                    endingCallback: endingCallback
-                );
+                change = owner.ownTransform.SetPosition(x: x, y: y, smooth: smooth, endingCallback: endingCallback);
             }
 
             if (!smooth) {
