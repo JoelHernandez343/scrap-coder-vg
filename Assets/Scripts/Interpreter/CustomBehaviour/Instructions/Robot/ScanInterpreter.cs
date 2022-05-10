@@ -39,6 +39,7 @@ namespace ScrapCoder.Interpreter {
 
         void PushinIntruction() {
             SendInstruction.sendInstruction((int)Actions.Scan);
+            currentStep = Steps.SettingVariable;
         }
 
         void SetVariable(string newValue) {
