@@ -214,11 +214,11 @@ namespace ScrapCoder.Interpreter {
             currentElementWithFocus = null;
         }
 
-        void ReceiveAnswer(int _) {
+        void ReceiveAnswer(int? answer) {
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {
-                nextArgument = null; //RobotController.instance.answer;
+                nextArgument = answer != null ? $"{answer}" : null; //RobotController.instance.answer;
                 ExecuteNext();
             }
         }

@@ -42,7 +42,7 @@ public class RobotInstructions : MonoBehaviour
         yield return new WaitForSeconds(2);
     }
 
-    private void newInstruction(int finished)
+    private void newInstruction(int? finished)
     {
         print("Mandando " +cont);
         if(cont <= actions.Length-1)
