@@ -24,8 +24,7 @@ namespace ScrapCoder.UI {
         bool isHorizontal => scrollBarController.isHorizontal;
         int currentPosition => scrollBarController.currentPosition;
 
-        Camera _canvasCamera;
-        Camera canvasCamera => _canvasCamera ??= GameObject.Find("PixelPerfectCamera").GetComponent<Camera>() as Camera;
+        Camera canvasCamera => InterfaceCanvas.instance.camera;
 
         float? nf => null;
         int? nn => null;
