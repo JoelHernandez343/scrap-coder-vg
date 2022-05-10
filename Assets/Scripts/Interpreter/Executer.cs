@@ -215,6 +215,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReceiveAnswer(int? answer) {
+            Debug.Log  ("Recibi respuesta "+ answer);
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {
