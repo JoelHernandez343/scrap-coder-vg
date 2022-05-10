@@ -94,7 +94,7 @@ public class RobotController : MonoBehaviour
 
     private void finishAction()
     {
-        SendInstruction.finishInstruction(1);
+        SendInstruction.finishInstruction(null);
     }
 
     void MovePoint()
@@ -132,7 +132,7 @@ public class RobotController : MonoBehaviour
         }
         dirFacing = (Direction)rotateAux;
         action = Action.None;
-        SendInstruction.finishInstruction(1);
+        SendInstruction.finishInstruction(null);
     }
 
     private void AnimationSet()

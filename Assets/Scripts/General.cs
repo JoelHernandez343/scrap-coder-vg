@@ -12,7 +12,7 @@ public static class General
 public static class SendInstruction
 {
     public static Action<int> sendInstruction;
-    public static Action<int> finishInstruction;
+    public static Action<int?> finishInstruction;
 }
 
 public static class HideWallComs

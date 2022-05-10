@@ -38,6 +38,7 @@ namespace ScrapCoder.VisualNodes {
         LengthOfArray = 42,
         SetValueOfArray = 43,
         InsertInArray = 44,
+        ScanInstruction = 45,
     }
 
 }
