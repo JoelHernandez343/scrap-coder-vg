@@ -11,9 +11,6 @@ using ScrapCoder.VisualNodes;
 namespace ScrapCoder.UI {
     public class ExpandableText : MonoBehaviour, INodeExpander {
 
-        // State variables
-        [SerializeField] TextMeshPro textMeshPro;
-
         // Lazy state variables
         public string text {
             get => textMeshPro.text;
@@ -23,6 +20,9 @@ namespace ScrapCoder.UI {
         // Lazy and other variables
         int previousTextWidth;
 
+        TextMeshPro _textMeshPro;
+        TextMeshPro textMeshPro => _textMeshPro ??= (GetComponent<TextMeshPro>() as TextMeshPro);
+
         int currentTextWidth => characterCount > 0
             ? (int)System.Math.Round(lastCharacterInfo.topRight.x)
             : 0;
@@ -30,7 +30,7 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        public int characterCount => textMeshPro.textInfo.characterCount;
+        public int characterCount => textMeshPro.textInfo?.characterCount ?? 0;
 
         public TMP_CharacterInfo[] characterInfo => textMeshPro.textInfo.characterInfo;
 
