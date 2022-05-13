@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 5474588291131011857}
   container: {fileID: 6319555902082017179}
+  selectionController: {fileID: 0}
 --- !u!114 &7151545979324687057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1151545396622873095, guid: fcbfb643e90b3754db7ae2dd8871a588, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -112
+      value: -116
       objectReference: {fileID: 0}
     - target: {fileID: 1151545396622873095, guid: fcbfb643e90b3754db7ae2dd8871a588, type: 3}
       propertyPath: m_AnchoredPosition.y

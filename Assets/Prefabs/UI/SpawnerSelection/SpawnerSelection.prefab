@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 3114229616421704926}
   container: {fileID: 1966643464788630669}
+  selectionController: {fileID: 0}
 --- !u!114 &8663382386404435870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1151545396622873095, guid: fcbfb643e90b3754db7ae2dd8871a588, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -112
+      value: -116
       objectReference: {fileID: 0}
     - target: {fileID: 1151545396622873095, guid: fcbfb643e90b3754db7ae2dd8871a588, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -212,11 +213,11 @@ PrefabInstance:
       objectReference: {fileID: 160414272500889772}
     - target: {fileID: 6758698673484620333, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_LocalAABB.m_Center.y
-      value: -8.33333
+      value: -4.7708244
       objectReference: {fileID: 0}
     - target: {fileID: 6758698673484620333, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_LocalAABB.m_Extent.y
-      value: 8.333342
+      value: 4.7708473
       objectReference: {fileID: 0}
     - target: {fileID: 7201795800303988927, guid: b414f88760d07cc4b88e1a4c6d06d1de, type: 3}
       propertyPath: m_Name

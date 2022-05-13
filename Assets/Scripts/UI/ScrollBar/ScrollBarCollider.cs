@@ -71,7 +71,7 @@ namespace ScrapCoder.UI {
         }
 
         void MoveSlider(float delta) {
-            delta /= 2;
+            delta /= InterfaceCanvas.ScaleFactor;
             delta *= isHorizontal ? 1 : -1;
 
             if (currentPosition == limit && delta > 0 || currentPosition == 0 && delta < 0) return;
@@ -81,12 +81,14 @@ namespace ScrapCoder.UI {
                 dy: isHorizontal ? nf : -delta
             );
 
-            var adjustment = currentPosition >= limit ? limit : currentPosition <= 0 ? 0 : nn;
+            var adjustment = currentPosition > limit ? limit : currentPosition < 0 ? 0 : nn;
 
-            sliderButton.ownTransform.SetPosition(
-                x: isHorizontal ? adjustment : nn,
-                y: isHorizontal ? nn : -adjustment
-            );
+            if (adjustment != null) {
+                sliderButton.ownTransform.SetPosition(
+                    x: isHorizontal ? adjustment : nn,
+                    y: isHorizontal ? nn : -adjustment
+                );
+            }
 
             scrollBarController.SetContentPosition();
         }

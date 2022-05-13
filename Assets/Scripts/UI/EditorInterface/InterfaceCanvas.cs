@@ -36,7 +36,8 @@ namespace ScrapCoder.UI {
         public SelectionController selectionMenus => _selectionMenus ??= (editor.GetComponent<SelectionController>() as SelectionController);
 
         // Constants
-        public const int OutsideFactor = 2;
+        public const int ScaleFactor = 3;
+        public const int NodeScaleFactor = 2;
 
         // Methods
         void Awake() {

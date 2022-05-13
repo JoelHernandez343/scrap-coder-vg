@@ -101,9 +101,9 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
-        public void SpawnNode(Vector2 newPosition, float dx, float dy) {
+        public bool SpawnNode(Vector2 newPosition, float dx, float dy) {
 
-            if (!InstantiateNode()) return;
+            if (!InstantiateNode()) return false;
 
             HierarchyController.instance.SetOnTopOfEditor(spawned);
 
@@ -112,7 +112,7 @@ namespace ScrapCoder.VisualNodes {
                 y: (int)newPosition.y + (spawned.ownTransform.initHeight * pixelScale) / 2
             );
             spawned.ownTransform.SetFloatPositionByDelta(dx: dx, dy: dy);
-            spawned.ownTransform.SetScale(x: 2, y: 2, z: 1);
+            spawned.ownTransform.SetScale(x: InterfaceCanvas.NodeScaleFactor, y: InterfaceCanvas.NodeScaleFactor, z: 1);
 
             spawned.symbolName = symbolName;
             spawned.gameObject.name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]";
@@ -120,6 +120,8 @@ namespace ScrapCoder.VisualNodes {
 
             spawned.SetMiddleZone(true);
             spawned.SetState(state: "over", propagation: true);
+
+            return true;
         }
 
         bool InstantiateNode() {

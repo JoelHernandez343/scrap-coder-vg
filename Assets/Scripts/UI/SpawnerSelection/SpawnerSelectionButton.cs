@@ -76,7 +76,7 @@ namespace ScrapCoder.UI {
             if (state == SpawnerSelectionButtonState.FullVisible) {
                 ownTransform.SetPosition(x: -10, smooth: true);
             } else if (state == SpawnerSelectionButtonState.HalfVisible) {
-                ownTransform.SetPosition(x: -(ownTransform.width - 64), smooth: true);
+                ownTransform.SetPosition(x: -(ownTransform.width - 60), smooth: true);
             } else if (state == SpawnerSelectionButtonState.FullHidden) {
                 ownTransform.SetPosition(x: -(ownTransform.width + 10), smooth: true);
             }

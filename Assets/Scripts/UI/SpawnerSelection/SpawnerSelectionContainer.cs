@@ -110,7 +110,7 @@ namespace ScrapCoder.UI {
 
         public void SetVisible(bool visible, bool smooth = false) {
             ownTransform.SetPosition(
-                x: visible ? 16 : -(ownTransform.width + 10),
+                x: visible ? 0 : -(ownTransform.width + 10),
                 smooth: smooth,
                 endingCallback: visible ? () => categoryController.GetFocus() : (System.Action)null
             );
