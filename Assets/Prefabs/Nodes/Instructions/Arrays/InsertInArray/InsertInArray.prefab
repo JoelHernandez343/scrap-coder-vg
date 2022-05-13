@@ -68,7 +68,7 @@ MonoBehaviour:
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   initHeight: 24
-  initWidth: 204
+  initWidth: 289
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -107,7 +107,6 @@ MonoBehaviour:
   selectorModifier: {fileID: 0}
   nodeAnalyzer: {fileID: 0}
   symbolName: 
-  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
 --- !u!114 &1991706121975508737
@@ -223,6 +222,10 @@ PrefabInstance:
     - target: {fileID: 7076159213152584739, guid: 33dd5a82bff1bbf40b42da400ff3a0d0, type: 3}
       propertyPath: m_Name
       value: MainPiece
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600943262959735337, guid: 33dd5a82bff1bbf40b42da400ff3a0d0, type: 3}
+      propertyPath: initWidth
+      value: 204
       objectReference: {fileID: 0}
     - target: {fileID: 7600943262959735337, guid: 33dd5a82bff1bbf40b42da400ff3a0d0, type: 3}
       propertyPath: directController

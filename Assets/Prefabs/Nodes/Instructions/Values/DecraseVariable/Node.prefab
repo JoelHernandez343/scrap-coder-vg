@@ -68,12 +68,14 @@ MonoBehaviour:
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   initHeight: 24
-  initWidth: 134
+  initWidth: 174
   minHeight: 0
   minWidth: 0
   resizable: 1
   moveable: 1
   ownDepthLevels: 3
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +105,6 @@ MonoBehaviour:
   selectorModifier: {fileID: 0}
   nodeAnalyzer: {fileID: 0}
   symbolName: 
-  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
 --- !u!114 &6000103093616825303

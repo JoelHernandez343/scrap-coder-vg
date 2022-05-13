@@ -18,28 +18,28 @@
                 "symbolName": null
             },
             {
-                "title": "Repetir_si",
+                "title": "Repetir si",
                 "nodeToSpawn": 2,
                 "selectedIcon": "repeat_simple",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Repetir_n_veces",
+                "title": "Repetir n veces",
                 "nodeToSpawn": 18,
                 "selectedIcon": "repeat_simple",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Si,_entonces",
+                "title": "Si, entonces",
                 "nodeToSpawn": 3,
                 "selectedIcon": "conditional_simple",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Si,_entonces,si_no",
+                "title": "Si, entonces, si no",
                 "nodeToSpawn": 4,
                 "selectedIcon": "conditional_compund",
                 "spawnLimit": -1,
@@ -67,14 +67,14 @@
                 "symbolName": null
             },
             {
-                "title": "Condición_Y",
+                "title": "Condición Y",
                 "nodeToSpawn": 5,
                 "selectedIcon": "cond_double",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Condicion_O",
+                "title": "Condicion O",
                 "nodeToSpawn": 7,
                 "selectedIcon": "cond_double",
                 "spawnLimit": -1,
@@ -88,7 +88,7 @@
                 "symbolName": null
             },
             {
-                "title": "Comparación_numérica",
+                "title": "Comparación numérica",
                 "nodeToSpawn": 36,
                 "selectedIcon": "cond_double_numeric_values",
                 "spawnLimit": -1,
@@ -130,42 +130,56 @@
                 "symbolName": null
             },
             {
-                "title": "Asignar_variable",
+                "title": "Asignar variable",
                 "nodeToSpawn": 24,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Agregar_elemento_a_arreglo",
+                "title": "Aumentar en 1",
+                "nodeToSpawn": 14,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Decrecer en 1",
+                "nodeToSpawn": 15,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Agregar a arreglo",
                 "nodeToSpawn": 38,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Vaciar_arreglo",
+                "title": "Vaciar arreglo",
                 "nodeToSpawn": 39,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Eliminar_elemento_de_arreglo",
+                "title": "Eliminar de arreglo",
                 "nodeToSpawn": 40,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Establecer_elemento_de_arreglo",
+                "title": "Asignar a arreglo",
                 "nodeToSpawn": 43,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Insertar_elemento_en_arreglo",
+                "title": "Insertar en arreglo",
                 "nodeToSpawn": 44,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": -1,
@@ -179,21 +193,21 @@
                 "symbolName": null
             },
             {
-                "title": "Operación_numérica",
+                "title": "Operación numérica",
                 "nodeToSpawn": 35,
                 "selectedIcon": "var_sum",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Obtener_valor_de_arreglo",
+                "title": "Obtener valor de arreglo",
                 "nodeToSpawn": 41,
                 "selectedIcon": "var_numeric_value",
                 "spawnLimit": -1,
                 "symbolName": null
             },
             {
-                "title": "Obtener_longitud_de_arreglo",
+                "title": "Longitud de arreglo",
                 "nodeToSpawn": 42,
                 "selectedIcon": "var_numeric_value",
                 "spawnLimit": -1,
