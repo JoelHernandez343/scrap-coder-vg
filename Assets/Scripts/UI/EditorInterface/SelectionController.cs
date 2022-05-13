@@ -56,11 +56,11 @@ namespace ScrapCoder.UI {
         }
 
         void PositionAndOrderButtons() {
-            var y = 3;
+            var y = 10;
             var menuOrder = HierarchyController.instance.lastNodesOrder + 10;
 
             selectionSpawnersControllers.ForEach(s => {
-                y += s.PositionButton(y) + 3;
+                y += s.PositionButton(y) + 10;
                 s.SetOrder(order: menuOrder);
             });
         }
