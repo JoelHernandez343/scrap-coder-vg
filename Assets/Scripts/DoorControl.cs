@@ -6,7 +6,7 @@ public class DoorControl : MonoBehaviour
 {
     [SerializeField] private int powerSources = 1, id;
     [SerializeField] private bool[] source;
-    [SerializeField] private bool power;
+    [SerializeField] private bool power, crops;
     private Animator anim;
     [SerializeField] private BoxCollider2D coll;
     // Start is called before the first frame update
@@ -38,14 +38,16 @@ public class DoorControl : MonoBehaviour
         if (power)
         {
             anim.SetBool("Power", true);
-            anim.SetBool("Crop", true);
+            if(crops)
+                anim.SetBool("Crop", true);
             coll.enabled = false;
             HideWallComs.hide(id);
         }
         else
         {
             anim.SetBool("Power", false);
-            anim.SetBool("Crop", false);
+            if (crops)
+                anim.SetBool("Crop", false);
             coll.enabled = true;
             HideWallComs.hide(id);
         }

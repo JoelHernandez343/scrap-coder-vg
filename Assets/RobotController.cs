@@ -15,7 +15,7 @@ public class RobotController : MonoBehaviour
     [SerializeField] private Color color;
     private bool moving;
     private Animator anim;
-
+    private Rigidbody2D rb;
     private int rotateAux;
 
     [SerializeField] private int rotate;
@@ -23,12 +23,14 @@ public class RobotController : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         movePoint.parent = null;
         dirMovement = Direction.Down;
         moving = false;
         rotate = 0;
         rotateAux = 0;
         color = Color.None;
+        AnimationSet();
     }
 
     private void Awake()
@@ -46,7 +48,7 @@ public class RobotController : MonoBehaviour
     void Update()
     {
         //print((int)action);
-        AnimationSet();
+        
         if (action != Action.None)
         {
             switch ((int)action)
@@ -79,6 +81,14 @@ public class RobotController : MonoBehaviour
             }
             dirMovement = Direction.None;
         }
+        /*if(rb.velocity != new Vector2(0,0) && action == Action.None)
+        {
+            AnimationSet();
+        }else if(rb.velocity == new Vector2(0, 0) && action == Action.None)
+        {
+            AnimationSet();
+        }*/
+        AnimationSet();
     }
 
     void Move(Direction dir)
@@ -158,7 +168,16 @@ public class RobotController : MonoBehaviour
 
     private void ScanColor()
     {
+        /*if(color == Color.None)
+        {
+            SendInstruction.finishInstruction(-1);
+        }
+        else
+        {
+            SendInstruction.finishInstruction((int)color);
+        }*/
         SendInstruction.finishInstruction((int)color);
+        action = Action.None;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -171,7 +190,7 @@ public class RobotController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "ColorPlate" && color == (Color)collision.GetComponent<ColorPlateScript>().getColor())
+        if (collision.tag == "ColorPlate" && color == (Color)collision.GetComponent<ColorPlateScript>().getColor() && color != (Color)collision.GetComponent<ColorPlateScript>().getColor())
         {
             color = Color.None;
         }

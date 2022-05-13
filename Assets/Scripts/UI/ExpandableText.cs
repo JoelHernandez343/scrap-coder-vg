@@ -30,7 +30,7 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
-        public int characterCount => textMeshPro.textInfo.characterCount;
+        public int characterCount => textMeshPro.textInfo?.characterCount ?? 0;
 
         public TMP_CharacterInfo[] characterInfo => textMeshPro.textInfo.characterInfo;
 
