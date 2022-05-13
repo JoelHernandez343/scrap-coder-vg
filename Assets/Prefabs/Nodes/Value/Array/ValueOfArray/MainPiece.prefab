@@ -317,8 +317,8 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 3908849170813280875}
-  initHeight: 0
-  initWidth: 0
+  initHeight: 10
+  initWidth: 8
   minHeight: 0
   minWidth: 0
   resizable: 0
@@ -1679,11 +1679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137
+      value: 132
       objectReference: {fileID: 0}
     - target: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -12
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
