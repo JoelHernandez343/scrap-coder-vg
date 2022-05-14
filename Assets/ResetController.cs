@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResetController : MonoBehaviour
 {
@@ -32,7 +33,8 @@ public class ResetController : MonoBehaviour
         //ResetPosition(true);
         if (Input.GetButtonDown("Reset") /* || dies */)
         {
-            ResetPosition(true);
+            //ResetPosition(true);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
