@@ -10,13 +10,13 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
-    public class ScanInterpreter : InterpreterElement {
+    public class ScanAndAddToArray : InterpreterElement {
 
         // Internal types
-        enum Steps { PushingInstruction, SettingVariable }
+        enum Steps { PushingInstruction, AddingToArray }
 
         // Editor variable
-        [SerializeField] NodeContainer variableContainer;
+        [SerializeField] NodeContainer arrayContainer;
 
         // State variables
         Steps currentStep;
@@ -24,26 +24,34 @@ namespace ScrapCoder.Interpreter {
         /// Lazy variables
         public override bool IsExpression => false;
 
-        NodeController variable => variableContainer.First;
-        string symbolName => variable.symbolName;
+        NodeController array => arrayContainer.First;
+        string symbolName => array.symbolName;
 
         // Methods
         public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingInstruction) {
-                PushingIntruction();
+                PushingInstruction();
             } else {
-                SetVariable(newValue: argument);
+                AddingToArray(newValue: argument);
             }
         }
 
-        void PushingIntruction() {
+        void PushingInstruction() {
             SendInstruction.sendInstruction((int)Actions.Scan);
-            currentStep = Steps.SettingVariable;
+            currentStep = Steps.AddingToArray;
         }
 
-        void SetVariable(string newValue) {
-            SymbolTable.instance[symbolName].SetValue(newValue: newValue);
+        void AddingToArray(string newValue) {
+            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+
+            if (arrayLength == Symbol.ArrayLimit) {
+                Debug.LogError("Array has reached its limit.");
+                Executer.instance.Stop(force: true);
+                return;
+            }
+
+            SymbolTable.instance[symbolName].AddToArray(value: newValue);
             Executer.instance.ExecuteInmediately();
 
             IsFinished = true;
@@ -54,4 +62,5 @@ namespace ScrapCoder.Interpreter {
         }
 
     }
+
 }

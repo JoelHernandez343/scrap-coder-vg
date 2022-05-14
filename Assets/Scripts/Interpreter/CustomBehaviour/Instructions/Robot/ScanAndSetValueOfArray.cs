@@ -6,16 +6,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class ReplaceInArrayInterpreter : InterpreterElement {
+
+
+    public class ScanAndSetValueOfArray : InterpreterElement {
 
         // Private types
-        enum Steps { PushingValue, PushingIndex, ReplacingInArray }
+        enum Steps { PushingInstruction, PushingIndex, ReplacingInArray }
 
         // Editor variables
         [SerializeField] NodeContainer indexContainer;
-        [SerializeField] NodeContainer valueContainer;
         [SerializeField] NodeContainer arrayContainer;
 
         // State variables
@@ -25,7 +27,6 @@ namespace ScrapCoder.Interpreter {
         public override bool IsExpression => false;
 
         NodeController array => arrayContainer.First;
-        NodeController valueToAdd => valueContainer.First;
         NodeController indexValue => indexContainer.First;
 
         string symbolName => array.symbolName;
@@ -35,8 +36,8 @@ namespace ScrapCoder.Interpreter {
         // Methods
         public override void Execute(string argument) {
 
-            if (currentStep == Steps.PushingValue) {
-                Pushing(which: "value");
+            if (currentStep == Steps.PushingInstruction) {
+                Pushing(which: "instruction");
             } else if (currentStep == Steps.PushingIndex) {
                 StoreValue(value: argument);
                 Pushing(which: "index");
@@ -51,16 +52,18 @@ namespace ScrapCoder.Interpreter {
         }
 
         void Pushing(string which) {
-            var elementToPush = which == "value"
-                ? valueToAdd.interpreterElement
-                : indexValue.interpreterElement;
 
-            Executer.instance.PushNext(elementToPush);
-            Executer.instance.ExecuteInmediately();
+            if (which == "instruction") {
+                SendInstruction.sendInstruction((int)Actions.Scan);
 
-            currentStep = which == "value"
-                ? Steps.PushingIndex
-                : Steps.ReplacingInArray;
+                currentStep = Steps.PushingIndex;
+            } else {
+                Executer.instance.PushNext(indexValue.interpreterElement);
+                Executer.instance.ExecuteInmediately();
+
+                currentStep = Steps.ReplacingInArray;
+            }
+
         }
 
         void ReplacingInArray(string indexValue) {
@@ -87,9 +90,12 @@ namespace ScrapCoder.Interpreter {
         }
 
         protected override void CustomReset() {
-            currentStep = Steps.PushingValue;
+            currentStep = Steps.PushingInstruction;
         }
 
     }
 
 }
+
+
+

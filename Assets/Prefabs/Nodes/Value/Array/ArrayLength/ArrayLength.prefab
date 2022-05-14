@@ -68,7 +68,7 @@ MonoBehaviour:
   directController: {fileID: 6150825404952637395}
   indirectController: {fileID: 0}
   initHeight: 24
-  initWidth: 122
+  initWidth: 169
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -104,7 +104,6 @@ MonoBehaviour:
   selectorModifier: {fileID: 0}
   nodeAnalyzer: {fileID: 0}
   symbolName: 
-  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
 --- !u!114 &1806731852176425454
@@ -214,6 +213,10 @@ PrefabInstance:
     - target: {fileID: 1687596919110554082, guid: 35841ec79d73ca84e9164bff68d4b052, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2027715515504166891, guid: 35841ec79d73ca84e9164bff68d4b052, type: 3}
+      propertyPath: initWidth
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 2027715515504166891, guid: 35841ec79d73ca84e9164bff68d4b052, type: 3}
       propertyPath: directController

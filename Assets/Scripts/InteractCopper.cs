@@ -17,6 +17,10 @@ public class InteractCopper : InteractScript
     // Update is called once per frame
     void Update()
     {
+        if (scriptEnviorment == null){
+            return;
+        }
+
         if (interactable && Input.GetButtonDown("Interact") || !interactable && scriptEnviorment.activeSelf)
         {
             Programar();
