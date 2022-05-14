@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundScript : MonoBehaviour
-{
+public class SoundScript : MonoBehaviour {
+    // Editor variables
     [SerializeField] private AudioClip[] audios;
-    AudioSource source;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        source = GetComponent<AudioSource>();
-    }
+    // Lazy variables
+    AudioSource _source;
+    AudioSource source => _source ??= GetComponent<AudioSource>() as AudioSource;
 
-    public void Walk()
-    {
+    // Methods
+
+    public void Walk() {
         source.clip = audios[Random.Range(0, audios.Length)];
         source.Play();
     }
