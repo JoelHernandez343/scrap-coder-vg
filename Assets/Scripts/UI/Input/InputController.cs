@@ -7,7 +7,7 @@ using UnityEngine;
 
 using ScrapCoder.UI;
 
-namespace ScrapCoder.InputManagment {
+namespace ScrapCoder.GameInput {
 
     public class InputController : MonoBehaviour {
 

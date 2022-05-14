@@ -7,7 +7,7 @@ using UnityEngine;
 
 using ScrapCoder.VisualNodes;
 
-namespace ScrapCoder.InputManagment {
+namespace ScrapCoder.GameInput {
     public interface IFocusable {
         void GetRemoverOwnership(GameObject remover);
         void LoseFocus();

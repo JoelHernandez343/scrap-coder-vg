@@ -8,7 +8,7 @@ using UnityEngine;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.Interpreter;
-using ScrapCoder.InputManagment;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class DeclareContainer : MonoBehaviour {

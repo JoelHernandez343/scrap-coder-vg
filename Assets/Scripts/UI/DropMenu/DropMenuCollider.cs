@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.Interpreter;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class DropMenuCollider :
@@ -27,7 +28,7 @@ namespace ScrapCoder.UI {
 
         public NodeController controller => ownTransform.controller;
 
-        bool hasFocus => (dropMenu as InputManagment.IFocusable).HasFocus();
+        bool hasFocus => (dropMenu as IFocusable).HasFocus();
 
         bool hasController => controller != null;
 

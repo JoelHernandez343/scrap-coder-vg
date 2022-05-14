@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.Interpreter;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class InputTextConlliderForNodes :
@@ -38,7 +39,7 @@ namespace ScrapCoder.UI {
             set => controller.isDragging = value;
         }
 
-        bool hasFocus => (inputText as InputManagment.IFocusable).HasFocus();
+        bool hasFocus => (inputText as IFocusable).HasFocus();
 
         bool wasDragging;
 
@@ -92,7 +93,7 @@ namespace ScrapCoder.UI {
             controller.SetState(state: "over", propagation: true);
 
             if (!hasFocus) {
-                InputManagment.InputController.instance.SetFocusOn(inputText);
+                InputController.instance.SetFocusOn(inputText);
             }
 
             var clickPosition = new Vector2();

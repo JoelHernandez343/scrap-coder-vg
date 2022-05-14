@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
-using ScrapCoder.InputManagment;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class InputText : MonoBehaviour, IInputHandler, IFocusable, INodeExpanded, INodeExpander {
@@ -90,7 +90,7 @@ namespace ScrapCoder.UI {
         const int textLeftOffset = 4;
 
         // Methods
-        void InputManagment.IInputHandler.HandleInput() {
+        void IInputHandler.HandleInput() {
 
             if (!Input.anyKeyDown) return;
 
@@ -257,7 +257,7 @@ namespace ScrapCoder.UI {
         }
 
         bool IFocusable.HasFocus() {
-            return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
+            return InputController.instance.handlerWithFocus == (IFocusable)this;
         }
 
         public void AddListener(System.Action listener) => listeners.Add(listener);

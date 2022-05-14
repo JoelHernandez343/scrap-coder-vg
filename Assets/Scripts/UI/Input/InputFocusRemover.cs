@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using ScrapCoder.GameInput;
+
 namespace ScrapCoder.UI {
     public class InputFocusRemover : MonoBehaviour, IPointerDownHandler {
 
@@ -28,7 +30,7 @@ namespace ScrapCoder.UI {
         }
 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
-            InputManagment.InputController.instance.ClearFocus();
+            InputController.instance.ClearFocus();
         }
     }
 }

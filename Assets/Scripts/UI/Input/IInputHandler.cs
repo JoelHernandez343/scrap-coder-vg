@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ScrapCoder.InputManagment {
+namespace ScrapCoder.GameInput {
     public interface IInputHandler {
         void HandleInput();
     }
