@@ -31,13 +31,13 @@ namespace ScrapCoder.Interpreter {
         public override void Execute(string argument) {
 
             if (currentStep == Steps.PushingInstruction) {
-                PushinIntruction();
+                PushingIntruction();
             } else {
                 SetVariable(newValue: argument);
             }
         }
 
-        void PushinIntruction() {
+        void PushingIntruction() {
             SendInstruction.sendInstruction((int)Actions.Scan);
             currentStep = Steps.SettingVariable;
         }

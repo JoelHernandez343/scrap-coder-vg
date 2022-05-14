@@ -26,12 +26,16 @@ namespace ScrapCoder.VisualNodes {
             if (Executer.instance.isRunning) return;
 
             spawnController.SetState("normal");
-            spawnController.HideContainer();
-            spawnController.SpawnNode(
+
+            var couldBeSpawned = spawnController.SpawnNode(
                 newPosition: GetPointerPosition(e),
                 dx: e.delta.x,
                 dy: e.delta.y
             );
+
+            if (couldBeSpawned) {
+                spawnController.HideContainer();
+            }
         }
 
         public void OnDrag(PointerEventData e) {

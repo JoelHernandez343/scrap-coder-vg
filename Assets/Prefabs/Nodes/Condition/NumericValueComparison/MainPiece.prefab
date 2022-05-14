@@ -1030,19 +1030,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
       propertyPath: options.Array.data[2].text
-      value: Menor_que
+      value: Menor que
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
       propertyPath: options.Array.data[3].text
-      value: Menor_o_igual
+      value: Menor o igual
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
       propertyPath: options.Array.data[4].text
-      value: Mayor_que
+      value: Mayor que
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
       propertyPath: options.Array.data[5].text
-      value: Mayor_o_igual
+      value: Mayor o igual
       objectReference: {fileID: 0}
     - target: {fileID: 6499269413335634027, guid: bae9f642656363a4f8aa362052b46929, type: 3}
       propertyPath: options.Array.data[0].value

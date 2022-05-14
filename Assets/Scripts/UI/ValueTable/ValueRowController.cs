@@ -28,6 +28,10 @@ namespace ScrapCoder.UI {
             valueText.ChangeText(newText: newValue);
         }
 
+        public void ChangeIndex(string newIndex) {
+            indexText.ChangeText(newText: newIndex);
+        }
+
         public static ValueRowController Create(ValueRowController prefab, Transform parent, int index, string value) {
             var row = Instantiate(original: prefab, parent: parent);
 

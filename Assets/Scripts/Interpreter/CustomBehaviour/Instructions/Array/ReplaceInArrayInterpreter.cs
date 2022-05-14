@@ -68,8 +68,14 @@ namespace ScrapCoder.Interpreter {
 
             var index = System.Int32.Parse(indexValue);
 
-            if (index < 0 || index >= arrayLength) {
+            if (index < 0 || index >= Symbol.ArrayLimit) {
                 Debug.LogError($"{index} is out of bounds");
+                Executer.instance.Stop(force: true);
+                return;
+            }
+
+            if (arrayLength == Symbol.ArrayLimit) {
+                Debug.LogError($"Array has reached its limit");
                 Executer.instance.Stop(force: true);
                 return;
             }

@@ -156,8 +156,13 @@ namespace ScrapCoder.Interpreter {
         public void SetValueInArray(int index, string newValue) {
             CheckArray();
 
-            if (index < 0 || index >= ArrayLength) {
+            if (index < 0) {
                 throw new System.IndexOutOfRangeException($"{index} is out of bounds");
+            }
+
+            if (index >= ArrayLength) {
+                InsertToArray(index: index, value: newValue);
+                return;
             }
 
             arrayOfValues[index] = newValue;
