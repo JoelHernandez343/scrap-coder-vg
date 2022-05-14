@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using ScrapCoder.GameInput;
+
 public class ResetController : MonoBehaviour
 {
     //[SerializeField] private Transform BelPosition, CopperPosition;
@@ -31,7 +33,7 @@ public class ResetController : MonoBehaviour
     void Update()
     {
         //ResetPosition(true);
-        if (Input.GetButtonDown("Reset") /* || dies */)
+        if (InputController.instance.GetButtonDown("Reset") /* || dies */)
         {
             //ResetPosition(true);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

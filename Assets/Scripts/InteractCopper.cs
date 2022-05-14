@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
+using ScrapCoder.GameInput;
+
 public class InteractCopper : InteractScript
 {
     // Start is called before the first frame update
@@ -21,7 +23,7 @@ public class InteractCopper : InteractScript
             return;
         }
 
-        if (interactable && Input.GetButtonDown("Interact") || !interactable && scriptEnviorment.activeSelf)
+        if (interactable && InputController.instance.GetButtonDown("Interact") || !interactable && scriptEnviorment.activeSelf)
         {
             Programar();
         }

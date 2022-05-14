@@ -24,8 +24,11 @@ namespace ScrapCoder.GameInput {
 
         Canvas canvas => InterfaceCanvas.instance.canvas;
 
+        public bool isInputAvailable => handlerWithFocus == null;
+
         // State variables
         public IFocusable handlerWithFocus;
+
         int previousDepth;
         int previousSortingOrder;
         Transform previousParent;
@@ -92,6 +95,32 @@ namespace ScrapCoder.GameInput {
                 inputHandler.HandleInput();
             }
         }
+
+        // Mask methods
+        public float GetAxisRaw(string axisName) {
+            return isInputAvailable ? Input.GetAxisRaw(axisName: axisName) : 0;
+        }
+
+        public bool GetButtonDown(string buttonName) {
+            return isInputAvailable ? Input.GetButtonDown(buttonName: buttonName) : false;
+        }
+
+        public bool GetKey(string keyName) {
+            return isInputAvailable ? Input.GetKey(name: keyName) : false;
+        }
+
+        public bool GetKey(KeyCode key) {
+            return isInputAvailable ? Input.GetKey(key: key) : false;
+        }
+
+        public bool GetKeyDown(string keyName) {
+            return isInputAvailable ? Input.GetKeyDown(name: keyName) : false;
+        }
+
+        public bool GetKeyDown(KeyCode key) {
+            return isInputAvailable ? Input.GetKeyDown(key: key) : false;
+        }
+
     }
 
 }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.GameInput;
+
 // Alberto García
 /* Este es el código que se encarga del movivimiento del personaje */
 public class PlayerMovement : MonoBehaviour
@@ -25,8 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement() /* Esta función recupera la entrada */
     {
-        horizontalMovement = Input.GetAxisRaw("Horizontal");
-        verticalMovement = Input.GetAxisRaw("Vertical");
+        horizontalMovement = InputController.instance.GetAxisRaw("Horizontal");
+        verticalMovement = InputController.instance.GetAxisRaw("Vertical");
         if (horizontalMovement == 1)        // Derecha
         {
             transform.position = new Vector3(transform.position.x + movementSpeed, transform.position.y, transform.position.z);

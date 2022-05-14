@@ -91,6 +91,7 @@ namespace ScrapCoder.UI {
 
         // Methods
         void IInputHandler.HandleInput() {
+            if (!HasFocus()) return;
 
             if (!Input.anyKeyDown) return;
 
@@ -256,7 +257,7 @@ namespace ScrapCoder.UI {
             controller?.LoseFocus();
         }
 
-        bool IFocusable.HasFocus() {
+        public bool HasFocus() {
             return InputController.instance.handlerWithFocus == (IFocusable)this;
         }
 
