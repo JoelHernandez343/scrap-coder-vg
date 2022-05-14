@@ -120,7 +120,7 @@ public class MenuScript : MonoBehaviour
             switch (selectCount[0])
             {
                 case 0:     /*        Nueva Partida      */
-                    SceneManager.LoadScene("Level");
+                    SceneManager.LoadScene("Level 1-1");
                     /*if (SceneManager.sceneLoaded("SampleScene"))
                     {
                         SceneManager.LoadScene("SampleScene");
