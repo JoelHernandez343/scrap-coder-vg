@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.Audio;
 
 namespace ScrapCoder.UI {
     public class InterfaceCanvas : MonoBehaviour {
@@ -34,6 +35,9 @@ namespace ScrapCoder.UI {
 
         SelectionController _selectionMenus;
         public SelectionController selectionMenus => _selectionMenus ??= (editor.GetComponent<SelectionController>() as SelectionController);
+
+        SoundLibrary _soundLibrary;
+        public SoundLibrary soundLibrary => _soundLibrary ??= GetComponent<SoundLibrary>() as SoundLibrary;
 
         // Constants
         public const int ScaleFactor = 2;

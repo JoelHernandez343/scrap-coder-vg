@@ -8,6 +8,7 @@ using UnityEngine;
 
 using ScrapCoder.Interpreter;
 using ScrapCoder.UI;
+using ScrapCoder.Audio;
 
 namespace ScrapCoder.VisualNodes {
 
@@ -54,6 +55,9 @@ namespace ScrapCoder.VisualNodes {
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        SoundScript _sound;
+        SoundScript sound => _sound ??= GetComponent<SoundScript>() as SoundScript;
 
         int spawnedCount => SymbolTable.instance[symbolName]?.Count ?? 0;
         bool showingInfinity => spawnLimit == -1;
@@ -120,6 +124,8 @@ namespace ScrapCoder.VisualNodes {
 
             spawned.SetMiddleZone(true);
             spawned.SetState(state: "over", propagation: true);
+
+            sound.PlayClip();
 
             return true;
         }
