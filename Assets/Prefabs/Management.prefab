@@ -747,6 +747,7 @@ GameObject:
   - component: {fileID: 610433862804198413}
   - component: {fileID: 610433862804198412}
   - component: {fileID: 610433862804198403}
+  - component: {fileID: 1289620148}
   m_Layer: 5
   m_Name: Editor
   m_TagString: Untagged
@@ -819,6 +820,18 @@ MonoBehaviour:
   selectionWithTables: {fileID: 738966043220368128}
   variablePrefab: {fileID: 6150825404952637395, guid: e394ccaa652d13b44bfb5e99c1eac15e, type: 3}
   arrayPrefab: {fileID: 6150825404952637395, guid: d5f85880f9c0da3479f45d92943778c0, type: 3}
+--- !u!114 &1289620148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610433862804198414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd38ab5b23ebf0741850e6a4de3deb95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &610433862811450242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,6 +1897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   remover: {fileID: 610433863385889464}
+  containerWithFocus: {fileID: 0}
 --- !u!1 &610433863898455411
 GameObject:
   m_ObjectHideFlags: 0

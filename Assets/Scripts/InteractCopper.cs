@@ -4,34 +4,29 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 
 using ScrapCoder.GameInput;
+using ScrapCoder.UI;
 
-public class InteractCopper : InteractScript
-{
-    // Start is called before the first frame update
-    [SerializeField] private GameObject scriptEnviorment;
-    void Start()
-    {
+public class InteractCopper : InteractScript {
+    // SEditor variables
+    [SerializeField] Editor editor;
+
+    // Methods
+    void Start() {
         interactCollider = GetComponent<BoxCollider2D>();
         objectTransform = GetComponent<Transform>();
         //spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (scriptEnviorment == null){
-            return;
-        }
+    void Update() {
+        if (editor == null) return;
 
-        if (interactable && InputController.instance.GetButtonDown("Interact") || !interactable && scriptEnviorment.activeSelf)
-        {
+        if (interactable && InputController.instance.GetButtonDown("Interact", ignoreContainer: true) || !interactable && editor.isVisible) {
             Programar();
         }
     }
 
-    void Programar()
-    {
-        //SceneManager.LoadScene("NodesScene");
-        scriptEnviorment.SetActive(!scriptEnviorment.activeSelf);
+    void Programar() {
+        editor.SetVisible(!editor.isVisible);
     }
 }
