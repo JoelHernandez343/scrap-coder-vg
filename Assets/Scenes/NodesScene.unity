@@ -233,6 +233,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 610433862369848482, guid: 95585123460dca84da59a6a9dbdb60e9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 610433862369848482, guid: 95585123460dca84da59a6a9dbdb60e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 610433863457319580, guid: 95585123460dca84da59a6a9dbdb60e9, type: 3}
       propertyPath: m_Camera
       value: 

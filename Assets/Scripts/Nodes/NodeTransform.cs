@@ -320,5 +320,9 @@ namespace ScrapCoder.VisualNodes {
 
             rectTransform.localScale = scale;
         }
+
+        public void ChangeRectTransformDimensions(int x, int y) {
+            rectTransform.sizeDelta = new Vector2Int(x, y);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace ScrapCoder.UI {
         [SerializeField] public NodeTransform editorControls;
         [SerializeField] public NodeTransform onTopOfEditor;
 
-        [SerializeField] public NodeTransform controls;
+        [SerializeField] public List<NodeTransform> controls;
 
         // Lazy variables
         Canvas _canvas;
@@ -39,6 +39,9 @@ namespace ScrapCoder.UI {
         SoundLibrary _soundLibrary;
         public SoundLibrary soundLibrary => _soundLibrary ??= GetComponent<SoundLibrary>() as SoundLibrary;
 
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
         // Constants
         public const int ScaleFactor = 2;
         public const int NodeScaleFactor = 2;
@@ -51,6 +54,16 @@ namespace ScrapCoder.UI {
             }
 
             instance = this;
+        }
+
+        public void OnRectTransformDimensionsChange() {
+            var dimensions = new Vector2Int {
+                x = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.x),
+                y = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.y)
+            };
+
+            editor.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+            editorControls.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
         }
 
     }
