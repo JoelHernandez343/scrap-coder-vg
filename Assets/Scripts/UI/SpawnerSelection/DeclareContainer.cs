@@ -66,13 +66,20 @@ namespace ScrapCoder.UI {
                 return;
             }
 
-            var symbolName = $"{declaredPrefix}_{inputText.Value}";
-            var name = inputText.Value;
+            var rawValue = inputText.Value;
+            var symbolName = $"{declaredPrefix}_{rawValue}";
+            var name = rawValue;
 
-            if (name == "") {
+            if (rawValue == "") {
                 Debug.LogWarning($"Please input a no empty string");
                 return;
             }
+
+            if (!SymbolNameHandler.validForm.IsMatch(rawValue)) {
+                Debug.LogWarning($"Please input a string starting with a letter");
+                return;
+            }
+
 
             if (SymbolTable.instance[symbolName] != null) {
                 Debug.LogWarning($"{symbolName} already exist!");
