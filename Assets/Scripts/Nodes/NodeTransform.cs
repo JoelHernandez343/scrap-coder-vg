@@ -36,8 +36,8 @@ namespace ScrapCoder.VisualNodes {
         int? _height;
         public int height {
             set {
-                if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
-                if (value < minHeight) throw new System.ArgumentException($"Height {value} must be higher than or equal to initHeight: {initHeight}");
+                if (!resizable) throw new System.InvalidOperationException($"{name} This object is not resizable");
+                if (value < minHeight) throw new System.ArgumentException($"{name} Height {value} must be higher than or equal to initHeight: {initHeight}");
 
                 _height = currentHeight = value;
             }
@@ -48,8 +48,8 @@ namespace ScrapCoder.VisualNodes {
         int? _width;
         public int width {
             set {
-                if (!resizable) throw new System.InvalidOperationException("This object is not resizable");
-                if (value < minWidth) throw new System.ArgumentException($"Width {value} must be higher than or equal to initWidth: {initWidth}");
+                if (!resizable) throw new System.InvalidOperationException($"{name} This object is not resizable");
+                if (value < minWidth) throw new System.ArgumentException($"{name} Width {value} must be higher than or equal to initWidth: {initWidth}");
 
                 _width = currentWidth = value;
             }

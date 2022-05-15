@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 4651963253694876032}
   - component: {fileID: 5160835327154275977}
   - component: {fileID: 909207741959563306}
+  - component: {fileID: 4052301319510012885}
+  - component: {fileID: 865394157020527639}
   m_Layer: 5
-  m_Name: background
+  m_Name: backgroundForScrollBar
   m_TagString: TriggerZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,6 +190,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 0
   shapeState: {fileID: 0}
+--- !u!114 &4052301319510012885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248376319198399782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeExpander: {fileID: 865394157020527639}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 100
+  initWidth: 16
+  minHeight: 0
+  minWidth: 0
+  resizable: 1
+  moveable: 1
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
+--- !u!114 &865394157020527639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248376319198399782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalRangeTemplate:
+    initialStartIndex: 0
+    initialEndIndex: 0
+    isExpandable: 0
+  verticalRangeTemplate:
+    initialStartIndex: 1
+    initialEndIndex: 1
+    isExpandable: 1
+  spriteSize:
+    x: 16
+    y: 16
+  segmentTemplates: []
+  initialPointPosition: {x: 8, y: -5}
+  hideable: 1
+  states:
+  - normal
+  - over
+  - pressed
+  - disabled
+  spriteBreakpoints: []
 --- !u!1 &347630357780342268
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +401,8 @@ GameObject:
   - component: {fileID: 3844928196104395187}
   - component: {fileID: 5438428185523726636}
   - component: {fileID: 883406262756122474}
+  - component: {fileID: 8318128630054311586}
+  - component: {fileID: 1157980941659884418}
   m_Layer: 5
   m_Name: foreground
   m_TagString: Untagged
@@ -477,6 +538,63 @@ MonoBehaviour:
   m_EnableTangents: 0
   m_GeometryCached: 0
   m_UTess2D: 0
+--- !u!114 &8318128630054311586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127598350770736281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeExpander: {fileID: 1157980941659884418}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 72
+  initWidth: 14
+  minHeight: 0
+  minWidth: 0
+  resizable: 1
+  moveable: 1
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
+--- !u!114 &1157980941659884418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127598350770736281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877ce3840cea8974b9451a0aa902dfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalRangeTemplate:
+    initialStartIndex: 0
+    initialEndIndex: 0
+    isExpandable: 0
+  verticalRangeTemplate:
+    initialStartIndex: 1
+    initialEndIndex: 1
+    isExpandable: 1
+  spriteSize:
+    x: 14
+    y: 14
+  segmentTemplates: []
+  initialPointPosition: {x: 7, y: -4}
+  hideable: 1
+  states:
+  - normal
+  - over
+  - pressed
+  - disabled
+  spriteBreakpoints: []
 --- !u!1 &4953679808824213438
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,6 +963,7 @@ GameObject:
   - component: {fileID: 3330930876776429058}
   - component: {fileID: 7465353314340132344}
   - component: {fileID: 4883530371198326315}
+  - component: {fileID: 3627259180866967448}
   m_Layer: 5
   m_Name: verticalScrollBar
   m_TagString: Untagged
@@ -888,12 +1007,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 0}
+  nodeExpander: {fileID: 3627259180866967448}
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
   initHeight: 100
-  initWidth: 13
+  initWidth: 16
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -931,6 +1050,26 @@ SortingGroup:
   m_SortingLayerID: 2130069865
   m_SortingLayer: 5
   m_SortingOrder: 0
+--- !u!114 &3627259180866967448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7039005104448199374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a9a8d706befc74ea5324c1b5b6d7de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsToExpand:
+  - {fileID: 4052301319510012885}
+  - {fileID: 8318128630054311586}
+  itemsToRight: []
+  itemsBelow:
+  - {fileID: 3095261936766985398}
+  itemsToCenterHorizontally: []
+  itemsToCenterVertically: []
 --- !u!1 &8332610188326920420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,6 +1748,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
+--- !u!114 &3095261936766985398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8058669990708895840, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
+  m_PrefabInstance: {fileID: 4981739841994966230}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8445675418117995658 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3465415418262239324, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}

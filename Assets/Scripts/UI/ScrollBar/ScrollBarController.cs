@@ -19,7 +19,7 @@ namespace ScrapCoder.UI {
 
         [SerializeField] public ButtonController sliderButton;
 
-        [SerializeField] int visor;
+        [SerializeField] public int visor;
 
         [SerializeField] NodeTransform contentT;
 

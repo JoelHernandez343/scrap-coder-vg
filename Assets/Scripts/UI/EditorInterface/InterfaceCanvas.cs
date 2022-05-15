@@ -24,6 +24,9 @@ namespace ScrapCoder.UI {
 
         [SerializeField] public List<NodeTransform> controls;
 
+        [SerializeField] public ScrollBarController workingZoneVerticalScrollbar;
+        [SerializeField] public ScrollBarController workingZoneHorizonalScrollbar;
+
         // Lazy variables
         Canvas _canvas;
         public Canvas canvas => _canvas ??= (GetComponent<Canvas>() as Canvas);
@@ -64,6 +67,12 @@ namespace ScrapCoder.UI {
 
             editor.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
             editorControls.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+
+            workingZoneVerticalScrollbar.visor = dimensions.y;
+            workingZoneVerticalScrollbar.ownTransform.ExpandByNewDimensions(
+                newHeight: dimensions.y / 2 - 36
+            );
+            workingZoneVerticalScrollbar.RefreshSlider();
         }
 
     }
