@@ -13,7 +13,7 @@ namespace ScrapCoder.UI {
 
         // Editor variables
         [SerializeField] SpawnerSelectionButton button;
-        [SerializeField] SpawnerSelectionContainer container;
+        [SerializeField] public SpawnerSelectionContainer container;
 
         // State variables
         bool initialized = false;

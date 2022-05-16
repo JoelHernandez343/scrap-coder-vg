@@ -21,7 +21,7 @@ namespace ScrapCoder.UI {
 
         [SerializeField] public int visor;
 
-        [SerializeField] NodeTransform contentT;
+        [SerializeField] public NodeTransform contentT;
 
         // State variables
         public float currentScale;

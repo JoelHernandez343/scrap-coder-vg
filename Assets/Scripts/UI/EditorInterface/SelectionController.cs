@@ -52,16 +52,27 @@ namespace ScrapCoder.UI {
 
             PositionAndOrderButtons();
 
+            var newHeight = (InterfaceCanvas.instance.rectDimensions.y - 153) / 2;
+            ExpandContainers(newHeight: newHeight);
+
             initialized = true;
         }
 
         void PositionAndOrderButtons() {
-            var y = 10;
+            var y = 5;
             var menuOrder = HierarchyController.instance.lastNodesOrder + 10;
 
             selectionSpawnersControllers.ForEach(s => {
-                y += s.PositionButton(y) + 10;
+                y += s.PositionButton(y) + 5;
                 s.SetOrder(order: menuOrder);
+            });
+        }
+
+        public void ExpandContainers(int newHeight) {
+            selectionSpawnersControllers?.ForEach(s => {
+                s.container.ownTransform.ExpandByNewDimensions(
+                    newHeight: newHeight
+                );
             });
         }
 

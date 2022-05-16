@@ -45,6 +45,11 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
+        public Vector2Int rectDimensions => new Vector2Int {
+            x = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.x),
+            y = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.y)
+        };
+
         // Constants
         public const int ScaleFactor = 2;
         public const int NodeScaleFactor = 2;
@@ -60,10 +65,7 @@ namespace ScrapCoder.UI {
         }
 
         public void OnRectTransformDimensionsChange() {
-            var dimensions = new Vector2Int {
-                x = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.x),
-                y = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.y)
-            };
+            var dimensions = rectDimensions;
 
             editor.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
             editorControls.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
@@ -73,6 +75,8 @@ namespace ScrapCoder.UI {
                 newHeight: dimensions.y / 2 - 36
             );
             workingZoneVerticalScrollbar.RefreshSlider();
+
+            selectionMenus.ExpandContainers(newHeight: (dimensions.y - 153) / 2);
         }
 
     }
