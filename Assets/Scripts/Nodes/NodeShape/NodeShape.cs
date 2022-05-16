@@ -212,11 +212,9 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void Expand(int? dx, int? dy) {
-            int?[] delta = { dx, dy };
+            if (!initialized) InitializeSegments();
 
-            if (!initialized) {
-                InitializeSegments();
-            }
+            int?[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {
                 var range = ranges[axis];
@@ -275,6 +273,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetState(string state) {
+            if (!initialized) InitializeSegments();
+
             var stateIndex = states.IndexOf(state);
 
             if (stateIndex != -1) {
