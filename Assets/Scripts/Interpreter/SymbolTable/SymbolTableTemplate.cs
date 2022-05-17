@@ -1,18 +1,19 @@
+// Joel Harim Hernández Javier @ 2022
+// Github: https://github.com/JoelHernandez343
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SymbolTableTemplate : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+namespace ScrapCoder.Interpreter {
+
+    public class SymbolTableTemplate {
+
+        public List<SymbolTableTemplate> variableTemplates;
+        public List<SymbolTableTemplate> arrayTemplates;
+
     }
 }
