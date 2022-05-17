@@ -26,28 +26,16 @@ namespace ScrapCoder.UI {
 
         bool initialized = false;
 
+        public SpawnerSelectionController variablesSelection;
+        public SpawnerSelectionController arraysSelection;
+
         // Methods
-        public void Initialize(List<SpawnerSelectionTemplate> selectionTemplates = null) {
+        public void Initialize(List<SpawnerSelectionTemplate> selectionTemplates) {
             if (initialized) return;
 
-            selectionSpawnersControllers = selectionTemplates.ConvertAll(
-                template => SpawnerSelectionController.Create(
-                    prefab: template.declarationType == "none"
-                        ? selectionPrefab
-                        : selectionWithDeclarationPrefab,
-                    parent: selectionParent,
-                    template: template,
-                    selectionController: this,
-                    prefabToSpawn: template.declarationType == "none"
-                        ? null
-                        : template.declarationType == "variable"
-                        ? variablePrefab
-                        : arrayPrefab
-                )
-            );
+            selectionSpawnersControllers = CreateSelectionSpawners(selectionTemplates);
 
             selectionWithTables.selectionController = this;
-
             selectionSpawnersControllers.Add(selectionWithTables);
 
             PositionAndOrderButtons();
@@ -56,6 +44,34 @@ namespace ScrapCoder.UI {
             ExpandContainers(newHeight: newHeight);
 
             initialized = true;
+        }
+
+        List<SpawnerSelectionController> CreateSelectionSpawners(List<SpawnerSelectionTemplate> selectionTemplates) {
+            return selectionTemplates.ConvertAll(
+                template => {
+                    var selectionSpawner = SpawnerSelectionController.Create(
+                        prefab: template.declarationType == "none"
+                            ? selectionPrefab
+                            : selectionWithDeclarationPrefab,
+                        parent: selectionParent,
+                        template: template,
+                        selectionController: this,
+                        prefabToSpawn: template.declarationType == "none"
+                            ? null
+                            : template.declarationType == "variable"
+                            ? variablePrefab
+                            : arrayPrefab
+                    );
+
+                    if (template.declarationType == "variable") {
+                        variablesSelection = selectionSpawner;
+                    } else if (template.declarationType == "array") {
+                        arraysSelection = selectionSpawner;
+                    }
+
+                    return selectionSpawner;
+                }
+            );
         }
 
         void PositionAndOrderButtons() {

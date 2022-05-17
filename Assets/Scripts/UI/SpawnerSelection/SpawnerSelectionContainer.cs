@@ -37,6 +37,9 @@ namespace ScrapCoder.UI {
 
         public const int spawnerOffset = 14;
 
+        public DeclareContainer _declareContainer;
+        public DeclareContainer declareContainer => _declareContainer ??= (GetComponent<DeclareContainer>() as DeclareContainer);
+
         // State variables
         bool initialized = false;
 

@@ -39,6 +39,9 @@ namespace ScrapCoder.UI {
         SelectionController _selectionMenus;
         public SelectionController selectionMenus => _selectionMenus ??= (editor.GetComponent<SelectionController>() as SelectionController);
 
+        public DeclareContainer variableDeclareContainer => selectionMenus.variablesSelection.container.declareContainer;
+        public DeclareContainer arrayDeclareContainer => selectionMenus.arraysSelection.container.declareContainer;
+
         SoundLibrary _soundLibrary;
         public SoundLibrary soundLibrary => _soundLibrary ??= GetComponent<SoundLibrary>() as SoundLibrary;
 
