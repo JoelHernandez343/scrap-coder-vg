@@ -24,7 +24,7 @@ namespace ScrapCoder.Interpreter {
         string symbolName;
         public string SymbolName;
 
-        List<string> arrayOfValues = new List<string>();
+        List<string> arrayOfValues;
 
         NodeSpawnController spawner;
 
@@ -41,13 +41,26 @@ namespace ScrapCoder.Interpreter {
         public const int ArrayLimit = 20;
 
         // Methods
-        public Symbol(string symbolName, NodeType type, string initValue, int limit, NodeSpawnController spawner, ValueTableController table = null) {
+        public Symbol(
+            string symbolName,
+            NodeType type,
+            int limit,
+            NodeSpawnController spawner,
+            ValueTableController table,
+            string initValue,
+            List<string> initialArrayValues
+        ) {
             this.type = type;
             this.limit = limit;
             this.table = table;
-            this.value = initValue;
             this.spawner = spawner;
             this.symbolName = symbolName;
+
+            if (type == NodeType.Variable) {
+                SetValue(newValue: initValue);
+            } else if (type == NodeType.Array) {
+                initialArrayValues.ForEach(value => AddToArray(value: value));
+            }
         }
 
         public void AddReference(NodeController reference) {

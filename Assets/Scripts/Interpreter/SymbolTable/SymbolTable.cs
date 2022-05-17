@@ -43,7 +43,14 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void AddSymbol(int limit, string symbolName, NodeType type, NodeSpawnController spawner, string value = "") {
+        public void AddSymbol(
+            int limit,
+            string symbolName,
+            NodeType type,
+            NodeSpawnController spawner,
+            string value = "",
+            List<string> arrayValues = null
+        ) {
 
             ValueTableController table = null;
 
@@ -68,7 +75,8 @@ namespace ScrapCoder.Interpreter {
                 initValue: value,
                 spawner: spawner,
                 symbolName: symbolName,
-                table: table
+                table: table,
+                initialArrayValues: arrayValues
             );
         }
 
