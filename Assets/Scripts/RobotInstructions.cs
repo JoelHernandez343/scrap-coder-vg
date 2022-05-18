@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.GameInput;
+
 public class RobotInstructions : MonoBehaviour
 {
     private enum Action { Walk, RotateLeft, RotateRight, Interact, None }
@@ -19,7 +21,7 @@ public class RobotInstructions : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Wistle"))
+        if (InputController.instance.GetButtonDown("Wistle"))
         {
             if (cont > 0)
             {

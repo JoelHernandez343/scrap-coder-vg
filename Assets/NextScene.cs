@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using ScrapCoder.GameInput;
+
 public class NextScene : MonoBehaviour
 {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Reset"))
+        if (InputController.instance.GetButtonDown("Reset"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }

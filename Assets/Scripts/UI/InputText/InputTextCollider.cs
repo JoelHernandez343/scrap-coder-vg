@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class InputTextCollider : MonoBehaviour, IPointerDownHandler {
@@ -20,8 +21,8 @@ namespace ScrapCoder.UI {
 
         // Methods
         public void OnPointerDown(PointerEventData eventData) {
-            if (!(inputText as InputManagment.IFocusable).HasFocus()) {
-                InputManagment.InputController.instance.SetFocusOn(inputText);
+            if (!(inputText as IFocusable).HasFocus()) {
+                InputController.instance.SetFocusOn(inputText);
             }
 
             var clickPosition = new Vector2();

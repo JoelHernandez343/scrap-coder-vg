@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
-using ScrapCoder.InputManagment;
+using ScrapCoder.GameInput;
 using ScrapCoder.Interpreter;
 
 namespace ScrapCoder.UI {

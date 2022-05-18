@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.UI;
+using SimpleFileBrowser;
 
-namespace ScrapCoder.InputManagment {
+namespace ScrapCoder.GameInput {
 
     public class InputController : MonoBehaviour {
 
@@ -26,9 +27,14 @@ namespace ScrapCoder.InputManagment {
 
         // State variables
         public IFocusable handlerWithFocus;
+
         int previousDepth;
         int previousSortingOrder;
         Transform previousParent;
+
+        public GameObject containerWithFocus;
+
+        public bool fileBrowserHasFocus => FileBrowser.IsOpen;
 
         public void SetFocusParentOnFocusable() {
             if (handlerWithFocus == null) return;
@@ -78,6 +84,24 @@ namespace ScrapCoder.InputManagment {
             removerRectTransform.localPosition = localPosition;
         }
 
+        public void SetFocusOnContainer(GameObject container) {
+            ClearFocusOfContainer();
+
+            containerWithFocus = container;
+        }
+
+        public void ClearFocusOfContainer() {
+            containerWithFocus = null;
+        }
+
+        public bool IsInputAvailable(bool ignoreContainer = false) {
+            if (fileBrowserHasFocus) return false;
+
+            if (ignoreContainer) return handlerWithFocus == null;
+
+            return handlerWithFocus == null && containerWithFocus == null;
+        }
+
         void Awake() {
             if (instance != null) {
                 Destroy(this.gameObject);
@@ -92,6 +116,32 @@ namespace ScrapCoder.InputManagment {
                 inputHandler.HandleInput();
             }
         }
+
+        // Mask methods
+        public float GetAxisRaw(string axisName, bool ignoreContainer = false) {
+            return IsInputAvailable(ignoreContainer) ? Input.GetAxisRaw(axisName: axisName) : 0;
+        }
+
+        public bool GetButtonDown(string buttonName, bool ignoreContainer = false) {
+            return IsInputAvailable(ignoreContainer) ? Input.GetButtonDown(buttonName: buttonName) : false;
+        }
+
+        public bool GetKey(string keyName, bool ignoreContainer = false) {
+            return IsInputAvailable(ignoreContainer) ? Input.GetKey(name: keyName) : false;
+        }
+
+        public bool GetKey(KeyCode key, bool ignoreContainer = false) {
+            return IsInputAvailable(ignoreContainer) ? Input.GetKey(key: key) : false;
+        }
+
+        public bool GetKeyDown(string keyName, bool ignoreContainer = false) {
+            return IsInputAvailable(ignoreContainer) ? Input.GetKeyDown(name: keyName) : false;
+        }
+
+        public bool GetKeyDown(KeyCode key, bool ignoreContainer = false) {
+            return IsInputAvailable(ignoreContainer) ? Input.GetKeyDown(key: key) : false;
+        }
+
     }
 
 }

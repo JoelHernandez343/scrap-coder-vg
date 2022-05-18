@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
-using ScrapCoder.InputManagment;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class DropMenuController : MonoBehaviour, INodeExpander, IFocusable, INodeExpanded {
@@ -155,7 +155,7 @@ namespace ScrapCoder.UI {
         }
 
         bool IFocusable.HasFocus() {
-            return InputManagment.InputController.instance.handlerWithFocus == (IFocusable)this;
+            return InputController.instance.handlerWithFocus == (IFocusable)this;
         }
 
     }
