@@ -48,6 +48,9 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
+        Editor _editor;
+        public Editor editorVisibiltyManager => _editor ??= (editor.GetComponent<Editor>() as Editor);
+
         public Vector2Int rectDimensions => new Vector2Int {
             x = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.x),
             y = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.y)
