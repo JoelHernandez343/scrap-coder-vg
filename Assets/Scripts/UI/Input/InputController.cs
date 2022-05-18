@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.UI;
+using SimpleFileBrowser;
 
 namespace ScrapCoder.GameInput {
 
@@ -32,6 +33,8 @@ namespace ScrapCoder.GameInput {
         Transform previousParent;
 
         public GameObject containerWithFocus;
+
+        public bool fileBrowserHasFocus => FileBrowser.IsOpen;
 
         public void SetFocusParentOnFocusable() {
             if (handlerWithFocus == null) return;
@@ -92,6 +95,8 @@ namespace ScrapCoder.GameInput {
         }
 
         public bool IsInputAvailable(bool ignoreContainer = false) {
+            if (fileBrowserHasFocus) return false;
+
             if (ignoreContainer) return handlerWithFocus == null;
 
             return handlerWithFocus == null && containerWithFocus == null;

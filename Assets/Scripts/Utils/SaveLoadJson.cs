@@ -13,7 +13,11 @@ namespace ScrapCoder.Utils {
             var fileName = FileBrowserHelpers.GetFilename(filePath);
             var jsonData = JsonConvert.SerializeObject(data);
 
-            FileBrowserHelpers.WriteTextToFile(filePath, jsonData);
+            try {
+                FileBrowserHelpers.WriteTextToFile(filePath, jsonData);
+            } catch (System.UnauthorizedAccessException e) {
+                Debug.LogError(e);
+            }
         }
 
         public static void SaveJsonToPersistentData(T data, string subFilePath) {
