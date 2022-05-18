@@ -7,8 +7,9 @@ using ScrapCoder.GameInput;
 using ScrapCoder.UI;
 
 public class InteractCopper : InteractScript {
-    // SEditor variables
-    [SerializeField] Editor editor;
+
+    // Lazy variables
+    Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
 
     // Methods
     void Start() {
