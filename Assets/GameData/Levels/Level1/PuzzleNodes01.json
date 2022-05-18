@@ -1,223 +1,251 @@
 [
-  {
-    "title": "Control",
-    "icon": "control",
-    "spawnersTemplates": [
-      {
-        "title": "Inicio",
-        "nodeToSpawn": 0,
-        "selectedIcon": "begin",
-        "spawnLimit": 1,
-        "symbolName": null
-      },
-      {
-        "title": "Fin",
-        "nodeToSpawn": 1,
-        "selectedIcon": "end",
-        "spawnLimit": 1,
-        "symbolName": null
-      },
-      {
-        "title": "Repetir_si",
-        "nodeToSpawn": 2,
-        "selectedIcon": "repeat_simple",
+    {
+        "title": "Control",
+        "icon": "control",
+        "spawnersTemplates": [
+            {
+                "title": "Inicio",
+                "nodeToSpawn": 0,
+                "selectedIcon": "begin",
+                "spawnLimit": 1,
+                "symbolName": null
+            },
+            {
+                "title": "Fin",
+                "nodeToSpawn": 1,
+                "selectedIcon": "end",
+                "spawnLimit": 1,
+                "symbolName": null
+            },
+            {
+                "title": "Repetir si",
+                "nodeToSpawn": 2,
+                "selectedIcon": "repeat_simple",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Repetir n veces",
+                "nodeToSpawn": 18,
+                "selectedIcon": "repeat_simple",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Si, entonces",
+                "nodeToSpawn": 3,
+                "selectedIcon": "conditional_simple",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Si, entonces, si no",
+                "nodeToSpawn": 4,
+                "selectedIcon": "conditional_compund",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    },
+    {
+        "title": "Condiciones",
+        "icon": "condition",
+        "spawnersTemplates": [
+            {
+                "title": "Verdadero",
+                "nodeToSpawn": 20,
+                "selectedIcon": "cond_true",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Falso",
+                "nodeToSpawn": 21,
+                "selectedIcon": "cond_false",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Condición Y",
+                "nodeToSpawn": 5,
+                "selectedIcon": "cond_double",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Condicion O",
+                "nodeToSpawn": 7,
+                "selectedIcon": "cond_double",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Negación",
+                "nodeToSpawn": 8,
+                "selectedIcon": "cond_negation",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Comparación numérica",
+                "nodeToSpawn": 36,
+                "selectedIcon": "cond_double_numeric_values",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    },
+    {
+        "title": "Instrucciones",
+        "icon": "instructions",
+        "spawnersTemplates": [
+            {
+                "title": "Caminar",
+                "nodeToSpawn": 9,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Girar",
+                "nodeToSpawn": 19,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Interactuar",
+                "nodeToSpawn": 12,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Escanear",
+                "nodeToSpawn": 45,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Escanear y agregar en arreglo",
+                "nodeToSpawn": 46,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Escanear e insertar en arreglo",
+                "nodeToSpawn": 47,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Asignar variable",
+                "nodeToSpawn": 24,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Aumentar en 1",
+                "nodeToSpawn": 14,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Decrecer en 1",
+                "nodeToSpawn": 15,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Agregar a arreglo",
+                "nodeToSpawn": 38,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Vaciar arreglo",
+                "nodeToSpawn": 39,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Eliminar de arreglo",
+                "nodeToSpawn": 40,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Asignar a arreglo",
+                "nodeToSpawn": 43,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Insertar en arreglo",
+                "nodeToSpawn": 44,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Número",
+                "nodeToSpawn": 23,
+                "selectedIcon": "var_numeric_value",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Operación numérica",
+                "nodeToSpawn": 35,
+                "selectedIcon": "var_sum",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Obtener valor de arreglo",
+                "nodeToSpawn": 41,
+                "selectedIcon": "var_numeric_value",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Longitud de arreglo",
+                "nodeToSpawn": 42,
+                "selectedIcon": "var_numeric_value",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    },
+    {
+        "title": "Variables",
+        "icon": "variable",
+        "declarationType": "variable",
         "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Repetir_n_veces",
-        "nodeToSpawn": 18,
-        "selectedIcon": "repeat_simple",
+        "declaredPrefix": "var",
+        "spawnerIcon": "var_simple",
+        "declarationLimit": 10
+    },
+    {
+        "title": "Arreglos",
+        "icon": "array",
+        "declarationType": "array",
         "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Si,_entonces",
-        "nodeToSpawn": 3,
-        "selectedIcon": "conditional_simple",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Si,_entonces,si_no",
-        "nodeToSpawn": 4,
-        "selectedIcon": "conditional_compund",
-        "spawnLimit": -1,
-        "symbolName": null
-      }
-    ],
-    "declarationType": "none"
-  },
-  {
-    "title": "Condiciones",
-    "icon": "condition",
-    "spawnersTemplates": [
-      {
-        "title": "Verdadero",
-        "nodeToSpawn": 20,
-        "selectedIcon": "cond_true",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Falso",
-        "nodeToSpawn": 21,
-        "selectedIcon": "cond_false",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Condición_Y",
-        "nodeToSpawn": 5,
-        "selectedIcon": "cond_double",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Condicion_O",
-        "nodeToSpawn": 7,
-        "selectedIcon": "cond_double",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Negación",
-        "nodeToSpawn": 8,
-        "selectedIcon": "cond_negation",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Comparación_numérica",
-        "nodeToSpawn": 36,
-        "selectedIcon": "cond_double_numeric_values",
-        "spawnLimit": -1,
-        "symbolName": null
-      }
-    ],
-    "declarationType": "none"
-  },
-  {
-    "title": "Instrucciones",
-    "icon": "instructions",
-    "spawnersTemplates": [
-      {
-        "title": "Caminar",
-        "nodeToSpawn": 9,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Girar",
-        "nodeToSpawn": 19,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Interactuar",
-        "nodeToSpawn": 12,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Escanear",
-        "nodeToSpawn": 45,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Establecer_variable",
-        "nodeToSpawn": 24,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Agregar_elemento_a_arreglo",
-        "nodeToSpawn": 38,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Vaciar_arreglo",
-        "nodeToSpawn": 39,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Eliminar_elemento_de_arreglo",
-        "nodeToSpawn": 40,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Establecer_elemento_de_arreglo",
-        "nodeToSpawn": 43,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Insertar_elemento_en_arreglo",
-        "nodeToSpawn": 44,
-        "selectedIcon": "simple_instruction",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Número",
-        "nodeToSpawn": 23,
-        "selectedIcon": "var_numeric_value",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Operación_numérica",
-        "nodeToSpawn": 35,
-        "selectedIcon": "var_sum",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Obtener_valor_de_arreglo",
-        "nodeToSpawn": 41,
-        "selectedIcon": "var_numeric_value",
-        "spawnLimit": -1,
-        "symbolName": null
-      },
-      {
-        "title": "Obtener_longitud_de_arreglo",
-        "nodeToSpawn": 42,
-        "selectedIcon": "var_numeric_value",
-        "spawnLimit": -1,
-        "symbolName": null
-      }
-    ],
-    "declarationType": "none"
-  },
-  {
-    "title": "Variables",
-    "icon": "variable",
-    "declarationType": "variable",
-    "spawnLimit": -1,
-    "declaredPrefix": "var",
-    "spawnerIcon": "var_simple",
-    "declarationLimit": 10
-  },
-  {
-    "title": "Arreglos",
-    "icon": "array",
-    "declarationType": "array",
-    "spawnLimit": -1,
-    "declaredPrefix": "array",
-    "spawnerIcon": "array_simple",
-    "declarationLimit": 10
-  }
+        "declaredPrefix": "array",
+        "spawnerIcon": "array_simple",
+        "declarationLimit": 10
+    }
 ]

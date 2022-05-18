@@ -29,7 +29,16 @@ namespace ScrapCoder.UI {
 
         public bool isLocked => lockButton.isLocked;
 
-        public int SpawnersCount => spawners.Count;
+        public int SpawnersCount => spawners?.Count ?? 0;
+
+        public NodeSpawnController lastSpawner => SpawnersCount > 0 ? spawners[SpawnersCount - 1] : null;
+
+        public int lastSpawnerY => lastSpawner?.ownTransform.futurePosition.y - lastSpawner?.ownTransform.height - (2 * spawnerOffset) ?? -(spawnerOffset * 2);
+
+        public const int spawnerOffset = 14;
+
+        public DeclareContainer _declareContainer;
+        public DeclareContainer declareContainer => _declareContainer ??= (GetComponent<DeclareContainer>() as DeclareContainer);
 
         // State variables
         bool initialized = false;
@@ -70,7 +79,8 @@ namespace ScrapCoder.UI {
         }
 
         void RefreshSpawnerPositions(bool smooth = false) {
-            var newY = PositionAllSpawners(smooth: smooth);
+            PositionAllSpawners(smooth: smooth);
+            var newY = -lastSpawnerY;
 
             if (newY >= content.initHeight) {
                 content.Expand(dy: newY - content.height);
@@ -81,16 +91,14 @@ namespace ScrapCoder.UI {
             scrollBar.RefreshSlider();
         }
 
-        int PositionAllSpawners(bool smooth = false) {
-            var lastY = -14;
+        void PositionAllSpawners(bool smooth = false) {
+            var lastY = -spawnerOffset;
 
             spawners?.ForEach(s => {
                 s.ownTransform.SetPosition(x: 18);
                 s.ownTransform.SetPosition(x: 18, y: lastY, smooth: smooth);
                 lastY -= s.ownTransform.height + 10;
             });
-
-            return -(lastY - 14);
         }
 
         public void RemoveSpawner(string symbolName, bool smooth = false) {

@@ -204,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223842361445502815, guid: 3e5632a3824d7384ea45ff5bafabde72, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8223842361445502817, guid: 3e5632a3824d7384ea45ff5bafabde72, type: 3}
       propertyPath: m_Enabled
@@ -226,13 +226,21 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 3033873049195469499, guid: 4b5caa7c95799c24e9d55af6fd6d973d, type: 3}
   m_PrefabInstance: {fileID: 3033873049559537599}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1063289042
+--- !u!1001 &1065005093
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 610433862369848482, guid: 95585123460dca84da59a6a9dbdb60e9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 610433862369848482, guid: 95585123460dca84da59a6a9dbdb60e9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 610433863457319580, guid: 95585123460dca84da59a6a9dbdb60e9, type: 3}
       propertyPath: m_Camera
       value: 

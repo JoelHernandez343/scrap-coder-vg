@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
+using ScrapCoder.GameInput;
+
 public class OtherInputs : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -20,7 +22,7 @@ public class OtherInputs : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Inspect"))
+        if (InputController.instance.GetButtonDown("Inspect"))
         {
             inspectOn = !inspectOn;
             //this.gameObject.transform.GetChild(2).gameObject.active = inspectOn;

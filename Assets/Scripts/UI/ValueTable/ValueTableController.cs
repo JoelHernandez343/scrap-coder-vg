@@ -119,9 +119,11 @@ namespace ScrapCoder.UI {
 
         int PositionRows(bool smooth = false) {
             var y = 0;
+            var index = 0;
 
             rows.ForEach(row => {
                 row.ownTransform.SetPosition(x: 0, y: -y, smooth: smooth);
+                row.ChangeIndex(newIndex: $"{index++}");
                 y += row.ownTransform.height - borderOffset;
             });
 

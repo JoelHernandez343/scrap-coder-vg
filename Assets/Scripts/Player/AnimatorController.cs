@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.GameInput;
+
 public class AnimatorController : MonoBehaviour
 {
     [SerializeField] Animator anim;
@@ -21,8 +23,8 @@ public class AnimatorController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        movementX = Input.GetAxisRaw("Horizontal");
-        movementY = Input.GetAxisRaw("Vertical");
+        movementX = InputController.instance.GetAxisRaw("Horizontal");
+        movementY = InputController.instance.GetAxisRaw("Vertical");
 
         if(movementX != 0 || movementY != 0){
             action = Action.Walk;

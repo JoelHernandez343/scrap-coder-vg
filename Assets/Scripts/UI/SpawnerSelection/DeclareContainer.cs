@@ -8,7 +8,7 @@ using UnityEngine;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.Interpreter;
-using ScrapCoder.InputManagment;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.UI {
     public class DeclareContainer : MonoBehaviour {
@@ -51,7 +51,7 @@ namespace ScrapCoder.UI {
             this.declarationLimit = declarationLimit;
 
             System.Action declare = () => {
-                Declare();
+                DeclareFromInputText();
                 InputController.instance.ClearFocus();
                 inputText.Clear();
             };
@@ -60,17 +60,26 @@ namespace ScrapCoder.UI {
             inputText.AddListener(declare);
         }
 
-        void Declare() {
-            if (selectionContainer.SpawnersCount == declarationLimit) {
-                Debug.LogWarning("Cannot declare more!");
+        void DeclareFromInputText() {
+            var rawValue = inputText.Value;
+            var symbolName = $"{declaredPrefix}_{rawValue}";
+
+            if (rawValue == "") {
+                Debug.LogWarning($"Please input a no empty string");
                 return;
             }
 
-            var symbolName = $"{declaredPrefix}_{inputText.Value}";
-            var name = inputText.Value;
+            if (!SymbolNameHandler.validForm.IsMatch(rawValue)) {
+                Debug.LogWarning($"Please input a string starting with a letter");
+                return;
+            }
 
-            if (name == "") {
-                Debug.LogWarning($"Please input a no empty string");
+            Declare(symbolName: symbolName, smooth: true);
+        }
+
+        public void Declare(string symbolName, bool smooth = false, SymbolTemplate template = null) {
+            if (selectionContainer.SpawnersCount == declarationLimit) {
+                Debug.LogWarning("Cannot declare more!");
                 return;
             }
 
@@ -78,6 +87,8 @@ namespace ScrapCoder.UI {
                 Debug.LogWarning($"{symbolName} already exist!");
                 return;
             }
+
+            var name = symbolName.Split(new char[] { '_' })[1];
 
             var newPrefab = NodeControllerExpandableByText.Create(
                 prefab: declaredPrefab,
@@ -104,11 +115,12 @@ namespace ScrapCoder.UI {
                 limit: spawnLimit,
                 symbolName: symbolName,
                 type: newPrefab.type,
-                value: "0",
-                spawner: newSpawner
+                spawner: newSpawner,
+                value: template?.value ?? "0",
+                arrayValues: template?.arrayValues ?? new List<string>()
             );
 
-            selectionContainer.AddSpawner(spawner: newSpawner, smooth: true);
+            selectionContainer.AddSpawner(spawner: newSpawner, smooth: smooth);
         }
 
     }

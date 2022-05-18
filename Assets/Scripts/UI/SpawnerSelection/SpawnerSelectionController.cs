@@ -13,7 +13,7 @@ namespace ScrapCoder.UI {
 
         // Editor variables
         [SerializeField] SpawnerSelectionButton button;
-        [SerializeField] SpawnerSelectionContainer container;
+        [SerializeField] public SpawnerSelectionContainer container;
 
         // State variables
         bool initialized = false;
@@ -88,7 +88,7 @@ namespace ScrapCoder.UI {
             var newController = Instantiate(original: prefab, parent: parent);
 
             newController.ownTransform.depth = 0;
-            newController.ownTransform.SetScale(x: 2, y: 2, z: 1);
+            newController.ownTransform.SetScale(x: InterfaceCanvas.ScaleFactor, y: InterfaceCanvas.ScaleFactor, z: 1);
 
             newController.Initialize(
                 title: template.title,

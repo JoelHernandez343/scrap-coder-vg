@@ -74,14 +74,23 @@ namespace ScrapCoder.VisualNodes {
         List<ShapePoint> _points;
         public List<ShapePoint> points => _points ??= GetShape();
 
-        ShapePointRange horizontalRange;
-        ShapePointRange verticalRange;
+        List<RangeBreakpoint> _breakPoints;
+        List<RangeBreakpoint> breakpoints {
+            get => _breakPoints ??= spriteBreakpoints.ConvertAll(s => new RangeBreakpoint(shape: this, template: s));
+            set => _breakPoints = value;
+        }
 
-        List<RangeBreakpoint> breakpoints;
+        bool initialized = false;
 
         // Lazy and other variables
         List<ShapePointRange> _ranges;
-        List<ShapePointRange> ranges => _ranges ??= new List<ShapePointRange> { horizontalRange, verticalRange };
+        List<ShapePointRange> ranges {
+            get => _ranges ??= new List<ShapePointRange> {
+                new ShapePointRange(template: horizontalRangeTemplate, shape: this),
+                new ShapePointRange(template: verticalRangeTemplate, shape: this)
+            };
+            set => _ranges = value;
+        }
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
@@ -203,6 +212,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void Expand(int? dx, int? dy) {
+            if (!initialized) InitializeSegments();
+
             int?[] delta = { dx, dy };
 
             for (int axis = 0; axis < ranges.Count; ++axis) {
@@ -239,16 +250,22 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void Initialize() {
+            if (initialized) return;
+
             CreateRanges();
             CreateBreakpoints();
 
             ChangeSegments();
             RenderShape();
+
+            initialized = true;
         }
 
         void CreateRanges() {
-            horizontalRange = new ShapePointRange(shape: this, template: horizontalRangeTemplate);
-            verticalRange = new ShapePointRange(shape: this, template: verticalRangeTemplate);
+            ranges = new List<ShapePointRange> {
+                new ShapePointRange(shape: this, template: horizontalRangeTemplate),
+                new ShapePointRange(shape: this, template: verticalRangeTemplate)
+            };
         }
 
         void CreateBreakpoints() {
@@ -256,6 +273,8 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void SetState(string state) {
+            if (!initialized) InitializeSegments();
+
             var stateIndex = states.IndexOf(state);
 
             if (stateIndex != -1) {

@@ -105,7 +105,6 @@ MonoBehaviour:
   selectorModifier: {fileID: 0}
   nodeAnalyzer: {fileID: 0}
   symbolName: 
-  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
 --- !u!114 &4045928097616445378
@@ -130,18 +129,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6150825404952637404}
     m_Modifications:
-    - target: {fileID: 1542368905681172040, guid: 5f55e545520c5cf4da53e805d44a9ee3, type: 3}
-      propertyPath: directController
-      value: 
-      objectReference: {fileID: 6150825404952637395}
-    - target: {fileID: 8617011495159044840, guid: 5f55e545520c5cf4da53e805d44a9ee3, type: 3}
-      propertyPath: initWidth
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617011495159044840, guid: 5f55e545520c5cf4da53e805d44a9ee3, type: 3}
-      propertyPath: initHeight
-      value: 26
-      objectReference: {fileID: 0}
     - target: {fileID: 8617011495159044840, guid: 5f55e545520c5cf4da53e805d44a9ee3, type: 3}
       propertyPath: directController
       value: 

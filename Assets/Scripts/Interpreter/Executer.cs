@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
-using ScrapCoder.InputManagment;
+using ScrapCoder.GameInput;
 
 namespace ScrapCoder.Interpreter {
     public class Executer : MonoBehaviour {
@@ -176,7 +176,12 @@ namespace ScrapCoder.Interpreter {
                 }
             } else {
                 SetFocusOn(current);
-                current.Execute(argument: nextArgument);
+                try {
+                    current.Execute(argument: nextArgument);
+                } catch (System.Exception e) {
+                    Debug.LogException(e);
+                    Stop(force: true);
+                }
             }
 
             if (executionState == ExecutionState.Immediately) {
@@ -215,7 +220,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReceiveAnswer(int? answer) {
-            Debug.Log  ("Recibi respuesta "+ answer);
+            Debug.Log("Recibi respuesta " + answer);
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {

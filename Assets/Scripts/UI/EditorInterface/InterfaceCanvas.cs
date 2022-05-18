@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.Audio;
 
 namespace ScrapCoder.UI {
     public class InterfaceCanvas : MonoBehaviour {
@@ -21,7 +22,10 @@ namespace ScrapCoder.UI {
         [SerializeField] public NodeTransform editorControls;
         [SerializeField] public NodeTransform onTopOfEditor;
 
-        [SerializeField] public NodeTransform controls;
+        [SerializeField] public List<NodeTransform> controls;
+
+        [SerializeField] public ScrollBarController workingZoneVerticalScrollbar;
+        [SerializeField] public ScrollBarController workingZoneHorizonalScrollbar;
 
         // Lazy variables
         Canvas _canvas;
@@ -35,8 +39,23 @@ namespace ScrapCoder.UI {
         SelectionController _selectionMenus;
         public SelectionController selectionMenus => _selectionMenus ??= (editor.GetComponent<SelectionController>() as SelectionController);
 
+        public DeclareContainer variableDeclareContainer => selectionMenus.variablesSelection.container.declareContainer;
+        public DeclareContainer arrayDeclareContainer => selectionMenus.arraysSelection.container.declareContainer;
+
+        SoundLibrary _soundLibrary;
+        public SoundLibrary soundLibrary => _soundLibrary ??= GetComponent<SoundLibrary>() as SoundLibrary;
+
+        NodeTransform _ownTransform;
+        public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        public Vector2Int rectDimensions => new Vector2Int {
+            x = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.x),
+            y = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.y)
+        };
+
         // Constants
-        public const int OutsideFactor = 2;
+        public const int ScaleFactor = 2;
+        public const int NodeScaleFactor = 2;
 
         // Methods
         void Awake() {
@@ -46,6 +65,21 @@ namespace ScrapCoder.UI {
             }
 
             instance = this;
+        }
+
+        public void OnRectTransformDimensionsChange() {
+            var dimensions = rectDimensions;
+
+            editor.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+            editorControls.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+
+            workingZoneVerticalScrollbar.visor = dimensions.y;
+            workingZoneVerticalScrollbar.ownTransform.ExpandByNewDimensions(
+                newHeight: dimensions.y / 2 - 36
+            );
+            workingZoneVerticalScrollbar.RefreshSlider();
+
+            selectionMenus.ExpandContainers(newHeight: (dimensions.y - 153) / 2);
         }
 
     }

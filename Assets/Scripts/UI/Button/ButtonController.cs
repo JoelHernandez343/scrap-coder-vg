@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.Audio;
 
 namespace ScrapCoder.UI {
     public class ButtonController : MonoBehaviour, INodeExpander {
@@ -52,6 +53,9 @@ namespace ScrapCoder.UI {
 
         const int lettersOffset = 9;
 
+        SoundScript _sound;
+        SoundScript sound => _sound ??= GetComponent<SoundScript>() as SoundScript;
+
         // Methods
         void Start() {
             SetActive(activated);
@@ -68,6 +72,10 @@ namespace ScrapCoder.UI {
 
         public void OnTriggerEvent(ButtonEventType eventType = ButtonEventType.OnClick) {
             listenersContainer[eventType].ForEach(listener => listener?.Invoke());
+
+            if (eventType == ButtonEventType.OnClick) {
+                sound?.PlayClip();
+            }
         }
 
         public int GetListenersCount(ButtonEventType eventType) {

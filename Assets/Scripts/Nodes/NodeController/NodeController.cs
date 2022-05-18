@@ -470,6 +470,8 @@ namespace ScrapCoder.VisualNodes {
 
             SetState(state: "over", propagation: true);
 
+            InterfaceCanvas.instance.soundLibrary.PlaySound("node_drag1");
+
             return previousPosition;
         }
 
@@ -501,6 +503,10 @@ namespace ScrapCoder.VisualNodes {
 
                 if (Executer.instance.isRunning || !InvokeZones()) {
                     HierarchyController.instance.SetOnTopOfNodes(this);
+
+                    InterfaceCanvas.instance.soundLibrary.PlaySound("node_drop1");
+                } else {
+                    InterfaceCanvas.instance.soundLibrary.PlaySound("node_connection");
                 }
 
                 SetMiddleZone(false);
@@ -510,6 +516,8 @@ namespace ScrapCoder.VisualNodes {
 
                 Disappear();
                 dragDropZone.SetState("normal");
+
+                InterfaceCanvas.instance.soundLibrary.PlaySound("node_delete");
 
             } else {
                 if (discardCallback == null) {

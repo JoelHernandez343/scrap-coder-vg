@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ScrapCoder.GameInput;
+
 public class LeverScript : InteractScript
 {
     [SerializeField] private Sprite[] sprites;
@@ -21,7 +23,7 @@ public class LeverScript : InteractScript
     // Update is called once per frame
     void Update()
     {
-        if (interactable && Input.GetButtonDown("Interact"))
+        if (interactable && InputController.instance.GetButtonDown("Interact"))
         {
             UpdateState();
         }
