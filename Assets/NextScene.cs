@@ -27,8 +27,12 @@ public class NextScene : MonoBehaviour
                 SceneManager.LoadScene("Level 1-3");
                 break;
             case "Level 1-3":
+                SceneManager.LoadScene("Level 1-4");
+                break;
+            default:
                 SceneManager.LoadScene("Menu");
                 break;
+
         }
     }
 }

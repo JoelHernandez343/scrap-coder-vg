@@ -9,6 +9,8 @@ public class DoorControl : MonoBehaviour
     [SerializeField] private bool power, crops;
     private Animator anim;
     [SerializeField] private BoxCollider2D coll;
+    [SerializeField] private AudioClip[] audios;
+    AudioSource sourceAud;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,7 @@ public class DoorControl : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         powerSources = source.Length;
         power = true;
-
+        sourceAud = GetComponent<AudioSource>();
     }
 
     void OnEnable()
@@ -37,6 +39,7 @@ public class DoorControl : MonoBehaviour
             power = power & source[i];
         if (power)
         {
+            sourceAud.clip = audios[0];
             anim.SetBool("Power", true);
             if(crops)
                 anim.SetBool("Crop", true);
@@ -45,11 +48,13 @@ public class DoorControl : MonoBehaviour
         }
         else
         {
+            sourceAud.clip = audios[1];
             anim.SetBool("Power", false);
             if (crops)
                 anim.SetBool("Crop", false);
             coll.enabled = true;
             HideWallComs.hide(id);
         }
+        sourceAud.Play();
     }
 }

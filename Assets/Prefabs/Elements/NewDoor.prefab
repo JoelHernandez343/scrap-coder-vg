@@ -118,9 +118,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerSources: 1
+  id: 0
   source: 00
   power: 1
+  crops: 0
   coll: {fileID: 0}
+  audios:
+  - {fileID: 8300000, guid: f87fda905f24a5d48b780eb141dbe0c7, type: 3}
+  - {fileID: 8300000, guid: cfc0513c5d082e4469398d4e87b930d3, type: 3}
 --- !u!50 &1472641332
 Rigidbody2D:
   serializedVersion: 4
