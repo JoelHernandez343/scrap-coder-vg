@@ -35,6 +35,8 @@ namespace ScrapCoder.UI {
             => _selectionContainer
                 ??= (GetComponent<SpawnerSelectionContainer>() as SpawnerSelectionContainer);
 
+        NodeType type => declaredPrefab.type;
+
         // Methods
         public void Initialize(
             int spawnLimit,
@@ -65,12 +67,18 @@ namespace ScrapCoder.UI {
             var symbolName = $"{declaredPrefix}_{rawValue}";
 
             if (rawValue == "") {
-                Debug.LogWarning($"Please input a no empty string");
+                MessagesController.instance.AddMessage(
+                    message: "Ingresa un nombre no vacío.",
+                    type: MessageType.Error
+                );
                 return;
             }
 
             if (!SymbolNameHandler.validForm.IsMatch(rawValue)) {
-                Debug.LogWarning($"Please input a string starting with a letter");
+                MessagesController.instance.AddMessage(
+                    message: "Ingresa un nombre que empiece con una letra.",
+                    type: MessageType.Error
+                );
                 return;
             }
 
@@ -79,12 +87,18 @@ namespace ScrapCoder.UI {
 
         public void Declare(string symbolName, bool smooth = false, SymbolTemplate template = null) {
             if (selectionContainer.SpawnersCount == declarationLimit) {
-                Debug.LogWarning("Cannot declare more!");
+                MessagesController.instance.AddMessage(
+                    message: $"Ya no puedes declarar más variables, el límite es de: {declarationLimit}.",
+                    type: MessageType.Warning
+                );
                 return;
             }
 
             if (SymbolTable.instance[symbolName] != null) {
-                Debug.LogWarning($"{symbolName} already exist!");
+                MessagesController.instance.AddMessage(
+                    message: $"{(type == NodeType.Variable ? "La variable" : "El arreglo")}: {symbolName} ya existe. No lo puedes declarar dos veces",
+                    type: MessageType.Error
+                );
                 return;
             }
 

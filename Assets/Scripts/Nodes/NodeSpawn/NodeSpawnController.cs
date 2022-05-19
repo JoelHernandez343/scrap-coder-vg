@@ -90,7 +90,17 @@ namespace ScrapCoder.VisualNodes {
         }
 
         void SetDiscardButton(System.Action discardCallback = null) {
-            discardCallback ??= () => SymbolTable.instance[symbolName]?.RemoveAllReferences(removeChildren: false);
+            discardCallback ??= () => {
+                if (Executer.instance.isRunning) {
+                    MessagesController.instance.AddMessage(
+                        message: $"No puedes borrar el nodo: {symbolName} mientras el ejecutor trabaja.",
+                        type: MessageType.Warning
+                    );
+                    return;
+                }
+
+                SymbolTable.instance[symbolName]?.RemoveAllReferences(removeChildren: false);
+            };
 
             if (discardButton?.GetListenersCount(ButtonEventType.OnClick) == 0) {
                 discardButton.AddListener(discardCallback);

@@ -71,14 +71,29 @@ namespace ScrapCoder.Interpreter {
 
             var index = System.Int32.Parse(indexValue);
 
-            if (index < 0 || index >= Symbol.ArrayLimit) {
-                Debug.LogError($"{index} is out of bounds");
+            if (index < 0) {
+                MessagesController.instance.AddMessage(
+                    message: $"El índice {index} debe de ser mayor o igual a 0.",
+                    type: MessageType.Error
+                );
+                Executer.instance.Stop(force: true);
+                return;
+            }
+
+            if (index >= Symbol.ArrayLimit) {
+                MessagesController.instance.AddMessage(
+                    message: $"El índice {index} para insertar no debe sobrepasar el límite {Symbol.ArrayLimit}.",
+                    type: MessageType.Error
+                );
                 Executer.instance.Stop(force: true);
                 return;
             }
 
             if (arrayLength == Symbol.ArrayLimit) {
-                Debug.LogError($"Array has reached its limit");
+                MessagesController.instance.AddMessage(
+                    message: $"El arreglo {symbolName} ha alcanzado su límite.",
+                    type: MessageType.Error
+                );
                 Executer.instance.Stop(force: true);
                 return;
             }

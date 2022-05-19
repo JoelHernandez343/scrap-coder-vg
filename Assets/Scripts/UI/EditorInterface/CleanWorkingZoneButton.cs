@@ -17,9 +17,15 @@ namespace ScrapCoder.UI {
         void Start() {
 
             button.AddListener(() => {
-                if (!Executer.instance.isRunning) {
-                    SymbolTable.instance.CleanReferencesWihoutParent();
+                if (Executer.instance.isRunning) {
+                    MessagesController.instance.AddMessage(
+                        message: "No puedes limpiar los nodos mientras el ejecutor trabaja.",
+                        type: MessageType.Warning
+                    );
+                    return;
                 }
+
+                SymbolTable.instance.CleanReferencesWihoutParent();
             });
 
         }

@@ -102,6 +102,18 @@ namespace ScrapCoder.UI {
         }
 
         public void RemoveSpawner(string symbolName, bool smooth = false) {
+            if (Executer.instance.isRunning) {
+                MessagesController.instance.AddMessage(
+                    message: string.Concat(
+                        "No puedes borrar ",
+                        SymbolTable.instance[symbolName].Type == NodeType.Variable ? "la variable" : "el arreglo",
+                        $": {symbolName} mientras el ejecutor trabaja."
+                    ),
+                    type: MessageType.Warning
+                );
+                return;
+            }
+
             var spawner = spawners.Find(s => s.symbolName == symbolName);
 
             SymbolTable.instance.DeleteSymbol(symbolName);
