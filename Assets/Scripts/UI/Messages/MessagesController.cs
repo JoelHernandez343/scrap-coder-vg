@@ -8,6 +8,9 @@ using UnityEngine;
 namespace ScrapCoder.UI {
     public class MessagesController : MonoBehaviour {
 
+        // Internal types
+        enum States { Iddle, ShowingMessage, WaitingForHiddenMessage }
+
         // Static variables
         public static MessagesController instance;
 
@@ -18,9 +21,11 @@ namespace ScrapCoder.UI {
         MessageInfo currentMessage;
         Queue<MessageInfo> messageQueue = new Queue<MessageInfo>();
 
+        [SerializeField] States state = States.Iddle;
+
         // Lazy and other variables
         float timer = 0f;
-        float waitTime = 10f;
+        float waitTime = 3f;
 
         // Methods
         void Awake() {
@@ -38,9 +43,9 @@ namespace ScrapCoder.UI {
 
         void Update() {
 
-            if (currentMessage != null) {
+            if (state == States.ShowingMessage) {
                 AddToTimer();
-            } else if (messageQueue.Count > 0) {
+            } else if (state == States.Iddle && messageQueue.Count > 0) {
                 ShowMessage();
             }
 
@@ -67,11 +72,17 @@ namespace ScrapCoder.UI {
             timer = 0;
             currentMessage = messageQueue.Dequeue();
             messageContainer.ShowNewMessage(currentMessage);
+            state = States.ShowingMessage;
         }
 
         void HideMessage() {
             messageContainer.Hide();
+            state = States.WaitingForHiddenMessage;
+        }
+
+        public void ClearCurrentMessage() {
             currentMessage = null;
+            state = States.Iddle;
         }
 
     }

@@ -67,7 +67,10 @@ namespace ScrapCoder.UI {
             ownTransform.SetPosition(
                 y: -20 * InterfaceCanvas.NodeScaleFactor,
                 smooth: true,
-                endingCallback: () => ExpandByText("")
+                endingCallback: () => {
+                    ExpandByText("");
+                    MessagesController.instance.ClearCurrentMessage();
+                }
             );
         }
 
