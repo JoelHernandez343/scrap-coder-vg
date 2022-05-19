@@ -23,7 +23,8 @@ namespace ScrapCoder.UI {
 
         [SerializeField] States state = States.Iddle;
 
-        // Lazy and other variables
+        bool isFiniteDuration => waitTime >= 0f;
+
         float timer = 0f;
         float waitTime = 3f;
 
@@ -43,7 +44,7 @@ namespace ScrapCoder.UI {
 
         void Update() {
 
-            if (state == States.ShowingMessage) {
+            if (state == States.ShowingMessage && isFiniteDuration) {
                 AddToTimer();
             } else if (state == States.Iddle && messageQueue.Count > 0) {
                 ShowMessage();
@@ -60,12 +61,30 @@ namespace ScrapCoder.UI {
             }
         }
 
-        public void AddMessage(string message, MessageType type = MessageType.Normal, Sprite customSprite = null) {
+        /// <summary>
+        /// Function to queue messages and display to the user.
+        /// </summary>
+        /// <param name="message">The message to display.</param>
+        /// <param name="type">The type of the message. Accepts Normal (default), Warning and Error.</param>
+        /// <param name="seconds">Duration on seconds to display the <paramref name="message"/>. Negative numbers means infinite duration.</param>
+        /// <param name="isFinite">
+        /// Default value is <see langword="true"/>. If <see langword="false"/>, the message will have infinite duration.
+        /// Overrides <paramref name="seconds"/>.
+        ///</param>
+        public void AddMessage(
+            string message,
+            MessageType type = MessageType.Normal,
+            int seconds = 3,
+            bool isFinite = true,
+            Sprite customSprite = null
+        ) {
             messageQueue.Enqueue(new MessageInfo {
                 message = message,
                 type = type,
                 customSprite = customSprite
             });
+
+            waitTime = isFinite ? seconds : -1;
         }
 
         void ShowMessage() {
