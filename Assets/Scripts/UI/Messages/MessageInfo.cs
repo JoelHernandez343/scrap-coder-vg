@@ -11,7 +11,7 @@ namespace ScrapCoder.UI {
         // public string title;
         public string message;
         public MessageType type;
-        public Sprite customSprite;
+        public Sprite customIcon;
 
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.Audio;
 
 namespace ScrapCoder.UI {
     public class MessageContainer : MonoBehaviour, INodeExpander {
@@ -28,34 +29,19 @@ namespace ScrapCoder.UI {
         NodeTransform _ownTransform;
         NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
 
+        SoundScript _sound;
+        SoundScript sound => _sound ??= (GetComponent<SoundScript>() as SoundScript);
+
         // Methods
         public void SetDiscardCallback(System.Action discardCallback) {
             discardButton.AddListener(listener: discardCallback);
         }
 
         public void ShowNewMessage(MessageInfo message) {
+            sound.PlayClip();
 
-            if (message.customSprite != null) {
-                ShowCustomSprite(message);
-            } else {
-                ShowNormal(message);
-            }
-
-        }
-
-        void ShowCustomSprite(MessageInfo message) {
-
-        }
-
-        void ShowNormal(MessageInfo message) {
+            ChangeIcon(message);
             ExpandByText(message.message);
-            icon.SetState(
-                state: message.type == MessageType.Normal
-                    ? "normal"
-                    : message.type == MessageType.Warning
-                    ? "warning"
-                    : "error"
-            );
 
             ownTransform.SetPosition(
                 y: (ownTransform.height + 50) * InterfaceCanvas.NodeScaleFactor,
@@ -80,6 +66,22 @@ namespace ScrapCoder.UI {
             ownTransform.SetPosition(x: (int)System.Math.Round(ownTransform.width * InterfaceCanvas.NodeScaleFactor / -2f));
 
             discardButton.ownTransform.SetPositionByDelta(dx: dx);
+        }
+
+        void ChangeIcon(MessageInfo message) {
+            if (message.customIcon != null) {
+                icon.SetCustomSprite(message.customIcon);
+            } else {
+                icon.SetState(
+                    state: message.type == MessageType.Normal
+                        ? "normal"
+                        : message.type == MessageType.Warning
+                        ? "warning"
+                        : "error"
+                );
+            }
+
+            icon.ownTransform.SetPosition(y: icon.ownTransform.height - 4);
         }
 
         public (int? dx, int? dy) Expand(int? dx = null, int? dy = null, bool smooth = false, INodeExpanded expanded = null) {

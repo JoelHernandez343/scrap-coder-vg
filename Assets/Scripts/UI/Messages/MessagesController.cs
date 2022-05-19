@@ -70,18 +70,18 @@ namespace ScrapCoder.UI {
         /// <param name="isFinite">
         /// Default value is <see langword="true"/>. If <see langword="false"/>, the message will have infinite duration.
         /// Overrides <paramref name="seconds"/>.
-        ///</param>
+        /// </param>
         public void AddMessage(
             string message,
             MessageType type = MessageType.Normal,
-            int seconds = 3,
+            int seconds = 4,
             bool isFinite = true,
             Sprite customSprite = null
         ) {
             messageQueue.Enqueue(new MessageInfo {
                 message = message,
                 type = type,
-                customSprite = customSprite
+                customIcon = customSprite
             });
 
             waitTime = isFinite ? seconds : -1;
