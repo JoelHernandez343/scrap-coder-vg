@@ -33,7 +33,7 @@ namespace ScrapCoder.UI {
         }
 
         void Start() {
-            // messageContainer.SetDiscardCallback(() => HideMessage());
+            messageContainer.SetDiscardCallback(() => HideMessage());
         }
 
         void Update() {

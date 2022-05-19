@@ -52,12 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsToExpand:
   - {fileID: 237675052334571795}
-  itemsToRight:
-  - {fileID: 0}
-  - {fileID: 0}
-  itemsBelow:
-  - {fileID: 0}
-  - {fileID: 0}
+  itemsToRight: []
+  itemsBelow: []
   shape: {fileID: 3608231379934697869}
   corners: []
   states:
@@ -188,8 +184,8 @@ SpriteShapeRenderer:
   - {fileID: 0}
   - {fileID: 0}
   m_LocalAABB:
-    m_Center: {x: 4.0624995, y: -1.5625001, z: -0.00020015}
-    m_Extent: {x: 4.0625, y: 1.5625001, z: 0.00020015}
+    m_Center: {x: 0.70833355, y: -0.70833325, z: -0.00020015}
+    m_Extent: {x: 0.70833355, y: 0.70833325, z: 0.00020015}
 --- !u!114 &255425285842040232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +201,7 @@ MonoBehaviour:
   m_Spline:
     m_IsOpenEnded: 0
     m_ControlPoints:
-    - position: {x: 0.125, y: -3, z: 0.00036621094}
+    - position: {x: 0.125, y: -1.2916664, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -225,7 +221,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 8, y: -0.125, z: 0.00036621094}
+    - position: {x: 1.291667, y: -0.125, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -235,7 +231,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 8, y: -3, z: 0.00036621094}
+    - position: {x: 1.291667, y: -1.291666, z: 0.00036621094}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -277,8 +273,8 @@ MonoBehaviour:
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 19
-  initWidth: 44
+  initHeight: 34
+  initWidth: 34
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -310,16 +306,14 @@ MonoBehaviour:
     x: 6
     y: 6
   segmentTemplates: []
-  initialPointPosition: {x: 4, y: -4}
+  initialPointPosition: {x: 3, y: -3}
   hideable: 1
   states:
   - normal
   - over
   - pressed
   - disabled
-  spriteBreakpoints:
-  - initialStartIndex: 0
-    range: 1
+  spriteBreakpoints: []
 --- !u!1 &6529317123220088241
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +326,7 @@ GameObject:
   - component: {fileID: 4198654480177788105}
   - component: {fileID: 45903417327624937}
   - component: {fileID: 6628096895451344453}
+  - component: {fileID: 3658405681093774097}
   m_Layer: 5
   m_Name: MessageContainer
   m_TagString: Untagged
@@ -372,12 +367,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeExpander: {fileID: 0}
+  nodeExpander: {fileID: 6628096895451344453}
   nodeExpandable: {fileID: 0}
   directController: {fileID: 0}
   indirectController: {fileID: 0}
-  initHeight: 195
-  initWidth: 75
+  initHeight: 34
+  initWidth: 34
   minHeight: 0
   minWidth: 0
   resizable: 1
@@ -414,6 +409,22 @@ MonoBehaviour:
   discardButton: {fileID: 3951383568335309292}
   normalMessageParent: {fileID: 7885036948720870528}
   spriteMessageParent: {fileID: 0}
+  spriteShape: {fileID: 8200753219851679843}
+  polygonCollider: {fileID: 2470111873010284300}
+--- !u!114 &3658405681093774097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6529317123220088241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e365571ce27574aab8c47d55e13920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  message: 
+  type: 0
 --- !u!1 &7924285989812058496
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,9 +490,9 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 195, y: 0}
-      - {x: 195, y: -75}
-      - {x: 0, y: -75}
+      - {x: 34, y: 0}
+      - {x: 34, y: -34}
+      - {x: 0, y: -34}
 --- !u!114 &2470111873010284300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,7 +690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 178
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -768,11 +779,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_text
-      value: Esto es un mensaje cortito.
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7446158247027931828, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_margin.z
-      value: -120.98624
+      value: -2.355896
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_Pivot.x
@@ -804,7 +815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 40
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_SizeDelta.y
@@ -844,7 +855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -14.2
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 8574254898219661924, guid: 939b56c34b287d04ca43b8e64c54a303, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -953,7 +964,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 89
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -977,6 +988,10 @@ PrefabInstance:
       objectReference: {fileID: -1290855366162983238, guid: c2e2902ef508df346961d5ee8663cad6, type: 3}
     - target: {fileID: 2450222330301122245, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
       propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+      propertyPath: spriteRange
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}

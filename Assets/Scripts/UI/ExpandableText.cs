@@ -23,9 +23,35 @@ namespace ScrapCoder.UI {
         TextMeshPro _textMeshPro;
         TextMeshPro textMeshPro => _textMeshPro ??= (GetComponent<TextMeshPro>() as TextMeshPro);
 
-        int currentTextWidth => characterCount > 0
-            ? (int)System.Math.Round(lastCharacterInfo.topRight.x)
-            : 0;
+        int currentTextWidth {
+            get {
+                if (characterCount == 0) return 0;
+
+                var maxRight = 0;
+                for (var i = 0; i < characterCount; ++i) {
+                    if (maxRight < characterInfo[i].topRight.x) {
+                        maxRight = (int)System.Math.Round(characterInfo[i].topRight.x);
+                    }
+                }
+
+                return maxRight;
+            }
+        }
+
+        int currentTextHeight {
+            get {
+                if (characterCount == 0) return 13;
+
+                var maxBottom = 0;
+                for (var i = 0; i < characterCount; ++i) {
+                    if (maxBottom > characterInfo[i].bottomRight.y) {
+                        maxBottom = (int)System.Math.Round(characterInfo[i].bottomRight.y);
+                    }
+                }
+
+                return -maxBottom;
+            }
+        }
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
@@ -34,7 +60,7 @@ namespace ScrapCoder.UI {
 
         public TMP_CharacterInfo[] characterInfo => textMeshPro.textInfo.characterInfo;
 
-        public TMP_CharacterInfo lastCharacterInfo => characterInfo[characterCount - 1];
+        TMP_CharacterInfo lastCharacterInfo => characterInfo[characterCount - 1];
 
         // Methods
         (int? dx, int? dy) INodeExpander.Expand(int? dx, int? dy, bool smooth, INodeExpanded _) {
@@ -68,6 +94,22 @@ namespace ScrapCoder.UI {
 
             // Update parents with delta
             return delta;
+        }
+
+        public (int dx, int dy) ChangeTextExpandingAll(string newText) {
+            if (text == newText) return (dx: 0, dy: 0);
+
+            text = newText;
+
+            var previousTextWidth = currentTextWidth;
+            var previousTextHeight = currentTextHeight;
+
+            textMeshPro.ForceMeshUpdate(ignoreActiveState: true);
+
+            var dx = currentTextWidth - previousTextWidth;
+            var dy = currentTextHeight - previousTextHeight;
+
+            return (dx: dx, dy: dy);
         }
 
         int ExpandTextBox() {
