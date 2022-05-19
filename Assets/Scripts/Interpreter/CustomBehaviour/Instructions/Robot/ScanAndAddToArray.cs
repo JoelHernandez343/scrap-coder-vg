@@ -46,7 +46,10 @@ namespace ScrapCoder.Interpreter {
             var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
 
             if (arrayLength == Symbol.ArrayLimit) {
-                Debug.LogError("Array has reached its limit.");
+                MessagesController.instance.AddMessage(
+                    message: $"El arreglo {symbolName} ha alcanzado su límite.",
+                    type: MessageType.Error
+                );
                 Executer.instance.Stop(force: true);
                 return;
             }

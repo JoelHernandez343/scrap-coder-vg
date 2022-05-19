@@ -427,8 +427,10 @@ namespace ScrapCoder.VisualNodes {
                 if (container.array == siblings) continue;
 
                 if (container.isEmpty) {
-                    Debug.LogError($"This container {container.gameObject.name} is Empty");
-
+                    MessagesController.instance.AddMessage(
+                        message: $"En un nodo hay un contenedor vacío.",
+                        type: MessageType.Error
+                    );
                     return false;
                 };
 
@@ -439,14 +441,20 @@ namespace ScrapCoder.VisualNodes {
                 var siblingsContainer = siblings.container;
 
                 if (siblingsContainer.isEmpty) {
-                    Debug.LogError($"There must be childs to execute");
+                    MessagesController.instance.AddMessage(
+                        message: $"Deben de haber instrucciones para ejecutar.",
+                        type: MessageType.Error
+                    );
                     return false;
                 }
 
                 if (!siblingsContainer.Analyze()) return false;
 
                 if (siblingsContainer.Last.type != NodeType.End) {
-                    Debug.LogError($"There must be an end connected");
+                    MessagesController.instance.AddMessage(
+                        message: "Debe de existir un Final conectado a tus nodos.",
+                        type: MessageType.Error
+                    );
                     return false;
                 }
             }

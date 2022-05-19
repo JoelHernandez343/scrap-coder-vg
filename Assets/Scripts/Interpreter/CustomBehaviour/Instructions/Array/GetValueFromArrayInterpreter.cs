@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
     public class GetValueFromArrayInterpreter : InterpreterElement {
@@ -51,8 +52,20 @@ namespace ScrapCoder.Interpreter {
 
             var index = System.Int32.Parse(indexValue);
 
-            if (index < 0 || index >= arrayLength) {
-                Debug.LogError($"{index} is out of bounds");
+            if (index < 0) {
+                MessagesController.instance.AddMessage(
+                    message: $"El índice {index} debe de ser mayor o igual a 0.",
+                    type: MessageType.Error
+                );
+                Executer.instance.Stop(force: true);
+                return;
+            }
+
+            if (index >= arrayLength) {
+                MessagesController.instance.AddMessage(
+                    message: $"El índice {index} debe de ser menor o igual a la longitud: {arrayLength} del arreglo: {symbolName}.",
+                    type: MessageType.Error
+                );
                 Executer.instance.Stop(force: true);
                 return;
             }

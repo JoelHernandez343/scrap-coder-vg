@@ -96,7 +96,10 @@ namespace ScrapCoder.Interpreter {
                 result = leftNumber * rightNumber;
             } else if (operation == Operation.Division) {
                 if (rightNumber == 0) {
-                    Debug.LogError("Division by 0 detected!");
+                    MessagesController.instance.AddMessage(
+                        message: $"División entre 0 detectada en la op: {leftNumber} / {rightNumber}.",
+                        type: MessageType.Error
+                    );
                     Executer.instance.Stop(force: true);
                     return;
                 }
