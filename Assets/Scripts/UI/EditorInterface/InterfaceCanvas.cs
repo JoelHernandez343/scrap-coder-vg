@@ -17,6 +17,7 @@ namespace ScrapCoder.UI {
         // Editor variables
         [SerializeField] public NodeTransform editor;
         [SerializeField] public NodeTransform focusParent;
+        [SerializeField] public NodeTransform messageParent;
 
         [SerializeField] public NodeTransform workingZone;
         [SerializeField] public NodeTransform editorControls;
