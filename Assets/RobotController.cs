@@ -151,17 +151,13 @@ public class RobotController : MonoBehaviour
         anim.SetInteger("dir", (int)dirFacing);
     }
 
-    private void getInstruction(int actionR)
+    private void getInstruction(int actionReceived)
     {
-        print("Recibiendo " + actionR);
-        if(actionR != -1)
-        {
-            action = (Action)actionR;
-            print((int)action);
-        }
-        else
-        {
-            print("finished");
+        if (System.Enum.IsDefined(typeof(Action), actionReceived)){
+            action = (Action)actionReceived;
+            Debug.Log($"[Robot] Instruction received: {(Action)actionReceived}");
+        } else {
+            Debug.LogError($"[Robot] Invalid enum index of action: {actionReceived}");
         }
         
     }

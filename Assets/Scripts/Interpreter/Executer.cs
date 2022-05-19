@@ -229,7 +229,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReceiveAnswer(int? answer) {
-            Debug.Log("Recibi respuesta " + answer);
+            Debug.Log($"[Executer] Answer received: {(answer == null ? "null" : $"{answer}")}");
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {
