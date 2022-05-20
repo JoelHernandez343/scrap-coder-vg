@@ -10,15 +10,28 @@ using ScrapCoder.UI;
 namespace ScrapCoder.Tutorial {
     public abstract class Tutorial : MonoBehaviour {
 
+        // State variables
         System.Guid currentGuid;
 
-        protected void ShowMessage(string message, MessageType type, Sprite customSprite = null) {
+        bool _isStarted;
+        public bool isStarted {
+            get => _isStarted;
+            private set => _isStarted = value;
+        }
+
+        protected void ShowMessage(
+            string message,
+            MessageType type,
+            Sprite customSprite = null,
+            System.Action onFullShowCallback = null
+        ) {
             currentGuid = MessagesController.instance.AddMessage(
                 message: message,
                 type: type,
                 isFinite: false,
                 customSprite: customSprite,
-                hideInNewMessage: true
+                hideInNewMessage: true,
+                onFullShowCallback: onFullShowCallback
             );
         }
 
@@ -26,9 +39,14 @@ namespace ScrapCoder.Tutorial {
             MessagesController.instance.HideMessageWithGuid(guid: currentGuid);
         }
 
-        abstract public void StartTutorial();
+        public void StartTutorial() {
+            isStarted = true;
+            CustomStartTutorial();
+        }
 
-        abstract public void ReceiveSignal(string signal);
+        abstract protected void CustomStartTutorial();
+
+        abstract public bool ReceiveSignal(string signal);
 
     }
 }

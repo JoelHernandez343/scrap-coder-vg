@@ -76,6 +76,7 @@ namespace ScrapCoder.Interpreter {
         public void RemoveReference(NodeController reference) {
             if (references.Remove(reference)) {
                 spawner.RefreshCounter();
+                TutorialController.instance.ReceiveSignal(signal: $"removedType{type}");
             }
         }
 

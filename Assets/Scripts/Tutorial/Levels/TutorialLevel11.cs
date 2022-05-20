@@ -11,7 +11,20 @@ namespace ScrapCoder.Tutorial {
     public class TutorialLevel11 : Tutorial {
 
         // Internal types
-        enum State { Completed, Movement, InteractWithEditor, PutBeginNode, PutEndNode, PutFourWalksNodes }
+        enum State {
+            Completed,
+            Started,
+            Movement,
+            WaitingForMovement,
+            InteractWithEditor,
+            WaitingForInteract,
+            PutBeginNode,
+            WaitingForBeginNode,
+            PutEndNode,
+            WaitingForEndNode,
+            PutFourWalksNodes,
+            WaitingForWalks,
+        }
 
         // Editor variables
         [SerializeField] Sprite wasdSprite;
@@ -21,28 +34,33 @@ namespace ScrapCoder.Tutorial {
         State currentState;
 
         // Methods
-        public override void StartTutorial() {
-            currentState = State.Movement;
+        protected override void CustomStartTutorial() {
+            currentState = State.Started;
 
             StartCoroutine(ShowMovementMessage());
-
-            Debug.Log("This is the tutorial 1 1");
         }
 
         IEnumerator ShowMovementMessage() {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
+
+            currentState = State.Movement;
 
             ShowMessage(
                 message: "Puedes moverte con las teclas W A S D",
                 type: MessageType.Normal,
-                customSprite: wasdSprite
+                customSprite: wasdSprite,
+                onFullShowCallback: () => currentState = State.WaitingForMovement
             );
         }
 
-        public override void ReceiveSignal(string signal) {
-            if (signal == "movementCompleted" && currentState == State.Movement) {
+        public override bool ReceiveSignal(string signal) {
+            Debug.Log($"Received {signal}");
+            if (signal == "movementCompleted" && currentState == State.WaitingForMovement) {
                 HideMessageOfCurrentState();
+                return true;
             }
+
+            return false;
         }
 
     }

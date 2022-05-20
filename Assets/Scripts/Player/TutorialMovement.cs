@@ -45,18 +45,26 @@ namespace ScrapCoder.Player {
                 movementRegister[(int)Directions.Left] = horizontalMovement < 0;
             }
 
-            MovementSignal();
+            CheckDirections();
         }
 
-        void MovementSignal() {
+        void CheckDirections() {
             var allDirections = true;
             movementRegister.ForEach(r => allDirections &= r);
 
             if (allDirections) {
-                TutorialController.instance.ReceiveSignal(signal: "movementCompleted");
-                signalSent = true;
+                SendSignal();
             }
         }
 
+        void SendSignal() {
+            signalSent = TutorialController.instance.ReceiveSignal(signal: "movementCompleted");
+
+            if (!signalSent) {
+                for (var i = 0; i < movementRegister.Count; ++i) {
+                    movementRegister[i] = false;
+                }
+            }
+        }
     }
 }

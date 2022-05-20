@@ -13,6 +13,7 @@ namespace ScrapCoder.UI {
         public Sprite customIcon;
         public System.Guid guid;
         public bool hideInNewMessage;
+        public System.Action onFullShowCallback;
 
     }
 }

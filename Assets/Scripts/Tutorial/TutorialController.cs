@@ -33,8 +33,10 @@ namespace ScrapCoder.Tutorial {
             realTutorial?.StartTutorial();
         }
 
-        public void ReceiveSignal(string signal) {
-            realTutorial?.ReceiveSignal(signal);
+        public bool ReceiveSignal(string signal) {
+            return realTutorial?.isStarted == true
+                ? realTutorial.ReceiveSignal(signal)
+                : false;
         }
 
     }

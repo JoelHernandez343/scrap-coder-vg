@@ -69,6 +69,7 @@ namespace ScrapCoder.UI {
         /// </param>
         /// <param name="customSprite">Sprite to show instead of icon</param>
         /// <param name="hideInNewMessage">Indicates whether the message is automatically hidden if a new message is added.</param>
+        /// <param name="onFullShowCallback">Callback to execute when the message is fully showed.</param>
         /// <returns>A Guid of the added message</returns>
         public System.Guid AddMessage(
             string message,
@@ -76,7 +77,8 @@ namespace ScrapCoder.UI {
             int seconds = 4,
             bool isFinite = true,
             Sprite customSprite = null,
-            bool hideInNewMessage = false
+            bool hideInNewMessage = false,
+            System.Action onFullShowCallback = null
         ) {
             var guid = System.Guid.NewGuid();
 
@@ -85,7 +87,8 @@ namespace ScrapCoder.UI {
                 type = type,
                 customIcon = customSprite,
                 guid = guid,
-                hideInNewMessage = hideInNewMessage
+                hideInNewMessage = hideInNewMessage,
+                onFullShowCallback = onFullShowCallback
             });
 
             waitTime = isFinite ? seconds : -1;
