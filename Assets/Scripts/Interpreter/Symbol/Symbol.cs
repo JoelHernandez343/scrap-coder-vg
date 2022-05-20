@@ -7,6 +7,7 @@ using UnityEngine;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 namespace ScrapCoder.Interpreter {
 
@@ -32,7 +33,7 @@ namespace ScrapCoder.Interpreter {
         public ValueTableController Table => table;
 
         // Lazy variables
-        public bool isFull => limit > 0 && references.Count == limit;
+        public bool isFull => limit > 0 && Count == limit;
 
         public int Count => references.Count;
 
@@ -66,7 +67,10 @@ namespace ScrapCoder.Interpreter {
         public void AddReference(NodeController reference) {
             if (isFull) throw new System.OverflowException($"The symbol has reached its limit: {limit}");
 
+            TutorialController.instance.ReceiveSignal(signal: $"placedType{type}");
+
             references.Add(reference);
+            spawner.RefreshCounter();
         }
 
         public void RemoveReference(NodeController reference) {
@@ -75,20 +79,17 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void RemoveAllReferences(bool removeChildren) {
-            references.ForEach(r => r.RemoveMyself(removeChildren: removeChildren));
-            references.Clear();
+        public void DeleteAllNodes(bool deleteChildren = false) {
+            var referencesToRemove = new List<NodeController>(references);
 
-            spawner.RefreshCounter();
-
-            value = "";
+            referencesToRemove
+                .ForEach(r => r.DeleteSelf(deleteChildren: deleteChildren));
         }
 
-        public void RemoveReferencesWithoutParent() {
-            references.FindAll(r => !r.hasParent).ForEach(r => {
-                r.RemoveMyself(removeChildren: true);
-                RemoveReference(r);
-            });
+        public void DeleteNodesWithoutParent() {
+            references
+                .FindAll(r => !r.hasParent)
+                .ForEach(r => r.DeleteSelf(deleteChildren: true));
         }
 
         // Variables methods

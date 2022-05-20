@@ -84,7 +84,7 @@ namespace ScrapCoder.Interpreter {
             var symbol = this[symbolName];
             if (symbol == null) return false;
 
-            symbol.RemoveAllReferences(removeChildren: true);
+            symbol.DeleteAllNodes();
             symbols.Remove(symbolName);
 
             var list = symbol.Type == NodeType.Variable
@@ -100,11 +100,11 @@ namespace ScrapCoder.Interpreter {
             return true;
         }
 
-        public void CleanReferencesWihoutParent() {
+        public void DeleteAllNodesWihoutParent() {
             foreach (var entry in symbols) {
                 var symbol = entry.Value;
 
-                symbol.RemoveReferencesWithoutParent();
+                symbol.DeleteNodesWithoutParent();
             }
         }
 

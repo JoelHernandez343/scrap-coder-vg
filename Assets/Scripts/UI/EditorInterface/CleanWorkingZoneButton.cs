@@ -25,7 +25,7 @@ namespace ScrapCoder.UI {
                     return;
                 }
 
-                SymbolTable.instance.CleanReferencesWihoutParent();
+                SymbolTable.instance.DeleteAllNodesWihoutParent();
             });
 
         }

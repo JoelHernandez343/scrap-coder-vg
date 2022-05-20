@@ -99,8 +99,8 @@ namespace ScrapCoder.VisualNodes {
             array.nodes.ForEach(n => n.SetState(state: state, propagation: true));
         }
 
-        public void RemoveNodesFromTableSymbol() {
-            array.nodes.ForEach(n => n.RemoveFromSymbolTable());
+        public void RemoveNodesFromSymbolTable() {
+            array.nodes.ForEach(n => n.RemoveFromSymbolTable(removeChildren: true));
         }
 
         public bool Analyze() {

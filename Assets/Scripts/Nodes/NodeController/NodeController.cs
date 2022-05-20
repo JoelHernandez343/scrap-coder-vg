@@ -375,34 +375,36 @@ namespace ScrapCoder.VisualNodes {
                 endingCallback: disappear
             );
 
-            RemoveFromSymbolTable();
-
-            HierarchyController.instance.DeleteNode(this);
-            HierarchyController.instance.SortNodes();
+            DeleteSelf(deleteChildren: true, destroy: false);
         }
 
-        public void RemoveMyself(bool removeChildren) {
+        public void DeleteSelf(bool deleteChildren, bool destroy = true) {
             DetachFromParent(smooth: false);
 
-            if (removeChildren) {
-                RemoveChildrenFromSymbolTable();
-            } else {
+            RemoveFromSymbolTable(removeChildren: deleteChildren);
+
+            if (!deleteChildren) {
                 EjectChildren();
             }
 
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
 
-            Destroy(gameObject);
+            if (destroy) {
+                Destroy(gameObject);
+            }
         }
 
-        public void RemoveFromSymbolTable() {
+        public void RemoveFromSymbolTable(bool removeChildren) {
             SymbolTable.instance[symbolName]?.RemoveReference(this);
-            RemoveChildrenFromSymbolTable();
+
+            if (removeChildren) {
+                RemoveChildrenFromSymbolTable();
+            }
         }
 
         void RemoveChildrenFromSymbolTable() {
-            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+            containers.ForEach(c => c.RemoveNodesFromSymbolTable());
         }
 
         void EjectChildren() {
