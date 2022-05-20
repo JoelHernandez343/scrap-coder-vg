@@ -27,8 +27,7 @@ namespace ScrapCoder.Tutorial {
         }
 
         public void StartTutorial() {
-            Debug.Log("Hello world!");
-            // tutorial.StartTutorial();
+            tutorial.StartTutorial();
         }
 
 

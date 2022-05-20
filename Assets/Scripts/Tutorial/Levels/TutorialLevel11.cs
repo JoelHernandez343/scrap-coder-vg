@@ -11,7 +11,7 @@ namespace ScrapCoder.Tutorial {
     public class TutorialLevel11 : Tutorial {
         public override void StartTutorial() {
 
-
+            Debug.Log("This is the tutorial 1 1");
 
         }
     }
