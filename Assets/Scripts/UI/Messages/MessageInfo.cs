@@ -12,6 +12,7 @@ namespace ScrapCoder.UI {
         public MessageType type;
         public Sprite customIcon;
         public System.Guid guid;
+        public bool hideInNewMessage;
 
     }
 }

@@ -67,13 +67,16 @@ namespace ScrapCoder.UI {
         /// Default value is <see langword="true"/>. If <see langword="false"/>, the message will have infinite duration.
         /// Overrides <paramref name="seconds"/>.
         /// </param>
+        /// <param name="customSprite">Sprite to show instead of icon</param>
+        /// <param name="hideInNewMessage">Indicates whether the message is automatically hidden if a new message is added.</param>
         /// <returns>A Guid of the added message</returns>
         public System.Guid AddMessage(
             string message,
             MessageType type = MessageType.Normal,
             int seconds = 4,
             bool isFinite = true,
-            Sprite customSprite = null
+            Sprite customSprite = null,
+            bool hideInNewMessage = false
         ) {
             var guid = System.Guid.NewGuid();
 
@@ -81,10 +84,15 @@ namespace ScrapCoder.UI {
                 message = message,
                 type = type,
                 customIcon = customSprite,
-                guid = guid
+                guid = guid,
+                hideInNewMessage = hideInNewMessage
             });
 
             waitTime = isFinite ? seconds : -1;
+
+            if (currentMessage?.hideInNewMessage == true) {
+                HideCurrentMessage();
+            }
 
             return guid;
         }

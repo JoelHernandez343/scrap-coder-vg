@@ -8,16 +8,11 @@ using UnityEngine;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Tutorial {
-    public class TutorialOneOne : MonoBehaviour {
-        // Start is called before the first frame update
-        void Start() {
+    public class TutorialLevel12 : Tutorial {
+        public override void StartTutorial() {
 
-        }
 
-        // Update is called once per frame
-        void Update() {
 
         }
     }
-
 }
