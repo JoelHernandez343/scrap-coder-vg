@@ -61,7 +61,7 @@ namespace ScrapCoder.UI {
 
         void Update() {
 
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Space) && fadeState != FadeState.Disappeared) {
                 fadeState = FadeState.Fading;
             }
 
