@@ -27,7 +27,9 @@ namespace ScrapCoder.Tutorial {
         }
 
         public void StartTutorial() {
-            tutorial.StartTutorial();
+            if (tutorial != null) {
+                tutorial.StartTutorial();
+            }
         }
 
 
