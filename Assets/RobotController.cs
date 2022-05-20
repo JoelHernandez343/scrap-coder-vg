@@ -37,7 +37,6 @@ public class RobotController : MonoBehaviour
     {
         SendInstruction.sendInstruction += getInstruction;
         action = Action.None;
-        print("suscribed");
     }
 
     private void OnDestroy()

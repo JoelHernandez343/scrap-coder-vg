@@ -3,65 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
-public class Dissolve : MonoBehaviour
-{
-    Image image;
-    Material[] material = new Material[3];
-    [SerializeField] bool isDissolving = false, appearing, text, bg;
-    float fade = 1f;
-    [SerializeField] private GameObject text1, father;
-    
-    
+public class Dissolve : MonoBehaviour {
+    // Internal types
+    enum FadeState { FullDisplayed, Appearing, Fading, Disappeared }
 
-    void Start()
-    {
-        //for(int i=0 ; i < transform.childCount; i++)
-        material[0] = father.GetComponent<Image>().material;
-        material[1] = text1.GetComponent<TextMeshProUGUI>().fontSharedMaterial;
-        //material[2] = text2.GetComponent<Material>();
-        material[0].SetFloat("_Fade", 0);
-        material[1].SetFloat("_Fade", 0);
-        appearing = true;
+    // Editor variables
+    [SerializeField] List<Image> UIImages;
+    [SerializeField] List<TextMeshProUGUI> textMeshProUGUIs;
+
+    [SerializeField] float fade;
+
+    // State variables
+    FadeState fadeState;
+
+    // Lazy variables
+    List<Material> _materials;
+    List<Material> materials {
+        get {
+            if (_materials != null) return _materials;
+
+            _materials = new List<Material>();
+            _materials.AddRange(UIImages.ConvertAll(i => i.material));
+            _materials.AddRange(textMeshProUGUIs.ConvertAll(t => t.fontSharedMaterial));
+
+            return _materials;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isDissolving = true;
-            //print("hola");
+    Canvas _canvas;
+    Canvas canvas => _canvas ??= (GetComponent<Canvas>() as Canvas);
+
+    void Start() {
+        fadeState = FadeState.FullDisplayed;
+        fade = 1f;
+        SetFade();
+    }
+
+    void Update() {
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            fadeState = FadeState.Fading;
         }
 
-        if (isDissolving)
-        {
-            fade -= Time.deltaTime*0.75f;
-            if(fade <= 0f)
-            {
-                fade = 0f;
-                isDissolving = false;
-                GetComponent<Canvas>().enabled = false;
-            }
-            if(text)
-                material[0].SetFloat("_Fade", fade);
-            if(bg)
-                material[1].SetFloat("_Fade", fade);
-        }
-
-        if (appearing)
-        {
-            GetComponent<Canvas>().enabled = true;
+        if (fadeState == FadeState.Fading) {
+            fade -= Time.deltaTime * 0.75f;
+            SetFade();
+        } else if (fadeState == FadeState.Appearing) {
             fade += Time.deltaTime * 0.75f;
-            if (fade >= 1f)
-            {
-                fade = 1f;
-                appearing = false;
-            }
-            if (text)
-                material[0].SetFloat("_Fade", fade);
-            if (bg)
-                material[1].SetFloat("_Fade", fade);
+            SetFade();
         }
+    }
+
+    void SetFade() {
+        fade = (fade > 1) ? 1 : (fade < 0) ? 0 : fade;
+
+        materials.ForEach(m => m.SetFloat("_Fade", fade));
+
+        if (fade == 0f) {
+            fadeState = FadeState.Disappeared;
+        } else if (fade == 1f) {
+            fadeState = FadeState.FullDisplayed;
+        }
+
+        canvas.enabled = fade > 0f ? true : false;
     }
 }
