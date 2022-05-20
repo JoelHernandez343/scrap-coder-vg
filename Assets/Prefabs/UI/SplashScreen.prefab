@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 2449718898753892277}
   - component: {fileID: 2449718898753892276}
   - component: {fileID: 2449718898753892272}
+  - component: {fileID: 1099901681903952835}
   m_Layer: 7
   m_Name: SplashScreen
   m_TagString: Untagged
@@ -464,3 +465,15 @@ MonoBehaviour:
   - {fileID: 2449718898054863980}
   - {fileID: 2449718897845322627}
   fade: 0
+--- !u!114 &1099901681903952835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449718898753892267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298e089671df8e640a8002235e7fa349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -8,10 +8,10 @@ using UnityEngine;
 namespace ScrapCoder.UI {
     public class MessageInfo {
 
-        // public string title;
         public string message;
         public MessageType type;
         public Sprite customIcon;
+        public System.Guid guid;
 
     }
 }

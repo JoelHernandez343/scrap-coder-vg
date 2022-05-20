@@ -38,10 +38,6 @@ namespace ScrapCoder.UI {
             instance = this;
         }
 
-        void Start() {
-            messageContainer.SetDiscardCallback(() => HideMessage());
-        }
-
         void Update() {
 
             if (state == States.ShowingMessage && isFiniteDuration) {
@@ -56,7 +52,7 @@ namespace ScrapCoder.UI {
             timer += Time.deltaTime;
 
             if (timer >= waitTime) {
-                HideMessage();
+                HideCurrentMessage();
                 timer = 0;
             }
         }
@@ -71,20 +67,26 @@ namespace ScrapCoder.UI {
         /// Default value is <see langword="true"/>. If <see langword="false"/>, the message will have infinite duration.
         /// Overrides <paramref name="seconds"/>.
         /// </param>
-        public void AddMessage(
+        /// <returns>A Guid of the added message</returns>
+        public System.Guid AddMessage(
             string message,
             MessageType type = MessageType.Normal,
             int seconds = 4,
             bool isFinite = true,
             Sprite customSprite = null
         ) {
+            var guid = System.Guid.NewGuid();
+
             messageQueue.Enqueue(new MessageInfo {
                 message = message,
                 type = type,
-                customIcon = customSprite
+                customIcon = customSprite,
+                guid = guid
             });
 
             waitTime = isFinite ? seconds : -1;
+
+            return guid;
         }
 
         void ShowMessage() {
@@ -94,9 +96,18 @@ namespace ScrapCoder.UI {
             state = States.ShowingMessage;
         }
 
-        void HideMessage() {
+        public void HideCurrentMessage() {
             messageContainer.Hide();
             state = States.WaitingForHiddenMessage;
+        }
+
+        public bool HideMessage(System.Guid guid) {
+            if (currentMessage?.guid == guid) {
+                HideCurrentMessage();
+                return true;
+            }
+
+            return false;
         }
 
         public void ClearCurrentMessage() {

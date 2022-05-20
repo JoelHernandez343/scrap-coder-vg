@@ -33,8 +33,8 @@ namespace ScrapCoder.UI {
         SoundScript sound => _sound ??= (GetComponent<SoundScript>() as SoundScript);
 
         // Methods
-        public void SetDiscardCallback(System.Action discardCallback) {
-            discardButton.AddListener(listener: discardCallback);
+        void Start() {
+            discardButton.AddListener(() => MessagesController.instance.HideCurrentMessage());
         }
 
         public void ShowNewMessage(MessageInfo message) {
