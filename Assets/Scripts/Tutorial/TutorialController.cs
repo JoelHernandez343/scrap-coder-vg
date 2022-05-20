@@ -16,6 +16,9 @@ namespace ScrapCoder.Tutorial {
         // Editor variables
         [SerializeField] Tutorial tutorial;
 
+        // Lazy variables
+        Tutorial realTutorial => tutorial != null ? tutorial : null;
+
         // Methods
         void Awake() {
             if (instance != null) {
@@ -27,11 +30,12 @@ namespace ScrapCoder.Tutorial {
         }
 
         public void StartTutorial() {
-            if (tutorial != null) {
-                tutorial.StartTutorial();
-            }
+            realTutorial?.StartTutorial();
         }
 
+        public void ReceiveSignal(string signal) {
+            realTutorial?.ReceiveSignal(signal);
+        }
 
     }
 }

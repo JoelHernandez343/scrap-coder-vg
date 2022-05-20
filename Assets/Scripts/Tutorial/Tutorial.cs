@@ -12,7 +12,7 @@ namespace ScrapCoder.Tutorial {
 
         System.Guid currentGuid;
 
-        protected void ShowMessage(string message, MessageType type, Sprite customSprite) {
+        protected void ShowMessage(string message, MessageType type, Sprite customSprite = null) {
             currentGuid = MessagesController.instance.AddMessage(
                 message: message,
                 type: type,
@@ -22,11 +22,13 @@ namespace ScrapCoder.Tutorial {
             );
         }
 
-        protected void HideMessage() {
-            MessagesController.instance.HideMessage(guid: currentGuid);
+        protected void HideMessageOfCurrentState() {
+            MessagesController.instance.HideMessageWithGuid(guid: currentGuid);
         }
 
         abstract public void StartTutorial();
+
+        abstract public void ReceiveSignal(string signal);
 
     }
 }

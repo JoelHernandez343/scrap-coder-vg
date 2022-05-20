@@ -109,7 +109,7 @@ namespace ScrapCoder.UI {
             state = States.WaitingForHiddenMessage;
         }
 
-        public bool HideMessage(System.Guid guid) {
+        public bool HideMessageWithGuid(System.Guid guid) {
             if (currentMessage?.guid == guid) {
                 HideCurrentMessage();
                 return true;

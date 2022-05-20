@@ -10,9 +10,11 @@ using ScrapCoder.UI;
 namespace ScrapCoder.Tutorial {
     public class TutorialLevel13 : Tutorial {
         public override void StartTutorial() {
+            throw new System.NotImplementedException();
+        }
 
-
-
+        public override void ReceiveSignal(string signal) {
+            throw new System.NotImplementedException();
         }
     }
 }

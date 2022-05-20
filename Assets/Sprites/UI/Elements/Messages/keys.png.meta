@@ -4,16 +4,16 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 7304244184475788409
-    second: keys_0
+    second: q
   - first:
       213: -8347414814739083954
-    second: keys_1
+    second: e
   - first:
       213: 4751730009444582227
-    second: keys_2
+    second: r
   - first:
       213: 8486844007131521276
-    second: keys_3
+    second: esc
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -103,15 +103,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: keys_0
+      name: q
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 15
         height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -124,15 +124,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: keys_1
+      name: e
       rect:
         serializedVersion: 2
         x: 15
         y: 0
         width: 15
         height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -145,15 +145,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: keys_2
+      name: r
       rect:
         serializedVersion: 2
         x: 30
         y: 0
         width: 15
         height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -166,15 +166,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: keys_3
+      name: esc
       rect:
         serializedVersion: 2
         x: 45
         y: 0
         width: 15
         height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
