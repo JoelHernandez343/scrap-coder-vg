@@ -75,6 +75,8 @@ MonoBehaviour:
   resizable: 1
   moveable: 1
   ownDepthLevels: 3
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &6150825404952637395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +94,7 @@ MonoBehaviour:
   bottomZone: {fileID: 1313969303923639431}
   lastZone: {fileID: 1313969303923639431}
   siblings: {fileID: 3603046037915124469}
-  type: 2
+  type: 18
   category: 2
   components:
   - {fileID: 828770391816887973}
@@ -106,7 +108,6 @@ MonoBehaviour:
   selectorModifier: {fileID: 0}
   nodeAnalyzer: {fileID: 0}
   symbolName: 
-  workingZone: {fileID: 0}
   previousDrop: {fileID: 0}
   currentDrop: {fileID: 0}
 --- !u!114 &5648278765853293065
