@@ -28,6 +28,7 @@ namespace ScrapCoder.Tutorial {
             WaitingForEndNode,
             PutFourWalksNodes,
             WaitingForWalks,
+            ShowOnlyReset
         }
 
         // Editor variables
@@ -38,10 +39,12 @@ namespace ScrapCoder.Tutorial {
 
         // State variables
         State currentState;
+        int walkNodes;
 
         // Methods
         protected override void CustomStartTutorial() {
             currentState = State.Started;
+            walkNodes = 0;
 
             StartCoroutine(ShowMovementMessage());
         }
@@ -88,6 +91,24 @@ namespace ScrapCoder.Tutorial {
 
             if (signal == "placedTypeBegin" && currentState == State.WaitingForBeginNode) {
                 HideMessageOfCurrentState();
+                PutEndNode();
+                return true;
+            }
+
+            if (signal == "placedTypeEnd" && currentState == State.WaitingForEndNode) {
+                HideMessageOfCurrentState();
+                WalkNodes();
+                return true;
+            }
+
+            if (signal == "placedTypeWalk" && currentState == State.WaitingForWalks) {
+                walkNodes += 1;
+
+                if (walkNodes == 4) {
+                    HideMessageOfCurrentState();
+                    ShowReset();
+                }
+
                 return true;
             }
 
@@ -131,9 +152,49 @@ namespace ScrapCoder.Tutorial {
             currentState = State.PutBeginNode;
 
             ShowMessage(
-                message: "Para programar al robot, necesitas decirle cuando comience. Para eso agrega un nodo de Inicio. Lo puedes encontrar en el primer menú en la esquina superior izquierda.",
+                message: "Para programar al robot, necesitas decirle cuando comience. " +
+                         "Para esto, agrega un nodo de Inicio. Lo puedes encontrar en el primer menú en la esquina superior izquierda. " +
+                         "Arrástrarlo a la zona en blanco.",
                 type: MessageType.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForBeginNode
+            );
+        }
+
+        void PutEndNode() {
+            currentState = State.PutEndNode;
+
+            ShowMessage(
+                message: "El robot también necesita saber cuándo terminar. " +
+                         "Para esto, agrega un nodo de Fin. Lo puedes encontrar en el primer menú en la esquina superior izquierda. " +
+                         "Arrástrarlo a la zona en blanco.",
+                type: MessageType.Normal,
+                onFullShowCallback: () => currentState = State.WaitingForEndNode
+            );
+        }
+
+        void WalkNodes() {
+            currentState = State.PutFourWalksNodes;
+
+            ShowMessage(
+                message: "¡Muy bien! Ahora si nos fijamos bien, para que el robot pueda presionar el botón " +
+                         "necesitamos que camine 4 veces. Coloca 4 instrucciones de Caminar y conéctalos con " +
+                         "Inicio y al final pon el nodo Fin." +
+                         "Cuando termines, da clic en el botón de ejecutar.",
+                type: MessageType.Normal,
+                onFullShowCallback: () => currentState = State.WaitingForWalks
+            );
+        }
+
+        void ShowReset() {
+            currentState = State.ShowOnlyReset;
+
+            ShowMessage(
+                message: "¡Perfecto! Si quieres reiniciar el nivel por alguna razón o porque quieres repetir estos mensajes, " +
+                         "presiona R.",
+                type: MessageType.Normal,
+                customSprite: rSprite,
+                onFullShowCallback: () => currentState = State.WaitingForWalks,
+                seconds: 4
             );
         }
 

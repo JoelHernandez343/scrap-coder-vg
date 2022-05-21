@@ -67,7 +67,7 @@ namespace ScrapCoder.Interpreter {
         public void AddReference(NodeController reference) {
             if (isFull) throw new System.OverflowException($"The symbol has reached its limit: {limit}");
 
-            TutorialController.instance.ReceiveSignal(signal: $"placedType{type}");
+            TutorialController.instance.ReceiveSignal(signal: $"spawnedType{type}");
 
             references.Add(reference);
             spawner.RefreshCounter();

@@ -503,7 +503,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
+        public bool OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
             var dragDropZone = GetDrop();
 
             isDragging = false;
@@ -521,6 +521,8 @@ namespace ScrapCoder.VisualNodes {
 
                 SetMiddleZone(false);
                 dragDropZone.SetState("normal");
+
+                return true;
 
             } else if (dragDropZone?.category == DragDropZone.Category.Erasing && !Executer.instance.isRunning) {
 
@@ -541,6 +543,8 @@ namespace ScrapCoder.VisualNodes {
                     discardCallback();
                 }
             }
+
+            return false;
         }
 
         public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
