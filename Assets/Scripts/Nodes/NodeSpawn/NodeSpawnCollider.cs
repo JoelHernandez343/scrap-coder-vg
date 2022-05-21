@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 using ScrapCoder.Interpreter;
 using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 namespace ScrapCoder.VisualNodes {
     public class NodeSpawnCollider :
@@ -47,7 +48,9 @@ namespace ScrapCoder.VisualNodes {
         public void OnEndDrag(PointerEventData e) {
             if (spawned == null) return;
 
-            spawned.OnEndDrag(discardCallback: () => spawnController.RemoveSpawned());
+            if (spawned.OnEndDrag(discardCallback: () => spawnController.RemoveSpawned())) {
+                TutorialController.instance.ReceiveSignal(signal: $"placedType{spawned.type}");
+            }
             spawnController.ClearSpawned();
         }
 

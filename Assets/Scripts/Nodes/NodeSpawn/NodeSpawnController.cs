@@ -99,7 +99,7 @@ namespace ScrapCoder.VisualNodes {
                     return;
                 }
 
-                SymbolTable.instance[symbolName]?.RemoveAllReferences(removeChildren: false);
+                SymbolTable.instance[symbolName]?.DeleteAllNodes();
             };
 
             if (discardButton?.GetListenersCount(ButtonEventType.OnClick) == 0) {
@@ -163,14 +163,11 @@ namespace ScrapCoder.VisualNodes {
 
             SymbolTable.instance[symbolName].AddReference(spawned);
 
-            RefreshCounter();
-
             return true;
         }
 
         public void RemoveSpawned() {
-            SymbolTable.instance[symbolName].RemoveReference(spawned);
-            Destroy(spawned.gameObject);
+            spawned.DeleteSelf(deleteChildren: false);
 
             ClearSpawned();
         }

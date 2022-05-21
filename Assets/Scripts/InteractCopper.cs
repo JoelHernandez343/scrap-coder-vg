@@ -5,6 +5,7 @@ using UnityEngine;
 
 using ScrapCoder.GameInput;
 using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 public class InteractCopper : InteractScript {
 
@@ -29,5 +30,6 @@ public class InteractCopper : InteractScript {
 
     void Programar() {
         editor.SetVisible(!editor.isVisible);
+        TutorialController.instance.ReceiveSignal(signal: "editorToggled");
     }
 }

@@ -32,9 +32,11 @@ namespace ScrapCoder.UI {
         SoundScript _sound;
         SoundScript sound => _sound ??= (GetComponent<SoundScript>() as SoundScript);
 
+        int iconOffset => icon.ownTransform.height - 4;
+
         // Methods
-        public void SetDiscardCallback(System.Action discardCallback) {
-            discardButton.AddListener(listener: discardCallback);
+        void Start() {
+            discardButton.AddListener(() => MessagesController.instance.HideCurrentMessage());
         }
 
         public void ShowNewMessage(MessageInfo message) {
@@ -45,19 +47,25 @@ namespace ScrapCoder.UI {
 
             ownTransform.SetPosition(
                 y: (ownTransform.height + 50) * InterfaceCanvas.NodeScaleFactor,
-                smooth: true
+                smooth: true,
+                endingCallback: message.onFullShowCallback
             );
         }
 
         public void Hide() {
             ownTransform.SetPosition(
-                y: -20 * InterfaceCanvas.NodeScaleFactor,
+                y: -(20 + iconOffset) * InterfaceCanvas.NodeScaleFactor,
                 smooth: true,
-                endingCallback: () => {
-                    ExpandByText("");
-                    MessagesController.instance.ClearCurrentMessage();
-                }
+                endingCallback: () => Reset()
             );
+        }
+
+        void Reset() {
+            ChangeIcon(message: new MessageInfo { type = MessageType.Normal });
+            ExpandByText("");
+            MessagesController.instance.ClearCurrentMessage();
+
+            ownTransform.SetPosition(y: -20 * InterfaceCanvas.NodeScaleFactor);
         }
 
         void ExpandByText(string newText) {
@@ -69,7 +77,7 @@ namespace ScrapCoder.UI {
         }
 
         void ChangeIcon(MessageInfo message) {
-            if (message.customIcon != null) {
+            if (message?.customIcon != null) {
                 icon.SetCustomSprite(message.customIcon);
             } else {
                 icon.SetState(
@@ -81,7 +89,7 @@ namespace ScrapCoder.UI {
                 );
             }
 
-            icon.ownTransform.SetPosition(y: icon.ownTransform.height - 4);
+            icon.ownTransform.SetPosition(y: iconOffset);
         }
 
         public (int? dx, int? dy) Expand(int? dx = null, int? dy = null, bool smooth = false, INodeExpanded expanded = null) {

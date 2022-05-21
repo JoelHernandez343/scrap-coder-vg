@@ -375,34 +375,36 @@ namespace ScrapCoder.VisualNodes {
                 endingCallback: disappear
             );
 
-            RemoveFromSymbolTable();
-
-            HierarchyController.instance.DeleteNode(this);
-            HierarchyController.instance.SortNodes();
+            DeleteSelf(deleteChildren: true, destroy: false);
         }
 
-        public void RemoveMyself(bool removeChildren) {
+        public void DeleteSelf(bool deleteChildren, bool destroy = true) {
             DetachFromParent(smooth: false);
 
-            if (removeChildren) {
-                RemoveChildrenFromSymbolTable();
-            } else {
+            RemoveFromSymbolTable(removeChildren: deleteChildren);
+
+            if (!deleteChildren) {
                 EjectChildren();
             }
 
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
 
-            Destroy(gameObject);
+            if (destroy) {
+                Destroy(gameObject);
+            }
         }
 
-        public void RemoveFromSymbolTable() {
+        public void RemoveFromSymbolTable(bool removeChildren) {
             SymbolTable.instance[symbolName]?.RemoveReference(this);
-            RemoveChildrenFromSymbolTable();
+
+            if (removeChildren) {
+                RemoveChildrenFromSymbolTable();
+            }
         }
 
         void RemoveChildrenFromSymbolTable() {
-            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+            containers.ForEach(c => c.RemoveNodesFromSymbolTable());
         }
 
         void EjectChildren() {
@@ -501,7 +503,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
+        public bool OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
             var dragDropZone = GetDrop();
 
             isDragging = false;
@@ -519,6 +521,8 @@ namespace ScrapCoder.VisualNodes {
 
                 SetMiddleZone(false);
                 dragDropZone.SetState("normal");
+
+                return true;
 
             } else if (dragDropZone?.category == DragDropZone.Category.Erasing && !Executer.instance.isRunning) {
 
@@ -539,6 +543,8 @@ namespace ScrapCoder.VisualNodes {
                     discardCallback();
                 }
             }
+
+            return false;
         }
 
         public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
