@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 
 using ScrapCoder.GameInput;
+using ScrapCoder.Tutorial;
 
 public class OtherInputs : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class OtherInputs : MonoBehaviour
             this.gameObject.transform.GetChild(2).gameObject.SetActive(inspectOn);
             DisableSpriteRenderer();
             //cables.SetActive(inspectOn);
+
+            TutorialController.instance.ReceiveSignal(signal: $"inspect{(inspectOn ? "On" : "Off")}");
         }
     }
 
