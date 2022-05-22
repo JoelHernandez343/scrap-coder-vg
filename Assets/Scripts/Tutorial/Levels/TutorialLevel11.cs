@@ -14,12 +14,13 @@ namespace ScrapCoder.Tutorial {
         enum State {
             Completed,
             Started,
+            InitialMessage,
+            Movement,
+            WaitingForMovement,
             InspectOn,
             WaitingForInspectOn,
             InspectOff,
             WaitingForInspectOff,
-            Movement,
-            WaitingForMovement,
             InteractWithEditor,
             WaitingForInteract,
             PutBeginNode,
@@ -48,19 +49,20 @@ namespace ScrapCoder.Tutorial {
             currentState = State.Started;
             walkNodes = 0;
 
-            StartCoroutine(ShowMovementMessage());
+            StartCoroutine(ShowInitialMessage());
         }
 
-        IEnumerator ShowMovementMessage() {
+        IEnumerator ShowInitialMessage() {
             yield return new WaitForSeconds(2);
 
-            currentState = State.Movement;
+            currentState = State.InitialMessage;
 
             ShowMessage(
-                message: "Puedes moverte con las teclas W A S D",
+                message: "¡Hola!, nuestro objetivo es lograr que el robot abra la puerta para que nosotros podamos salir.",
                 type: MessageType.Normal,
-                customSprite: wasdSprite,
-                onFullShowCallback: () => currentState = State.WaitingForMovement
+                hideInNewMessage: false,
+                seconds: 6,
+                onFullShowCallback: () => ShowMovementMessage()
             );
         }
 
@@ -120,6 +122,17 @@ namespace ScrapCoder.Tutorial {
             }
 
             return false;
+        }
+
+        void ShowMovementMessage() {
+            currentState = State.Movement;
+
+            ShowMessage(
+                message: "Puedes moverte con las teclas W A S D",
+                type: MessageType.Normal,
+                customSprite: wasdSprite,
+                onFullShowCallback: () => currentState = State.WaitingForMovement
+            );
         }
 
         void InspectOn() {
