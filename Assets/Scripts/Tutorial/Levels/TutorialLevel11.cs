@@ -85,7 +85,7 @@ namespace ScrapCoder.Tutorial {
                 return true;
             }
 
-            if (signal == "editorToggled" && currentState == State.WaitingForInteract) {
+            if (signal == "editorOn" && currentState == State.WaitingForInteract) {
                 HideMessageOfCurrentState();
                 PutBeginNode();
                 return true;

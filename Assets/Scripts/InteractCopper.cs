@@ -30,6 +30,6 @@ public class InteractCopper : InteractScript {
 
     void Programar() {
         editor.SetVisible(!editor.isVisible);
-        TutorialController.instance.ReceiveSignal(signal: "editorToggled");
+        TutorialController.instance.ReceiveSignal(signal: $"editor{(editor.isVisible ? "On" : "Off")}");
     }
 }
