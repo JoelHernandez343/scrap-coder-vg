@@ -18,21 +18,24 @@ public class NextScene : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch (SceneManager.GetActiveScene().name)
+        if (collision.tag == "Player")
         {
-            case "Level 1-1":
-                SceneManager.LoadScene("Level 1-2");
-                break;
-            case "Level 1-2":
-                SceneManager.LoadScene("Level 1-3");
-                break;
-            case "Level 1-3":
-                SceneManager.LoadScene("Level 1-4");
-                break;
-            default:
-                SceneManager.LoadScene("Menu");
-                break;
+            switch (SceneManager.GetActiveScene().name)
+            {
+                case "Level 1-1":
+                    SceneManager.LoadScene("Level 1-2");
+                    break;
+                case "Level 1-2":
+                    SceneManager.LoadScene("Level 1-3");
+                    break;
+                case "Level 1-3":
+                    SceneManager.LoadScene("Level 1-4");
+                    break;
+                default:
+                    SceneManager.LoadScene("Menu");
+                    break;
 
+            }
         }
     }
 }
