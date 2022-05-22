@@ -8,18 +8,18 @@ public class ColorPlateScript : MonoBehaviour
     [SerializeField] private Sprite[] colors;
     [SerializeField] private Color id;
 
-    private SpriteRenderer renderer;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
-        renderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         setColor((int)id);
     }
 
     public void setColor(int newId)
     {
         id = (Color)newId;
-        renderer.sprite = colors[(int)id];
+        spriteRenderer.sprite = colors[(int)id];
     }
 
    public int getColor()
