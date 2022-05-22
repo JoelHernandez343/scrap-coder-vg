@@ -787,7 +787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 22
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 321623070388792643, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -816,35 +816,35 @@ PrefabInstance:
     - target: {fileID: 4197828774116362594, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: availableSprites.Array.data[0]
       value: 
-      objectReference: {fileID: 2530564911472380330, guid: 154b6ea7a8d1e774ca02b7fe740d28aa, type: 3}
+      objectReference: {fileID: 13369812101220344, guid: 2b6f5a883582df242ac658d0b8aeaee7, type: 3}
     - target: {fileID: 4197828774116362594, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: availableSprites.Array.data[1]
       value: 
-      objectReference: {fileID: 1763989116612304091, guid: 154b6ea7a8d1e774ca02b7fe740d28aa, type: 3}
+      objectReference: {fileID: 426467456011458000, guid: 2b6f5a883582df242ac658d0b8aeaee7, type: 3}
     - target: {fileID: 4197828774116362594, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: availableSprites.Array.data[2]
       value: 
-      objectReference: {fileID: -5033884579438549468, guid: 154b6ea7a8d1e774ca02b7fe740d28aa, type: 3}
+      objectReference: {fileID: 8629688021495374070, guid: 2b6f5a883582df242ac658d0b8aeaee7, type: 3}
     - target: {fileID: 4503173045704970815, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4503173045704970815, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: 9
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4503173045704970815, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: -9
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 4503173045704970815, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
-      value: -9
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 6521871219919634950, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2530564911472380330, guid: 154b6ea7a8d1e774ca02b7fe740d28aa, type: 3}
+      objectReference: {fileID: 13369812101220344, guid: 2b6f5a883582df242ac658d0b8aeaee7, type: 3}
     - target: {fileID: 8146353603354791145, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
       propertyPath: m_Name
       value: discardButton
