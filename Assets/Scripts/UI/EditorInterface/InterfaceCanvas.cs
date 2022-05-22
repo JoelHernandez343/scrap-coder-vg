@@ -17,6 +17,7 @@ namespace ScrapCoder.UI {
         // Editor variables
         [SerializeField] public NodeTransform editor;
         [SerializeField] public NodeTransform focusParent;
+        [SerializeField] public NodeTransform messageParent;
 
         [SerializeField] public NodeTransform workingZone;
         [SerializeField] public NodeTransform editorControls;
@@ -47,6 +48,9 @@ namespace ScrapCoder.UI {
 
         NodeTransform _ownTransform;
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
+
+        Editor _editor;
+        public Editor editorVisibiltyManager => _editor ??= (editor.GetComponent<Editor>() as Editor);
 
         public Vector2Int rectDimensions => new Vector2Int {
             x = (int)System.Math.Round(ownTransform.rectTransform.sizeDelta.x),

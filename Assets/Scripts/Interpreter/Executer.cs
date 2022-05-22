@@ -7,6 +7,8 @@ using UnityEngine;
 
 using ScrapCoder.VisualNodes;
 using ScrapCoder.GameInput;
+using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 namespace ScrapCoder.Interpreter {
     public class Executer : MonoBehaviour {
@@ -109,18 +111,28 @@ namespace ScrapCoder.Interpreter {
 
         public void Execute() {
             if (state == States.Running) {
-                Debug.LogWarning("Already executing!");
+                MessagesController.instance.AddMessage(
+                    message: "El ejecutor ya se encuentra ejecutándose.",
+                    type: MessageType.Warning
+                );
                 return;
             }
             if (state == States.Stopping) {
-                Debug.LogWarning("Waiting for termination.");
+                MessagesController.instance.AddMessage(
+                    message: "El ejecutor está esperando que el robot termine.",
+                    type: MessageType.Warning
+                );
                 return;
             }
+
+            TutorialController.instance.ReceiveSignal(signal: "executerCalled");
 
             InputController.instance.ClearFocus();
 
             var (isValid, beginning) = analyzer.Analize();
             if (!isValid) return;
+
+            TutorialController.instance.ReceiveSignal(signal: "executerOnSuccesfully");
 
             ResetState();
 
@@ -131,7 +143,9 @@ namespace ScrapCoder.Interpreter {
         public void Stop(bool force = false) {
             if (state == States.Stopped || state == States.Stopping) return;
 
-            Debug.Log("Execution is finished");
+            MessagesController.instance.AddMessage(
+                message: "Ejecución terminada."
+            );
 
             if (force) {
                 state = States.Stopped;
@@ -220,7 +234,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReceiveAnswer(int? answer) {
-            Debug.Log("Recibi respuesta " + answer);
+            Debug.Log($"[Executer] Answer received: {(answer == null ? "void" : $"{answer}")}");
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {

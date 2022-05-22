@@ -375,34 +375,36 @@ namespace ScrapCoder.VisualNodes {
                 endingCallback: disappear
             );
 
-            RemoveFromSymbolTable();
-
-            HierarchyController.instance.DeleteNode(this);
-            HierarchyController.instance.SortNodes();
+            DeleteSelf(deleteChildren: true, destroy: false);
         }
 
-        public void RemoveMyself(bool removeChildren) {
+        public void DeleteSelf(bool deleteChildren, bool destroy = true) {
             DetachFromParent(smooth: false);
 
-            if (removeChildren) {
-                RemoveChildrenFromSymbolTable();
-            } else {
+            RemoveFromSymbolTable(removeChildren: deleteChildren);
+
+            if (!deleteChildren) {
                 EjectChildren();
             }
 
             HierarchyController.instance.DeleteNode(this);
             HierarchyController.instance.SortNodes();
 
-            Destroy(gameObject);
+            if (destroy) {
+                Destroy(gameObject);
+            }
         }
 
-        public void RemoveFromSymbolTable() {
+        public void RemoveFromSymbolTable(bool removeChildren) {
             SymbolTable.instance[symbolName]?.RemoveReference(this);
-            RemoveChildrenFromSymbolTable();
+
+            if (removeChildren) {
+                RemoveChildrenFromSymbolTable();
+            }
         }
 
         void RemoveChildrenFromSymbolTable() {
-            containers.ForEach(c => c.RemoveNodesFromTableSymbol());
+            containers.ForEach(c => c.RemoveNodesFromSymbolTable());
         }
 
         void EjectChildren() {
@@ -427,8 +429,10 @@ namespace ScrapCoder.VisualNodes {
                 if (container.array == siblings) continue;
 
                 if (container.isEmpty) {
-                    Debug.LogError($"This container {container.gameObject.name} is Empty");
-
+                    MessagesController.instance.AddMessage(
+                        message: $"En un nodo hay un contenedor vacío.",
+                        type: MessageType.Error
+                    );
                     return false;
                 };
 
@@ -439,14 +443,20 @@ namespace ScrapCoder.VisualNodes {
                 var siblingsContainer = siblings.container;
 
                 if (siblingsContainer.isEmpty) {
-                    Debug.LogError($"There must be childs to execute");
+                    MessagesController.instance.AddMessage(
+                        message: $"Deben de haber instrucciones para ejecutar.",
+                        type: MessageType.Error
+                    );
                     return false;
                 }
 
                 if (!siblingsContainer.Analyze()) return false;
 
                 if (siblingsContainer.Last.type != NodeType.End) {
-                    Debug.LogError($"There must be an end connected");
+                    MessagesController.instance.AddMessage(
+                        message: "Debe de existir un Final conectado a tus nodos.",
+                        type: MessageType.Error
+                    );
                     return false;
                 }
             }
@@ -493,7 +503,7 @@ namespace ScrapCoder.VisualNodes {
             }
         }
 
-        public void OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
+        public bool OnEndDrag(Vector2Int? previousPosition = null, Action discardCallback = null) {
             var dragDropZone = GetDrop();
 
             isDragging = false;
@@ -511,6 +521,8 @@ namespace ScrapCoder.VisualNodes {
 
                 SetMiddleZone(false);
                 dragDropZone.SetState("normal");
+
+                return true;
 
             } else if (dragDropZone?.category == DragDropZone.Category.Erasing && !Executer.instance.isRunning) {
 
@@ -531,6 +543,8 @@ namespace ScrapCoder.VisualNodes {
                     discardCallback();
                 }
             }
+
+            return false;
         }
 
         public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {

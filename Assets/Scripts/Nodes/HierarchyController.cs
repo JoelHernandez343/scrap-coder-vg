@@ -36,6 +36,7 @@ namespace ScrapCoder.VisualNodes {
         NodeTransform onTopOfEditor => InterfaceCanvas.instance.onTopOfEditor;
 
         NodeTransform focusParent => InterfaceCanvas.instance.focusParent;
+        NodeTransform messageParent => InterfaceCanvas.instance.messageParent;
 
         SelectionController selectionMenus => InterfaceCanvas.instance.selectionMenus;
         List<NodeTransform> controls => InterfaceCanvas.instance.controls;
@@ -132,6 +133,7 @@ namespace ScrapCoder.VisualNodes {
             editorControls.depth += delta;
             onTopOfEditor.depth += delta;
             focusParent.depth += delta;
+            messageParent.depth += delta;
         }
 
         void MoveOrderAboveNodes(int delta) {
@@ -139,6 +141,7 @@ namespace ScrapCoder.VisualNodes {
             controls.ForEach(c => c.sorter.sortingOrder += delta);
             onTopOfEditor.sorter.sortingOrder += delta;
             focusParent.sorter.sortingOrder += delta;
+            messageParent.sorter.sortingOrder += delta;
         }
 
     }

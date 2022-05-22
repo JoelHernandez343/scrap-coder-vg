@@ -6,18 +6,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
     public class Analyzer : MonoBehaviour {
 
         public (bool isValid, NodeController beginning) Analize() {
             if (!IsThereABeginning()) {
-                Debug.LogError("There must be a beginning");
+                MessagesController.instance.AddMessage(
+                    message: "Debe de existir un Inicio conectado a tus nodos.",
+                    type: MessageType.Error
+                );
                 return (isValid: false, beginning: null);
             }
 
             if (!IsThereAnEnding()) {
-                Debug.LogError("There must be an ending");
+                MessagesController.instance.AddMessage(
+                    message: "Debe de existir un Final conectado a tus nodos.",
+                    type: MessageType.Error
+                );
                 return (isValid: false, beginning: null);
             }
 

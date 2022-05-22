@@ -17,7 +17,10 @@ namespace ScrapCoder.VisualNodes {
                 var number = System.Int32.Parse(inputText.Value);
                 return true;
             } catch (System.FormatException) {
-                Debug.LogError($"Unable to convert {inputText.Value}");
+                MessagesController.instance.AddMessage(
+                    message: $"No es posible convertir en número el valor {inputText.Value}.",
+                    type: MessageType.Error
+                );
                 return false;
             }
         }

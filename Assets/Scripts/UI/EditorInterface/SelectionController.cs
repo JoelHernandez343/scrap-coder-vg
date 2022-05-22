@@ -34,11 +34,21 @@ namespace ScrapCoder.UI {
             if (initialized) return;
 
             selectionSpawnersControllers = CreateSelectionSpawners(selectionTemplates);
-
-            selectionWithTables.selectionController = this;
             selectionSpawnersControllers.Add(selectionWithTables);
 
             PositionAndOrderButtons();
+
+            if (variablesSelection == null && arraysSelection == null) {
+                selectionWithTables.SetButtonVisible(visible: false, smooth: false);
+                selectionSpawnersControllers.Remove(selectionWithTables);
+            } else {
+                selectionWithTables.Initialize(
+                    spawnersTemplates: null,
+                    title: "Tabla",
+                    icon: "table",
+                    selectionController: this
+                );
+            }
 
             var newHeight = (InterfaceCanvas.instance.rectDimensions.y - 153) / 2;
             ExpandContainers(newHeight: newHeight);

@@ -5,10 +5,12 @@ using UnityEngine;
 
 using ScrapCoder.GameInput;
 using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 public class InteractCopper : InteractScript {
-    // SEditor variables
-    [SerializeField] Editor editor;
+
+    // Lazy variables
+    Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
 
     // Methods
     void Start() {
@@ -28,5 +30,6 @@ public class InteractCopper : InteractScript {
 
     void Programar() {
         editor.SetVisible(!editor.isVisible);
+        TutorialController.instance.ReceiveSignal(signal: $"editor{(editor.isVisible ? "On" : "Off")}");
     }
 }

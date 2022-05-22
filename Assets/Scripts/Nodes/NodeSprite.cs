@@ -65,18 +65,26 @@ namespace ScrapCoder.VisualNodes {
 
             if (spriteRange > 0) {
                 selectedSprite = rand.NextIntRange(0, spriteRange);
-                ChangeSprite();
+                ChangeSpriteWithState();
             }
         }
 
         public void ChangeSelectedSprite(int newSprite) {
             selectedSprite = newSprite;
-            ChangeSprite();
+            ChangeSpriteWithState();
         }
 
-        void ChangeSprite() {
+        void ChangeSpriteWithState() {
             spriteRenderer.sprite = availableSprites[selectedSprite + (this.state * spriteRange)];
+            RefreshDimensions();
+        }
 
+        public void SetCustomSprite(Sprite sprite) {
+            spriteRenderer.sprite = sprite;
+            RefreshDimensions();
+        }
+
+        void RefreshDimensions() {
             if (ownTransform != null) {
                 ownTransform.width = (int)System.Math.Round(spriteRenderer.sprite.rect.width);
                 ownTransform.height = (int)System.Math.Round(spriteRenderer.sprite.rect.height);
@@ -88,7 +96,7 @@ namespace ScrapCoder.VisualNodes {
 
             if (stateIndex != -1) {
                 this.state = stateIndex;
-                ChangeSprite();
+                ChangeSpriteWithState();
             }
         }
     }

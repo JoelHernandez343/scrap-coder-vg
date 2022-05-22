@@ -1,0 +1,72 @@
+[
+    {
+        "title": "Control",
+        "icon": "control",
+        "spawnersTemplates": [
+            {
+                "title": "Inicio",
+                "nodeToSpawn": 0,
+                "selectedIcon": "begin",
+                "spawnLimit": 1,
+                "symbolName": null
+            },
+            {
+                "title": "Fin",
+                "nodeToSpawn": 1,
+                "selectedIcon": "end",
+                "spawnLimit": 1,
+                "symbolName": null
+            },
+            {
+                "title": "Repetir si",
+                "nodeToSpawn": 2,
+                "selectedIcon": "repeat_simple",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    },
+    {
+        "title": "Condiciones",
+        "icon": "condition",
+        "spawnersTemplates": [
+            {
+                "title": "Verdadero",
+                "nodeToSpawn": 20,
+                "selectedIcon": "cond_true",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Falso",
+                "nodeToSpawn": 21,
+                "selectedIcon": "cond_false",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    },
+    {
+        "title": "Instrucciones",
+        "icon": "instructions",
+        "spawnersTemplates": [
+            {
+                "title": "Caminar",
+                "nodeToSpawn": 9,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Girar",
+                "nodeToSpawn": 19,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    }
+]
