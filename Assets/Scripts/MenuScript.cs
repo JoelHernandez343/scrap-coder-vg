@@ -20,14 +20,14 @@ public class MenuScript : MonoBehaviour
         rangos = new Vector2[6];
         rangos[0] = new Vector2(0, 4);
         rangos[1] = new Vector2(5, 7);
-        rangos[2] = new Vector2(8, 15);
+        rangos[2] = new Vector2(5, 7);
         rangos[3] = new Vector2(5, 7);
         rangos[5] = new Vector2(17, 17);
         //images[i] = this.gameObject.transform.GetChild(i).GetComponent<Image>();
         selectCount[0] = 0;
         selectCount[1] = 5;
-        selectCount[2] = 8;
-        selectCount[3] = 6;
+        selectCount[2] = 5;
+        selectCount[3] = 5;
         selectCount[5] = 17;
         volume = new int[3];
         for (int i = 0; i < 3; i++)
@@ -78,13 +78,13 @@ public class MenuScript : MonoBehaviour
                 ConfigMenu();
                 break;
             case 2:
-                ConfigTeclas();
+                //ConfigTeclas();
                 break;
             case 3:
-                ConfigMenu();
+                //ConfigMenu();
                 break;
             case 4:
-                ConfigSonido();
+                //ConfigSonido();
                 break;
             case 5:
                 Sobre();
@@ -93,11 +93,11 @@ public class MenuScript : MonoBehaviour
                 break;
         }
 
-        if(this.gameObject.transform.GetChild(4).gameObject.activeInHierarchy == true)
+        if(this.gameObject.transform.GetChild(3).gameObject.activeInHierarchy == true)
         {
             Salir();
         }
-        if (menuCount==1 && selectCount[1] == 6)
+        /*if (menuCount==1 && selectCount[1] == 6)
         {
             menuCount = 3;
             selectCount[1] = 5;
@@ -109,7 +109,7 @@ public class MenuScript : MonoBehaviour
             menuCount = 1;
             selectCount[3] = 6;
             this.gameObject.transform.GetChild(3).gameObject.SetActive(false);
-        }
+        }*/
         images[1].sprite = sprite[selectCount[menuCount]];
     }
 
@@ -141,7 +141,7 @@ public class MenuScript : MonoBehaviour
             }
             if (selectCount[0] == 3)
             {
-                this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
+                this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
                 Salir();
             }
         }
@@ -149,7 +149,7 @@ public class MenuScript : MonoBehaviour
         {
 
             menuCount = 0;
-            this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
+            this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
             Salir();
             
         }
@@ -158,24 +158,7 @@ public class MenuScript : MonoBehaviour
 
     private void ConfigMenu()
     {
-        if (Input.GetButtonDown("Horizontal") && Input.GetAxisRaw("Horizontal") > 0 || Input.GetButtonDown("Interact"))
-        {
-            switch (selectCount[menuCount])
-            {
-                case 5:     /*    Asignación de Teclas   */
-                    menuCount = 2;
-                    break;
-                case 6:     /*          Sonido           */
-                    menuCount = 4;
-                    break;
-                case 7:
-                    menuCount = 0;
-                    selectCount[1] = 5;
-                    selectCount[3] = 6;
-                    break;
-            }
-        }
-        else if (Input.GetButtonDown("Return"))
+        if (Input.GetButtonDown("Return"))
         {
             menuCount = 0;
             selectCount[1] = 5;
@@ -183,27 +166,27 @@ public class MenuScript : MonoBehaviour
 
     }
 
-    public void ConfigTeclas()
+    /*public void ConfigTeclas()
     {
         if(Input.GetButtonDown("Interact"))
         {
             switch (selectCount[2])
             {
-                case 0:     /*        Derecha        */
+                case 0:     /*        Derecha        
                     break;
-                case 1:     /*       Izquierda       */
+                case 1:     /*       Izquierda       
                     break;
-                case 2:     /*        Arriba         */
+                case 2:     /*        Arriba         
                     break;
-                case 3:     /*         Abajo         */
+                case 3:     /*         Abajo         
                     break;
-                case 4:     /*      Interactuar      */
+                case 4:     /*      Interactuar      
                     break;
-                case 5:     /*       Habilidad       */
+                case 5:     /*       Habilidad       
                     break;
-                case 6:     /*         Pausa         */
+                case 6:     /*         Pausa         
                     break;
-                case 7:     /*       Restaurar       */
+                case 7:     /*       Restaurar       
                     break;
             }
         }
@@ -212,45 +195,45 @@ public class MenuScript : MonoBehaviour
             menuCount = 1;
             selectCount[2] = 8;
         }
-    }
+    }*/
+        /*
+        private void ConfigSonido()
+        {
 
-    private void ConfigSonido()
-    {
-        
-        if (Input.GetButtonDown("Interact"))
-        {
-            switch (selectCount[menuCount])
+            if (Input.GetButtonDown("Interact"))
             {
-                case 0:     /*        Maestro        */
-                    break;
-                case 1:     /*        Musica          */
-                    break;
-                case 2:     /*        Efectos         */
-                    break;
+                switch (selectCount[menuCount])
+                {
+                    case 0:     /*        Maestro        
+                        break;
+                    case 1:     /*        Musica          
+                        break;
+                    case 2:     /*        Efectos         
+                        break;
+                }
             }
-        }
-        else if (Input.GetButtonDown("Horizontal") && Input.GetAxisRaw("Horizontal") != 0)
-        {
-            switch (Input.GetAxisRaw("Horizontal"))
+            else if (Input.GetButtonDown("Horizontal") && Input.GetAxisRaw("Horizontal") != 0)
             {
-                case -1:
-                    break;
-                case 1:
-                    break;
+                switch (Input.GetAxisRaw("Horizontal"))
+                {
+                    case -1:
+                        break;
+                    case 1:
+                        break;
+                }
+                menuCount = 1;
+                selectCount[2] = 8;
+            } else if (Input.GetButtonDown("Return"))
+            {
+                menuCount = 3;
+                selectCount[1] = 6;
+                selectCount[3] = 5;
             }
-            menuCount = 1;
-            selectCount[2] = 8;
-        } else if (Input.GetButtonDown("Return"))
-        {
-            menuCount = 3;
-            selectCount[1] = 6;
-            selectCount[3] = 5;
-        }
-    }
-    
-    private void Salir()
+        }*/
+
+        private void Salir()
     {
-        this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
+        this.gameObject.transform.GetChild(3).gameObject.SetActive(true);
         if (Input.GetButtonDown("Interact"))
         {
             Application.Quit();
@@ -258,7 +241,7 @@ public class MenuScript : MonoBehaviour
         else if (Input.GetButtonDown("Return"))
         {
             menuCount = 0;
-            this.gameObject.transform.GetChild(4).gameObject.SetActive(false);
+            this.gameObject.transform.GetChild(3).gameObject.SetActive(false);
         }
     }
 
