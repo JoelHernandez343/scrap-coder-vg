@@ -67,7 +67,7 @@ namespace ScrapCoder.Tutorial {
         }
 
         public override bool ReceiveSignal(string signal) {
-            Debug.Log($"Signal received: {signal}");
+            Debug.Log($"[Tutorial 1-1] Signal received: {signal}");
 
             if (signal == "movementCompleted" && currentState == State.WaitingForMovement) {
                 HideMessageOfCurrentState();
@@ -116,7 +116,7 @@ namespace ScrapCoder.Tutorial {
                 return true;
             }
 
-            if (signal == "ExecuterOn" && currentState == State.WaitingForExecute) {
+            if (signal == "executerOnSuccesfully" && currentState == State.WaitingForExecute) {
                 HideMessageOfCurrentState();
                 ShowReset();
             }

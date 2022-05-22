@@ -125,12 +125,14 @@ namespace ScrapCoder.Interpreter {
                 return;
             }
 
-            TutorialController.instance.ReceiveSignal(signal: "ExecuterOn");
+            TutorialController.instance.ReceiveSignal(signal: "executerCalled");
 
             InputController.instance.ClearFocus();
 
             var (isValid, beginning) = analyzer.Analize();
             if (!isValid) return;
+
+            TutorialController.instance.ReceiveSignal(signal: "executerOnSuccesfully");
 
             ResetState();
 

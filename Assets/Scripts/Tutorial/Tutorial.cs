@@ -30,7 +30,7 @@ namespace ScrapCoder.Tutorial {
             currentGuid = MessagesController.instance.AddMessage(
                 message: message,
                 type: type,
-                seconds: seconds ?? 0,
+                seconds: seconds ?? -1,
                 isFinite: seconds != null,
                 customSprite: customSprite,
                 hideInNewMessage: hideInNewMessage,
