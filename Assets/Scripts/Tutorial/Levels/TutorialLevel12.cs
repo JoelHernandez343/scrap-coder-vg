@@ -71,11 +71,13 @@ namespace ScrapCoder.Tutorial {
             if (signal == "placedTypeRotate" && currentState == State.WaitingForRotate) {
                 HideMessageOfCurrentState();
                 ShowExecute();
+                return true;
             }
 
             if (signal == "executerOnSuccesfully" && currentState == State.WaitingForExecute) {
                 HideMessageOfCurrentState();
                 FinalizingRotatePresentation();
+                return true;
             }
 
             return false;

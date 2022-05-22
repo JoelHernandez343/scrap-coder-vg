@@ -119,6 +119,7 @@ namespace ScrapCoder.Tutorial {
             if (signal == "executerOnSuccesfully" && currentState == State.WaitingForExecute) {
                 HideMessageOfCurrentState();
                 ShowReset();
+                return true;
             }
 
             return false;

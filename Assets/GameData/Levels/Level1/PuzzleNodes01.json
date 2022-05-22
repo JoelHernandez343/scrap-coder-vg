@@ -16,6 +16,13 @@
                 "selectedIcon": "end",
                 "spawnLimit": 1,
                 "symbolName": null
+            },
+            {
+                "title": "Repetir n veces",
+                "nodeToSpawn": 18,
+                "selectedIcon": "repeat_simple",
+                "spawnLimit": -1,
+                "symbolName": null
             }
         ],
         "declarationType": "none"
@@ -29,6 +36,13 @@
                 "nodeToSpawn": 9,
                 "selectedIcon": "simple_instruction",
                 "spawnLimit": 4,
+                "symbolName": null
+            },
+            {
+                "title": "Número",
+                "nodeToSpawn": 23,
+                "selectedIcon": "var_numeric_value",
+                "spawnLimit": -1,
                 "symbolName": null
             }
         ],
