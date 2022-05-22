@@ -8,6 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 using ScrapCoder.GameInput;
 using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 namespace ScrapCoder.Interpreter {
     public class Executer : MonoBehaviour {
@@ -123,6 +124,8 @@ namespace ScrapCoder.Interpreter {
                 );
                 return;
             }
+
+            TutorialController.instance.ReceiveSignal(signal: "ExecuterOn");
 
             InputController.instance.ClearFocus();
 

@@ -28,6 +28,8 @@ namespace ScrapCoder.Tutorial {
             WaitingForEndNode,
             PutFourWalksNodes,
             WaitingForWalks,
+            ShowExecute,
+            WaitingForExecute,
             ShowOnlyReset
         }
 
@@ -106,10 +108,15 @@ namespace ScrapCoder.Tutorial {
 
                 if (walkNodes == 4) {
                     HideMessageOfCurrentState();
-                    ShowReset();
+                    ShowExecute();
                 }
 
                 return true;
+            }
+
+            if (signal == "ExecuterOn" && currentState == State.WaitingForExecute) {
+                HideMessageOfCurrentState();
+                ShowReset();
             }
 
             return false;
@@ -176,12 +183,21 @@ namespace ScrapCoder.Tutorial {
             currentState = State.PutFourWalksNodes;
 
             ShowMessage(
-                message: "¡Muy bien! Ahora si nos fijamos bien, para que el robot pueda presionar el botón " +
-                         "necesitamos que camine 4 veces. Coloca 4 instrucciones de Caminar y conéctalos con " +
-                         "Inicio y al final pon el nodo Fin." +
-                         "Cuando termines, da clic en el botón de ejecutar.",
+                message: "¡Muy bien! Para que el robot pueda presionar el botón necesitamos que camine 4 veces. " +
+                         "Coloca 4 instrucciones de Caminar y conéctalos con Inicio y al final pon el nodo Fin. " +
+                         "Las puedes encontrar en el segundo menú de Instrucciones. ",
                 type: MessageType.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForWalks
+            );
+        }
+
+        void ShowExecute() {
+            currentState = State.ShowExecute;
+
+            ShowMessage(
+                message: "Para ejecutar las instrucciones que acabas de programar, dale clic al botón de ejecutar.",
+                type: MessageType.Normal,
+                onFullShowCallback: () => currentState = State.WaitingForExecute
             );
         }
 
@@ -193,8 +209,8 @@ namespace ScrapCoder.Tutorial {
                          "presiona R.",
                 type: MessageType.Normal,
                 customSprite: rSprite,
-                onFullShowCallback: () => currentState = State.WaitingForWalks,
-                seconds: 4
+                onFullShowCallback: () => currentState = State.Completed,
+                seconds: 6
             );
         }
 
