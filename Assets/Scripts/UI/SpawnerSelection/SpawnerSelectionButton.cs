@@ -32,10 +32,6 @@ namespace ScrapCoder.UI {
         bool initialized = false;
 
         // Methods
-        void Start() {
-            Initialize(title: title, icon: icon);
-        }
-
         public void Initialize(string title, string icon) {
 
             if (initialized) return;
@@ -72,13 +68,13 @@ namespace ScrapCoder.UI {
             initialized = true;
         }
 
-        public void SetVisibleState(SpawnerSelectionButtonState state) {
+        public void SetVisibleState(SpawnerSelectionButtonState state, bool smooth = true) {
             if (state == SpawnerSelectionButtonState.FullVisible) {
-                ownTransform.SetPosition(x: -10, smooth: true);
+                ownTransform.SetPosition(x: -10, smooth: smooth);
             } else if (state == SpawnerSelectionButtonState.HalfVisible) {
-                ownTransform.SetPosition(x: -(ownTransform.width - 64), smooth: true);
+                ownTransform.SetPosition(x: -(ownTransform.width - 64), smooth: smooth);
             } else if (state == SpawnerSelectionButtonState.FullHidden) {
-                ownTransform.SetPosition(x: -(ownTransform.width + 10), smooth: true);
+                ownTransform.SetPosition(x: -(ownTransform.width + 10), smooth: smooth);
             }
 
             visibleState = state;
