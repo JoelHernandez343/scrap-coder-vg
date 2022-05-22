@@ -67,7 +67,7 @@ namespace ScrapCoder.VisualNodes {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rect: InterfaceCanvas.instance.editor.rectTransform,
                 screenPoint: eventData.position,
-                cam: InterfaceCanvas.instance.camera,
+                cam: InterfaceCanvas.instance.currentCamera,
                 localPoint: out newPosition
             );
 

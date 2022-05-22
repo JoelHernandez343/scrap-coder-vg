@@ -140,7 +140,7 @@ namespace ScrapCoder.Interpreter {
             ExecuteNext();
         }
 
-        public void Stop(bool force = false) {
+        public void Stop(bool force = true) {
             if (state == States.Stopped || state == States.Stopping) return;
 
             MessagesController.instance.AddMessage(
@@ -170,6 +170,7 @@ namespace ScrapCoder.Interpreter {
         void ExecuteNext() {
             executionState = ExecutionState.WaitingForRobot;
 
+            Debug.Assert(stack.Count > 0, "Wtf Unity");
             var current = stack.Peek();
 
             if (current.Controller.type == NodeType.End) {

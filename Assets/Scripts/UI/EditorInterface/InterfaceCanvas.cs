@@ -35,7 +35,7 @@ namespace ScrapCoder.UI {
         RectTransform _canvasRectTransform;
         public RectTransform canvasRectTransform => _canvasRectTransform ??= (GetComponent<RectTransform>() as RectTransform);
 
-        public new Camera camera => canvas.worldCamera;
+        public Camera currentCamera => canvas.worldCamera;
 
         SelectionController _selectionMenus;
         public SelectionController selectionMenus => _selectionMenus ??= (editor.GetComponent<SelectionController>() as SelectionController);
