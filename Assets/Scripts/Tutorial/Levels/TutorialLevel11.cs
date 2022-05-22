@@ -14,12 +14,13 @@ namespace ScrapCoder.Tutorial {
         enum State {
             Completed,
             Started,
+            InitialMessage,
+            Movement,
+            WaitingForMovement,
             InspectOn,
             WaitingForInspectOn,
             InspectOff,
             WaitingForInspectOff,
-            Movement,
-            WaitingForMovement,
             InteractWithEditor,
             WaitingForInteract,
             PutBeginNode,
@@ -28,6 +29,8 @@ namespace ScrapCoder.Tutorial {
             WaitingForEndNode,
             PutFourWalksNodes,
             WaitingForWalks,
+            ShowExecute,
+            WaitingForExecute,
             ShowOnlyReset
         }
 
@@ -46,24 +49,25 @@ namespace ScrapCoder.Tutorial {
             currentState = State.Started;
             walkNodes = 0;
 
-            StartCoroutine(ShowMovementMessage());
+            StartCoroutine(ShowInitialMessage());
         }
 
-        IEnumerator ShowMovementMessage() {
+        IEnumerator ShowInitialMessage() {
             yield return new WaitForSeconds(2);
 
-            currentState = State.Movement;
+            currentState = State.InitialMessage;
 
             ShowMessage(
-                message: "Puedes moverte con las teclas W A S D",
+                message: "¡Hola!, nuestro objetivo es lograr que el robot abra la puerta para que nosotros podamos salir.",
                 type: MessageType.Normal,
-                customSprite: wasdSprite,
-                onFullShowCallback: () => currentState = State.WaitingForMovement
+                hideInNewMessage: false,
+                seconds: 6,
+                onFullShowCallback: () => ShowMovementMessage()
             );
         }
 
         public override bool ReceiveSignal(string signal) {
-            Debug.Log($"Signal received: {signal}");
+            Debug.Log($"[Tutorial 1-1] Signal received: {signal}");
 
             if (signal == "movementCompleted" && currentState == State.WaitingForMovement) {
                 HideMessageOfCurrentState();
@@ -83,7 +87,7 @@ namespace ScrapCoder.Tutorial {
                 return true;
             }
 
-            if (signal == "editorToggled" && currentState == State.WaitingForInteract) {
+            if (signal == "editorOn" && currentState == State.WaitingForInteract) {
                 HideMessageOfCurrentState();
                 PutBeginNode();
                 return true;
@@ -106,13 +110,30 @@ namespace ScrapCoder.Tutorial {
 
                 if (walkNodes == 4) {
                     HideMessageOfCurrentState();
-                    ShowReset();
+                    ShowExecute();
                 }
 
                 return true;
             }
 
+            if (signal == "executerOnSuccesfully" && currentState == State.WaitingForExecute) {
+                HideMessageOfCurrentState();
+                ShowReset();
+                return true;
+            }
+
             return false;
+        }
+
+        void ShowMovementMessage() {
+            currentState = State.Movement;
+
+            ShowMessage(
+                message: "Puedes moverte con las teclas W A S D",
+                type: MessageType.Normal,
+                customSprite: wasdSprite,
+                onFullShowCallback: () => currentState = State.WaitingForMovement
+            );
         }
 
         void InspectOn() {
@@ -176,12 +197,21 @@ namespace ScrapCoder.Tutorial {
             currentState = State.PutFourWalksNodes;
 
             ShowMessage(
-                message: "¡Muy bien! Ahora si nos fijamos bien, para que el robot pueda presionar el botón " +
-                         "necesitamos que camine 4 veces. Coloca 4 instrucciones de Caminar y conéctalos con " +
-                         "Inicio y al final pon el nodo Fin." +
-                         "Cuando termines, da clic en el botón de ejecutar.",
+                message: "¡Muy bien! Para que el robot pueda presionar el botón necesitamos que camine 4 veces. " +
+                         "Coloca 4 instrucciones de Caminar y conéctalos con Inicio y al final pon el nodo Fin. " +
+                         "Las puedes encontrar en el segundo menú de Instrucciones. ",
                 type: MessageType.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForWalks
+            );
+        }
+
+        void ShowExecute() {
+            currentState = State.ShowExecute;
+
+            ShowMessage(
+                message: "Para ejecutar las instrucciones que acabas de programar, dale clic al botón de ejecutar.",
+                type: MessageType.Normal,
+                onFullShowCallback: () => currentState = State.WaitingForExecute
             );
         }
 
@@ -193,8 +223,8 @@ namespace ScrapCoder.Tutorial {
                          "presiona R.",
                 type: MessageType.Normal,
                 customSprite: rSprite,
-                onFullShowCallback: () => currentState = State.WaitingForWalks,
-                seconds: 4
+                onFullShowCallback: () => currentState = State.Completed,
+                seconds: 6
             );
         }
 

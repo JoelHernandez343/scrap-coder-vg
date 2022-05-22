@@ -8,6 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 using ScrapCoder.GameInput;
 using ScrapCoder.UI;
+using ScrapCoder.Tutorial;
 
 namespace ScrapCoder.Interpreter {
     public class Executer : MonoBehaviour {
@@ -124,10 +125,14 @@ namespace ScrapCoder.Interpreter {
                 return;
             }
 
+            TutorialController.instance.ReceiveSignal(signal: "executerCalled");
+
             InputController.instance.ClearFocus();
 
             var (isValid, beginning) = analyzer.Analize();
             if (!isValid) return;
+
+            TutorialController.instance.ReceiveSignal(signal: "executerOnSuccesfully");
 
             ResetState();
 
@@ -229,7 +234,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReceiveAnswer(int? answer) {
-            Debug.Log($"[Executer] Answer received: {(answer == null ? "null" : $"{answer}")}");
+            Debug.Log($"[Executer] Answer received: {(answer == null ? "void" : $"{answer}")}");
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {

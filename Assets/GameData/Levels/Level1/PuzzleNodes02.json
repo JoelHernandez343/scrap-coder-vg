@@ -1,0 +1,58 @@
+[
+    {
+        "title": "Control",
+        "icon": "control",
+        "spawnersTemplates": [
+            {
+                "title": "Inicio",
+                "nodeToSpawn": 0,
+                "selectedIcon": "begin",
+                "spawnLimit": 1,
+                "symbolName": null
+            },
+            {
+                "title": "Fin",
+                "nodeToSpawn": 1,
+                "selectedIcon": "end",
+                "spawnLimit": 1,
+                "symbolName": null
+            },
+            {
+                "title": "Repetir n veces",
+                "nodeToSpawn": 18,
+                "selectedIcon": "repeat_simple",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    },
+    {
+        "title": "Instrucciones",
+        "icon": "instructions",
+        "spawnersTemplates": [
+            {
+                "title": "Caminar",
+                "nodeToSpawn": 9,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Girar",
+                "nodeToSpawn": 19,
+                "selectedIcon": "simple_instruction",
+                "spawnLimit": -1,
+                "symbolName": null
+            },
+            {
+                "title": "Número",
+                "nodeToSpawn": 23,
+                "selectedIcon": "var_numeric_value",
+                "spawnLimit": -1,
+                "symbolName": null
+            }
+        ],
+        "declarationType": "none"
+    }
+]

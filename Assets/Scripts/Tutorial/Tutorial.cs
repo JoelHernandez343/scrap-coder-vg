@@ -24,15 +24,16 @@ namespace ScrapCoder.Tutorial {
             MessageType type,
             Sprite customSprite = null,
             System.Action onFullShowCallback = null,
-            int? seconds = null
+            int? seconds = null,
+            bool hideInNewMessage = true
         ) {
             currentGuid = MessagesController.instance.AddMessage(
                 message: message,
                 type: type,
-                seconds: seconds ?? 0,
+                seconds: seconds ?? -1,
                 isFinite: seconds != null,
                 customSprite: customSprite,
-                hideInNewMessage: true,
+                hideInNewMessage: hideInNewMessage,
                 onFullShowCallback: onFullShowCallback
             );
         }

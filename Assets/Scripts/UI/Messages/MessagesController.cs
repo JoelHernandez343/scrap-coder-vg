@@ -88,10 +88,9 @@ namespace ScrapCoder.UI {
                 customIcon = customSprite,
                 guid = guid,
                 hideInNewMessage = hideInNewMessage,
-                onFullShowCallback = onFullShowCallback
+                onFullShowCallback = onFullShowCallback,
+                seconds = isFinite ? seconds : -1
             });
-
-            waitTime = isFinite ? seconds : -1;
 
             if (currentMessage?.hideInNewMessage == true) {
                 HideCurrentMessage();
@@ -101,10 +100,13 @@ namespace ScrapCoder.UI {
         }
 
         void ShowMessage() {
-            timer = 0;
             currentMessage = messageQueue.Dequeue();
+
             messageContainer.ShowNewMessage(currentMessage);
             state = States.ShowingMessage;
+            waitTime = currentMessage.seconds;
+
+            timer = 0;
         }
 
         public void HideCurrentMessage() {

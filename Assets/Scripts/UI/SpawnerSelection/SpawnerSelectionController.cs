@@ -25,7 +25,7 @@ namespace ScrapCoder.UI {
         public NodeTransform ownTransform => _ownTransform ??= GetComponent<NodeTransform>();
 
         // Methods
-        void Initialize(List<NodeSpawnTemplate> spawnersTemplates, string title, string icon, SelectionController selectionController) {
+        public void Initialize(List<NodeSpawnTemplate> spawnersTemplates, string title, string icon, SelectionController selectionController) {
             if (initialized) return;
 
             this.selectionController = selectionController;
@@ -54,11 +54,12 @@ namespace ScrapCoder.UI {
             selectionController.ShowAllButtons();
         }
 
-        public void SetButtonVisible(bool visible) {
+        public void SetButtonVisible(bool visible, bool smooth = true) {
             button.SetVisibleState(
                 state: visible
                     ? SpawnerSelectionButtonState.HalfVisible
-                    : SpawnerSelectionButtonState.FullHidden
+                    : SpawnerSelectionButtonState.FullHidden,
+                smooth: smooth
             );
         }
 
