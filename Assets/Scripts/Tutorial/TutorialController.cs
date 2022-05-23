@@ -22,7 +22,7 @@ namespace ScrapCoder.Tutorial {
         // Methods
         void Awake() {
             if (instance != null) {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
 

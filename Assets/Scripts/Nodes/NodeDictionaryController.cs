@@ -25,7 +25,7 @@ namespace ScrapCoder.VisualNodes {
         // Methods
         void Awake() {
             if (instance != null) {
-                Destroy(this.gameObject);
+                Destroy(this);
                 return;
             }
 

@@ -104,7 +104,7 @@ namespace ScrapCoder.GameInput {
 
         void Awake() {
             if (instance != null) {
-                Destroy(this.gameObject);
+                Destroy(this);
                 return;
             }
 

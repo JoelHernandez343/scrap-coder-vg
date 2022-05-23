@@ -53,7 +53,7 @@ namespace ScrapCoder.UI {
 
             if (hasFocus) return;
             if (Executer.instance.isRunning && controller.hasParent) return;
-            if (ownTransform.isMovingSmoothly) return;
+            if (controller?.ownTransform.isMovingSmoothly == true) return;
 
             previousPosition = controller.BeginDrag(e);
 

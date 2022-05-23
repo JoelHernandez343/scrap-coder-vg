@@ -64,7 +64,7 @@ namespace ScrapCoder.Tutorial {
         }
 
         public override bool ReceiveSignal(string signal) {
-            Debug.Log($"[Tutorial 1-3] Signal received: {signal}");
+            // Debug.Log($"[Tutorial 1-3] Signal received: {signal}");
 
             if (
                 (signal == "placedTypeBegin" || signal == "placedTypeEnd" || signal == "placedTypeRepeat") &&
