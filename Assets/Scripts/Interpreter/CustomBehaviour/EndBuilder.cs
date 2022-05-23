@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class EndInterpreter : InterpreterElement {
+    public class EndBuilder : InterpreterElementBuilder {
 
         // Lazy variables
         public override bool IsFinished => true;
@@ -18,7 +18,7 @@ namespace ScrapCoder.Interpreter {
         // Methods
         public override void Execute(string argument) { }
 
-        public override InterpreterElement GetNextStatement() => null;
+        public override InterpreterElementBuilder GetNextStatement() => null;
 
     }
 }

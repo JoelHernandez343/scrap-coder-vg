@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class ModifyVariableInterpreter : InterpreterElement {
+    public class ModifyVariableBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Operation { Add, Decrease }

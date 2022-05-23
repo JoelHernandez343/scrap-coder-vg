@@ -10,7 +10,7 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
-    public class ScanInterpreter : InterpreterElement {
+    public class ScanBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingInstruction, SettingVariable }

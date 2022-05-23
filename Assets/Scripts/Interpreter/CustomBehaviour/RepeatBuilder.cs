@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class IfInterpreter : InterpreterElement {
+    public class RepeatBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingCondition, EvaluatingCondition, ExecutingInstructions }
@@ -73,7 +73,7 @@ namespace ScrapCoder.Interpreter {
             Executer.instance.PushNext(firstInstruction.interpreterElement);
             Executer.instance.ExecuteInNextFrame();
 
-            IsFinished = true;
+            currentStep = Steps.PushingCondition;
         }
 
     }

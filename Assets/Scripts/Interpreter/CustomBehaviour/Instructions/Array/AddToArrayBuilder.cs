@@ -9,7 +9,7 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class AddToArrayInterpreter : InterpreterElement {
+    public class AddToArrayBuilder : InterpreterElementBuilder {
 
         // Private types
         enum Steps { PushingValue, AddingToArray }

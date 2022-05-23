@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class RepeatNInterpreter : InterpreterElement {
+    public class RepeatNBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingValue, EvaluatingValue, ExecutingInstructions }

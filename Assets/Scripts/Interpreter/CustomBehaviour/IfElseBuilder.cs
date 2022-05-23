@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class IfElseInterpreter : InterpreterElement {
+    public class IfElseBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingCondition, EvaluatingCondition, ExecutingFirst, ExecutingSecond }

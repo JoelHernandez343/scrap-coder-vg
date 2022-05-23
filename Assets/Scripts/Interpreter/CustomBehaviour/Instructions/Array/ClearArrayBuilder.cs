@@ -8,13 +8,13 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class GetLengthOfArrayInterpreter : InterpreterElement {
+    public class ClearArrayBuilder : InterpreterElementBuilder {
 
         // Editor variables
         [SerializeField] NodeContainer arrayContainer;
 
         // Lazy variables
-        public override bool IsExpression => true;
+        public override bool IsExpression => false;
 
         NodeController array => arrayContainer.First;
 
@@ -22,9 +22,8 @@ namespace ScrapCoder.Interpreter {
 
         // Methods
         public override void Execute(string argument) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
-
-            Executer.instance.ExecuteInmediately(argument: $"{arrayLength}");
+            SymbolTable.instance[symbolName].ClearArray();
+            Executer.instance.ExecuteInmediately();
 
             IsFinished = true;
         }

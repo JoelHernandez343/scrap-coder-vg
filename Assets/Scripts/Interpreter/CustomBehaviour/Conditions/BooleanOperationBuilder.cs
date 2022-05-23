@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class BooleanOperationInterpreter : InterpreterElement {
+    public class BooleanOperationBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingLeftCondition, EvaluatingLeftCondition, PushingRightCondition, EvaluatingRightCondition }
@@ -53,7 +53,7 @@ namespace ScrapCoder.Interpreter {
             currentStep = Steps.PushingLeftCondition;
         }
 
-        public override InterpreterElement GetNextStatement() => null;
+        public override InterpreterElementBuilder GetNextStatement() => null;
 
         void PushingCondition(string condition) {
             var conditionToPush = condition == "left"

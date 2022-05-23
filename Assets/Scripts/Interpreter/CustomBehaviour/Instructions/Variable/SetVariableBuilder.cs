@@ -9,7 +9,7 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class SetVariableInterpreter : InterpreterElement {
+    public class SetVariableBuilder : InterpreterElementBuilder {
 
         // Private types
         enum Steps { PushingValue, SettingVariable }

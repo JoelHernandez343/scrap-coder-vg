@@ -11,7 +11,7 @@ using ScrapCoder.UI;
 namespace ScrapCoder.Interpreter {
 
 
-    public class ScanAndSetValueOfArray : InterpreterElement {
+    public class ScanAndSetValueOfArrayBuilder : InterpreterElementBuilder {
 
         // Private types
         enum Steps { PushingInstruction, PushingIndex, ReplacingInArray }

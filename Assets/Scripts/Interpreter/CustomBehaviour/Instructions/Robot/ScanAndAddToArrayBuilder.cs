@@ -10,7 +10,7 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
-    public class ScanAndAddToArray : InterpreterElement {
+    public class ScanAndAddToArrayBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingInstruction, AddingToArray }

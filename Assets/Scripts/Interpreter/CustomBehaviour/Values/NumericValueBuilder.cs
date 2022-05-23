@@ -6,28 +6,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.VisualNodes;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class ConstantBooleanInterpreter : InterpreterElement {
-
-        // Internal types
-        enum TypeOfBoolean { True, False }
+    public class NumericValueBuilder : InterpreterElementBuilder {
 
         // Editor variables
-        [SerializeField] TypeOfBoolean typeOfBoolean;
+        [SerializeField] InputText inputText;
 
         // Lazy variables
         public override bool IsExpression => true;
 
-        // Methods
         public override void Execute(string argument) {
-            Executer.instance.ExecuteInmediately(
-                argument: typeOfBoolean == TypeOfBoolean.True ? "true" : "false"
-            );
+            var value = inputText.Value;
+
+            Executer.instance.ExecuteInmediately(argument: value);
 
             IsFinished = true;
         }
 
-        public override InterpreterElement GetNextStatement() => null;
+        public override InterpreterElementBuilder GetNextStatement() => null;
+
     }
 }

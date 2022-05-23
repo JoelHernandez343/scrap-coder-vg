@@ -8,19 +8,20 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class BeginInterpreter : InterpreterElement {
+    public class VariableBuilder : InterpreterElementBuilder {
 
         // Lazy variables
-        public override bool IsExpression => false;
+        public override bool IsExpression => true;
 
-        // Methods
         public override void Execute(string argument) {
-            Executer.instance.ExecuteInmediately();
+            var value = SymbolTable.instance[Controller.symbolName].Value;
+
+            Executer.instance.ExecuteInmediately(argument: value);
+
             IsFinished = true;
         }
 
-        public override InterpreterElement GetNextStatement() {
-            return Controller.siblings[0].interpreterElement;
-        }
+        public override InterpreterElementBuilder GetNextStatement() => null;
+
     }
 }

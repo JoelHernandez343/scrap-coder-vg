@@ -8,7 +8,7 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public abstract class InterpreterElement : MonoBehaviour {
+    public abstract class InterpreterElementBuilder : MonoBehaviour {
 
         // Internal types
         enum VisualState {
@@ -99,8 +99,14 @@ namespace ScrapCoder.Interpreter {
             visualState = VisualState.Finished;
         }
 
-        public virtual InterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
+        public virtual InterpreterElementBuilder GetNextStatement() {
+            try {
+                return Controller.parentArray.Next(Controller)?.interpreterElement;
+            } catch (System.Exception e) {
+                Debug.LogError(e, this);
+                Debug.LogError($"[{name}] This is fucked up");
+                return null;
+            }
         }
 
     }

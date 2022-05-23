@@ -9,10 +9,10 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class GetValueFromArrayInterpreter : InterpreterElement {
+    public class RemoveFromArrayBuilder : InterpreterElementBuilder {
 
         // Private types
-        enum Steps { PushingIndex, GettingValueFromArray }
+        enum Steps { PushingIndex, RemovingFromArray }
 
         // Editor variables
         [SerializeField] NodeContainer indexContainer;
@@ -22,7 +22,7 @@ namespace ScrapCoder.Interpreter {
         Steps currentStep;
 
         // Lazy variables
-        public override bool IsExpression => true;
+        public override bool IsExpression => false;
 
         NodeController array => arrayContainer.First;
         NodeController indexValue => indexContainer.First;
@@ -34,8 +34,8 @@ namespace ScrapCoder.Interpreter {
 
             if (currentStep == Steps.PushingIndex) {
                 PushingIndex();
-            } else if (currentStep == Steps.GettingValueFromArray) {
-                GettingValueFromArray(indexValue: argument);
+            } else if (currentStep == Steps.RemovingFromArray) {
+                RemovingFromArray(indexValue: argument);
             }
 
         }
@@ -44,10 +44,10 @@ namespace ScrapCoder.Interpreter {
             Executer.instance.PushNext(indexValue.interpreterElement);
             Executer.instance.ExecuteInmediately();
 
-            currentStep = Steps.GettingValueFromArray;
+            currentStep = Steps.RemovingFromArray;
         }
 
-        void GettingValueFromArray(string indexValue) {
+        void RemovingFromArray(string indexValue) {
             var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
 
             var index = System.Int32.Parse(indexValue);
@@ -70,8 +70,8 @@ namespace ScrapCoder.Interpreter {
                 return;
             }
 
-            var arrayValue = SymbolTable.instance[symbolName].GetValueFromArray(index: index);
-            Executer.instance.ExecuteInmediately(argument: arrayValue);
+            SymbolTable.instance[symbolName].RemoveFromArray(index: index);
+            Executer.instance.ExecuteInmediately();
 
             IsFinished = true;
         }

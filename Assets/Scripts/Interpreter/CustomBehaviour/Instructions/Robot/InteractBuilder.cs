@@ -10,18 +10,14 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
-    public class RotateInterpreter : InterpreterElement {
-
-        // Editor variables
-        [SerializeField] DropMenuController dropMenu;
+    public class InteractBuilder : InterpreterElementBuilder {
 
         /// Lazy variables
         public override bool IsExpression => false;
 
         // Methods
-        public override void Execute(string argument) {
-            var selectedAction = dropMenu.Value == "right" ? Actions.RotateRight : Actions.RotateLeft;
-            SendInstruction.sendInstruction((int)selectedAction);
+        public override void Execute(string answer) {
+            SendInstruction.sendInstruction((int)Actions.Interact);
             IsFinished = true;
         }
 

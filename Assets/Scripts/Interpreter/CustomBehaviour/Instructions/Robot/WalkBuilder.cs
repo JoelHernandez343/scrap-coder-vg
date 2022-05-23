@@ -1,6 +1,7 @@
 // Joel Harim Hernández Javier @ 2022
 // Github: https://github.com/JoelHernandez343
 
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,20 +9,18 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class VariableInterpreter : InterpreterElement {
+
+    public class WalkBuilder : InterpreterElementBuilder {
 
         // Lazy variables
-        public override bool IsExpression => true;
+        public override bool IsExpression => false;
 
+        // Methods
         public override void Execute(string argument) {
-            var value = SymbolTable.instance[Controller.symbolName].Value;
-
-            Executer.instance.ExecuteInmediately(argument: value);
-
+            SendInstruction.sendInstruction((int)Actions.Walk);
             IsFinished = true;
         }
 
-        public override InterpreterElement GetNextStatement() => null;
-
     }
+
 }

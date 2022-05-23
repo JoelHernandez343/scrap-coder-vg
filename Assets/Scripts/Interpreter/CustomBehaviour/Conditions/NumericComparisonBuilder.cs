@@ -9,7 +9,7 @@ using ScrapCoder.UI;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class NumericComparisonInterpreter : InterpreterElement {
+    public class NumericComparisonBuilder : InterpreterElementBuilder {
 
         // Internal types
         enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
@@ -66,7 +66,7 @@ namespace ScrapCoder.Interpreter {
             currentStep = Steps.PushingLeftValue;
         }
 
-        public override InterpreterElement GetNextStatement() => null;
+        public override InterpreterElementBuilder GetNextStatement() => null;
 
         void PushingValue(string member) {
 

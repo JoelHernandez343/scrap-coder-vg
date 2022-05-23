@@ -9,14 +9,14 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class ReplaceInArrayInterpreter : InterpreterElement {
+    public class InsertInArrayBuilder : InterpreterElementBuilder {
 
         // Private types
-        enum Steps { PushingValue, PushingIndex, ReplacingInArray }
+        enum Steps { PushingValue, PushingIndex, InsertingToArray }
 
         // Editor variables
-        [SerializeField] NodeContainer indexContainer;
         [SerializeField] NodeContainer valueContainer;
+        [SerializeField] NodeContainer indexContainer;
         [SerializeField] NodeContainer arrayContainer;
 
         // State variables
@@ -41,8 +41,8 @@ namespace ScrapCoder.Interpreter {
             } else if (currentStep == Steps.PushingIndex) {
                 StoreValue(value: argument);
                 Pushing(which: "index");
-            } else if (currentStep == Steps.ReplacingInArray) {
-                ReplacingInArray(indexValue: argument);
+            } else if (currentStep == Steps.InsertingToArray) {
+                InsertingToArray(indexValue: argument);
             }
 
         }
@@ -61,10 +61,10 @@ namespace ScrapCoder.Interpreter {
 
             currentStep = which == "value"
                 ? Steps.PushingIndex
-                : Steps.ReplacingInArray;
+                : Steps.InsertingToArray;
         }
 
-        void ReplacingInArray(string indexValue) {
+        void InsertingToArray(string indexValue) {
             var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
 
             var index = System.Int32.Parse(indexValue);
@@ -96,7 +96,7 @@ namespace ScrapCoder.Interpreter {
                 return;
             }
 
-            SymbolTable.instance[symbolName].SetValueInArray(index: index, newValue: valueObtained);
+            SymbolTable.instance[symbolName].InsertToArray(index: index, value: valueObtained);
             Executer.instance.ExecuteInmediately();
 
             IsFinished = true;
