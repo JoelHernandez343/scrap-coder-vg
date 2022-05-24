@@ -44,7 +44,7 @@ namespace ScrapCoder.UI {
         string _text = null;
         public string text {
             get => _text ??= expandableText?.text;
-            private set => _text = value;
+            set => _text = value;
         }
 
         // Lazy variables

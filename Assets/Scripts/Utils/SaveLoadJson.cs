@@ -35,5 +35,13 @@ namespace ScrapCoder.Utils {
             return data;
         }
 
+        public static T LoadJsonFromPersistentData(string subFilePath) {
+
+            var jsonData = FileBrowserHelpers.ReadTextFromFile(Path.Combine(Application.persistentDataPath, subFilePath));
+            T data = JsonConvert.DeserializeObject<T>(jsonData);
+
+            return data;
+        }
+
     }
 }

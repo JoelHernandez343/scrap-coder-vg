@@ -127,7 +127,7 @@ public class MenuScript : MonoBehaviour
                     }*/
                     break;
                 case 1:     /*       Cargar Partida      */
-                    SceneManager.LoadScene("NodesScene");
+                    SceneManager.LoadScene("LoadLevelscene");
                     break;
                 case 2:     /*          Opciones         */
                     menuCount = 1;

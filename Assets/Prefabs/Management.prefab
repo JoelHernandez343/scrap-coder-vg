@@ -4077,6 +4077,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: openFile
       objectReference: {fileID: 0}
+    - target: {fileID: 8146353603354791145, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9138224923057288164, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.data[2].position.x
       value: 2.5
