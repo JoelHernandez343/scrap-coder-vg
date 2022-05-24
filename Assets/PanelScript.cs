@@ -17,7 +17,9 @@ public class PanelScript : MonoBehaviour
     private void Start()
     {
         //General.evento_Energia(id);
+        renderer = GetComponent<SpriteRenderer>();
         General.evento_Energia(id);
+        x = new int[5];
     }
     void OnEnable()
     {
@@ -41,12 +43,16 @@ public class PanelScript : MonoBehaviour
         }
     }
 
-    public void getNumber(int x)
+    public void getNumber(int m)
     {
-        if(x == n[i])
+        x[i] = m-6;
+        setSprite();
+        
+        /*if (m == n[i])
         {
-            i++;
-            if(i == n.Length)
+            
+            
+            if (i == n.Length)
             {
                 General.evento_Energia(id);
             }
@@ -54,7 +60,13 @@ public class PanelScript : MonoBehaviour
         else
         {
             i = 0;
-        }
+        }*/
+    }
+
+    private void setSprite()
+    {
+        renderer.sprite = numbers[x[i]];
+        i++;
     }
 
 }

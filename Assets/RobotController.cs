@@ -13,7 +13,7 @@ public class RobotController : MonoBehaviour
     [SerializeField] private int steps;
     [SerializeField] private enum Color { Green, Blue, Oranje, Gray, Brown, Red, None }
     [SerializeField] private Color color;
-    private bool moving, panelInteract;
+    [SerializeField] private bool moving, panelInteract;
     private Animator anim;
     private Rigidbody2D rb;
     private int rotateAux;
@@ -207,9 +207,23 @@ public class RobotController : MonoBehaviour
         if (panelInteract)
         {
             PanelEvent.sendNumber((int)action);
+            action = Action.None;
+            StartCoroutine(Wait1());
+            /*action = Action.None;
+            SendInstruction.finishInstruction(0);
+            return 0;*/
             return 0;
         }
+        action = Action.None;
+        SendInstruction.finishInstruction(-1);
         return -1;
+    }
+
+    IEnumerator Wait1()
+    {
+        yield return new WaitForSeconds(1);
+        SendInstruction.finishInstruction(0);
+        
     }
 }
     

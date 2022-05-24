@@ -17,12 +17,13 @@ public class DoorControl : MonoBehaviour
         anim = GetComponent<Animator>();
         coll = GetComponent<BoxCollider2D>();
         powerSources = source.Length;
-        power = true;
+        
         sourceAud = GetComponent<AudioSource>();
     }
 
     void OnEnable()
     {
+        power = true;
         General.evento_Energia += OpenOrClose;
     }
 
