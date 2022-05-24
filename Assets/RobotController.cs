@@ -7,13 +7,13 @@ public class RobotController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform movePoint;
     [SerializeField] private enum Direction { Left, Up, Right, Down, None }
-    [SerializeField] private enum Action { Walk, RotateLeft, RotateRight, Scan, Interact, None }
+    [SerializeField] private enum Action { Walk, RotateLeft, RotateRight, Scan, Interact, None, Zero, One, Two, Three, Four, Five, Six }
     [SerializeField] private Direction dirMovement, dirFacing;
     [SerializeField] private Action action;
     [SerializeField] private int steps;
     [SerializeField] private enum Color { Green, Blue, Oranje, Gray, Brown, Red, None }
     [SerializeField] private Color color;
-    private bool moving;
+    private bool moving, panelInteract;
     private Animator anim;
     private Rigidbody2D rb;
     private int rotateAux;
@@ -30,6 +30,7 @@ public class RobotController : MonoBehaviour
         rotate = 0;
         rotateAux = 0;
         color = Color.None;
+        panelInteract = false;
         AnimationSet();
     }
 
@@ -76,6 +77,9 @@ public class RobotController : MonoBehaviour
                     break;
                 case 3:
                     ScanColor();
+                    break;
+                case 6: case 7: case 8: case 9: case 10: case 11: case 12:
+                    Panel();
                     break;
             }
             dirMovement = Direction.None;
@@ -181,6 +185,10 @@ public class RobotController : MonoBehaviour
         {
             color = (Color)collision.GetComponent<ColorPlateScript>().getColor();
         }
+        else if (collision.tag == "Panel")
+        {
+            panelInteract = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -188,7 +196,20 @@ public class RobotController : MonoBehaviour
         if (collision.tag == "ColorPlate" && color == (Color)collision.GetComponent<ColorPlateScript>().getColor() && color != (Color)collision.GetComponent<ColorPlateScript>().getColor())
         {
             color = Color.None;
+        }else if(collision.tag == "Panel")
+        {
+            panelInteract = false;
         }
+    }
+
+    private int Panel()
+    {
+        if (panelInteract)
+        {
+            PanelEvent.sendNumber((int)action);
+            return 0;
+        }
+        return -1;
     }
 }
     

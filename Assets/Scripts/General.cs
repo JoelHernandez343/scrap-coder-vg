@@ -15,6 +15,11 @@ public static class SendInstruction
     public static Action<int?> finishInstruction;
 }
 
+public static class PanelEvent
+{
+    public static Action<int> sendNumber;
+}
+
 public static class HideWallComs
 {
     public static Action<int> hide;
