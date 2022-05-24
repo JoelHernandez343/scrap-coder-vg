@@ -41,6 +41,9 @@ namespace ScrapCoder.UI {
 
         void InitializeLevelSelectors() {
             var isUnlocked = true;
+            var storedLevelData = levelContainer.GetStoredLevelData();
+            var id = 0;
+
             selectors = levelContainer.levels.ConvertAll(
                 level => {
                     var selector = LevelSelector.Create(
@@ -54,6 +57,12 @@ namespace ScrapCoder.UI {
                             scene = level.sceneName
                         }
                     );
+
+                    if (isUnlocked && !storedLevelData[id].isUnlocked) {
+                        isUnlocked = false;
+                    }
+
+                    id += 1;
 
                     return selector;
                 }
