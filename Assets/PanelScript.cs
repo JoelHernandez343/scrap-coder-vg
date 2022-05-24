@@ -11,15 +11,16 @@ public class PanelScript : MonoBehaviour
 
     [SerializeField] private int i, id;
     private SpriteRenderer renderer;
-    private bool t=false;
+    [SerializeField] private bool t;
 
     // Start is called before the first frame update
     private void Start()
     {
         //General.evento_Energia(id);
         renderer = GetComponent<SpriteRenderer>();
-        General.evento_Energia(id);
-        x = new int[5];
+        //General.evento_Energia(id);
+        x = new int[] { -1, -1, -1, -1, -1 };
+        t = false;
     }
     void OnEnable()
     {
@@ -27,6 +28,7 @@ public class PanelScript : MonoBehaviour
         n = random.n;
         //renderer.sprite = numbers[7];
         i = 0;
+        t = false;
     }
 
     private void OnDestroy()
@@ -39,6 +41,7 @@ public class PanelScript : MonoBehaviour
         if(x.SequenceEqual(n) && !t)
         {
             General.evento_Energia(id);
+            Debug.Log("abierto");
             t = true;
         }
     }
