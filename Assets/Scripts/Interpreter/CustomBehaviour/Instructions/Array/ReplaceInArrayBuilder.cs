@@ -9,27 +9,45 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class ReplaceInArrayInterpreter : InterpreterElement {
 
-        // Private types
-        enum Steps { PushingValue, PushingIndex, ReplacingInArray }
+    public class ReplaceInArrayBuilder : InterpreterElementBuilder {
 
         // Editor variables
         [SerializeField] NodeContainer indexContainer;
         [SerializeField] NodeContainer valueContainer;
         [SerializeField] NodeContainer arrayContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new ReplaceInArrayInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                valueContainer: valueContainer,
+                indexContainer: indexContainer,
+                array: arrayContainer.First
+            );
+        }
+
+    }
+
+    class ReplaceInArrayInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingValue, PushingIndex, ReplacingInArray }
+
         // State variables
         Steps currentStep;
 
+        List<InterpreterElement> indexList = new List<InterpreterElement>();
+        List<InterpreterElement> valueList = new List<InterpreterElement>();
+
+        string arraySymbolName;
+
         // Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
-        NodeController array => arrayContainer.First;
-        NodeController valueToAdd => valueContainer.First;
-        NodeController indexValue => indexContainer.First;
-
-        string symbolName => array.symbolName;
+        InterpreterElement valueToAdd => valueList[0];
+        InterpreterElement indexValue => indexList[0];
 
         string valueObtained;
 
@@ -53,8 +71,8 @@ namespace ScrapCoder.Interpreter {
 
         void Pushing(string which) {
             var elementToPush = which == "value"
-                ? valueToAdd.interpreterElement
-                : indexValue.interpreterElement;
+                ? valueToAdd
+                : indexValue;
 
             Executer.instance.PushNext(elementToPush);
             Executer.instance.ExecuteInmediately();
@@ -65,7 +83,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReplacingInArray(string indexValue) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+            var arrayLength = SymbolTable.instance[arraySymbolName].ArrayLength;
 
             var index = System.Int32.Parse(indexValue);
 
@@ -74,7 +92,7 @@ namespace ScrapCoder.Interpreter {
                     message: $"El índice {index} debe de ser mayor o igual a 0.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
@@ -83,27 +101,49 @@ namespace ScrapCoder.Interpreter {
                     message: $"El índice {index} para insertar no debe sobrepasar el límite {Symbol.ArrayLimit}.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
             if (arrayLength == Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
-                    message: $"El arreglo {symbolName} ha alcanzado su límite.",
+                    message: $"El arreglo {arraySymbolName} ha alcanzado su límite.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
-            SymbolTable.instance[symbolName].SetValueInArray(index: index, newValue: valueObtained);
+            SymbolTable.instance[arraySymbolName].SetValueInArray(index: index, newValue: valueObtained);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingValue;
+        }
+
+        public ReplaceInArrayInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer valueContainer,
+            NodeContainer indexContainer,
+            NodeController array
+        ) : base(parentList, controllerReference) {
+
+            indexList.AddRange(InterpreterElementsFromContainer(
+                container: indexContainer,
+                parentList: indexList
+            ));
+
+            valueList.AddRange(InterpreterElementsFromContainer(
+                container: valueContainer,
+                parentList: valueList
+            ));
+
+            arraySymbolName = array.symbolName;
+
         }
 
     }

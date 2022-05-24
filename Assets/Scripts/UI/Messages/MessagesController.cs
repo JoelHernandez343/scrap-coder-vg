@@ -31,7 +31,7 @@ namespace ScrapCoder.UI {
         // Methods
         void Awake() {
             if (instance != null) {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
 

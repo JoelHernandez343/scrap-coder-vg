@@ -11,25 +11,39 @@ using ScrapCoder.UI;
 namespace ScrapCoder.Interpreter {
 
 
-    public class ScanAndSetValueOfArray : InterpreterElement {
-
-        // Private types
-        enum Steps { PushingInstruction, PushingIndex, ReplacingInArray }
+    public class ScanAndSetValueOfArrayBuilder : InterpreterElementBuilder {
 
         // Editor variables
         [SerializeField] NodeContainer indexContainer;
         [SerializeField] NodeContainer arrayContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new ScanAndSetValueOfArrayInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                indexContainer: indexContainer,
+                array: arrayContainer.First
+            );
+        }
+
+    }
+
+    class ScanAndSetValueOfArrayInterpreter : InterpreterElement {
+
+        // Private types
+        enum Steps { PushingInstruction, PushingIndex, ReplacingInArray }
+
         // State variables
         Steps currentStep;
 
+        List<InterpreterElement> indexList = new List<InterpreterElement>();
+        string arraySymbolName;
+
         // Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
-        NodeController array => arrayContainer.First;
-        NodeController indexValue => indexContainer.First;
-
-        string symbolName => array.symbolName;
+        InterpreterElement indexValue => indexList[0];
 
         string valueObtained;
 
@@ -58,7 +72,7 @@ namespace ScrapCoder.Interpreter {
 
                 currentStep = Steps.PushingIndex;
             } else {
-                Executer.instance.PushNext(indexValue.interpreterElement);
+                Executer.instance.PushNext(indexValue);
                 Executer.instance.ExecuteInmediately();
 
                 currentStep = Steps.ReplacingInArray;
@@ -67,7 +81,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ReplacingInArray(string indexValue) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+            var arrayLength = SymbolTable.instance[arraySymbolName].ArrayLength;
 
             var index = System.Int32.Parse(indexValue);
 
@@ -76,7 +90,7 @@ namespace ScrapCoder.Interpreter {
                     message: $"El índice {index} debe de ser mayor o igual a 0.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
@@ -85,27 +99,43 @@ namespace ScrapCoder.Interpreter {
                     message: $"El índice {index} para insertar no debe sobrepasar el límite {Symbol.ArrayLimit}.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
             if (arrayLength == Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
-                    message: $"El arreglo {symbolName} ha alcanzado su límite.",
+                    message: $"El arreglo {arraySymbolName} ha alcanzado su límite.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
-            SymbolTable.instance[symbolName].SetValueInArray(index: index, newValue: valueObtained);
+            SymbolTable.instance[arraySymbolName].SetValueInArray(index: index, newValue: valueObtained);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingInstruction;
+        }
+
+        public ScanAndSetValueOfArrayInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer indexContainer,
+            NodeController array
+        ) : base(parentList, controllerReference) {
+
+            indexList.AddRange(InterpreterElementsFromContainer(
+                container: indexContainer,
+                parentList: indexList
+            ));
+
+            arraySymbolName = array.symbolName;
+
         }
 
     }

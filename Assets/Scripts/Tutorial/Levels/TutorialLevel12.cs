@@ -46,7 +46,7 @@ namespace ScrapCoder.Tutorial {
         }
 
         public override bool ReceiveSignal(string signal) {
-            Debug.Log($"[Tutorial 1-2] Signal received: {signal}");
+            // Debug.Log($"[Tutorial 1-2] Signal received: {signal}");
 
             if (
                 (signal == "placedTypeBegin" || signal == "placedTypeEnd") &&
@@ -74,7 +74,7 @@ namespace ScrapCoder.Tutorial {
                 return true;
             }
 
-            if (signal == "executerOnSuccesfully" && currentState == State.WaitingForExecute) {
+            if (signal == "executerSuccessfullyFinished" && currentState == State.WaitingForExecute) {
                 HideMessageOfCurrentState();
                 FinalizingRotatePresentation();
                 return true;

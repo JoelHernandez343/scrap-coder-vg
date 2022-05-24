@@ -26,7 +26,7 @@ namespace ScrapCoder.Interpreter {
 
         void Awake() {
             if (instance != null) {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
 

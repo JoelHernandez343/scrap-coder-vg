@@ -5,14 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class HideWall : MonoBehaviour
 {
-    private TilemapRenderer renderer;
-    private BoxCollider2D collider;
+    private TilemapRenderer tileMapRenderer;
+    private BoxCollider2D boxCollider;
     public bool bolean, playerInside;
     [SerializeField] private int idWall;
     void Start()
     {
-        renderer = GetComponent<TilemapRenderer>();
-        collider = GetComponent<BoxCollider2D>();
+        tileMapRenderer = GetComponent<TilemapRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
         bolean = true;
     }
     void OnEnable()
@@ -30,7 +30,7 @@ public class HideWall : MonoBehaviour
         if(collision.tag == "Player")
         {
             playerInside = true;
-            renderer.enabled = false;
+            tileMapRenderer.enabled = false;
             bolean = true;
         }
         
@@ -41,7 +41,7 @@ public class HideWall : MonoBehaviour
         if (collision.tag == "Player")
         {
             playerInside = false;
-            renderer.enabled = true;
+            tileMapRenderer.enabled = true;
             bolean = false;
         }
         
@@ -53,11 +53,11 @@ public class HideWall : MonoBehaviour
         bolean = !bolean;
         if (playerInside)
         {
-            renderer.enabled = true;
+            tileMapRenderer.enabled = true;
         }
         else
         {
-            renderer.enabled = bolean;
+            tileMapRenderer.enabled = bolean;
         }
         
         if (id == idWall)

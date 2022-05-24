@@ -8,11 +8,11 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public class BooleanOperationInterpreter : InterpreterElement {
+
+    public class BooleanOperationBuilder : InterpreterElementBuilder {
 
         // Internal types
-        enum Steps { PushingLeftCondition, EvaluatingLeftCondition, PushingRightCondition, EvaluatingRightCondition }
-        enum Operation { Or, And }
+        public enum Operation { Or, And }
 
         // Editor variables
         [SerializeField] NodeContainer leftContainer;
@@ -20,17 +20,40 @@ namespace ScrapCoder.Interpreter {
 
         [SerializeField] Operation operation;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new BooleanOperationInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                leftConditionContainer: leftContainer,
+                rightConditionContainer: rightContainer,
+                operation: operation
+            );
+        }
+
+    }
+
+    class BooleanOperationInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingLeftCondition, EvaluatingLeftCondition, PushingRightCondition, EvaluatingRightCondition }
+
         // State variables
         Steps currentStep = Steps.PushingLeftCondition;
 
-        // Lazy variables
-        public override bool IsExpression => true;
+        List<InterpreterElement> leftList = new List<InterpreterElement>();
+        List<InterpreterElement> rightList = new List<InterpreterElement>();
 
-        NodeController leftCondition => leftContainer.array.First;
-        NodeController rightCondition => rightContainer.array.First;
+        BooleanOperationBuilder.Operation operation;
+
+        // Lazy variables
+        public override bool isExpression => true;
 
         string leftValue;
         string rightValue;
+
+        InterpreterElement leftCondition => leftList[0];
+        InterpreterElement rightCondition => rightList[0];
 
         // Methods
         public override void Execute(string argument) {
@@ -49,18 +72,18 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingLeftCondition;
         }
 
-        public override InterpreterElement GetNextStatement() => null;
+        public override InterpreterElement NextStatement() => null;
 
         void PushingCondition(string condition) {
             var conditionToPush = condition == "left"
                 ? leftCondition
                 : rightCondition;
 
-            Executer.instance.PushNext(conditionToPush.interpreterElement);
+            Executer.instance.PushNext(conditionToPush);
             Executer.instance.ExecuteInmediately();
 
             currentStep = condition == "left"
@@ -72,12 +95,17 @@ namespace ScrapCoder.Interpreter {
 
             var conditionValue = condition == "left" ? leftValue : rightValue;
 
-            if (operation == Operation.Or || operation == Operation.And) {
-                var finisher = operation == Operation.Or ? "true" : "false";
-                var opposite = finisher == "true" ? "false" : "true";
+            if (
+                operation == BooleanOperationBuilder.Operation.Or ||
+                operation == BooleanOperationBuilder.Operation.And
+            ) {
+                var finisher = operation == BooleanOperationBuilder.Operation.Or
+                    ? "true" : "false";
+                var opposite = finisher == "true"
+                    ? "false" : "true";
 
                 if (conditionValue == finisher) {
-                    IsFinished = true;
+                    isFinished = true;
                     Executer.instance.ExecuteInmediately(argument: finisher);
                 } else {
                     currentStep = Steps.PushingRightCondition;
@@ -85,7 +113,7 @@ namespace ScrapCoder.Interpreter {
                     if (condition == "left") {
                         Executer.instance.ExecuteInmediately();
                     } else {
-                        IsFinished = true;
+                        isFinished = true;
                         Executer.instance.ExecuteInmediately(argument: opposite);
                     }
                 }
@@ -101,5 +129,28 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
+        public BooleanOperationInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer leftConditionContainer,
+            NodeContainer rightConditionContainer,
+            BooleanOperationBuilder.Operation operation
+        ) : base(parentList, controllerReference) {
+
+            leftList.AddRange(InterpreterElementsFromContainer(
+                container: leftConditionContainer,
+                parentList: leftList
+            ));
+
+            rightList.AddRange(InterpreterElementsFromContainer(
+                container: rightConditionContainer,
+                parentList: rightList
+            ));
+
+            this.operation = operation;
+
+        }
+
     }
+
 }

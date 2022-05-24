@@ -24,7 +24,7 @@ namespace ScrapCoder.UI {
         bool isHorizontal => scrollBarController.isHorizontal;
         int currentPosition => scrollBarController.currentPosition;
 
-        Camera canvasCamera => InterfaceCanvas.instance.camera;
+        Camera canvasCamera => InterfaceCanvas.instance.currentCamera;
 
         float? nf => null;
         int? nn => null;

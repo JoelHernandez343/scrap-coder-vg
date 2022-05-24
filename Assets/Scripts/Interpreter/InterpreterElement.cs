@@ -8,58 +8,68 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
-    public abstract class InterpreterElement : MonoBehaviour {
+    public abstract class InterpreterElement {
 
         // Internal types
-        enum VisualState {
-            Pressed, NotPressed, Finished, Paused
-        }
+        enum VisualState { Pressed, NotPressed, Finished, Paused }
 
         // State variables
-        public virtual bool IsFinished { get; protected set; }
-        public abstract bool IsExpression { get; }
+        public List<InterpreterElement> parentList { get; private set; }
 
-        public bool HasFocus { get; private set; }
+        public string symbolName { get; private set; }
+        public NodeType type { get; private set; }
 
-        // Lazy and other variables
-        NodeTransform _ownTransform;
-        public NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
+        // Mechanism to ignore if _controllerRef becomes missing :(
+        NodeController _controllerRef;
+        public NodeController controllerReference {
+            get {
+                if (_controllerRef == null) {
+                    Debug.LogError($"[{symbolName}] Reference become missing");
+                    return null;
+                }
 
-        public NodeController Controller => ownTransform.controller;
+                return _controllerRef;
+            }
+            private set => _controllerRef = value;
+        }
 
-        float timer = 0f;
-        float waitTime = 0.25f;
+        public virtual bool isFinished { get; protected set; }
+        public abstract bool isExpression { get; }
 
         VisualState visualState;
 
+        public List<List<InterpreterElement>> listOfChildren = new List<List<InterpreterElement>>();
+
+        // Lazy variables
+        int? _index;
+        int index => _index ??= parentList?.IndexOf(this) ?? -1;
+
         // Methods
-        abstract public void Execute(string argument);
+        public InterpreterElement(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference
+        ) {
+            this.parentList = parentList;
+            this.controllerReference = controllerReference;
 
-        void Update() {
-            if (!HasFocus) return;
-
-            timer += Time.deltaTime;
-
-            if (timer >= waitTime) {
-                timer -= waitTime;
-                Flickering();
-            }
-
-            SetVisualState();
+            this.type = controllerReference.type;
+            this.symbolName = controllerReference.symbolName;
         }
 
-        void SetVisualState() {
+        abstract public void Execute(string argument);
+
+        public void SetVisualState() {
             if (visualState == VisualState.Pressed) {
-                Controller.SetState("pressed");
+                controllerReference?.SetState("pressed");
             } else if (
                 visualState == VisualState.NotPressed ||
                 visualState == VisualState.Finished
             ) {
-                Controller.SetState("normal");
+                controllerReference?.SetState("normal");
             }
         }
 
-        void Flickering() {
+        public void ChangeFlickeringState() {
             if (visualState == VisualState.Pressed) {
                 visualState = VisualState.NotPressed;
             } else if (visualState == VisualState.NotPressed) {
@@ -67,40 +77,40 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
-        public void PauseFlickering() {
-            visualState = VisualState.Paused;
-        }
-
-        public void ReleaseVisualState() {
-            visualState = HasFocus ? VisualState.Pressed : VisualState.Finished;
-        }
-
-        public void Reset() {
-            timer = 0f;
-            HasFocus = false;
+        public void ResetState() {
             visualState = VisualState.Pressed;
 
-            IsFinished = false;
+            isFinished = false;
 
-            CustomReset();
+            CustomResetState();
         }
 
-        protected virtual void CustomReset() { }
+        protected virtual void CustomResetState() { }
 
         public void GetFocus() {
-            timer = 0f;
-            HasFocus = true;
             visualState = VisualState.Pressed;
         }
 
         public void LoseFocus() {
-            HasFocus = false;
-            Controller.SetState("normal");
             visualState = VisualState.Finished;
+            controllerReference?.SetState("normal");
         }
 
-        public virtual InterpreterElement GetNextStatement() {
-            return Controller.parentArray.Next(Controller)?.interpreterElement;
+        public virtual InterpreterElement NextStatement() {
+            return index < parentList.Count - 1 && index >= 0
+                ? parentList[index + 1]
+                : null;
+        }
+
+        protected List<InterpreterElement> InterpreterElementsFromContainer(
+            NodeContainer container,
+            List<InterpreterElement> parentList
+        ) {
+            listOfChildren.Add(parentList);
+
+            return container.array.nodes.ConvertAll(
+                n => n.GetInterpreterElement(parentList: parentList)
+            );
         }
 
     }
