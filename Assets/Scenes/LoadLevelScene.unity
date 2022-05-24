@@ -1049,6 +1049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1902743584}
   - component: {fileID: 1902743585}
+  - component: {fileID: 1902743586}
   m_Layer: 5
   m_Name: levelSelectorParent
   m_TagString: Untagged
@@ -1086,6 +1087,31 @@ SortingGroup:
   m_SortingLayerID: 2130069865
   m_SortingLayer: 5
   m_SortingOrder: 1
+--- !u!114 &1902743586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902743583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeExpander: {fileID: 0}
+  nodeExpandable: {fileID: 0}
+  directController: {fileID: 0}
+  indirectController: {fileID: 0}
+  initHeight: 0
+  initWidth: 0
+  minHeight: 0
+  minWidth: 0
+  resizable: 1
+  moveable: 1
+  ownDepthLevels: 0
+  currentHeight: 0
+  currentWidth: 0
 --- !u!114 &1945864223 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3465415418262239324, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
@@ -1217,7 +1243,7 @@ MonoBehaviour:
   returnButton: {fileID: 711729747}
   rightButton: {fileID: 1945864223}
   leftbutton: {fileID: 36585365}
-  levelSelectorParent: {fileID: 1902743584}
+  levelSelectorParent: {fileID: 1902743586}
   levelContainer: {fileID: 114698348}
   levelSelectorPrefab: {fileID: 6541866555287697728, guid: ab444bce1bf2c4649a1e76770b56fb4b, type: 3}
 --- !u!1001 &4812119902741205771
