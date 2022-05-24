@@ -43,6 +43,7 @@ namespace ScrapCoder.VisualNodes {
         ScanAndSetValueOfArray = 47,
         ScanToVariable = 48,
         PutValueOnPanel = 49,
+        SortArray = 50,
     }
 
 }

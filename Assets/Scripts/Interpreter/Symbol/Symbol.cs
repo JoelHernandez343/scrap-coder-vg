@@ -25,7 +25,7 @@ namespace ScrapCoder.Interpreter {
         string symbolName;
         public string SymbolName;
 
-        List<string> arrayOfValues;
+        List<string> arrayOfValues = new List<string>();
 
         NodeSpawnController spawner;
 
@@ -182,6 +182,19 @@ namespace ScrapCoder.Interpreter {
 
             arrayOfValues[index] = newValue;
             table.ChangeRowValue(index: index, newValue: newValue);
+        }
+
+        public void SortArrayAsNumber() {
+            arrayOfValues.Sort((a, b) => {
+                var numberA = System.Int32.Parse(a);
+                var numberB = System.Int32.Parse(b);
+
+                return numberA.CompareTo(numberB);
+            });
+
+            for (int i = 0; i < ArrayLength; ++i) {
+                table.ChangeRowValue(index: i, newValue: $"{arrayOfValues[i]}");
+            }
         }
 
     }
