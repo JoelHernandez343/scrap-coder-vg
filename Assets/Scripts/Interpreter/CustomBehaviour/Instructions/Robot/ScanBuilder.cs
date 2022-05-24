@@ -36,7 +36,7 @@ namespace ScrapCoder.Interpreter {
 
         List<InterpreterElement> variableList = new List<InterpreterElement>();
 
-        /// Lazy variables
+        // Lazy variables
         public override bool isExpression => false;
 
         InterpreterElement variable => variableList[0];
