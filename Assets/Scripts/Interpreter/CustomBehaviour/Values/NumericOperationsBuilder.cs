@@ -122,7 +122,7 @@ namespace ScrapCoder.Interpreter {
                         message: $"División entre 0 detectada en la op: {leftNumber} / {rightNumber}.",
                         type: MessageType.Error
                     );
-                    Executer.instance.Stop();
+                    Executer.instance.Stop(successfully: false);
                     return;
                 }
 
