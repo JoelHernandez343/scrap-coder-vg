@@ -14,18 +14,39 @@ namespace ScrapCoder.Interpreter {
         // Editor variables
         [SerializeField] InputText inputText;
 
-        // Lazy variables
-        public override bool IsExpression => true;
-
-        public override void Execute(string argument) {
-            var value = inputText.Value;
-
-            Executer.instance.ExecuteInmediately(argument: value);
-
-            IsFinished = true;
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new NumericValueInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                inputValue: inputText.Value
+            );
         }
 
-        public override InterpreterElementBuilder GetNextStatement() => null;
+    }
+
+    class NumericValueInterpreter : InterpreterElement {
+
+        // State variables
+        string inputValue;
+
+        // Lazy variables
+        public override bool isExpression => true;
+
+        public override void Execute(string argument) {
+            Executer.instance.ExecuteInmediately(argument: inputValue);
+            isFinished = true;
+        }
+
+        public override InterpreterElement NextStatement() => null;
+
+        public NumericValueInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            string inputValue
+        ) : base(parentList, controllerReference) {
+            this.inputValue = inputValue;
+        }
 
     }
 }

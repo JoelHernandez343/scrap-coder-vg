@@ -10,15 +10,28 @@ using ScrapCoder.VisualNodes;
 namespace ScrapCoder.Interpreter {
     public class EndBuilder : InterpreterElementBuilder {
 
-        // Lazy variables
-        public override bool IsFinished => true;
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new EndInterpreter(
+                parentList: null,
+                controllerReference: Controller
+            );
+        }
 
-        public override bool IsExpression => false;
+    }
+
+    public class EndInterpreter : InterpreterElement {
+
+        // Lazy variables
+        public override bool isExpression => false;
+        public override bool isFinished => true;
 
         // Methods
         public override void Execute(string argument) { }
 
-        public override InterpreterElementBuilder GetNextStatement() => null;
+        public override InterpreterElement NextStatement() => null;
+
+        public EndInterpreter(List<InterpreterElement> parentList, NodeController controllerReference)
+            : base(parentList, controllerReference) { }
 
     }
 }

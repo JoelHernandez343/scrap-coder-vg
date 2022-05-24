@@ -12,22 +12,39 @@ namespace ScrapCoder.Interpreter {
 
     public class RepeatNBuilder : InterpreterElementBuilder {
 
-        // Internal types
-        enum Steps { PushingValue, EvaluatingValue, ExecutingInstructions }
-
         // Editor variables
         [SerializeField] NodeContainer variableContainer;
         [SerializeField] NodeContainer instructionsContainer;
+
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new RepeatNInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                valueContainer: variableContainer,
+                instructionsContainer: instructionsContainer
+            );
+        }
+
+    }
+
+    class RepeatNInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingValue, EvaluatingValue, ExecutingInstructions }
 
         // State variables
         Steps currentStep = Steps.PushingValue;
         int repetition = 0;
 
-        // Lazy variables
-        public override bool IsExpression => false;
+        List<InterpreterElement> valueList = new List<InterpreterElement>();
+        List<InterpreterElement> instructions = new List<InterpreterElement>();
 
-        NodeController value => variableContainer.array.First;
-        NodeController firstInstruction => instructionsContainer.array.First;
+        // Lazy variables
+        public override bool isExpression => false;
+
+        InterpreterElement value => valueList[0];
+        InterpreterElement firstInstruction => instructions[0];
 
         // Methods
         public override void Execute(string argument) {
@@ -42,13 +59,13 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingValue;
             repetition = 0;
         }
 
         void PushingValue() {
-            Executer.instance.PushNext(next: value.interpreterElement);
+            Executer.instance.PushNext(next: value);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingValue;
@@ -61,7 +78,7 @@ namespace ScrapCoder.Interpreter {
                 repetition += 1;
                 currentStep = Steps.ExecutingInstructions;
             } else {
-                IsFinished = true;
+                isFinished = true;
             }
 
             Executer.instance.ExecuteInmediately();
@@ -70,10 +87,29 @@ namespace ScrapCoder.Interpreter {
         void ExecutingInstructions() {
             // Debug.Log("Executing instructions");
 
-            Executer.instance.PushNext(firstInstruction.interpreterElement);
+            Executer.instance.PushNext(firstInstruction);
             Executer.instance.ExecuteInNextFrame();
 
             currentStep = Steps.PushingValue;
+        }
+
+        public RepeatNInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer valueContainer,
+            NodeContainer instructionsContainer
+        ) : base(parentList, controllerReference) {
+
+            valueList.AddRange(InterpreterElementsFromContainer(
+                container: valueContainer,
+                parentList: valueList
+            ));
+
+            instructions.AddRange(InterpreterElementsFromContainer(
+                container: instructionsContainer,
+                parentList: instructions
+            ));
+
         }
 
     }

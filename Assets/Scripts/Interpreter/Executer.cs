@@ -28,8 +28,11 @@ namespace ScrapCoder.Interpreter {
         States state = States.Stopped;
         ExecutionState executionState = ExecutionState.Stopped;
 
-        float timer = 0f;
-        float waitTime;
+        float timerForVelocity = 0f;
+        float waitTimeForVelocity;
+
+        float timerForFlickering = 0f;
+        const float waitTimeForFlickering = 0.25f;
 
         ExecuterVelocity _velocity = ExecuterVelocity.Immediately;
         public ExecuterVelocity velocity {
@@ -38,6 +41,7 @@ namespace ScrapCoder.Interpreter {
         }
 
         InterpreterElement currentElementWithFocus;
+        InterpreterElement currentCode;
 
         // Lazy variables
         Analyzer _analyzer;
@@ -52,7 +56,8 @@ namespace ScrapCoder.Interpreter {
             UpdateWaitTime();
 
             if (instance != null) {
-                Destroy(gameObject);
+                Debug.Log("Wait, is there another Executor?!");
+                Destroy(this);
                 return;
             }
 
@@ -60,15 +65,27 @@ namespace ScrapCoder.Interpreter {
         }
 
         void Update() {
-            if (state != States.Running || executionState != ExecutionState.NextFrame) return;
+            if (state != States.Running) return;
 
-            timer += Time.deltaTime;
+            if (executionState == ExecutionState.NextFrame) {
+                timerForVelocity += Time.deltaTime;
 
-            if (timer >= waitTime) {
-                // Timer soft reset, min ~ timer -= waitTaime
-                timer -= (int)System.Math.Floor(timer / waitTime) * waitTime;
+                if (timerForVelocity >= waitTimeForVelocity) {
+                    // Timer soft reset, min ~ timer -= waitTaime
+                    timerForVelocity -= (int)System.Math.Floor(timerForVelocity / waitTimeForVelocity) * waitTimeForVelocity;
+                    ExecuteNext();
+                }
+            }
 
-                ExecuteNext();
+            if (currentElementWithFocus != null && velocity != ExecuterVelocity.Immediately) {
+                timerForFlickering += Time.deltaTime;
+
+                if (timerForFlickering >= waitTimeForFlickering) {
+                    timerForFlickering -= waitTimeForFlickering;
+                    currentElementWithFocus.ChangeFlickeringState();
+                }
+
+                currentElementWithFocus.SetVisualState();
             }
         }
 
@@ -81,17 +98,17 @@ namespace ScrapCoder.Interpreter {
             UpdateWaitTime();
 
             if (previousTiming < newVelocity) {
-                timer = waitTime;
+                timerForVelocity = waitTimeForVelocity;
             }
         }
 
         void UpdateWaitTime() {
             if (velocity == ExecuterVelocity.Immediately) {
-                waitTime = Time.fixedDeltaTime;
+                waitTimeForVelocity = Time.fixedDeltaTime;
             } else if (velocity == ExecuterVelocity.EverySecond) {
-                waitTime = 1f;
+                waitTimeForVelocity = 1f;
             } else if (velocity == ExecuterVelocity.EveryThreeSeconds) {
-                waitTime = 3f;
+                waitTimeForVelocity = 3f;
             }
         }
 
@@ -103,9 +120,12 @@ namespace ScrapCoder.Interpreter {
         void ResetState() {
             state = States.Running;
             executionState = ExecutionState.Stopped;
-            timer = 0f;
+            timerForVelocity = 0f;
 
             nextArgument = null;
+
+            currentCode = null;
+
             stack.Clear();
         }
 
@@ -125,36 +145,43 @@ namespace ScrapCoder.Interpreter {
                 return;
             }
 
-            TutorialController.instance.ReceiveSignal(signal: "executerCalled");
-
             InputController.instance.ClearFocus();
 
             var (isValid, beginning) = analyzer.Analize();
             if (!isValid) return;
 
-            TutorialController.instance.ReceiveSignal(signal: "executerOnSuccesfully");
+            TutorialController.instance.ReceiveSignal(signal: "executerCalled");
 
             ResetState();
 
-            PushNext(beginning.interpreterElement);
+            currentCode = beginning.GetInterpreterElement();
+            // TreePresentation(currentCode);
+
+            PushNext(currentCode);
             ExecuteNext();
         }
 
-        public void Stop(bool force = true) {
+        public void Stop(bool successfully = true) {
             if (state == States.Stopped || state == States.Stopping) return;
 
-            MessagesController.instance.AddMessage(
-                message: "Ejecución terminada."
-            );
 
-            if (force) {
-                state = States.Stopped;
+
+            if (successfully) {
+                MessagesController.instance.AddMessage(
+                    message: "Ejecución terminada."
+                );
+                TutorialController.instance.ReceiveSignal(signal: "executerSuccessfullyFinished");
             } else {
-                state = executionState == ExecutionState.WaitingForRobot
-                    ? States.Stopping
-                    : States.Stopped;
+                MessagesController.instance.AddMessage(
+                    message: "Ejecución terminada con errores.",
+                    type: MessageType.Error
+                );
+                TutorialController.instance.ReceiveSignal(signal: "executerFinishedWithError");
             }
 
+            // Here we must indicate to the robot that execution is finished
+
+            state = States.Stopped;
             executionState = ExecutionState.Stopped;
 
             ClearCurrentFocus();
@@ -163,7 +190,7 @@ namespace ScrapCoder.Interpreter {
         public void PushNext(InterpreterElement next) {
             if (next == null) return;
 
-            next.Reset();
+            next.ResetState();
             stack.Push(next);
         }
 
@@ -173,20 +200,20 @@ namespace ScrapCoder.Interpreter {
             Debug.Assert(stack.Count > 0, "Wtf Unity");
             var current = stack.Peek();
 
-            if (current.Controller.type == NodeType.End) {
+            if (current.type == NodeType.End) {
                 stack.Pop();
-                Stop(force: true);
+                Stop();
 
                 return;
             }
 
-            if (current.IsFinished) {
+            if (current.isFinished) {
                 stack.Pop();
 
-                if (current.IsExpression) {
+                if (current.isExpression) {
                     ExecuteInmediately(argument: nextArgument);
                 } else {
-                    PushNext(next: current.GetNextStatement());
+                    PushNext(next: current.NextStatement());
                     ExecuteInNextFrame();
                 }
             } else {
@@ -195,7 +222,7 @@ namespace ScrapCoder.Interpreter {
                     current.Execute(argument: nextArgument);
                 } catch (System.Exception e) {
                     Debug.LogException(e);
-                    Stop(force: true);
+                    Stop(successfully: false);
                 }
             }
 
@@ -223,6 +250,8 @@ namespace ScrapCoder.Interpreter {
 
             currentElementWithFocus?.LoseFocus();
 
+            timerForFlickering = 0f;
+
             if (velocity != ExecuterVelocity.Immediately) {
                 currentElementWithFocus = element;
                 currentElementWithFocus.GetFocus();
@@ -230,18 +259,39 @@ namespace ScrapCoder.Interpreter {
         }
 
         void ClearCurrentFocus() {
+            timerForFlickering = 0f;
             currentElementWithFocus?.LoseFocus();
             currentElementWithFocus = null;
         }
 
         void ReceiveAnswer(int? answer) {
-            Debug.Log($"[Executer] Answer received: {(answer == null ? "void" : $"{answer}")}");
+            bool received = false;
+
             if (state == States.Stopping || state == States.Stopped) {
                 state = States.Stopped;
             } else if (executionState == ExecutionState.WaitingForRobot) {
+                Debug.Log($"[Executer] Answer processed: {(answer == null ? "void" : $"{answer}")}");
+                received = true;
                 nextArgument = answer != null ? $"{answer}" : null; //RobotController.instance.answer;
+            }
+
+            if (!received) {
+                Debug.Log($"[Executer] Answer ignored: {(answer == null ? "void" : $"{answer}")}");
+            } else {
                 ExecuteNext();
             }
+        }
+
+        void TreePresentation(InterpreterElement element, string parent = "") {
+
+            Debug.Log($"{parent}{{ referenceName: {element.controllerReference?.name}, type: {element.type} }}");
+
+            element.listOfChildren.ForEach(children =>
+                children.ForEach(child =>
+                    TreePresentation(child, $"{parent}{element.controllerReference?.name}->")
+                )
+            );
+
         }
 
     }

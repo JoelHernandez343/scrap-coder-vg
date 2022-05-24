@@ -12,14 +12,31 @@ namespace ScrapCoder.Interpreter {
 
     public class InteractBuilder : InterpreterElementBuilder {
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new InteractInterpreter(
+                parentList: parentList,
+                controllerReference: Controller
+            );
+        }
+
+    }
+
+    class InteractInterpreter : InterpreterElement {
+
         /// Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
         // Methods
         public override void Execute(string answer) {
             SendInstruction.sendInstruction((int)Actions.Interact);
-            IsFinished = true;
+            isFinished = true;
         }
+
+        public InteractInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference
+        ) : base(parentList, controllerReference) { }
 
     }
 

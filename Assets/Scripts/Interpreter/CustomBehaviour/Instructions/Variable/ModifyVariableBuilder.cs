@@ -11,34 +11,69 @@ namespace ScrapCoder.Interpreter {
     public class ModifyVariableBuilder : InterpreterElementBuilder {
 
         // Internal types
-        enum Operation { Add, Decrease }
+        public enum Operation { Add, Decrease }
 
         // Editor variables
         [SerializeField] NodeContainer variableContainer;
         [SerializeField] Operation operation;
 
-        // Lazy variables
-        public override bool IsExpression => false;
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new ModifyVariableInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                variableContainer: variableContainer,
+                operation: operation
+            );
+        }
 
-        NodeController variable => variableContainer.array.First;
-        string symbolName => variable.symbolName;
+    }
+
+    class ModifyVariableInterpreter : InterpreterElement {
+
+        // State variables
+        ModifyVariableBuilder.Operation operation;
+
+        List<InterpreterElement> variableList = new List<InterpreterElement>();
+
+        // Lazy variables
+        public override bool isExpression => false;
+
+        InterpreterElement variable => variableList[0];
+        string variableSymbolName => variable.symbolName;
 
         int variableValue {
-            get => System.Int32.Parse(SymbolTable.instance[symbolName].Value);
-            set => SymbolTable.instance[symbolName].SetValue(newValue: $"{value}");
+            get => System.Int32.Parse(SymbolTable.instance[variableSymbolName].Value);
+            set => SymbolTable.instance[variableSymbolName].SetValue(newValue: $"{value}");
         }
 
         public override void Execute(string argument) {
 
-            if (operation == Operation.Add) {
+            if (operation == ModifyVariableBuilder.Operation.Add) {
                 variableValue = variableValue + 1;
-            } else if (operation == Operation.Decrease) {
+            } else if (operation == ModifyVariableBuilder.Operation.Decrease) {
                 variableValue = variableValue - 1;
             }
 
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
+        }
+
+        public ModifyVariableInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer variableContainer,
+            ModifyVariableBuilder.Operation operation
+        ) : base(parentList, controllerReference) {
+
+            variableList.AddRange(InterpreterElementsFromContainer(
+                container: variableContainer,
+                parentList: variableList
+            ));
+
+            this.operation = operation;
+
         }
 
     }

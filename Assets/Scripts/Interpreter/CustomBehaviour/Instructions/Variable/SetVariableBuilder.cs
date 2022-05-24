@@ -11,23 +11,40 @@ using ScrapCoder.UI;
 namespace ScrapCoder.Interpreter {
     public class SetVariableBuilder : InterpreterElementBuilder {
 
-        // Private types
-        enum Steps { PushingValue, SettingVariable }
-
         // Editor variables
         [SerializeField] NodeContainer variableContainer;
         [SerializeField] NodeContainer valueContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new SetVariableInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                valueContainer: valueContainer,
+                variableContainer: variableContainer
+            );
+        }
+
+    }
+
+    class SetVariableInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingValue, SettingVariable }
+
         // State variables
         Steps currentStep;
 
+        List<InterpreterElement> valueList = new List<InterpreterElement>();
+        List<InterpreterElement> variableList = new List<InterpreterElement>();
+
         // Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
-        NodeController variable => variableContainer.First;
-        NodeController value => valueContainer.First;
+        InterpreterElement variable => variableList[0];
+        InterpreterElement value => valueList[0];
 
-        string symbolName => variable.symbolName;
+        string variableSymbolName => variable.symbolName;
 
         // Methods
         public override void Execute(string argument) {
@@ -41,21 +58,40 @@ namespace ScrapCoder.Interpreter {
         }
 
         void PushingValue() {
-            Executer.instance.PushNext(value.interpreterElement);
+            Executer.instance.PushNext(value);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.SettingVariable;
         }
 
         void SettingVariable(string value) {
-            SymbolTable.instance[symbolName].SetValue(newValue: value);
+            SymbolTable.instance[variableSymbolName].SetValue(newValue: value);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingValue;
+        }
+
+        public SetVariableInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer valueContainer,
+            NodeContainer variableContainer
+        ) : base(parentList, controllerReference) {
+
+            valueList.AddRange(InterpreterElementsFromContainer(
+                container: valueContainer,
+                parentList: valueList
+            ));
+
+            variableList.AddRange(InterpreterElementsFromContainer(
+                container: variableContainer,
+                parentList: variableList
+            ));
+
         }
 
     }

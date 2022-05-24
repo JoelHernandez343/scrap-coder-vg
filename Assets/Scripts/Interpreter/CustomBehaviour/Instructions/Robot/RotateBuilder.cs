@@ -15,14 +15,40 @@ namespace ScrapCoder.Interpreter {
         // Editor variablesRotateInterpreter
         [SerializeField] DropMenuController dropMenu;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new RotateInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                dropMenuValue: dropMenu.Value
+            );
+        }
+
+    }
+
+    class RotateInterpreter : InterpreterElement {
+
+        // State variable
+        string dropMenuValue;
+
         /// Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
         // Methods
         public override void Execute(string argument) {
-            var selectedAction = dropMenu.Value == "right" ? Actions.RotateRight : Actions.RotateLeft;
+            var selectedAction = dropMenuValue == "right" ? Actions.RotateRight : Actions.RotateLeft;
             SendInstruction.sendInstruction((int)selectedAction);
-            IsFinished = true;
+            isFinished = true;
+        }
+
+        public RotateInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            string dropMenuValue
+        ) : base(parentList, controllerReference) {
+
+            this.dropMenuValue = dropMenuValue;
+
         }
 
     }

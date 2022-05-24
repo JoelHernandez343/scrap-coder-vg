@@ -12,20 +12,32 @@ namespace ScrapCoder.Interpreter {
 
     public class ScanAndAddToArrayBuilder : InterpreterElementBuilder {
 
-        // Internal types
-        enum Steps { PushingInstruction, AddingToArray }
-
         // Editor variable
         [SerializeField] NodeContainer arrayContainer;
+
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new ScanAndAddToArrayInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                array: arrayContainer.First
+            );
+        }
+
+    }
+
+    class ScanAndAddToArrayInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingInstruction, AddingToArray }
 
         // State variables
         Steps currentStep;
 
-        /// Lazy variables
-        public override bool IsExpression => false;
+        string arraySymbolName;
 
-        NodeController array => arrayContainer.First;
-        string symbolName => array.symbolName;
+        /// Lazy variables
+        public override bool isExpression => false;
 
         // Methods
         public override void Execute(string argument) {
@@ -43,25 +55,35 @@ namespace ScrapCoder.Interpreter {
         }
 
         void AddingToArray(string newValue) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+            var arrayLength = SymbolTable.instance[arraySymbolName].ArrayLength;
 
             if (arrayLength == Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
-                    message: $"El arreglo {symbolName} ha alcanzado su límite.",
+                    message: $"El arreglo {arraySymbolName} ha alcanzado su límite.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
-            SymbolTable.instance[symbolName].AddToArray(value: newValue);
+            SymbolTable.instance[arraySymbolName].AddToArray(value: newValue);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingInstruction;
+        }
+
+        public ScanAndAddToArrayInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeController array
+        ) : base(parentList, controllerReference) {
+
+            arraySymbolName = array.symbolName;
+
         }
 
     }

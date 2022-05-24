@@ -12,8 +12,7 @@ namespace ScrapCoder.Interpreter {
     public class NumericOperationsBuilder : InterpreterElementBuilder {
 
         // Internal types
-        enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
-        enum Operation { Sum, Substraction, Multiplication, Division }
+        public enum Operation { Sum, Substraction, Multiplication, Division }
 
         // Editor variables
         [SerializeField] NodeContainer leftContainer;
@@ -21,26 +20,49 @@ namespace ScrapCoder.Interpreter {
 
         [SerializeField] DropMenuController dropMenu;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new NumericOperationsInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                leftValueContainer: leftContainer,
+                rightValueContainer: rightContainer,
+                dropMenuValue: dropMenu.Value
+            );
+        }
+
+    }
+
+    class NumericOperationsInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
+
         // State variables
         Steps currentStep;
+
+        string dropMenuValue;
 
         int leftNumber;
         int rightNumber;
 
+        List<InterpreterElement> leftValueList = new List<InterpreterElement>();
+        List<InterpreterElement> rightValueList = new List<InterpreterElement>();
+
         // Lazy variables
-        public override bool IsExpression => true;
+        public override bool isExpression => true;
 
-        NodeController leftValue => leftContainer.First;
-        NodeController rightValue => rightContainer.First;
+        InterpreterElement leftValue => leftValueList[0];
+        InterpreterElement rightValue => rightValueList[0];
 
-        Operation selectedOperation
-            => dropMenu.Value == "a"
-                ? Operation.Sum
-                : dropMenu.Value == "s"
-                ? Operation.Substraction
-                : dropMenu.Value == "m"
-                ? Operation.Multiplication
-                : Operation.Division;
+        NumericOperationsBuilder.Operation selectedOperation
+            => dropMenuValue == "a"
+                ? NumericOperationsBuilder.Operation.Sum
+                : dropMenuValue == "s"
+                ? NumericOperationsBuilder.Operation.Substraction
+                : dropMenuValue == "m"
+                ? NumericOperationsBuilder.Operation.Multiplication
+                : NumericOperationsBuilder.Operation.Division;
 
         // Methods
         public override void Execute(string argument) {
@@ -57,17 +79,17 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingLeftValue;
         }
 
-        public override InterpreterElementBuilder GetNextStatement() => null;
+        public override InterpreterElement NextStatement() => null;
 
         void PushingValue(string member) {
 
             var valueToPush = member == "left" ? leftValue : rightValue;
 
-            Executer.instance.PushNext(valueToPush.interpreterElement);
+            Executer.instance.PushNext(valueToPush);
             Executer.instance.ExecuteInmediately();
 
             currentStep = member == "left"
@@ -88,19 +110,19 @@ namespace ScrapCoder.Interpreter {
             var result = 0;
             var operation = selectedOperation;
 
-            if (operation == Operation.Sum) {
+            if (operation == NumericOperationsBuilder.Operation.Sum) {
                 result = leftNumber + rightNumber;
-            } else if (operation == Operation.Substraction) {
+            } else if (operation == NumericOperationsBuilder.Operation.Substraction) {
                 result = leftNumber - rightNumber;
-            } else if (operation == Operation.Multiplication) {
+            } else if (operation == NumericOperationsBuilder.Operation.Multiplication) {
                 result = leftNumber * rightNumber;
-            } else if (operation == Operation.Division) {
+            } else if (operation == NumericOperationsBuilder.Operation.Division) {
                 if (rightNumber == 0) {
                     MessagesController.instance.AddMessage(
                         message: $"División entre 0 detectada en la op: {leftNumber} / {rightNumber}.",
                         type: MessageType.Error
                     );
-                    Executer.instance.Stop(force: true);
+                    Executer.instance.Stop();
                     return;
                 }
 
@@ -108,7 +130,29 @@ namespace ScrapCoder.Interpreter {
             }
 
             Executer.instance.ExecuteInmediately(argument: $"{result}");
-            IsFinished = true;
+            isFinished = true;
+
+        }
+
+        public NumericOperationsInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer leftValueContainer,
+            NodeContainer rightValueContainer,
+            string dropMenuValue
+        ) : base(parentList, controllerReference) {
+
+            leftValueList.AddRange(InterpreterElementsFromContainer(
+                container: leftValueContainer,
+                parentList: leftValueList
+            ));
+
+            rightValueList.AddRange(InterpreterElementsFromContainer(
+                container: rightValueContainer,
+                parentList: rightValueList
+            ));
+
+            this.dropMenuValue = dropMenuValue;
 
         }
 

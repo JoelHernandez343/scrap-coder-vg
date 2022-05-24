@@ -74,7 +74,7 @@ namespace ScrapCoder.Tutorial {
                 return true;
             }
 
-            if (signal == "executerOnSuccesfully" && currentState == State.WaitingForExecute) {
+            if (signal == "executerSuccessfullyFinished" && currentState == State.WaitingForExecute) {
                 HideMessageOfCurrentState();
                 FinalizingRotatePresentation();
                 return true;

@@ -8,19 +8,46 @@ using UnityEngine;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
+
     public class BeginBuilder : InterpreterElementBuilder {
 
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new BeginInterpreter(
+                parentList: null,
+                controllerReference: Controller
+            );
+        }
+    }
+
+    class BeginInterpreter : InterpreterElement {
+
+        // State variables
+        List<InterpreterElement> siblings = new List<InterpreterElement>();
+
         // Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
         // Methods
         public override void Execute(string argument) {
             Executer.instance.ExecuteInmediately();
-            IsFinished = true;
+            isFinished = true;
         }
 
-        public override InterpreterElementBuilder GetNextStatement() {
-            return Controller.siblings[0].interpreterElement;
+        public BeginInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference
+        ) : base(parentList, controllerReference) {
+
+            siblings.AddRange(InterpreterElementsFromContainer(
+                container: controllerReference.siblings.container,
+                parentList: siblings
+            ));
+
         }
+
+        public override InterpreterElement NextStatement() {
+            return siblings[0];
+        }
+
     }
 }

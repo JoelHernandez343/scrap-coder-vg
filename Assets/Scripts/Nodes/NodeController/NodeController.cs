@@ -55,7 +55,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] public NodeCategory category;
 
         [SerializeField] List<NodePiece> components;
-        [SerializeField] List<NodeContainer> containers;
+        [SerializeField] public List<NodeContainer> containers;
         [SerializeField] List<NodeTransform> staticContainers;
 
         [SerializeField] Component zoneRefresher;
@@ -63,7 +63,7 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] Component nodeAnalyzer;
 
         // State variables
-        NodeArray _parentArray;
+        [SerializeField] NodeArray _parentArray;
         public NodeArray parentArray {
             set {
                 _parentArray = value;
@@ -72,7 +72,7 @@ namespace ScrapCoder.VisualNodes {
                     transform.SetParent(parentArray.transform);
                     HierarchyController.instance.DeleteNode(this);
                 } else {
-                    transform.SetParent(workingZone);
+                    HierarchyController.instance.SetOnTopOfNodes(this);
                 }
             }
             get => _parentArray;
@@ -137,8 +137,8 @@ namespace ScrapCoder.VisualNodes {
         public UI.DragDropZone previousDrop = null;
         public UI.DragDropZone currentDrop = null;
 
-        InterpreterElement _interpreterElement;
-        public InterpreterElement interpreterElement => _interpreterElement ??= (GetComponent<InterpreterElement>() as InterpreterElement);
+        InterpreterElementBuilder _interpreterBuilder;
+        public InterpreterElementBuilder interpreterBuilder => _interpreterBuilder ??= (GetComponent<InterpreterElementBuilder>() as InterpreterElementBuilder);
 
         string state;
 
@@ -357,7 +357,10 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void Disappear() {
-            Action destroy = () => Destroy(gameObject);
+            Action destroy = () => {
+                // Debug.Log($"[{name}] Destroyed!!!!");
+                Destroy(gameObject);
+            };
 
             Action disappear = () => {
                 ownTransform.SetPosition(
@@ -391,6 +394,7 @@ namespace ScrapCoder.VisualNodes {
             HierarchyController.instance.SortNodes();
 
             if (destroy) {
+                // Debug.Log($"[{name}] Destroyed!!!!");
                 Destroy(gameObject);
             }
         }
@@ -558,6 +562,11 @@ namespace ScrapCoder.VisualNodes {
 
             return newNode;
         }
+
+        public InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList = null) {
+            return interpreterBuilder.GetInterpreterElement(parentList);
+        }
+
     }
 
 }

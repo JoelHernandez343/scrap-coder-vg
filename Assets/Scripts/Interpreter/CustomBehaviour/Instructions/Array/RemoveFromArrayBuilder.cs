@@ -9,25 +9,41 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class RemoveFromArrayBuilder : InterpreterElementBuilder {
 
-        // Private types
-        enum Steps { PushingIndex, RemovingFromArray }
+    public class RemoveFromArrayBuilder : InterpreterElementBuilder {
 
         // Editor variables
         [SerializeField] NodeContainer indexContainer;
         [SerializeField] NodeContainer arrayContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new RemoveFromArrayInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                indexContainer: indexContainer,
+                array: arrayContainer.First
+            );
+        }
+
+    }
+
+    class RemoveFromArrayInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingIndex, RemovingFromArray }
+
         // State variables
         Steps currentStep;
 
+        List<InterpreterElement> indexList = new List<InterpreterElement>();
+        string arraySymbolName;
+
         // Lazy variables
-        public override bool IsExpression => false;
+        public override bool isExpression => false;
 
-        NodeController array => arrayContainer.First;
-        NodeController indexValue => indexContainer.First;
+        InterpreterElement indexValue => indexList[0];
 
-        string symbolName => array.symbolName;
 
         // Methods
         public override void Execute(string argument) {
@@ -41,14 +57,14 @@ namespace ScrapCoder.Interpreter {
         }
 
         void PushingIndex() {
-            Executer.instance.PushNext(indexValue.interpreterElement);
+            Executer.instance.PushNext(indexValue);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.RemovingFromArray;
         }
 
         void RemovingFromArray(string indexValue) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+            var arrayLength = SymbolTable.instance[arraySymbolName].ArrayLength;
 
             var index = System.Int32.Parse(indexValue);
 
@@ -57,27 +73,43 @@ namespace ScrapCoder.Interpreter {
                     message: $"El índice {index} debe de ser mayor o igual a 0.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
             if (index >= arrayLength) {
                 MessagesController.instance.AddMessage(
-                    message: $"El índice {index} debe de ser menor o igual a la longitud: {arrayLength} del arreglo: {symbolName}.",
+                    message: $"El índice {index} debe de ser menor o igual a la longitud: {arrayLength} del arreglo: {arraySymbolName}.",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
-            SymbolTable.instance[symbolName].RemoveFromArray(index: index);
+            SymbolTable.instance[arraySymbolName].RemoveFromArray(index: index);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingIndex;
+        }
+
+        public RemoveFromArrayInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer indexContainer,
+            NodeController array
+        ) : base(parentList, controllerReference) {
+
+            indexList.AddRange(InterpreterElementsFromContainer(
+                container: indexContainer,
+                parentList: indexList
+            ));
+
+            arraySymbolName = array.symbolName;
+
         }
 
     }

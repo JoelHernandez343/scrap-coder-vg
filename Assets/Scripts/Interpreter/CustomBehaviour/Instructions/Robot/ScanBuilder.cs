@@ -12,20 +12,35 @@ namespace ScrapCoder.Interpreter {
 
     public class ScanBuilder : InterpreterElementBuilder {
 
-        // Internal types
-        enum Steps { PushingInstruction, SettingVariable }
-
         // Editor variable
         [SerializeField] NodeContainer variableContainer;
+
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new ScanInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                variableContainer: variableContainer
+            );
+        }
+
+    }
+
+    class ScanInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingInstruction, SettingVariable }
 
         // State variables
         Steps currentStep;
 
-        /// Lazy variables
-        public override bool IsExpression => false;
+        List<InterpreterElement> variableList = new List<InterpreterElement>();
 
-        NodeController variable => variableContainer.First;
-        string symbolName => variable.symbolName;
+        /// Lazy variables
+        public override bool isExpression => false;
+
+        InterpreterElement variable => variableList[0];
+        string variableSymbolName => variable.symbolName;
 
         // Methods
         public override void Execute(string argument) {
@@ -43,14 +58,27 @@ namespace ScrapCoder.Interpreter {
         }
 
         void SetVariable(string newValue) {
-            SymbolTable.instance[symbolName].SetValue(newValue: newValue);
+            SymbolTable.instance[variableSymbolName].SetValue(newValue: newValue);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingInstruction;
+        }
+
+        public ScanInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer variableContainer
+        ) : base(parentList, controllerReference) {
+
+            variableList.AddRange(InterpreterElementsFromContainer(
+                container: variableContainer,
+                parentList: variableList
+            ));
+
         }
 
     }

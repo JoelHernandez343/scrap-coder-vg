@@ -11,24 +11,38 @@ using ScrapCoder.UI;
 namespace ScrapCoder.Interpreter {
     public class AddToArrayBuilder : InterpreterElementBuilder {
 
-        // Private types
-        enum Steps { PushingValue, AddingToArray }
-
         // Editor variables
         [SerializeField] NodeContainer valueContainer;
         [SerializeField] NodeContainer arrayContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new AddToArrayInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                valueContainer: valueContainer,
+                array: arrayContainer.First
+            );
+        }
+
+    }
+
+    class AddToArrayInterpreter : InterpreterElement {
+
+        // Private types
+        enum Steps { PushingValue, AddingToArray }
+
         // State variables
         Steps currentStep;
 
+        List<InterpreterElement> valueList = new List<InterpreterElement>();
+
+        string arraySymbolName;
+
         // Lazy variables
+        public override bool isExpression => false;
 
-        public override bool IsExpression => false;
-
-        NodeController array => arrayContainer.First;
-        NodeController value => valueContainer.First;
-
-        string symbolName => array.symbolName;
+        InterpreterElement value => valueList[0];
 
         // Methods
         public override void Execute(string argument) {
@@ -42,32 +56,48 @@ namespace ScrapCoder.Interpreter {
         }
 
         void PushingValue() {
-            Executer.instance.PushNext(value.interpreterElement);
+            Executer.instance.PushNext(value);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.AddingToArray;
         }
 
         void AddingToArray(string value) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+            var arrayLength = SymbolTable.instance[arraySymbolName].ArrayLength;
 
             if (arrayLength == Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
-                    message: $"El arreglo {symbolName} ha alcanzado su limite de {Symbol.ArrayLimit}",
+                    message: $"El arreglo {arraySymbolName} ha alcanzado su limite de {Symbol.ArrayLimit}",
                     type: MessageType.Error
                 );
-                Executer.instance.Stop(force: true);
+                Executer.instance.Stop(successfully: false);
                 return;
             }
 
-            SymbolTable.instance[symbolName].AddToArray(value: value);
+            SymbolTable.instance[arraySymbolName].AddToArray(value: value);
             Executer.instance.ExecuteInmediately();
 
-            IsFinished = true;
+            isFinished = true;
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingValue;
+        }
+
+        public AddToArrayInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer valueContainer,
+            NodeController array
+        ) : base(parentList, controllerReference) {
+
+            valueList.AddRange(InterpreterElementsFromContainer(
+                container: valueContainer,
+                parentList: valueList
+            ));
+
+            arraySymbolName = array.symbolName;
+
         }
 
     }

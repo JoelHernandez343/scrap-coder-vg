@@ -13,20 +13,42 @@ namespace ScrapCoder.Interpreter {
         // Editor variables
         [SerializeField] NodeContainer arrayContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new GetLengthOfArrayInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                array: arrayContainer.First
+            );
+        }
+
+    }
+
+    class GetLengthOfArrayInterpreter : InterpreterElement {
+
+        // State variables
+        string arraysymbolName;
+
         // Lazy variables
-        public override bool IsExpression => true;
-
-        NodeController array => arrayContainer.First;
-
-        string symbolName => array.symbolName;
+        public override bool isExpression => true;
 
         // Methods
         public override void Execute(string argument) {
-            var arrayLength = SymbolTable.instance[symbolName].ArrayLength;
+            var arrayLength = SymbolTable.instance[arraysymbolName].ArrayLength;
 
             Executer.instance.ExecuteInmediately(argument: $"{arrayLength}");
 
-            IsFinished = true;
+            isFinished = true;
+        }
+
+        public GetLengthOfArrayInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeController array
+        ) : base(parentList, controllerReference) {
+
+            arraysymbolName = array.symbolName;
+
         }
 
     }

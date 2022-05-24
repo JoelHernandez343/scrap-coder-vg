@@ -10,19 +10,34 @@ using ScrapCoder.VisualNodes;
 namespace ScrapCoder.Interpreter {
     public class NegationBuilder : InterpreterElementBuilder {
 
-        // Internal types
-        enum Steps { PushingCondition, EvaluatingCondition }
-
         // Editor variables
         [SerializeField] NodeContainer conditionContainer;
+
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new NegationInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                conditionContainer: conditionContainer
+            );
+        }
+
+    }
+
+    class NegationInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingCondition, EvaluatingCondition }
 
         // State variables
         Steps currentStep = Steps.PushingCondition;
 
-        // Lazy variables
-        public override bool IsExpression => true;
+        List<InterpreterElement> conditionList = new List<InterpreterElement>();
 
-        NodeController condition => conditionContainer.array.First;
+        // Lazy variables
+        public override bool isExpression => true;
+
+        InterpreterElement condition => conditionList[0];
 
         // Methods
         public override void Execute(string argument) {
@@ -35,16 +50,16 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingCondition;
         }
 
-        public override InterpreterElementBuilder GetNextStatement() => null;
+        public override InterpreterElement NextStatement() => null;
 
         void PushingCondition() {
             // Debug.Log("Pushing condition");
 
-            Executer.instance.PushNext(condition.interpreterElement);
+            Executer.instance.PushNext(condition);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingCondition;
@@ -55,8 +70,22 @@ namespace ScrapCoder.Interpreter {
 
             Executer.instance.ExecuteInmediately(argument: conditionValue == "true" ? "false" : "true");
 
-            IsFinished = true;
+            isFinished = true;
+        }
+
+        public NegationInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer conditionContainer
+        ) : base(parentList, controllerReference) {
+
+            conditionList.AddRange(InterpreterElementsFromContainer(
+                container: conditionContainer,
+                parentList: conditionList
+            ));
+
         }
 
     }
+
 }

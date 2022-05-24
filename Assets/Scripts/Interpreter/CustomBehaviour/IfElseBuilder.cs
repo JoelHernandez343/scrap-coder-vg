@@ -12,23 +12,42 @@ namespace ScrapCoder.Interpreter {
 
     public class IfElseBuilder : InterpreterElementBuilder {
 
-        // Internal types
-        enum Steps { PushingCondition, EvaluatingCondition, ExecutingFirst, ExecutingSecond }
-
         // Editor variables
         [SerializeField] NodeContainer conditionContainer;
         [SerializeField] NodeContainer firstInstructionsContainer;
         [SerializeField] NodeContainer secondInstructionsContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new IfElseInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                conditionContainer: conditionContainer,
+                firstInstructionsContainer: firstInstructionsContainer,
+                secondInstructionsContainer: secondInstructionsContainer
+            );
+        }
+
+    }
+
+    class IfElseInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingCondition, EvaluatingCondition, ExecutingFirst, ExecutingSecond }
+
         // State variables
         Steps currentStep = Steps.PushingCondition;
 
-        // Lazy variables
-        public override bool IsExpression => false;
+        List<InterpreterElement> conditionList = new List<InterpreterElement>();
+        List<InterpreterElement> firstInstructions = new List<InterpreterElement>();
+        List<InterpreterElement> secondInstructions = new List<InterpreterElement>();
 
-        NodeController condition => conditionContainer.array.First;
-        NodeController firstInstruction => firstInstructionsContainer.array.First;
-        NodeController secondInstruction => secondInstructionsContainer.array.First;
+        // Lazy variables
+        public override bool isExpression => false;
+
+        InterpreterElement condition => conditionList[0];
+        InterpreterElement firstInstruction => firstInstructions[0];
+        InterpreterElement secondInstruction => secondInstructions[0];
 
         // Methods
         public override void Execute(string argument) {
@@ -45,14 +64,14 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingCondition;
         }
 
         void PushingCondition() {
             // Debug.Log("Pushing condition");
 
-            Executer.instance.PushNext(condition.interpreterElement);
+            Executer.instance.PushNext(condition);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingCondition;
@@ -74,14 +93,39 @@ namespace ScrapCoder.Interpreter {
             // Debug.Log("Executing instructions");
 
             if (instructions == "first") {
-                Executer.instance.PushNext(firstInstruction.interpreterElement);
+                Executer.instance.PushNext(firstInstruction);
             } else {
-                Executer.instance.PushNext(secondInstruction.interpreterElement);
+                Executer.instance.PushNext(secondInstruction);
             }
 
             Executer.instance.ExecuteInNextFrame();
 
-            IsFinished = true;
+            isFinished = true;
+        }
+
+        public IfElseInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer conditionContainer,
+            NodeContainer firstInstructionsContainer,
+            NodeContainer secondInstructionsContainer
+        ) : base(parentList, controllerReference) {
+
+            conditionList.AddRange(InterpreterElementsFromContainer(
+                container: conditionContainer,
+                parentList: conditionList
+            ));
+
+            firstInstructions.AddRange(InterpreterElementsFromContainer(
+                container: firstInstructionsContainer,
+                parentList: firstInstructions
+            ));
+
+            secondInstructions.AddRange(InterpreterElementsFromContainer(
+                container: secondInstructionsContainer,
+                parentList: secondInstructions
+            ));
+
         }
 
     }

@@ -9,11 +9,11 @@ using ScrapCoder.UI;
 using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
+
     public class NumericComparisonBuilder : InterpreterElementBuilder {
 
         // Internal types
-        enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
-        enum Comparison { IsEqual, IsNotEqual, IsLessThan, IsLessOrEqual, IsGreaterThan, IsGreaterOrEqual }
+        public enum Comparison { IsEqual, IsNotEqual, IsLessThan, IsLessOrEqual, IsGreaterThan, IsGreaterOrEqual }
 
         // Editor variables
         [SerializeField] NodeContainer leftContainer;
@@ -21,30 +21,53 @@ namespace ScrapCoder.Interpreter {
 
         [SerializeField] DropMenuController dropMenu;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new NumericComparisonInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                leftValueContainer: leftContainer,
+                rightValueContainer: rightContainer,
+                dropMenuValue: dropMenu.Value
+            );
+        }
+
+    }
+
+    class NumericComparisonInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingLeftValue, PushingRightValue, EvaluatingCondition }
+
         // State variables
         Steps currentStep;
 
         int leftNumber;
         int rightNumber;
 
+        string dropMenuValue;
+
+        List<InterpreterElement> leftValueList = new List<InterpreterElement>();
+        List<InterpreterElement> rightValueList = new List<InterpreterElement>();
+
         // Lazy variables
-        public override bool IsExpression => true;
+        public override bool isExpression => true;
 
-        NodeController leftValue => leftContainer.First;
-        NodeController rightValue => rightContainer.First;
+        InterpreterElement leftValue => leftValueList[0];
+        InterpreterElement rightValue => rightValueList[0];
 
-        Comparison comparisonSelected
-            => dropMenu.Value == "0"
-                ? Comparison.IsEqual
-                : dropMenu.Value == "1"
-                ? Comparison.IsNotEqual
-                : dropMenu.Value == "2"
-                ? Comparison.IsLessThan
-                : dropMenu.Value == "3"
-                ? Comparison.IsLessOrEqual
-                : dropMenu.Value == "4"
-                ? Comparison.IsGreaterThan
-                : Comparison.IsGreaterOrEqual;
+        NumericComparisonBuilder.Comparison comparisonSelected
+            => dropMenuValue == "0"
+                ? NumericComparisonBuilder.Comparison.IsEqual
+                : dropMenuValue == "1"
+                ? NumericComparisonBuilder.Comparison.IsNotEqual
+                : dropMenuValue == "2"
+                ? NumericComparisonBuilder.Comparison.IsLessThan
+                : dropMenuValue == "3"
+                ? NumericComparisonBuilder.Comparison.IsLessOrEqual
+                : dropMenuValue == "4"
+                ? NumericComparisonBuilder.Comparison.IsGreaterThan
+                : NumericComparisonBuilder.Comparison.IsGreaterOrEqual;
 
 
         // Methods
@@ -62,17 +85,17 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingLeftValue;
         }
 
-        public override InterpreterElementBuilder GetNextStatement() => null;
+        public override InterpreterElement NextStatement() => null;
 
         void PushingValue(string member) {
 
             var valueToPush = member == "left" ? leftValue : rightValue;
 
-            Executer.instance.PushNext(valueToPush.interpreterElement);
+            Executer.instance.PushNext(valueToPush);
             Executer.instance.ExecuteInmediately();
 
             currentStep = member == "left"
@@ -93,22 +116,44 @@ namespace ScrapCoder.Interpreter {
             var condition = false;
             var comparison = comparisonSelected;
 
-            if (comparison == Comparison.IsEqual) {
+            if (comparison == NumericComparisonBuilder.Comparison.IsEqual) {
                 condition = leftNumber == rightNumber;
-            } else if (comparison == Comparison.IsNotEqual) {
+            } else if (comparison == NumericComparisonBuilder.Comparison.IsNotEqual) {
                 condition = leftNumber != rightNumber;
-            } else if (comparison == Comparison.IsLessThan) {
+            } else if (comparison == NumericComparisonBuilder.Comparison.IsLessThan) {
                 condition = leftNumber < rightNumber;
-            } else if (comparison == Comparison.IsGreaterThan) {
+            } else if (comparison == NumericComparisonBuilder.Comparison.IsGreaterThan) {
                 condition = leftNumber > rightNumber;
-            } else if (comparison == Comparison.IsLessOrEqual) {
+            } else if (comparison == NumericComparisonBuilder.Comparison.IsLessOrEqual) {
                 condition = leftNumber <= rightNumber;
-            } else if (comparison == Comparison.IsGreaterOrEqual) {
+            } else if (comparison == NumericComparisonBuilder.Comparison.IsGreaterOrEqual) {
                 condition = leftNumber >= rightNumber;
             }
 
             Executer.instance.ExecuteInmediately(argument: condition ? "true" : "false");
-            IsFinished = true;
+            isFinished = true;
+
+        }
+
+        public NumericComparisonInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer leftValueContainer,
+            NodeContainer rightValueContainer,
+            string dropMenuValue
+        ) : base(parentList, controllerReference) {
+
+            leftValueList.AddRange(InterpreterElementsFromContainer(
+                container: leftValueContainer,
+                parentList: leftValueList
+            ));
+
+            rightValueList.AddRange(InterpreterElementsFromContainer(
+                container: rightValueContainer,
+                parentList: rightValueList
+            ));
+
+            this.dropMenuValue = dropMenuValue;
 
         }
 

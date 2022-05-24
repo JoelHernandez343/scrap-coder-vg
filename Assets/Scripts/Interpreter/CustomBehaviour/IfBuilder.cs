@@ -12,22 +12,38 @@ namespace ScrapCoder.Interpreter {
 
     public class IfBuilder : InterpreterElementBuilder {
 
-        // Internal types
-        enum Steps { PushingCondition, EvaluatingCondition, ExecutingInstructions }
-
         // Editor variables
         [SerializeField] NodeContainer conditionContainer;
         [SerializeField] NodeContainer instructionsContainer;
 
+        // Methods
+        public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
+            return new IfInterpreter(
+                parentList: parentList,
+                controllerReference: Controller,
+                conditionContainer: conditionContainer,
+                instructionsContainer: instructionsContainer
+            );
+        }
+
+    }
+
+    class IfInterpreter : InterpreterElement {
+
+        // Internal types
+        enum Steps { PushingCondition, EvaluatingCondition, ExecutingInstructions }
+
         // State variables
         Steps currentStep = Steps.PushingCondition;
 
+        List<InterpreterElement> conditionList = new List<InterpreterElement>();
+        List<InterpreterElement> instructions = new List<InterpreterElement>();
+
         // Lazy variables
+        public override bool isExpression => false;
 
-        public override bool IsExpression => false;
-
-        NodeController condition => conditionContainer.array.First;
-        NodeController firstInstruction => instructionsContainer.array.First;
+        InterpreterElement condition => conditionList[0];
+        InterpreterElement firstInstruction => instructions[0];
 
         // Methods
         public override void Execute(string argument) {
@@ -42,14 +58,14 @@ namespace ScrapCoder.Interpreter {
 
         }
 
-        protected override void CustomReset() {
+        protected override void CustomResetState() {
             currentStep = Steps.PushingCondition;
         }
 
         void PushingCondition() {
             // Debug.Log("Pushing condition");
 
-            Executer.instance.PushNext(condition.interpreterElement);
+            Executer.instance.PushNext(condition);
             Executer.instance.ExecuteInmediately();
 
             currentStep = Steps.EvaluatingCondition;
@@ -61,7 +77,7 @@ namespace ScrapCoder.Interpreter {
             if (conditionValue == "true") {
                 currentStep = Steps.ExecutingInstructions;
             } else {
-                IsFinished = true;
+                isFinished = true;
             }
 
             Executer.instance.ExecuteInmediately();
@@ -70,10 +86,29 @@ namespace ScrapCoder.Interpreter {
         void ExecutingInstructions() {
             // Debug.Log("Executing instructions");
 
-            Executer.instance.PushNext(firstInstruction.interpreterElement);
+            Executer.instance.PushNext(firstInstruction);
             Executer.instance.ExecuteInNextFrame();
 
-            IsFinished = true;
+            isFinished = true;
+        }
+
+        public IfInterpreter(
+            List<InterpreterElement> parentList,
+            NodeController controllerReference,
+            NodeContainer conditionContainer,
+            NodeContainer instructionsContainer
+        ) : base(parentList, controllerReference) {
+
+            conditionList.AddRange(InterpreterElementsFromContainer(
+                container: conditionContainer,
+                parentList: conditionList
+            ));
+
+            instructions.AddRange(InterpreterElementsFromContainer(
+                container: instructionsContainer,
+                parentList: instructions
+            ));
+
         }
 
     }
