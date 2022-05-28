@@ -6,12 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrapCoder.VisualNodes {
-    public class NodeControllerTemplate {
+    public interface INodeControllerInitializer {
 
-        public string name;
-        public string symbolName;
-
-        public Dictionary<string, object> customInfo;
+        Dictionary<string, object> GetCustomInfo();
+        void Initialize(Dictionary<string, object> customInfo);
 
     }
 }

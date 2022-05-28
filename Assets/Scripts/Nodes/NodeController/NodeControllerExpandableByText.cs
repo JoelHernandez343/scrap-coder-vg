@@ -8,17 +8,13 @@ using UnityEngine;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
-    public class NodeControllerExpandableByText : MonoBehaviour, INodeExpanded {
+    public class NodeControllerExpandableByText : MonoBehaviour, INodeExpanded, INodeControllerInitializer {
         // Editor variables
         [SerializeField] ExpandableText expandableText;
         [SerializeField] NodeTransform pieceToExpand;
 
         // State variables {serialized so Unity can copy these fields}
-
-        [SerializeField] public string text;
-
-        [SerializeField] public bool hideAfterExpand = false;
-
+        [SerializeField] string text;
         [SerializeField] bool initialized = false;
 
         // Lazy variables
@@ -31,20 +27,25 @@ namespace ScrapCoder.VisualNodes {
         bool INodeExpanded.ModifyHeightOfPiece => false;
         NodeTransform INodeExpanded.PieceToExpand => pieceToExpand;
 
-        void Initialize() {
+        public void Initialize(Dictionary<string, object> customInfo) {
             if (initialized) return;
+
+            text = customInfo["nameText"] as string;
 
             ExpandByText();
 
-            if (hideAfterExpand) {
-                ownTransform.SetPosition(x: 0, y: 0);
-                ownTransform.SetScale(x: 2, y: 2);
-                ownTransform.depth = 0;
-                HierarchyController.instance.DeleteNode(controller);
-            }
+            ownTransform.SetPosition(x: 0, y: 0);
+            ownTransform.SetScale(x: 2, y: 2);
+            ownTransform.depth = 0;
+            HierarchyController.instance.DeleteNode(controller);
 
             initialized = true;
         }
+
+        public Dictionary<string, object> GetCustomInfo()
+            => new Dictionary<string, object> {
+                ["nameText"] = text
+            };
 
         void ExpandByText() {
             var dx = expandableText.ChangeText(
@@ -61,26 +62,6 @@ namespace ScrapCoder.VisualNodes {
 
             ownTransform.initWidth = ownTransform.width;
             ownTransform.initHeight = ownTransform.height;
-        }
-
-        public static NodeController Create(NodeController prefab, Transform parent, string name, string symbolName) {
-            var newNode = NodeController.Create(
-                prefab: prefab,
-                parent: parent,
-                template: new NodeControllerTemplate {
-                    name = name,
-                    symbolName = symbolName
-                }
-            );
-
-            var newPrefabExpandable = (newNode.GetComponent<NodeControllerExpandableByText>() as NodeControllerExpandableByText);
-
-            newPrefabExpandable.text = name;
-            newPrefabExpandable.hideAfterExpand = true;
-
-            newPrefabExpandable.Initialize();
-
-            return newNode;
         }
 
     }

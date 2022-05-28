@@ -140,6 +140,9 @@ namespace ScrapCoder.VisualNodes {
         InterpreterElementBuilder _interpreterBuilder;
         public InterpreterElementBuilder interpreterBuilder => _interpreterBuilder ??= (GetComponent<InterpreterElementBuilder>() as InterpreterElementBuilder);
 
+        INodeControllerInitializer _initializer;
+        INodeControllerInitializer initializer => _initializer ??= (GetComponent<INodeControllerInitializer>() as INodeControllerInitializer);
+
         string state;
 
         // Methods
@@ -551,6 +554,13 @@ namespace ScrapCoder.VisualNodes {
             return false;
         }
 
+        public NodeControllerTemplate GetTemplate()
+            => new NodeControllerTemplate {
+                name = name,
+                symbolName = symbolName,
+                customInfo = initializer?.GetCustomInfo()
+            };
+
         public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
             var newNode = Instantiate(original: prefab, parent: parent);
 
@@ -559,6 +569,10 @@ namespace ScrapCoder.VisualNodes {
 
             newNode.ownTransform.depth = 0;
             newNode.ownTransform.SetScale(x: 1, y: 1, z: 1);
+
+            if (newNode.initializer != null && template.customInfo != null) {
+                newNode.initializer.Initialize(customInfo: template.customInfo);
+            }
 
             return newNode;
         }

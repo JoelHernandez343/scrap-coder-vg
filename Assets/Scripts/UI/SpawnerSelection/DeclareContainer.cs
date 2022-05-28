@@ -104,11 +104,16 @@ namespace ScrapCoder.UI {
 
             var name = symbolName.Split(new char[] { '_' })[1];
 
-            var newPrefab = NodeControllerExpandableByText.Create(
+            var newPrefab = NodeController.Create(
                 prefab: declaredPrefab,
                 parent: temporalParent,
-                name: name,
-                symbolName: symbolName
+                template: new NodeControllerTemplate {
+                    name = name,
+                    symbolName = symbolName,
+                    customInfo = new Dictionary<string, object> {
+                        ["nameText"] = name
+                    }
+                }
             );
 
             var newSpawner = NodeSpawnController.Create(
