@@ -9,7 +9,7 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class NumericOperationsBuilder : InterpreterElementBuilder {
+    public class NumericOperationsBuilder : InterpreterElementBuilder, INodeControllerInitializer {
 
         // Internal types
         public enum Operation { Sum, Substraction, Multiplication, Division }
@@ -20,6 +20,9 @@ namespace ScrapCoder.Interpreter {
 
         [SerializeField] DropMenuController dropMenu;
 
+        // State variables
+        bool initialized = false;
+
         // Methods
         public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
             return new NumericOperationsInterpreter(
@@ -29,6 +32,27 @@ namespace ScrapCoder.Interpreter {
                 rightValueContainer: rightContainer,
                 dropMenuValue: dropMenu.Value
             );
+        }
+
+        Dictionary<string, object> INodeControllerInitializer.GetCustomInfo()
+            => new Dictionary<string, object> {
+                ["selectedOptionText"] = dropMenu.selectedOption.text,
+                ["selectedOptionValue"] = dropMenu.selectedOption.value,
+            };
+
+        void INodeControllerInitializer.Initialize(Dictionary<string, object> customInfo) {
+            if (initialized) return;
+            if (customInfo == null) return;
+
+            dropMenu.ChangeOption(
+                newOption: new DropMenuOption {
+                    text = customInfo["selectedOptionText"] as string,
+                    value = customInfo["selectedOptionValue"] as string
+                },
+                executeListeners: false
+            );
+
+            initialized = true;
         }
 
     }

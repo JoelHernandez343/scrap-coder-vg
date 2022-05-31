@@ -10,7 +10,7 @@ using ScrapCoder.VisualNodes;
 
 namespace ScrapCoder.Interpreter {
 
-    public class NumericComparisonBuilder : InterpreterElementBuilder {
+    public class NumericComparisonBuilder : InterpreterElementBuilder, INodeControllerInitializer {
 
         // Internal types
         public enum Comparison { IsEqual, IsNotEqual, IsLessThan, IsLessOrEqual, IsGreaterThan, IsGreaterOrEqual }
@@ -20,6 +20,9 @@ namespace ScrapCoder.Interpreter {
         [SerializeField] NodeContainer rightContainer;
 
         [SerializeField] DropMenuController dropMenu;
+
+        // State variables
+        bool initialized = false;
 
         // Methods
         public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
@@ -32,6 +35,26 @@ namespace ScrapCoder.Interpreter {
             );
         }
 
+        Dictionary<string, object> INodeControllerInitializer.GetCustomInfo()
+            => new Dictionary<string, object> {
+                ["selectedOptionText"] = dropMenu.selectedOption.text,
+                ["selectedOptionValue"] = dropMenu.selectedOption.value,
+            };
+
+        void INodeControllerInitializer.Initialize(Dictionary<string, object> customInfo) {
+            if (initialized) return;
+            if (customInfo == null) return;
+
+            dropMenu.ChangeOption(
+                newOption: new DropMenuOption {
+                    text = customInfo["selectedOptionText"] as string,
+                    value = customInfo["selectedOptionValue"] as string
+                },
+                executeListeners: false
+            );
+
+            initialized = true;
+        }
     }
 
     class NumericComparisonInterpreter : InterpreterElement {

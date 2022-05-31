@@ -9,10 +9,13 @@ using ScrapCoder.VisualNodes;
 using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
-    public class NumericValueBuilder : InterpreterElementBuilder {
+    public class NumericValueBuilder : InterpreterElementBuilder, INodeControllerInitializer {
 
         // Editor variables
         [SerializeField] InputText inputText;
+
+        // State variables
+        bool initialized = false;
 
         // Methods
         public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
@@ -21,6 +24,23 @@ namespace ScrapCoder.Interpreter {
                 controllerReference: Controller,
                 inputValue: inputText.Value
             );
+        }
+
+        Dictionary<string, object> INodeControllerInitializer.GetCustomInfo()
+            => new Dictionary<string, object> {
+                ["inputText"] = inputText.Value
+            };
+
+        void INodeControllerInitializer.Initialize(Dictionary<string, object> customInfo) {
+            if (initialized) return;
+            if (customInfo == null) return;
+
+            inputText.ChangeValue(
+                newText: customInfo["inputText"] as string,
+                smooth: false
+            );
+
+            initialized = true;
         }
 
     }

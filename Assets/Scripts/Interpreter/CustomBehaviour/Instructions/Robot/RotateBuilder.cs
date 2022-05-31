@@ -10,10 +10,13 @@ using ScrapCoder.UI;
 
 namespace ScrapCoder.Interpreter {
 
-    public class RotateBuilder : InterpreterElementBuilder {
+    public class RotateBuilder : InterpreterElementBuilder, INodeControllerInitializer {
 
         // Editor variablesRotateInterpreter
         [SerializeField] DropMenuController dropMenu;
+
+        // State variables
+        bool initialized = false;
 
         // Methods
         public override InterpreterElement GetInterpreterElement(List<InterpreterElement> parentList) {
@@ -22,6 +25,27 @@ namespace ScrapCoder.Interpreter {
                 controllerReference: Controller,
                 dropMenuValue: dropMenu.Value
             );
+        }
+
+        Dictionary<string, object> INodeControllerInitializer.GetCustomInfo()
+            => new Dictionary<string, object> {
+                ["selectedOptionText"] = dropMenu.selectedOption.text,
+                ["selectedOptionValue"] = dropMenu.selectedOption.value,
+            };
+
+        void INodeControllerInitializer.Initialize(Dictionary<string, object> customInfo) {
+            if (initialized) return;
+            if (customInfo == null) return;
+
+            dropMenu.ChangeOption(
+                newOption: new DropMenuOption {
+                    text = customInfo["selectedOptionText"] as string,
+                    value = customInfo["selectedOptionValue"] as string
+                },
+                executeListeners: false
+            );
+
+            initialized = true;
         }
 
     }
