@@ -554,18 +554,41 @@ namespace ScrapCoder.VisualNodes {
             return false;
         }
 
-        public NodeControllerTemplate GetTemplate()
-            => new NodeControllerTemplate {
+        public NodeControllerTemplate GetTemplate() {
+            if (type == NodeType.Begin) {
+                if (siblings.Count == 0) return null;
+
+                if (siblings.First.type == NodeType.End) return null;
+
+                var first = siblings.First;
+
+                first.DetachFromParent(smooth: false);
+
+                var childTemplate = first.GetTemplate();
+
+                AddNodeToContainerDirectly(
+                    container: siblings.container,
+                    nodeToAdd: first
+                );
+
+                return childTemplate;
+            }
+
+            if (type == NodeType.End) return null;
+
+            return new NodeControllerTemplate {
                 type = type,
                 name = name,
                 symbolName = symbolName,
                 customInfo = initializer?.GetCustomInfo(),
                 containers = containers.ConvertAll(
-                    container => container?.array.nodes.ConvertAll(
-                        node => node.GetTemplate()
-                    )
+                    container => container?.array.nodes
+                        .FindAll(n => n.type != NodeType.End)
+                        .ConvertAll(node => node.GetTemplate())
                 )
             };
+
+        }
 
         public static NodeController Create(
             NodeController prefab,
@@ -594,6 +617,10 @@ namespace ScrapCoder.VisualNodes {
 
             var newNode = Instantiate(original: prefab, parent: parent);
 
+            newNode.components.ForEach(piece => piece.Initialize());
+
+            newNode.SetState("normal");
+
             newNode.name = template.name;
             newNode.symbolName = template.symbolName;
 
@@ -604,31 +631,29 @@ namespace ScrapCoder.VisualNodes {
                 newNode.initializer.Initialize(customInfo: template.customInfo);
             }
 
-            if (template.containers != null) {
-                for (var i = 0; i < newNode.containers.Count; ++i) {
-                    var currentContainer = newNode.containers[i];
-                    var currentContainerTemplate = template.containers[i];
+            for (var i = 0; i < template.containers?.Count; ++i) {
+                var currentContainer = newNode.containers[i];
+                var currentContainerTemplate = template.containers[i];
 
-                    currentContainerTemplate?.ForEach(t => {
+                currentContainerTemplate?.ForEach(t => {
 
-                        if (t.type == NodeType.Variable || t.type == NodeType.Array) {
-                            t.symbolName = symbolNameChanges?[t.symbolName] ?? t.symbolName;
-                        }
+                    if (t.type == NodeType.Variable || t.type == NodeType.Array) {
+                        t.symbolName = symbolNameChanges?[t.symbolName] ?? t.symbolName;
+                    }
 
-                        var childPrefab = SymbolTable.instance[t.symbolName].spawner.prefabToSpawn;
+                    var childPrefab = SymbolTable.instance[t.symbolName].spawner.prefabToSpawn;
 
-                        var n = Create(
-                            prefab: childPrefab,
-                            parent: currentContainer.array.transform,
-                            template: t
-                        );
+                    var n = Create(
+                        prefab: childPrefab,
+                        parent: currentContainer.array.transform,
+                        template: t
+                    );
 
-                        newNode.AddNodeToContainerDirectly(
-                            container: currentContainer,
-                            nodeToAdd: n
-                        );
-                    });
-                }
+                    newNode.AddNodeToContainerDirectly(
+                        container: currentContainer,
+                        nodeToAdd: n
+                    );
+                });
             }
 
             if (!isPrototype) {

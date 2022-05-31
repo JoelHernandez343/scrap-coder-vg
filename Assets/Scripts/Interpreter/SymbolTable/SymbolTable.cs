@@ -108,6 +108,18 @@ namespace ScrapCoder.Interpreter {
             }
         }
 
+        public List<NodeController> GetNodesWithoutParent() {
+            var nodes = new List<NodeController>();
+
+            foreach (var entry in symbols) {
+                var symbol = entry.Value;
+
+                nodes.AddRange(symbol.GetReferencesWithoutParent());
+            }
+
+            return nodes;
+        }
+
         public Dictionary<string, string> UpdateSymbolsTemplates(SymbolTableTemplate template) {
             if (template == null) return null;
 
@@ -141,6 +153,12 @@ namespace ScrapCoder.Interpreter {
 
             return oldSymbolName;
         }
+
+        public SymbolTableTemplate GetSymbolTableTemplate()
+            => new SymbolTableTemplate {
+                arrayTemplates = arraysSymbols.ConvertAll(s => this[s].GetSymbolTemplate()),
+                variableTemplates = variablesSymbols.ConvertAll(s => this[s].GetSymbolTemplate())
+            };
 
     }
 

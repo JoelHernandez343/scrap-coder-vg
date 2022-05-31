@@ -92,10 +92,21 @@ namespace ScrapCoder.Interpreter {
         }
 
         public void DeleteNodesWithoutParent() {
-            references
-                .FindAll(r => !r.hasParent)
+            GetReferencesWithoutParent()
                 .ForEach(r => r.DeleteSelf(deleteChildren: true));
         }
+
+        public List<NodeController> GetReferencesWithoutParent() {
+            return references.FindAll(r => !r.hasParent);
+        }
+
+        public SymbolTemplate GetSymbolTemplate()
+            => new SymbolTemplate {
+                symbolName = symbolName,
+                type = type,
+                value = value,
+                arrayValues = new List<string>(arrayOfValues)
+            };
 
         // Variables methods
         public void SetValue(string newValue) {
