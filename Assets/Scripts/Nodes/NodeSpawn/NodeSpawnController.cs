@@ -75,6 +75,7 @@ namespace ScrapCoder.VisualNodes {
             SetState("normal");
             SetDiscardButton();
             RefreshCounter();
+            SetSymbol();
 
             initialized = true;
         }
@@ -115,6 +116,17 @@ namespace ScrapCoder.VisualNodes {
             );
         }
 
+        void SetSymbol() {
+            if (SymbolTable.instance[symbolName] != null) return;
+
+            SymbolTable.instance.AddSymbol(
+                limit: spawnLimit,
+                symbolName: symbolName,
+                type: nodeToSpawn,
+                spawner: this
+            );
+        }
+
         public bool SpawnNode(Vector2 newPosition, float dx, float dy) {
 
             if (!InstantiateNode()) return false;
@@ -142,12 +154,7 @@ namespace ScrapCoder.VisualNodes {
 
         bool InstantiateNode() {
             if (SymbolTable.instance[symbolName] == null) {
-                SymbolTable.instance.AddSymbol(
-                    limit: spawnLimit,
-                    symbolName: symbolName,
-                    type: nodeToSpawn,
-                    spawner: this
-                );
+                throw new System.InvalidOperationException($"This symbol has been deleted: {symbolName}");
             } else if (SymbolTable.instance[symbolName].isFull) {
                 return false;
             }
@@ -160,8 +167,6 @@ namespace ScrapCoder.VisualNodes {
                     name = $"{symbolName}[{SymbolTable.instance[symbolName].Count}]"
                 }
             );
-
-            SymbolTable.instance[symbolName].AddReference(spawned);
 
             return true;
         }

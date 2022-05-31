@@ -113,7 +113,8 @@ namespace ScrapCoder.UI {
                     customInfo = new Dictionary<string, object> {
                         ["nameText"] = name
                     }
-                }
+                },
+                isPrototype: true
             );
 
             var newSpawner = NodeSpawnController.Create(

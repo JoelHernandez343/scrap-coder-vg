@@ -1504,8 +1504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tablesContainer: {fileID: 3348883128546859249}
-  variables_symbols: []
-  arrays_symbols: []
+  variablesSymbols: []
+  arraysSymbols: []
 --- !u!114 &610433863457319575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2052,7 +2052,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5778750873128455332
+--- !u!114 &6684376350801060667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2061,7 +2061,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2020289475704596169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41b8457fd615fa94a9555325b3b685e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 25850626e8414ac4bb02136e5e4532b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &610433862995094095
@@ -4079,7 +4079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8146353603354791145, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9138224923057288164, guid: bb4aaf153c4844f409cc8fdb5914d977, type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.data[2].position.x

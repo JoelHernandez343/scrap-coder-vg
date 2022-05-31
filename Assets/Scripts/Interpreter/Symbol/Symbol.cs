@@ -27,7 +27,11 @@ namespace ScrapCoder.Interpreter {
 
         List<string> arrayOfValues = new List<string>();
 
-        NodeSpawnController spawner;
+        NodeSpawnController _spawner;
+        public NodeSpawnController spawner {
+            get => _spawner;
+            private set => _spawner = value;
+        }
 
         ValueTableController table;
         public ValueTableController Table => table;

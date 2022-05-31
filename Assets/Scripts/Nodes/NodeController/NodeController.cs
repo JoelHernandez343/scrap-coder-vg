@@ -556,12 +556,42 @@ namespace ScrapCoder.VisualNodes {
 
         public NodeControllerTemplate GetTemplate()
             => new NodeControllerTemplate {
+                type = type,
                 name = name,
                 symbolName = symbolName,
-                customInfo = initializer?.GetCustomInfo()
+                customInfo = initializer?.GetCustomInfo(),
+                containers = containers.ConvertAll(
+                    container => container?.array.nodes.ConvertAll(
+                        node => node.GetTemplate()
+                    )
+                )
             };
 
-        public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
+        public static NodeController Create(
+            NodeController prefab,
+            Transform parent,
+            NodeControllerTemplate template,
+            bool isPrototype = false,
+            Dictionary<string, string> symbolNameChanges = null
+        ) {
+            if (!isPrototype && SymbolTable.instance[template.symbolName] == null) {
+                MessagesController.instance.AddMessage(
+                    message: $"El nodo {template.symbolName} no está disponible.",
+                    type: MessageType.Error
+                );
+
+                return null;
+            }
+
+            if (!isPrototype && SymbolTable.instance[template.symbolName].isFull) {
+                MessagesController.instance.AddMessage(
+                    message: $"No se puede crear un nodo del tipo {template.symbolName}, el límite ha sido superado.",
+                    type: MessageType.Error
+                );
+
+                return null;
+            }
+
             var newNode = Instantiate(original: prefab, parent: parent);
 
             newNode.name = template.name;
@@ -570,8 +600,39 @@ namespace ScrapCoder.VisualNodes {
             newNode.ownTransform.depth = 0;
             newNode.ownTransform.SetScale(x: 1, y: 1, z: 1);
 
-            if (newNode.initializer != null && template.customInfo != null) {
+            if (newNode.initializer != null) {
                 newNode.initializer.Initialize(customInfo: template.customInfo);
+            }
+
+            if (template.containers != null) {
+                for (var i = 0; i < newNode.containers.Count; ++i) {
+                    var currentContainer = newNode.containers[i];
+                    var currentContainerTemplate = template.containers[i];
+
+                    currentContainerTemplate?.ForEach(t => {
+
+                        if (t.type == NodeType.Variable || t.type == NodeType.Array) {
+                            t.symbolName = symbolNameChanges?[t.symbolName] ?? t.symbolName;
+                        }
+
+                        var childPrefab = SymbolTable.instance[t.symbolName].spawner.prefabToSpawn;
+
+                        var n = Create(
+                            prefab: childPrefab,
+                            parent: currentContainer.array.transform,
+                            template: t
+                        );
+
+                        newNode.AddNodeToContainerDirectly(
+                            container: currentContainer,
+                            nodeToAdd: n
+                        );
+                    });
+                }
+            }
+
+            if (!isPrototype) {
+                SymbolTable.instance[template.symbolName].AddReference(newNode);
             }
 
             return newNode;

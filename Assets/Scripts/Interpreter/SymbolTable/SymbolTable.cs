@@ -21,8 +21,8 @@ namespace ScrapCoder.Interpreter {
         // State variables
         Dictionary<string, Symbol> symbols = new Dictionary<string, Symbol>();
 
-        public List<string> variables_symbols = new List<string>();
-        public List<string> arrays_symbols = new List<string>();
+        public List<string> variablesSymbols = new List<string>();
+        public List<string> arraysSymbols = new List<string>();
 
         void Awake() {
             if (instance != null) {
@@ -57,8 +57,8 @@ namespace ScrapCoder.Interpreter {
             if (type == NodeType.Variable || type == NodeType.Array) {
 
                 var list = type == NodeType.Variable
-                   ? variables_symbols
-                   : arrays_symbols;
+                   ? variablesSymbols
+                   : arraysSymbols;
 
                 table = tablesContainer.AddElement(
                     symbolName: symbolName,
@@ -88,8 +88,8 @@ namespace ScrapCoder.Interpreter {
             symbols.Remove(symbolName);
 
             var list = symbol.Type == NodeType.Variable
-                ? variables_symbols
-                : arrays_symbols;
+                ? variablesSymbols
+                : arraysSymbols;
 
             list.Remove(symbolName);
             tablesContainer.RemoveElement(
@@ -106,6 +106,40 @@ namespace ScrapCoder.Interpreter {
 
                 symbol.DeleteNodesWithoutParent();
             }
+        }
+
+        public Dictionary<string, string> UpdateSymbolsTemplates(SymbolTableTemplate template) {
+            if (template == null) return null;
+
+            var symbolNameChanges = new Dictionary<string, string>();
+
+            template.arrayTemplates.ForEach(t => {
+                var old = UpdateSymbolTemplate(template: t);
+
+                symbolNameChanges[old] = t.symbolName;
+            });
+            template.variableTemplates.ForEach(t => {
+                var old = UpdateSymbolTemplate(template: t);
+
+                symbolNameChanges[old] = t.symbolName;
+            });
+
+            return symbolNameChanges;
+        }
+
+        string UpdateSymbolTemplate(SymbolTemplate template) {
+            var oldSymbolName = template.symbolName;
+            var symbolName = template.symbolName;
+            var name = symbolName.Split(new char[] { '_' })[1];
+
+            if (this[symbolName] != null) {
+                symbolName = $"{symbolName}(2)";
+                name = $"{name}(2)";
+            }
+
+            template.symbolName = symbolName;
+
+            return oldSymbolName;
         }
 
     }

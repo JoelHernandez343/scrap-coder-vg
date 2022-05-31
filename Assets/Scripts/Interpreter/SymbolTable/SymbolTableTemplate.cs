@@ -12,8 +12,8 @@ namespace ScrapCoder.Interpreter {
 
     public class SymbolTableTemplate {
 
-        public List<SymbolTableTemplate> variableTemplates;
-        public List<SymbolTableTemplate> arrayTemplates;
+        public List<SymbolTemplate> variableTemplates;
+        public List<SymbolTemplate> arrayTemplates;
 
     }
 }
