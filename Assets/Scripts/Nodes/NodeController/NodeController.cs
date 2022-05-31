@@ -646,7 +646,8 @@ namespace ScrapCoder.VisualNodes {
                     var n = Create(
                         prefab: childPrefab,
                         parent: currentContainer.array.transform,
-                        template: t
+                        template: t,
+                        symbolNameChanges: symbolNameChanges
                     );
 
                     newNode.AddNodeToContainerDirectly(

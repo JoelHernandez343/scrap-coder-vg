@@ -142,14 +142,15 @@ namespace ScrapCoder.Interpreter {
         string UpdateSymbolTemplate(SymbolTemplate template) {
             var oldSymbolName = template.symbolName;
             var symbolName = template.symbolName;
-            var name = symbolName.Split(new char[] { '_' })[1];
 
-            if (this[symbolName] != null) {
-                symbolName = $"{symbolName}(2)";
-                name = $"{name}(2)";
+            var counter = 2;
+            var newSymbolName = symbolName;
+            while (this[newSymbolName] != null) {
+                newSymbolName = $"{symbolName}({counter})";
+                counter += 1;
             }
 
-            template.symbolName = symbolName;
+            template.symbolName = newSymbolName;
 
             return oldSymbolName;
         }

@@ -48,7 +48,7 @@ namespace ScrapCoder.UI {
                 Debug.LogError(e, this);
 
                 MessagesController.instance.AddMessage(
-                    message: $"Ocurrió un error leyendo el archivo {FileBrowserHelpers.GetFilename(path: filePath)}",
+                    message: $"Ocurrió un error leyendo el archivo {FileBrowserHelpers.GetFilename(path: filePath)}.",
                     type: MessageType.Error
                 );
 
@@ -57,23 +57,67 @@ namespace ScrapCoder.UI {
 
             var symbolNameChanges = SymbolTable.instance.UpdateSymbolsTemplates(nodeJsonData.symbolTableTemplate);
 
-            nodeJsonData.symbolTableTemplate?.variableTemplates.ForEach(t => {
-                InterfaceCanvas.instance.variableDeclareContainer.Declare(
-                    symbolName: t.symbolName,
-                    smooth: false,
-                    template: t
+            if (!DeclareSymbols(
+                    symbolTemplates: nodeJsonData.symbolTableTemplate?.variableTemplates,
+                    declareContainer: InterfaceCanvas.instance.variableDeclareContainer
+                )
+            ) {
+                MessagesController.instance.AddMessage(
+                    message: $"Ocurrió un error declarando las variables.",
+                    type: MessageType.Error
                 );
-            });
 
-            nodeJsonData.symbolTableTemplate?.arrayTemplates.ForEach(t => {
-                InterfaceCanvas.instance.arrayDeclareContainer.Declare(
-                    symbolName: t.symbolName,
-                    smooth: false,
-                    template: t
+                return;
+            }
+
+            if (!DeclareSymbols(
+                   symbolTemplates: nodeJsonData.symbolTableTemplate?.arrayTemplates,
+                   declareContainer: InterfaceCanvas.instance.arrayDeclareContainer
+               )
+            ) {
+                MessagesController.instance.AddMessage(
+                    message: $"Ocurrió un error declarando los arreglos.",
+                    type: MessageType.Error
                 );
-            });
 
-            nodeJsonData.nodesTuples?.ForEach(tuple => {
+                return;
+            }
+
+            if (!InstantiateNodes(nodesTuples: nodeJsonData.nodesTuples, symbolNameChanges: symbolNameChanges)) {
+                MessagesController.instance.AddMessage(
+                    message: $"Ocurrió un error colocando los nodos.",
+                    type: MessageType.Error
+                );
+
+                return;
+            }
+
+            MessagesController.instance.AddMessage(
+                message: "Importación exitosa :)",
+                type: MessageType.Normal
+            );
+        }
+
+        bool DeclareSymbols(List<SymbolTemplate> symbolTemplates, DeclareContainer declareContainer) {
+            if (symbolTemplates == null || symbolTemplates.Count == 0) return true;
+
+            foreach (var symbolTemplate in symbolTemplates) {
+                var declared = declareContainer?.Declare(
+                    symbolName: symbolTemplate.symbolName,
+                    smooth: false,
+                    template: symbolTemplate
+                );
+
+                if (declared != true) return false;
+            }
+
+            return true;
+        }
+
+        bool InstantiateNodes(List<NodeJsonData.NodePositionTuple> nodesTuples, Dictionary<string, string> symbolNameChanges) {
+            if (nodesTuples == null) return true;
+
+            foreach (var tuple in nodesTuples) {
                 var nodeTree = tuple.nodeTemplate;
                 var position = tuple.position;
 
@@ -81,7 +125,16 @@ namespace ScrapCoder.UI {
                     nodeTree.symbolName = symbolNameChanges?[nodeTree.symbolName] ?? nodeTree.symbolName;
                 }
 
-                var prefab = SymbolTable.instance[nodeTree.symbolName].spawner.prefabToSpawn;
+                var prefab = SymbolTable.instance[nodeTree.symbolName]?.spawner.prefabToSpawn;
+
+                if (prefab == null) {
+                    MessagesController.instance.AddMessage(
+                        message: $"El nodo {nodeTree.symbolName} no está disponible.",
+                        type: MessageType.Error
+                    );
+
+                    return false;
+                }
 
                 var realNode = NodeController.Create(
                     prefab: prefab,
@@ -90,17 +143,21 @@ namespace ScrapCoder.UI {
                     symbolNameChanges: symbolNameChanges
                 );
 
-                realNode?.ownTransform.SetScale(
+                if (realNode == null) return false;
+
+                realNode.ownTransform.SetScale(
                     x: InterfaceCanvas.NodeScaleFactor,
                     y: InterfaceCanvas.NodeScaleFactor,
                     z: 1
                 );
 
-                realNode?.ownTransform.SetPosition(
+                realNode.ownTransform.SetPosition(
                     x: position.x,
                     y: position.y
                 );
-            });
+            }
+
+            return true;
         }
     }
 }
