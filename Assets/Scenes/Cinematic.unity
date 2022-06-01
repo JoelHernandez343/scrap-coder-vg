@@ -296,6 +296,81 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c8d3e99e40bb4d46a85a0d22cf94464, type: 3}
+--- !u!1 &901468863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 901468864}
+  - component: {fileID: 901468866}
+  - component: {fileID: 901468865}
+  m_Layer: 5
+  m_Name: Espacio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &901468864
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901468863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1941090913}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 240, y: -135}
+  m_SizeDelta: {x: 480, y: 270}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &901468865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901468863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b5ec5340acf1dce45bd5aa9854df5be6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &901468866
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901468863}
+  m_CullTransparentMesh: 1
 --- !u!20 &1176425575 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 4924334464845116442, guid: 4c8d3e99e40bb4d46a85a0d22cf94464, type: 3}
@@ -375,6 +450,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1405156270}
+  m_CullTransparentMesh: 1
+--- !u!1 &1630216574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1630216575}
+  - component: {fileID: 1630216577}
+  - component: {fileID: 1630216576}
+  m_Layer: 5
+  m_Name: Esc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1630216575
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630216574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1941090913}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 480, y: 270}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1630216576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630216574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 13137bc5d06962d418d8cbbe7eb02bba, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1630216577
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630216574}
   m_CullTransparentMesh: 1
 --- !u!1 &1914445107
 GameObject:
@@ -484,17 +634,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texto:
-  - Texto1
-  - Texto2
-  - Texto3
-  - Texto4
-  - Texto5
-  - Texto6
-  - Texto7
-  - Texto8
-  - Texto9
-  - Texto10
-  - Texto11
+  - "La raza humana estaba en la \xE9poca dorada del desarrollo tecnol\xF3gico. Una
+    era en la que la tecnolog\xEDa era desarrollada a una velocidad exponencial  "
+  - "Pronto un laboratorio de maquinistas comenz\xF3 a trabajar en un invento revolucionario.
+    M\xE1quinas reprogramables capaz de realizar varias funciones, tareas complejas,
+    manipular objetos, los robots fueron creados para servir a la humanidad haciendo
+    todo tipo de tareas. Tristemente..."
+  - "\u2026 Esta tecnolog\xEDa fue robada y cay\xF3 en manos equivocadas, de este
+    error naci\xF3 el ej\xE9rcito m\xE1s poderoso en la Tierra y con \xE9ste..."
+  - "\u2026 La guerra m\xE1s grande que el planeta haya visto desde su creaci\xF3n.
+    Tristemente la humanidad no tuvo oportunidad."
+  - "Algunos humanos sobrevivieron ocult\xE1ndose, aunque no todos compartieron la
+    misma suerte, ya que la mayor\xEDa de grupos de sobrevivientes terminaba siendo
+    rastreado y eliminado.."
+  - Un grupo de afortunados sobrevivientes se ocultaron en unas instalaciones de
+    comunicaciones, se quedaron esperando el inminente ataque de los robots pero
+    pronto se dieron cuenta de que algo raro pasaba.
+  - "Parece que la antena principal del complejo por alguna raz\xF3n interfiere fuertemente
+    con las comunicaciones de los robots, cuando un robot se acerca lo suficiente
+    a la antena pierde comunicaci\xF3n con su cuartel general, haciendo que regrese
+    por donde vino, dando prioridad a recobrar comunicaci\xF3n con el cuartel."
+  - "Las instalaciones se convirtieron en el hogar de m\xFAltiples generaciones que
+    se adaptaron al orden impuesto por el ej\xE9rcito aut\xF3mata, manteniendo un
+    perfil bajo y no tentando su suerte contra las m\xE1quinas. Los supervivientes
+    pudieron vivir de  manera relativamente tranquila dentro de los confines de su
+    territorio. Pero esta tranquilidad no durar\xEDa para siempre."
+  - "La antena que los protegi\xF3 por generaciones comenz\xF3 a fallar. La antena
+    dejaba de funcionar apropiadamente, vulnerando la seguridad de los refugiados
+    moment\xE1neamente; "
+  - "Despu\xE9s de un breve periodo, la antena volvi\xF3 a funcionar correctamente,
+    ahuyentando a los robots fuera de su alcance. Esto podr\xEDa parecer un problema
+    no tan grande a primeras, pero con el paso del tiempo los periodos de fallo se
+    extendieron cada vez m\xE1s.  El temor de que un d\xEDa la antena no vuelva a
+    funcionar correctamente crec\xEDa en el coraz\xF3n de los  residentes cada vez
+    m\xE1s.  "
+  - "Los sobrevivientes, desesperados, tuvieron una reuni\xF3n con su l\xEDder, Marcus,
+    para discutir c\xF3mo solucionar\xEDan esta terrible situaci\xF3n."
   sprites:
   - {fileID: 21300000, guid: c7aeff8a4ac870941bd65b46a6d1af9c, type: 3}
   - {fileID: 21300000, guid: ada819412aed557408b455d3ab59022e, type: 3}
@@ -584,6 +759,8 @@ RectTransform:
   - {fileID: 1914445110}
   - {fileID: 304657126}
   - {fileID: 2080174028}
+  - {fileID: 1630216575}
+  - {fileID: 901468864}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -626,8 +803,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.31, y: -105}
-  m_SizeDelta: {x: 383.87, y: 50.87}
+  m_AnchoredPosition: {x: -0.0017223, y: -105.44}
+  m_SizeDelta: {x: 480, y: 51.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2080174029
 MonoBehaviour:
@@ -649,7 +826,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "Despu\xE9s de un breve periodo, la antena volvi\xF3 a funcionar correctamente,
+    ahuyentando a los robots fuera de su alcance. Esto podr\xEDa parecer un problema
+    no tan grande a primeras, pero con el paso del tiempo los periodos de fallo se
+    extendieron cada vez m\xE1s. \r\nEl temor de que un d\xEDa la antena no vuelva
+    a funcionar correctamente crec\xEDa en el coraz\xF3n de los  residentes cada
+    vez m\xE1s. \r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 36b93e59bda55184c88473c707503a30, type: 2}
   m_sharedMaterial: {fileID: -8180706083844196241, guid: 36b93e59bda55184c88473c707503a30, type: 2}
@@ -676,8 +858,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 13
+  m_fontSizeBase: 13
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

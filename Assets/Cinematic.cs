@@ -40,5 +40,7 @@ public class Cinematic : MonoBehaviour
             }
             
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene("Level 1-1");
     }
 }
