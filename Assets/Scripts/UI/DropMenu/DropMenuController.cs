@@ -31,10 +31,12 @@ namespace ScrapCoder.UI {
         [SerializeField] bool showOptionValue = false;
 
         // State variables
-        [SerializeField] string _value = "";
-        public string Value {
-            get => _value;
-            private set => _value = value;
+        public string Value => selectedOption.value;
+
+        [SerializeField] DropMenuOption _selectedOption;
+        public DropMenuOption selectedOption {
+            get => _selectedOption;
+            private set => _selectedOption = value;
         }
 
         List<System.Action> listeners = new List<System.Action>();
@@ -59,7 +61,7 @@ namespace ScrapCoder.UI {
         }
 
         public void ChangeOption(DropMenuOption newOption, bool smooth = false, bool executeListeners = true) {
-            Value = newOption.value;
+            selectedOption = newOption;
 
             var dx = text.ChangeText(
                 newText: showOptionValue ? newOption.value : newOption.text,

@@ -85,13 +85,13 @@ namespace ScrapCoder.UI {
             Declare(symbolName: symbolName, smooth: true);
         }
 
-        public void Declare(string symbolName, bool smooth = false, SymbolTemplate template = null) {
+        public bool Declare(string symbolName, bool smooth = false, SymbolTemplate template = null) {
             if (selectionContainer.SpawnersCount == declarationLimit) {
                 MessagesController.instance.AddMessage(
                     message: $"Ya no puedes declarar más variables, el límite es de: {declarationLimit}.",
                     type: MessageType.Warning
                 );
-                return;
+                return false;
             }
 
             if (SymbolTable.instance[symbolName] != null) {
@@ -99,16 +99,22 @@ namespace ScrapCoder.UI {
                     message: $"{(type == NodeType.Variable ? "La variable" : "El arreglo")}: {symbolName} ya existe. No lo puedes declarar dos veces",
                     type: MessageType.Error
                 );
-                return;
+                return false;
             }
 
             var name = symbolName.Split(new char[] { '_' })[1];
 
-            var newPrefab = NodeControllerExpandableByText.Create(
+            var newPrefab = NodeController.Create(
                 prefab: declaredPrefab,
                 parent: temporalParent,
-                name: name,
-                symbolName: symbolName
+                template: new NodeControllerTemplate {
+                    name = name,
+                    symbolName = symbolName,
+                    customInfo = new Dictionary<string, object> {
+                        ["nameText"] = name
+                    }
+                },
+                isPrototype: true
             );
 
             var newSpawner = NodeSpawnController.Create(
@@ -135,6 +141,8 @@ namespace ScrapCoder.UI {
             );
 
             selectionContainer.AddSpawner(spawner: newSpawner, smooth: smooth);
+
+            return true;
         }
 
     }

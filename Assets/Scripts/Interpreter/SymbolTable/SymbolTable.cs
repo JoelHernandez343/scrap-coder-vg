@@ -21,8 +21,8 @@ namespace ScrapCoder.Interpreter {
         // State variables
         Dictionary<string, Symbol> symbols = new Dictionary<string, Symbol>();
 
-        public List<string> variables_symbols = new List<string>();
-        public List<string> arrays_symbols = new List<string>();
+        public List<string> variablesSymbols = new List<string>();
+        public List<string> arraysSymbols = new List<string>();
 
         void Awake() {
             if (instance != null) {
@@ -57,8 +57,8 @@ namespace ScrapCoder.Interpreter {
             if (type == NodeType.Variable || type == NodeType.Array) {
 
                 var list = type == NodeType.Variable
-                   ? variables_symbols
-                   : arrays_symbols;
+                   ? variablesSymbols
+                   : arraysSymbols;
 
                 table = tablesContainer.AddElement(
                     symbolName: symbolName,
@@ -88,8 +88,8 @@ namespace ScrapCoder.Interpreter {
             symbols.Remove(symbolName);
 
             var list = symbol.Type == NodeType.Variable
-                ? variables_symbols
-                : arrays_symbols;
+                ? variablesSymbols
+                : arraysSymbols;
 
             list.Remove(symbolName);
             tablesContainer.RemoveElement(
@@ -107,6 +107,59 @@ namespace ScrapCoder.Interpreter {
                 symbol.DeleteNodesWithoutParent();
             }
         }
+
+        public List<NodeController> GetNodesWithoutParent() {
+            var nodes = new List<NodeController>();
+
+            foreach (var entry in symbols) {
+                var symbol = entry.Value;
+
+                nodes.AddRange(symbol.GetReferencesWithoutParent());
+            }
+
+            return nodes;
+        }
+
+        public Dictionary<string, string> UpdateSymbolsTemplates(SymbolTableTemplate template) {
+            if (template == null) return null;
+
+            var symbolNameChanges = new Dictionary<string, string>();
+
+            template.arrayTemplates.ForEach(t => {
+                var old = UpdateSymbolTemplate(template: t);
+
+                symbolNameChanges[old] = t.symbolName;
+            });
+            template.variableTemplates.ForEach(t => {
+                var old = UpdateSymbolTemplate(template: t);
+
+                symbolNameChanges[old] = t.symbolName;
+            });
+
+            return symbolNameChanges;
+        }
+
+        string UpdateSymbolTemplate(SymbolTemplate template) {
+            var oldSymbolName = template.symbolName;
+            var symbolName = template.symbolName;
+
+            var counter = 2;
+            var newSymbolName = symbolName;
+            while (this[newSymbolName] != null) {
+                newSymbolName = $"{symbolName}({counter})";
+                counter += 1;
+            }
+
+            template.symbolName = newSymbolName;
+
+            return oldSymbolName;
+        }
+
+        public SymbolTableTemplate GetSymbolTableTemplate()
+            => new SymbolTableTemplate {
+                arrayTemplates = arraysSymbols.ConvertAll(s => this[s].GetSymbolTemplate()),
+                variableTemplates = variablesSymbols.ConvertAll(s => this[s].GetSymbolTemplate())
+            };
 
     }
 

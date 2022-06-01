@@ -20,6 +20,7 @@ namespace ScrapCoder.VisualNodes {
 
         // State variables
         int? previousMaxHeight;
+        bool initialized = false;
 
         // Lazy variables
         NodeTransform _ownTransform;
@@ -34,7 +35,16 @@ namespace ScrapCoder.VisualNodes {
 
         // Methods
         void Start() {
-            previousMaxHeight ??= GetMaxHeight();
+            Initialize();
+            // previousMaxHeight ??= GetMaxHeight();
+        }
+
+        public void Initialize() {
+            if (initialized) return;
+
+            previousMaxHeight = GetMaxHeight();
+
+            initialized = true;
         }
 
         int GetIndexOfHorizontalExpandable(INodeExpanded expandable)

@@ -110,6 +110,12 @@ namespace ScrapCoder.UI {
             }
         }
 
+        public void ChangeValue(string newText, bool smooth = false) {
+            text = newText;
+            ExpandByText(smooth: smooth);
+            MoveCursorTo(0);
+        }
+
         string GetPressedCharacter() {
             var keyPressed = "";
 

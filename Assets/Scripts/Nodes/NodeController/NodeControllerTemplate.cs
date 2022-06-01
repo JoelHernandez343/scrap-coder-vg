@@ -11,5 +11,10 @@ namespace ScrapCoder.VisualNodes {
         public string name;
         public string symbolName;
 
+        public Dictionary<string, object> customInfo;
+
+        public NodeType type;
+        public List<List<NodeControllerTemplate>> containers;
+
     }
 }

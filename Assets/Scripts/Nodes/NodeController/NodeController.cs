@@ -140,6 +140,9 @@ namespace ScrapCoder.VisualNodes {
         InterpreterElementBuilder _interpreterBuilder;
         public InterpreterElementBuilder interpreterBuilder => _interpreterBuilder ??= (GetComponent<InterpreterElementBuilder>() as InterpreterElementBuilder);
 
+        INodeControllerInitializer _initializer;
+        INodeControllerInitializer initializer => _initializer ??= (GetComponent<INodeControllerInitializer>() as INodeControllerInitializer);
+
         string state;
 
         // Methods
@@ -551,14 +554,112 @@ namespace ScrapCoder.VisualNodes {
             return false;
         }
 
-        public static NodeController Create(NodeController prefab, Transform parent, NodeControllerTemplate template) {
+        public NodeControllerTemplate GetTemplate() {
+            if (type == NodeType.Begin) {
+                if (siblings.Count == 0) return null;
+
+                if (siblings.First.type == NodeType.End) return null;
+
+                var first = siblings.First;
+
+                first.DetachFromParent(smooth: false);
+
+                var childTemplate = first.GetTemplate();
+
+                AddNodeToContainerDirectly(
+                    container: siblings.container,
+                    nodeToAdd: first
+                );
+
+                return childTemplate;
+            }
+
+            if (type == NodeType.End) return null;
+
+            return new NodeControllerTemplate {
+                type = type,
+                name = name,
+                symbolName = symbolName,
+                customInfo = initializer?.GetCustomInfo(),
+                containers = containers.ConvertAll(
+                    container => container?.array.nodes
+                        .FindAll(n => n.type != NodeType.End)
+                        .ConvertAll(node => node.GetTemplate())
+                )
+            };
+
+        }
+
+        public static NodeController Create(
+            NodeController prefab,
+            Transform parent,
+            NodeControllerTemplate template,
+            bool isPrototype = false,
+            Dictionary<string, string> symbolNameChanges = null
+        ) {
+            if (!isPrototype && SymbolTable.instance[template.symbolName] == null) {
+                MessagesController.instance.AddMessage(
+                    message: $"El nodo {template.symbolName} no está disponible.",
+                    type: MessageType.Error
+                );
+
+                return null;
+            }
+
+            if (!isPrototype && SymbolTable.instance[template.symbolName].isFull) {
+                MessagesController.instance.AddMessage(
+                    message: $"No se puede crear un nodo del tipo {template.symbolName}, el límite ha sido superado.",
+                    type: MessageType.Error
+                );
+
+                return null;
+            }
+
             var newNode = Instantiate(original: prefab, parent: parent);
+
+            newNode.components.ForEach(piece => piece.Initialize());
+
+            newNode.SetState("normal");
 
             newNode.name = template.name;
             newNode.symbolName = template.symbolName;
 
             newNode.ownTransform.depth = 0;
             newNode.ownTransform.SetScale(x: 1, y: 1, z: 1);
+
+            if (newNode.initializer != null) {
+                newNode.initializer.Initialize(customInfo: template.customInfo);
+            }
+
+            for (var i = 0; i < template.containers?.Count; ++i) {
+                var currentContainer = newNode.containers[i];
+                var currentContainerTemplate = template.containers[i];
+
+                currentContainerTemplate?.ForEach(t => {
+
+                    if (t.type == NodeType.Variable || t.type == NodeType.Array) {
+                        t.symbolName = symbolNameChanges?[t.symbolName] ?? t.symbolName;
+                    }
+
+                    var childPrefab = SymbolTable.instance[t.symbolName].spawner.prefabToSpawn;
+
+                    var n = Create(
+                        prefab: childPrefab,
+                        parent: currentContainer.array.transform,
+                        template: t,
+                        symbolNameChanges: symbolNameChanges
+                    );
+
+                    newNode.AddNodeToContainerDirectly(
+                        container: currentContainer,
+                        nodeToAdd: n
+                    );
+                });
+            }
+
+            if (!isPrototype) {
+                SymbolTable.instance[template.symbolName].AddReference(newNode);
+            }
 
             return newNode;
         }
