@@ -140,7 +140,7 @@ namespace ScrapCoder.Tutorial {
             currentState = State.InspectOn;
 
             ShowMessage(
-                message: "Con la tecla Q puedes observar el botón que abre la puerta y cómo este se conecta.",
+                message: "Con la tecla Q puedes ingresar al modo inspección, dónde puedes observar como se conecta el botón con la puerta.",
                 type: MessageType.Normal,
                 customSprite: qSprite,
                 onFullShowCallback: () => currentState = State.WaitingForInspectOn
