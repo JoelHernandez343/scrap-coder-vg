@@ -8,9 +8,14 @@ using ScrapCoder.Interpreter;
 public class analyzebutton : MonoBehaviour {
 
     [SerializeField] ButtonController button;
+    Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
 
     void Start() {
-        button.AddListener(() => Executer.instance.Execute());
+        button.AddListener(() => {
+            if (!editor.isEditorOpenRemotely) {
+                Executer.instance.Execute();
+            } }
+            );
     }
 
 }
