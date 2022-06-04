@@ -23,7 +23,7 @@ public class InteractCopper : InteractScript {
     void Update() {
         if (editor == null) return;
 
-        if (interactable && InputController.instance.GetButtonDown("Interact", ignoreContainer: true) || !interactable && editor.isVisible) {
+        if (interactable && InputController.instance.GetButtonDown("Interact", ignoreContainer: true)/* || !interactable && editor.isVisible*/) {
             Programar();
         }
     }

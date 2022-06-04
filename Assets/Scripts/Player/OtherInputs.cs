@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 
 using ScrapCoder.GameInput;
+using ScrapCoder.UI;
 using ScrapCoder.Tutorial;
 
 public class OtherInputs : MonoBehaviour
@@ -12,6 +13,7 @@ public class OtherInputs : MonoBehaviour
     private bool inspectOn;
     private BoxCollider2D box;
     [SerializeField] private GameObject cables;
+    Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
     void Start()
     {
         inspectOn = false;
@@ -32,6 +34,10 @@ public class OtherInputs : MonoBehaviour
             //cables.SetActive(inspectOn);
 
             TutorialController.instance.ReceiveSignal(signal: $"inspect{(inspectOn ? "On" : "Off")}");
+        }else if (InputController.instance.GetKeyDown(KeyCode.Comma, ignoreContainer:true))
+        {
+            // Abrir editor sin control
+            editor.SetVisible(!editor.isVisible);
         }
     }
 
