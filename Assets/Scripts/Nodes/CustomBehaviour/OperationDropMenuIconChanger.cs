@@ -18,7 +18,7 @@ namespace ScrapCoder.VisualNodes {
         DropMenuController dropMenu => _dropMenu ??= (GetComponent<DropMenuController>() as DropMenuController);
 
         // Methods
-        void Start() {
+        void Awake() {
             dropMenu.AddListener(() => ChangeIcon(operation: dropMenu.Value));
         }
 
