@@ -62,6 +62,8 @@ namespace ScrapCoder.VisualNodes {
         int spawnedCount => SymbolTable.instance[symbolName]?.Count ?? 0;
         bool showingInfinity => spawnLimit == -1;
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         // Methods
         void Start() {
             Initialize();
@@ -92,7 +94,7 @@ namespace ScrapCoder.VisualNodes {
 
         void SetDiscardButton(System.Action discardCallback = null) {
             discardCallback ??= () => {
-                if (Executer.instance.isRunning) {
+                if (Executer.instance.isRunning || editor.isEditorOpenRemotely) {
                     MessagesController.instance.AddMessage(
                         message: $"No puedes borrar el nodo: {symbolName} mientras el ejecutor trabaja.",
                         type: MessageType.Warning

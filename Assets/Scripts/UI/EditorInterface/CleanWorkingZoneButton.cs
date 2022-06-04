@@ -14,10 +14,12 @@ namespace ScrapCoder.UI {
         ButtonController _button;
         ButtonController button => _button ??= (GetComponent<ButtonController>() as ButtonController);
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         void Start() {
 
             button.AddListener(() => {
-                if (Executer.instance.isRunning) {
+                if (Executer.instance.isRunning || editor.isEditorOpenRemotely) {
                     MessagesController.instance.AddMessage(
                         message: "No puedes limpiar los nodos mientras el ejecutor trabaja.",
                         type: MessageType.Warning

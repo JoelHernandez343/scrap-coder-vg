@@ -22,8 +22,10 @@ namespace ScrapCoder.VisualNodes {
         [SerializeField] NodeSpawnController spawnController;
 
         NodeController spawned => spawnController.spawned;
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
 
         public void OnBeginDrag(PointerEventData e) {
+            if (editor.isEditorOpenRemotely) return;
             if (Executer.instance.isRunning) return;
 
             spawnController.SetState("normal");

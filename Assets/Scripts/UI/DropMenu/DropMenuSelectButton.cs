@@ -21,9 +21,13 @@ namespace ScrapCoder.UI {
         ButtonController _button;
         ButtonController button => _button ??= GetComponent<ButtonController>();
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         // Methods
         void Start() {
             button.AddListener(() => {
+                if (editor.isEditorOpenRemotely) return;
+
                 if (dropMenuController.controlledByExecuter && Executer.instance.isRunning) {
                     return;
                 }

@@ -40,6 +40,8 @@ namespace ScrapCoder.UI {
         public DeclareContainer _declareContainer;
         public DeclareContainer declareContainer => _declareContainer ??= (GetComponent<DeclareContainer>() as DeclareContainer);
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         // State variables
         bool initialized = false;
 
@@ -102,7 +104,7 @@ namespace ScrapCoder.UI {
         }
 
         public void RemoveSpawner(string symbolName, bool smooth = false) {
-            if (Executer.instance.isRunning) {
+            if (Executer.instance.isRunning || editor.isEditorOpenRemotely) {
                 MessagesController.instance.AddMessage(
                     message: string.Concat(
                         "No puedes borrar ",

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using ScrapCoder.Interpreter;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.VisualNodes {
 
@@ -33,6 +34,8 @@ namespace ScrapCoder.VisualNodes {
 
         Vector2Int previousPosition = Vector2Int.zero;
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         // Methods
         public void OnPointerDown(PointerEventData eventData) {
             HierarchyController.instance.SetOnTopOfNodes(controller);
@@ -40,6 +43,7 @@ namespace ScrapCoder.VisualNodes {
         }
 
         public void OnBeginDrag(PointerEventData eventData) {
+            if (editor.isEditorOpenRemotely) return;
             if (Executer.instance.isRunning && controller.hasParent) return;
             if (controller.ownTransform.isMovingSmoothly) return;
 

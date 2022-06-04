@@ -37,7 +37,7 @@ public class OtherInputs : MonoBehaviour
         }else if (InputController.instance.GetKeyDown(KeyCode.Comma, ignoreContainer:true))
         {
             // Abrir editor sin control
-            editor.SetVisible(!editor.isVisible);
+            editor.SetVisible(!editor.isVisible, isEditorOpenRemotely: true);
         }
     }
 

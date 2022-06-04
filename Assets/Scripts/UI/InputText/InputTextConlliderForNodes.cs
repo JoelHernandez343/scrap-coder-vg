@@ -45,7 +45,11 @@ namespace ScrapCoder.UI {
 
         Vector2Int previousPosition = Vector2Int.zero;
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         public void OnPointerClick(PointerEventData e) {
+
+            if (editor.isEditorOpenRemotely) return;
 
             if (!wasDragging && !Executer.instance.isRunning) {
                 GetFocus(e);
@@ -55,6 +59,8 @@ namespace ScrapCoder.UI {
         }
 
         public void OnPointerDown(PointerEventData e) {
+            if (editor.isEditorOpenRemotely) return;
+
             HierarchyController.instance.SetOnTopOfNodes(controller);
             controller.SetState(state: "over", propagation: true);
         }

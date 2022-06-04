@@ -39,6 +39,8 @@ namespace ScrapCoder.UI {
 
         Vector2Int previousPosition = Vector2Int.zero;
 
+        Editor editor => InterfaceCanvas.instance.editorVisibiltyManager;
+
         public void OnPointerDown(PointerEventData eventData) {
             if (!hasController) return;
 
@@ -49,6 +51,8 @@ namespace ScrapCoder.UI {
         }
 
         public void OnBeginDrag(PointerEventData e) {
+            if (editor.isEditorOpenRemotely) return;
+
             if (!hasController) return;
 
             if (hasFocus) return;
