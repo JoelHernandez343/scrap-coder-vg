@@ -49,7 +49,7 @@ namespace ScrapCoder.Interpreter {
                     text = customInfo["selectedOptionText"] as string,
                     value = customInfo["selectedOptionValue"] as string
                 },
-                executeListeners: false
+                executeListeners: true
             );
 
             initialized = true;
