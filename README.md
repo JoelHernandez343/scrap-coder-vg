@@ -46,7 +46,7 @@ Aquí se pueden seleccionar los niveles que han sido desbloqueados dentro del ju
 
 ### Primer nivel
 
-Comienzo del primer nivel
+Comienzo del primer nivel.
 
 ---
 
