@@ -1,6 +1,6 @@
 <h1 align="center">Scrap Coder</h1>
 
-<p align="center"><b>Escuela Superior de Cómputo IPN</b> | <b>TT 2021-A026</b></p>
+<p align="center"><b>Escuela Superior de Cómputo (ESCOM IPN) </b> | <b>Trabajo Terminal 2021-A026</b></p>
 <p align="center">“Videojuego de Resolución de Desafíos a través de la Programación Visual para el Fomento del Desarrollo de la Lógica de Solución de Problemas (Scrap Coder)”</p>
 
 ## Integrantes
