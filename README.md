@@ -28,14 +28,54 @@ Videojuego de resolución de desafíos o puzzles usando la programación visual 
 
 ![Menú principal](./.github/images/s_menu_principal.png)
 
+### Menú principal
+
+Este es el menú principal del jueg. Permite crear una nueva partida, seleccionar algún nivel desbloqueado, ver los controles o la información del mismo videojuego.
+
+---
+
 ![Selección de nivel](./.github/images/s_seleccion_de_nivel.png)
+
+### Selección de niveles
+
+Aquí se pueden seleccionar los niveles que han sido desbloqueados dentro del juego.
+
+---
 
 ![Primer nivel](./.github/images/s_nivel_1_1.png)
 
+### Primer nivel
+
+Comienzo del primer nivel
+
+---
+
 ![Nivel 2 1](./.github/images/s_nivel_2_1.png)
+
+### Nivel de espiral
+
+Nivel de espiral que se resuelve programando ciclos dentro del robot.
+
+---
 
 ![Nivel 2 2](./.github/images/s_nivel_2_2.png)
 
+### Nivel de ordenamiento
+
+Nivel de ordenamiento que se resuelve ya sea programando un ordenamiento dentro del robot o utilizando las instrucciones provistas por el mismo juego.
+
+---
+
 ![Interfaz de editor](./.github/images/s_algoritmo.png)
 
-![Abriendo archivo de nodos](./.github/images/s_abriendo_nodos.png)
+### Interfaz de editor
+
+Aquí se muestra la interfaz del editor con algunos bloques del lenguaje visual de programación desarrollado en este proyecto.
+
+---
+
+![Abriendo o guardando archivo de nodos](./.github/images/s_abriendo_nodos.png)
+
+### Abriendo o guardando archivo de nodos
+
+Aquí se muestra la interfaz del plugin [Runtime File Browser](https://assetstore.unity.com/packages/tools/gui/runtime-file-browser-113006) que permite al usuario guardar en un archivo `json` los nodos que se encuentran en el editor, o cargar nodos que el usuario previamente haya guardado.
