@@ -11,3 +11,11 @@
 ## Director
 
 -   Dr. Yaxkin Flores Mendoza
+
+## Descripción
+
+El 35% de los estudiantes en México que realizaron la prueba PISA en el 2018 obtuvieron el nivel 1, lo que refleja un subdesarrollo en la habilidad de resolución de problemas, la cual es una habilidad necesaria para participar plenamente en una sociedad moderna como lo indica la UNESCO.
+
+Por consiguiente se propone el desarrollo de un videojuego de resolución de desafíos o puzzles usando la programación visual como herramienta principal, con el objetivo de fomentar el desarrollo de la lógica de solución de problemas en los jugadores bajo el enfoque teórico de la gamificación y aprendizaje por TICs.
+
+## Documentos
