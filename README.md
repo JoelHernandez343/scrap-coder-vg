@@ -30,7 +30,7 @@ Videojuego de resolución de desafíos o puzzles usando la programación visual 
 
 ### Menú principal
 
-Este es el menú principal del jueg. Permite crear una nueva partida, seleccionar algún nivel desbloqueado, ver los controles o la información del mismo videojuego.
+Este es el menú principal del juego. Permite crear una nueva partida, seleccionar algún nivel desbloqueado, ver los controles o la información del mismo videojuego.
 
 ---
 
