@@ -24,6 +24,10 @@ Videojuego de resolución de desafíos o puzzles usando la programación visual 
 -   [Presentación 2](./.github/docs/Presentacion_TT_2.pdf)
 -   [Artículo técnico](./.github/docs/Articulo_Tecnico.pdf)
 
+## Demostración en video
+
+[![Demostración de video](./.github/images/s_demo.png)](https://youtu.be/y03wO9SDd2c)
+
 ## Capturas
 
 ![Menú principal](./.github/images/s_menu_principal.png)
