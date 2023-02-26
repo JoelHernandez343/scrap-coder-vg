@@ -26,20 +26,21 @@ namespace ScrapCoder.Game {
 
         // Methods
         public void CreateLevelDataIfNotExists() {
-            if (!FileExists.PersistentFileExists(levelDataFileName)) {
-                var id = 0;
-                var storedLevels = levels.ConvertAll(
-                    level => new StoredLevelTemplate() {
-                        id = id++,
-                        isUnlocked = false
-                    }
-                );
-
-                SaveLoadJson<List<StoredLevelTemplate>>.SaveJsonToPersistentData(
-                    data: storedLevels,
-                    subFilePath: levelDataFileName
-                );
+            if (FileExists.PersistentFileExists(levelDataFileName)){
+                return;
             }
+
+            var storedLevels = levels.ConvertAll(
+                level => new StoredLevelTemplate() {
+                    isUnlocked = false,
+                    sceneName = level.sceneName,
+                }
+            );
+
+            SaveLoadJson<List<StoredLevelTemplate>>.SaveJsonToPersistentData(
+                data: storedLevels,
+                subFilePath: levelDataFileName
+            ); 
         }
 
         public List<StoredLevelTemplate> GetStoredLevelData() {
