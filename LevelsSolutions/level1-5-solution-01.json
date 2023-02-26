@@ -1,0 +1,238 @@
+{
+  "symbolTableTemplate": {
+    "variableTemplates": [
+      { "type": 22, "symbolName": "var_i", "value": "5", "arrayValues": [] }
+    ],
+    "arrayTemplates": [
+      {
+        "type": 37,
+        "symbolName": "array_numeros",
+        "value": null,
+        "arrayValues": ["0", "1", "1", "1", "2"]
+      }
+    ]
+  },
+  "nodesTuples": [
+    {
+      "nodeTemplate": {
+        "name": "ClearArray[1]",
+        "symbolName": "ClearArray",
+        "customInfo": null,
+        "type": 39,
+        "containers": [
+          [
+            {
+              "name": "SetVariable[1]",
+              "symbolName": "SetVariable",
+              "customInfo": null,
+              "type": 24,
+              "containers": [
+                [],
+                [
+                  {
+                    "name": "var_i[1]",
+                    "symbolName": "var_i",
+                    "customInfo": { "nameText": "i" },
+                    "type": 22,
+                    "containers": []
+                  }
+                ],
+                [
+                  {
+                    "name": "NumericValue[2]",
+                    "symbolName": "NumericValue",
+                    "customInfo": { "inputText": "0" },
+                    "type": 23,
+                    "containers": []
+                  }
+                ]
+              ]
+            },
+            {
+              "name": "RepeatNTimes[1]",
+              "symbolName": "RepeatNTimes",
+              "customInfo": null,
+              "type": 18,
+              "containers": [
+                [
+                  {
+                    "name": "Walk[1]",
+                    "symbolName": "Walk",
+                    "customInfo": null,
+                    "type": 9,
+                    "containers": [[]]
+                  }
+                ],
+                [
+                  {
+                    "name": "NumericValue[1]",
+                    "symbolName": "NumericValue",
+                    "customInfo": { "inputText": "5" },
+                    "type": 23,
+                    "containers": []
+                  }
+                ],
+                []
+              ]
+            },
+            {
+              "name": "RepeatNTimes[2]",
+              "symbolName": "RepeatNTimes",
+              "customInfo": null,
+              "type": 18,
+              "containers": [
+                [
+                  {
+                    "name": "Walk[2]",
+                    "symbolName": "Walk",
+                    "customInfo": null,
+                    "type": 9,
+                    "containers": [[]]
+                  },
+                  {
+                    "name": "ScanAndAddToArray[1]",
+                    "symbolName": "ScanAndAddToArray",
+                    "customInfo": null,
+                    "type": 46,
+                    "containers": [
+                      [],
+                      [
+                        {
+                          "name": "array_numeros[2]",
+                          "symbolName": "array_numeros",
+                          "customInfo": { "nameText": "numeros" },
+                          "type": 37,
+                          "containers": []
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "name": "NumericValue[3]",
+                    "symbolName": "NumericValue",
+                    "customInfo": { "inputText": "5" },
+                    "type": 23,
+                    "containers": []
+                  }
+                ],
+                []
+              ]
+            },
+            {
+              "name": "Walk[3]",
+              "symbolName": "Walk",
+              "customInfo": null,
+              "type": 9,
+              "containers": [[]]
+            },
+            {
+              "name": "SortArray[1]",
+              "symbolName": "SortArray",
+              "customInfo": null,
+              "type": 50,
+              "containers": [
+                [],
+                [
+                  {
+                    "name": "array_numeros[4]",
+                    "symbolName": "array_numeros",
+                    "customInfo": { "nameText": "numeros" },
+                    "type": 37,
+                    "containers": []
+                  }
+                ]
+              ]
+            },
+            {
+              "name": "RepeatNTimes[3]",
+              "symbolName": "RepeatNTimes",
+              "customInfo": null,
+              "type": 18,
+              "containers": [
+                [
+                  {
+                    "name": "PutValueOnPanel[1]",
+                    "symbolName": "PutValueOnPanel",
+                    "customInfo": null,
+                    "type": 49,
+                    "containers": [
+                      [],
+                      [
+                        {
+                          "name": "ValueOfArray[1]",
+                          "symbolName": "ValueOfArray",
+                          "customInfo": null,
+                          "type": 41,
+                          "containers": [
+                            [
+                              {
+                                "name": "var_i[2]",
+                                "symbolName": "var_i",
+                                "customInfo": { "nameText": "i" },
+                                "type": 22,
+                                "containers": []
+                              }
+                            ],
+                            [
+                              {
+                                "name": "array_numeros[3]",
+                                "symbolName": "array_numeros",
+                                "customInfo": { "nameText": "numeros" },
+                                "type": 37,
+                                "containers": []
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "name": "AddToVariable[1]",
+                    "symbolName": "AddToVariable",
+                    "customInfo": null,
+                    "type": 14,
+                    "containers": [
+                      [],
+                      [
+                        {
+                          "name": "var_i[3]",
+                          "symbolName": "var_i",
+                          "customInfo": { "nameText": "i" },
+                          "type": 22,
+                          "containers": []
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "name": "NumericValue[4]",
+                    "symbolName": "NumericValue",
+                    "customInfo": { "inputText": "5" },
+                    "type": 23,
+                    "containers": []
+                  }
+                ],
+                []
+              ]
+            }
+          ],
+          [
+            {
+              "name": "array_numeros[1]",
+              "symbolName": "array_numeros",
+              "customInfo": { "nameText": "numeros" },
+              "type": 37,
+              "containers": []
+            }
+          ]
+        ]
+      },
+      "position": { "x": 742, "y": -117 }
+    }
+  ]
+}
