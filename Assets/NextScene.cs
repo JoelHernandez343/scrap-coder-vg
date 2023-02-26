@@ -1,3 +1,7 @@
+// Edited by
+// Joel Harim Hernández Javier @ Febreary 2023
+// Github: https://github.com/JoelHernandez343
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,37 +28,26 @@ public class NextScene : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            switch (SceneManager.GetActiveScene().name)
-            {
-                case "Level 1-1":
-                    SetLevelUnlocked(id: 0);
-                    SceneManager.LoadScene("Level 1-2");
-                    break;
-                case "Level 1-2":
-                    SetLevelUnlocked(id: 1);
-                    SceneManager.LoadScene("Level 1-3");
-                    break;
-                case "Level 1-3":
-                    SetLevelUnlocked(id: 2);
-                    SceneManager.LoadScene("Level 1-4");
-                    break;
-                case "Level 1-4":
-                    SetLevelUnlocked(id: 3);
-                    SceneManager.LoadScene("Level 1-5");
-                    break;
-                default:
-                    SetLevelUnlocked(id: 4);
-                    SceneManager.LoadScene("Menu");
-                    break;
+            var storedLevelData = levelContainer.GetStoredLevelData();
+            var currentSceneName = SceneManager.GetActiveScene().name;
+            var nextSceneName = "";
 
+            // Search for current level, update locked status, and get the next scene name (if is the last, return to Menu)
+            for (int id = 0; id < storedLevelData.Count; id++) {
+                if (storedLevelData[id].sceneName == currentSceneName) {
+                    storedLevelData[id].isUnlocked = true;
+                    nextSceneName = id < storedLevelData.Count - 1
+                        ? storedLevelData[id + 1].sceneName
+                        : "Menu";
+                    break;
+                }
             }
+
+            // Store the updated list
+            levelContainer.StoreNewLevelData(newData: storedLevelData);
+
+            // Load the next scene
+            SceneManager.LoadScene(nextSceneName);
         }
-    }
-
-    void SetLevelUnlocked(int id){
-
-        var storedLevelData = levelContainer.GetStoredLevelData();
-        storedLevelData[id].isUnlocked = true;
-        levelContainer.StoreNewLevelData(newData: storedLevelData);
     }
 }

@@ -8,8 +8,8 @@ using UnityEngine;
 namespace ScrapCoder.Game {
     public class StoredLevelTemplate {
 
-        public int id;
         public bool isUnlocked;
+        public string sceneName;
 
     }
 }
