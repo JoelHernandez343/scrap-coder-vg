@@ -180,6 +180,7 @@ namespace ScrapCoder.Interpreter {
             }
 
             // Here we must indicate to the robot that execution is finished
+            SendInstruction.sendInstruction((int)Actions.StopSignal);
 
             state = States.Stopped;
             executionState = ExecutionState.Stopped;

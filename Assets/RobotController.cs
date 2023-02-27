@@ -1,3 +1,4 @@
+using ScrapCoder.Interpreter;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,13 @@ using UnityEngine;
 public class RobotController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    
     [SerializeField] private Transform movePoint;
+    private Vector3 previousMovePoint;
+
     [SerializeField] private enum Direction { Left, Up, Right, Down, None }
-    [SerializeField] private enum Action { Walk, RotateLeft, RotateRight, Scan, Interact, None, Zero, One, Two, Three, Four, Five, Six }
     [SerializeField] private Direction dirMovement, dirFacing;
-    [SerializeField] private Action action;
+    [SerializeField] private Actions action;
     [SerializeField] private int steps;
     [SerializeField] private enum Color { Green, Blue, Oranje, Gray, Brown, Red, None }
     [SerializeField] private Color color;
@@ -18,7 +21,6 @@ public class RobotController : MonoBehaviour
     private Rigidbody2D rb;
     private int rotateAux;
 
-    [SerializeField] private int rotate;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,17 +29,18 @@ public class RobotController : MonoBehaviour
         movePoint.parent = null;
         dirMovement = Direction.Down;
         moving = false;
-        rotate = 0;
         rotateAux = 0;
         color = Color.None;
         panelInteract = false;
         AnimationSet();
+
+        previousMovePoint = movePoint.position;
     }
 
     private void Awake()
     {
         SendInstruction.sendInstruction += getInstruction;
-        action = Action.None;
+        action = Actions.None;
     }
 
     private void OnDestroy()
@@ -45,52 +48,38 @@ public class RobotController : MonoBehaviour
         SendInstruction.sendInstruction -= getInstruction;
     }
     // Update is called once per frame
-    void Update()
-    {
-        //print((int)action);
-        
-        if (action != Action.None)
-        {
-            switch ((int)action)
-            {
-                case 0: // Walk
-                    /* First, he make sure the movement Direction is equals to the direction the robot is facing,
-                       then we check if the robot is moving or not, if not, move the point, now the robot will
-                       start moving and we will no longer move the point until moving is false again */
-                    // print("Caminar");
-                    dirMovement = dirFacing;
-                    AnimationSet();
-                    if (!moving)
-                    {
-                        MovePoint();
-                        moving = true;
-                    }
-                    Move(dirMovement);
-                    break;
-                case 1:
-                    rotate = -1;
-                    Rotate();
-                    break;
-                case 2:
-                    rotate = 1;
-                    Rotate();
-                    break;
-                case 3:
-                    ScanColor();
-                    break;
-                case 6: case 7: case 8: case 9: case 10: case 11: case 12:
-                    Panel();
-                    break;
-            }
-            dirMovement = Direction.None;
+    void Update() {
+        if (action == Actions.None) {
+            AnimationSet();
+            return;
         }
-        /*if(rb.velocity != new Vector2(0,0) && action == Action.None)
-        {
+
+        if (action == Actions.Walk) {
+            dirMovement = dirFacing;
             AnimationSet();
-        }else if(rb.velocity == new Vector2(0, 0) && action == Action.None)
-        {
-            AnimationSet();
-        }*/
+
+            if (!moving) {
+                MovePoint();
+                moving = true;
+            }
+            Move(dirMovement);
+        } else if (action == Actions.RotateLeft) {
+            Rotate(rotate: -1);
+        } else if (action == Actions.RotateRight) {
+            Rotate(rotate: 1);
+        } else if (action == Actions.Scan) {
+            ScanColor();
+        } else if (action == Actions.One || action == Actions.Two || action == Actions.Three || action == Actions.Four || action == Actions.Five || action == Actions.Six) {
+            Panel();
+        } else if (action == Actions.StopSignal) { 
+            if (moving) {
+                ResetMovement();
+                action = Actions.None;
+                finishAction();
+            }
+        }
+
+        dirMovement = Direction.None;
         AnimationSet();
     }
 
@@ -100,7 +89,7 @@ public class RobotController : MonoBehaviour
         if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
             moving = false;
-            action = Action.None;
+            action = Actions.None;
             finishAction();
         }
     }
@@ -114,6 +103,8 @@ public class RobotController : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, movePoint.position) <= 0.05f)
         {
+            previousMovePoint = movePoint.position;
+
             switch ((int)dirMovement)
             {
                 case 0:
@@ -133,7 +124,13 @@ public class RobotController : MonoBehaviour
             }
         }
     }
-    void Rotate()
+
+    void ResetMovement() { 
+        transform.position = previousMovePoint;
+        movePoint.position = previousMovePoint;
+    }
+
+    void Rotate(int rotate)
     {
         rotateAux = (int)dirFacing + rotate;
         if (rotateAux == -1)
@@ -144,7 +141,7 @@ public class RobotController : MonoBehaviour
             rotateAux = 0;
         }
         dirFacing = (Direction)rotateAux;
-        action = Action.None;
+        action = Actions.None;
         SendInstruction.finishInstruction(null);
     }
 
@@ -156,9 +153,9 @@ public class RobotController : MonoBehaviour
 
     private void getInstruction(int actionReceived)
     {
-        if (System.Enum.IsDefined(typeof(Action), actionReceived)){
-            action = (Action)actionReceived;
-            Debug.Log($"[Robot] Instruction received: {(Action)actionReceived}");
+        if (System.Enum.IsDefined(typeof(Actions), actionReceived)){
+            action = (Actions)actionReceived;
+            Debug.Log($"[Robot] Instruction received: {(Actions)actionReceived}");
         } else {
             Debug.LogError($"[Robot] Invalid enum index of action: {actionReceived}");
         }
@@ -176,7 +173,7 @@ public class RobotController : MonoBehaviour
             SendInstruction.finishInstruction((int)color);
         }*/
         SendInstruction.finishInstruction((int)color);
-        action = Action.None;
+        action = Actions.None;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -207,14 +204,14 @@ public class RobotController : MonoBehaviour
         if (panelInteract)
         {
             PanelEvent.sendNumber((int)action);
-            action = Action.None;
+            action = Actions.None;
             StartCoroutine(Wait1());
             /*action = Action.None;
             SendInstruction.finishInstruction(0);
             return 0;*/
             return 0;
         }
-        action = Action.None;
+        action = Actions.None;
         SendInstruction.finishInstruction(-1);
         return -1;
     }
