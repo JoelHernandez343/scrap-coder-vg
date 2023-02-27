@@ -13,7 +13,7 @@ using ScrapCoder.Game;
 public class NextScene : MonoBehaviour
 {
     // Editor variables
-    [SerializeField] LevelContainer levelContainer;
+    [SerializeField] LevelLoader levelContainer;
 
     // Update is called once per frame
     void Update()
@@ -28,23 +28,25 @@ public class NextScene : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            var storedLevelData = levelContainer.GetStoredLevelData();
+            var levelCompletionData = levelContainer.GetLevelCompletionData();
+            var levels = levelContainer.levels;
+
             var currentSceneName = SceneManager.GetActiveScene().name;
             var nextSceneName = "";
 
             // Search for current level, update locked status, and get the next scene name (if is the last, return to Menu)
-            for (int id = 0; id < storedLevelData.Count; id++) {
-                if (storedLevelData[id].sceneName == currentSceneName) {
-                    storedLevelData[id].isUnlocked = true;
-                    nextSceneName = id < storedLevelData.Count - 1
-                        ? storedLevelData[id + 1].sceneName
+            for (int id = 0; id < levels.Count; id++) {
+                if (levels[id].sceneName == currentSceneName) {
+                    levelCompletionData[id] = true;
+                    nextSceneName = id < levelCompletionData.Count - 1
+                        ? levels[id + 1].sceneName
                         : "Menu";
                     break;
                 }
             }
 
             // Store the updated list
-            levelContainer.StoreNewLevelData(newData: storedLevelData);
+            levelContainer.StoreNewLevelCompletionData(newData: levelCompletionData);
 
             // Load the next scene
             SceneManager.LoadScene(nextSceneName);

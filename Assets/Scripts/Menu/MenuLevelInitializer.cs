@@ -17,7 +17,7 @@ namespace ScrapCoder.UI {
     public class MenuLevelInitializer : MonoBehaviour {
 
         // Editor variables
-        [SerializeField] LevelContainer levelContainer;
+        [SerializeField] LevelLoader levelContainer;
 
         // Methods
         void Start() {

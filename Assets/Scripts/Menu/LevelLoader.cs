@@ -6,23 +6,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ScrapCoder.Utils;
+using ScrapCoder.UI;
 
 namespace ScrapCoder.Game {
-    public class LevelContainer : MonoBehaviour {
+    public class LevelLoader : MonoBehaviour {
 
         public static string levelDataFileName = "levelData.json";
+
+        [SerializeField] TextAsset levelsTemplate;
 
         [System.Serializable]
         public class Level {
 
-            public Sprite image;
             public string title;
             public string description;
             public string sceneName;
+            public string spritePath;
 
         }
 
-        [SerializeField] public List<Level> levels;
+        private List<Level> _levels = null;
+        public List<Level> levels => 
+            _levels ??= Newtonsoft.Json.JsonConvert.DeserializeObject<List<Level>>(levelsTemplate.text);
 
         // Methods
         public void CreateLevelDataIfNotExists() {
@@ -30,29 +35,20 @@ namespace ScrapCoder.Game {
                 return;
             }
 
-            var storedLevels = levels.ConvertAll(
-                level => new StoredLevelTemplate() {
-                    isUnlocked = false,
-                    sceneName = level.sceneName,
-                }
-            );
-
-            SaveLoadJson<List<StoredLevelTemplate>>.SaveJsonToPersistentData(
-                data: storedLevels,
-                subFilePath: levelDataFileName
-            ); 
+            var lockedLevels = levels.ConvertAll(_ => false);
+            StoreNewLevelCompletionData(lockedLevels);
         }
 
-        public List<StoredLevelTemplate> GetStoredLevelData() {
+        public List<bool> GetLevelCompletionData() {
             CreateLevelDataIfNotExists();
 
-            return SaveLoadJson<List<StoredLevelTemplate>>.LoadJsonFromPersistentData(
+            return SaveLoadJson<List<bool>>.LoadJsonFromPersistentData(
                 subFilePath: levelDataFileName
             );
         }
 
-        public void StoreNewLevelData(List<StoredLevelTemplate> newData) {
-            SaveLoadJson<List<StoredLevelTemplate>>.SaveJsonToPersistentData(
+        public void StoreNewLevelCompletionData(List<bool> newData) {
+            SaveLoadJson<List<bool>>.SaveJsonToPersistentData(
                 subFilePath: levelDataFileName,
                 data: newData
             );

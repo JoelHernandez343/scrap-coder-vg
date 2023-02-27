@@ -20,7 +20,7 @@ namespace ScrapCoder.UI {
 
         [SerializeField] NodeTransform levelSelectorParent;
 
-        [SerializeField] LevelContainer levelContainer;
+        [SerializeField] LevelLoader levelContainer;
 
         [SerializeField] LevelSelector levelSelectorPrefab;
 
@@ -41,7 +41,7 @@ namespace ScrapCoder.UI {
 
         void InitializeLevelSelectors() {
             var isUnlocked = true;
-            var storedLevelData = levelContainer.GetStoredLevelData();
+            var levelCompletionData = levelContainer.GetLevelCompletionData();
             var id = 0;
 
             selectors = levelContainer.levels.ConvertAll(
@@ -52,13 +52,13 @@ namespace ScrapCoder.UI {
                         template: new LevelSelectorTemplate {
                             title = level.title,
                             description = level.description,
-                            image = level.image,
+                            image = Resources.Load<Sprite>(level.spritePath),
                             isUnlocked = isUnlocked,
                             scene = level.sceneName
                         }
                     );
 
-                    if (isUnlocked && !storedLevelData[id].isUnlocked) {
+                    if (isUnlocked && levelCompletionData[id] == false) {
                         isUnlocked = false;
                     }
 
