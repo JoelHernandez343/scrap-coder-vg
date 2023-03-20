@@ -74,16 +74,19 @@ namespace ScrapCoder.UI {
         public void OnRectTransformDimensionsChange() {
             var dimensions = rectDimensions;
 
-            editor.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
-            editorControls.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+            if (editor != null) {
+                editor.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+                editorControls.ChangeRectTransformDimensions(dimensions.x, dimensions.y);
+                selectionMenus.ExpandContainers(newHeight: (dimensions.y - 153) / 2);
+            }
 
-            workingZoneVerticalScrollbar.visor = dimensions.y;
-            workingZoneVerticalScrollbar.ownTransform.ExpandByNewDimensions(
-                newHeight: dimensions.y / 2 - 36
-            );
-            workingZoneVerticalScrollbar.RefreshSlider();
-
-            selectionMenus.ExpandContainers(newHeight: (dimensions.y - 153) / 2);
+            if (workingZoneVerticalScrollbar != null) {
+                workingZoneVerticalScrollbar.visor = dimensions.y;
+                workingZoneVerticalScrollbar.ownTransform.ExpandByNewDimensions(
+                    newHeight: dimensions.y / 2 - 36
+                );
+                workingZoneVerticalScrollbar.RefreshSlider();
+            }
         }
 
     }
