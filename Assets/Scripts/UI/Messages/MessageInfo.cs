@@ -15,6 +15,7 @@ namespace ScrapCoder.UI {
         public bool hideInNewMessage;
         public int seconds;
         public System.Action onFullShowCallback;
+        public int customHeight;
 
     }
 }

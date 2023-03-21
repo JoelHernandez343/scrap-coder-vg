@@ -46,7 +46,7 @@ namespace ScrapCoder.UI {
             ExpandByText(message.message);
 
             ownTransform.SetPosition(
-                y: (ownTransform.height + 50) * InterfaceCanvas.NodeScaleFactor,
+                y: (ownTransform.height + message.customHeight) * InterfaceCanvas.NodeScaleFactor,
                 smooth: true,
                 endingCallback: message.onFullShowCallback
             );

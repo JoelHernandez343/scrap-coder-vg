@@ -78,7 +78,8 @@ namespace ScrapCoder.UI {
             bool isFinite = true,
             Sprite customSprite = null,
             bool hideInNewMessage = false,
-            System.Action onFullShowCallback = null
+            System.Action onFullShowCallback = null,
+            int customHeight = 50
         ) {
             var guid = System.Guid.NewGuid();
 
@@ -89,7 +90,8 @@ namespace ScrapCoder.UI {
                 guid = guid,
                 hideInNewMessage = hideInNewMessage,
                 onFullShowCallback = onFullShowCallback,
-                seconds = isFinite ? seconds : -1
+                seconds = isFinite ? seconds : -1,
+                customHeight = customHeight,
             });
 
             if (currentMessage?.hideInNewMessage == true) {
