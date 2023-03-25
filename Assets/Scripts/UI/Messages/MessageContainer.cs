@@ -25,6 +25,10 @@ namespace ScrapCoder.UI {
         [SerializeField] NodeTransform spriteShape;
         [SerializeField] NodeTransform polygonCollider;
 
+        [SerializeField] List<NodeTransform> itemsBelow;
+        [SerializeField] List<NodeTransform> itemsToRight;
+        [SerializeField] List<NodeTransform> itemsToCenterHorizontally;
+
         [SerializeField] int internalXPadding = 16;
 
         // Lazy variables
@@ -78,8 +82,6 @@ namespace ScrapCoder.UI {
 
             ownTransform.Expand(dx: dx, dy: textDy);
             ownTransform.SetPosition(x: (int)System.Math.Round(ownTransform.width * InterfaceCanvas.NodeScaleFactor / -2f));
-
-            discardButton.ownTransform.SetPositionByDelta(dx: dx);
         }
 
         void ChangeIcon(MessageInfo message) {
@@ -104,7 +106,11 @@ namespace ScrapCoder.UI {
 
             spriteShape.Expand(dx: dx, dy: dy);
             polygonCollider.Expand(dx: dx, dy: dy);
-            icon.ownTransform.SetPosition(x: (int)System.Math.Round(newWidth / 2f - icon.ownTransform.width / 2f));
+
+            itemsToCenterHorizontally.ForEach(i => i.SetPosition(x: (int)System.Math.Round(newWidth / 2f - i.width / 2f)));
+
+            itemsBelow.ForEach(i => i.SetPositionByDelta(dy: -dy));
+            itemsToRight.ForEach(i => i.SetPositionByDelta(dx: dx));
 
             return (dx, dy);
         }
