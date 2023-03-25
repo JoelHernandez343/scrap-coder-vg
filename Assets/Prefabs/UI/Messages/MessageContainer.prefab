@@ -375,7 +375,7 @@ MonoBehaviour:
   initHeight: 34
   initWidth: 34
   minHeight: 0
-  minWidth: 0
+  minWidth: 34
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
@@ -412,6 +412,7 @@ MonoBehaviour:
   spriteMessageParent: {fileID: 0}
   spriteShape: {fileID: 8200753219851679843}
   polygonCollider: {fileID: 2470111873010284300}
+  internalXPadding: 16
 --- !u!82 &2133165626300349961
 AudioSource:
   m_ObjectHideFlags: 0

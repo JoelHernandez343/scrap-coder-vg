@@ -25,6 +25,8 @@ namespace ScrapCoder.UI {
         [SerializeField] NodeTransform spriteShape;
         [SerializeField] NodeTransform polygonCollider;
 
+        [SerializeField] int internalXPadding = 16;
+
         // Lazy variables
         NodeTransform _ownTransform;
         NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
@@ -69,8 +71,12 @@ namespace ScrapCoder.UI {
         }
 
         void ExpandByText(string newText) {
-            var (dx, dy) = messageText.ChangeTextExpandingAll(newText: newText);
-            ownTransform.Expand(dx: dx, dy: dy);
+            var (textDx, textDy) = messageText.ChangeTextExpandingAll(newText: newText);
+
+            var newWidth = System.Math.Max(ownTransform.initWidth, messageText.currentTextWidth + 2 * internalXPadding);
+            var dx = newWidth - ownTransform.width;
+
+            ownTransform.Expand(dx: dx, dy: textDy);
             ownTransform.SetPosition(x: (int)System.Math.Round(ownTransform.width * InterfaceCanvas.NodeScaleFactor / -2f));
 
             discardButton.ownTransform.SetPositionByDelta(dx: dx);
