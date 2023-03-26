@@ -9,47 +9,30 @@ using UnityEngine.SceneManagement;
 
 using ScrapCoder.GameInput;
 using ScrapCoder.Game;
+using System.Linq;
 
-public class NextScene : MonoBehaviour
-{
+public class NextScene : MonoBehaviour {
     // Editor variables
     [SerializeField] LevelLoader levelContainer;
 
     // Update is called once per frame
-    void Update()
-    {
-        if (InputController.instance.GetButtonDown("Reset"))
-        {
+    void Update() {
+        if (InputController.instance.GetButtonDown("Reset")) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            var levelCompletionData = levelContainer.GetLevelCompletionData();
-            var levels = levelContainer.levels;
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag != "player") return;
 
-            var currentSceneName = SceneManager.GetActiveScene().name;
-            var nextSceneName = "";
+        var levels = levelContainer.levels;
+        var currentSceneName = SceneManager.GetActiveScene().name;
 
-            // Search for current level, update locked status, and get the next scene name (if is the last, return to Menu)
-            for (int id = 0; id < levels.Count; id++) {
-                if (levels[id].sceneName == currentSceneName) {
-                    levelCompletionData[id] = true;
-                    nextSceneName = id < levelCompletionData.Count - 1
-                        ? levels[id + 1].sceneName
-                        : "Menu";
-                    break;
-                }
-            }
+        var id = levels.FindIndex(level => level.sceneName == currentSceneName);
+        var nextSceneName = levels.ElementAtOrDefault(id + 1)?.sceneName ?? "Menu";
 
-            // Store the updated list
-            levelContainer.StoreNewLevelCompletionData(newData: levelCompletionData);
+        levelContainer.StoreCurrentLevelProgress(id);
 
-            // Load the next scene
-            SceneManager.LoadScene(nextSceneName);
-        }
+        SceneManager.LoadScene(nextSceneName);
     }
 }

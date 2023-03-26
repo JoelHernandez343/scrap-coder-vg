@@ -41,7 +41,7 @@ namespace ScrapCoder.UI {
 
         void InitializeLevelSelectors() {
             var isUnlocked = true;
-            var levelCompletionData = levelContainer.GetLevelCompletionData();
+            var levelCompletionData = levelContainer.GetCurrentLevelProgress();
             var id = 0;
 
             selectors = levelContainer.levels.ConvertAll(

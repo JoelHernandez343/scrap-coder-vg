@@ -12,7 +12,7 @@ namespace ScrapCoder.Utils {
 
         public static bool PersistentFileExists(string subFilePath) {
             Debug.Log($"Checking on: {Path.Combine(Application.persistentDataPath, subFilePath)}");
-            return FileBrowserHelpers.FileExists(Path.Combine(Application.persistentDataPath, subFilePath));
+            return File.Exists(Path.Combine(Application.persistentDataPath, subFilePath));
         }
 
     }
