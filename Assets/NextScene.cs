@@ -15,24 +15,25 @@ public class NextScene : MonoBehaviour {
     // Editor variables
     [SerializeField] LevelLoader levelContainer;
 
+    // Lazy variables
+    string currentSceneName => SceneManager.GetActiveScene().name;
+
     // Update is called once per frame
     void Update() {
         if (InputController.instance.GetButtonDown("Reset")) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(currentSceneName);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.tag != "player") return;
+        if (collision.tag != "Player") return;
 
         var levels = levelContainer.levels;
-        var currentSceneName = SceneManager.GetActiveScene().name;
 
         var id = levels.FindIndex(level => level.sceneName == currentSceneName);
         var nextSceneName = levels.ElementAtOrDefault(id + 1)?.sceneName ?? "Menu";
 
-        levelContainer.StoreCurrentLevelProgress(id);
-
+        LevelLoader.StoreCurrentLevelProgress(id);
         SceneManager.LoadScene(nextSceneName);
     }
 }

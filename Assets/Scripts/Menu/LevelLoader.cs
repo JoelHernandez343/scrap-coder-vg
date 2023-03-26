@@ -8,6 +8,7 @@ using UnityEngine;
 using ScrapCoder.Utils;
 using ScrapCoder.UI;
 using UnityEngine.UIElements;
+using System.Linq;
 
 namespace ScrapCoder.Game {
     public class LevelLoader : MonoBehaviour {
@@ -36,14 +37,19 @@ namespace ScrapCoder.Game {
             _levels ??= Newtonsoft.Json.JsonConvert.DeserializeObject<List<Level>>(levelsTemplate.text);
 
         // Methods
-        public Dictionary<string, List<bool>> GetAllLevelProgressData() { 
+        public static Dictionary<string, List<bool>> GetAllLevelProgressData() { 
             if (progressData != null) return progressData;
 
             if (FileExists.PersistentFileExists(levelDataFileName)) { 
                 progressData = SaveLoadJson<Dictionary<string, List<bool>>>.LoadJsonFromPersistentData(
                     subFilePath: levelDataFileName
                 );
-            } else { 
+
+                if (progressData != null ) { Debug.Log("progressData loaded"); }
+                else { Debug.Log("progress data created"); }
+            } 
+
+            if (progressData == null) { 
                 progressData = new Dictionary<string, List<bool>>();
                 SaveAllLevelProgressData(progressData);
             }
@@ -51,14 +57,14 @@ namespace ScrapCoder.Game {
             return progressData;
         }
 
-        void SaveAllLevelProgressData(Dictionary<string, List<bool>> progressData) {
+        static void SaveAllLevelProgressData(Dictionary<string, List<bool>> progressData) {
             SaveLoadJson<Dictionary<string, List<bool>>>.SaveJsonToPersistentData(
                 subFilePath: levelDataFileName,
                 data: progressData
             );
         }
 
-        public void StoreCurrentLevelProgress(int levelId, bool isCompleted = true){
+        public static void StoreCurrentLevelProgress(int levelId, bool isCompleted = true){
             if (currentUserId == null) throw new System.Exception("User id must be set first");
 
             var progressData = GetAllLevelProgressData();
@@ -68,12 +74,29 @@ namespace ScrapCoder.Game {
             SaveAllLevelProgressData(progressData);
         }
 
-        public List<bool> GetCurrentLevelProgress() {
+        public static void ResetCurrentLevelProgress() { 
+            if (currentUserId == null) throw new System.Exception("User id must be set first");
+
+            var progressData = GetAllLevelProgressData();
+
+            progressData[currentUserId] = progressData[currentUserId].ConvertAll(_ => false);
+
+            SaveAllLevelProgressData(progressData);
+        }
+
+
+        public static List<bool> GetCurrentLevelProgress() {
             if (currentUserId == null) throw new System.Exception("User id must be set first");
 
             var progressData = GetAllLevelProgressData();
 
             return progressData[currentUserId];
+        }
+
+        public static void AddUser(string userId, int levelCount) {
+            progressData[userId] = Enumerable.Range(0, levelCount).Select(_ => false).ToList();
+
+            SaveAllLevelProgressData(progressData);
         }
     }
 }

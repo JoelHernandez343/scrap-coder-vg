@@ -120,12 +120,8 @@ public class MenuScript : MonoBehaviour
             switch (selectCount[0])
             {
                 case 0:     /*        Nueva Partida      */
-                    //SceneManager.LoadScene("Level 1-1");
-                    SceneManager.LoadScene("Cinematic");
-                    /*if (SceneManager.sceneLoaded("SampleScene"))
-                    {
-                        SceneManager.LoadScene("SampleScene");
-                    }*/
+                    // SceneManager.LoadScene("Cinematic");
+                    SceneManager.LoadScene("NewGame");
                     break;
                 case 1:     /*       Cargar Partida      */
                     SceneManager.LoadScene("LoadLevelscene");

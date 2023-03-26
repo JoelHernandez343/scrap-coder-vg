@@ -15,19 +15,45 @@ namespace ScrapCoder.UI
         // Editor variables
         [SerializeField] ButtonController returnButton;
         [SerializeField] ButtonController createButton;
+        [SerializeField] ButtonController acceptMessageButton;
+
+        [SerializeField] InputText inputText;
+        [SerializeField] LevelLoader levelContainer;
+
+        string inputUserId;
 
         // Methods
         void Start() {
             returnButton.AddListener(() => SceneManager.LoadScene("Menu"));
-            createButton.AddListener(() => ShowMessage());
+            createButton.AddListener(() => CreateUser());
+            acceptMessageButton.AddListener(() => StartAgain());
         }
 
-        void ShowMessage() {
-            MessagesController.instance.AddMessage(
-                message: "Hello world",
-                isFinite: false,
-                customHeight: 100
-            );
+        void CreateUser() {
+            inputUserId = inputText.Value;
+
+            if (string.IsNullOrEmpty(inputUserId)) return;
+
+            var users = LevelLoader.GetAllLevelProgressData();
+
+            if (!users.ContainsKey(inputUserId)) {
+                LevelLoader.AddUser(inputUserId, levelContainer.levels.Count);
+                LevelLoader.currentUserId = inputUserId;
+                SceneManager.LoadScene("Cinematic");
+            } else {
+                MessagesController.instance.AddMessage(
+                    message: "Este usuario ya existe, ¿quieres empezar de nuevo la aventura?",
+                    isFinite: false,
+                    customHeight: 100,
+                    hideInNewMessage: true
+                );
+            }
+        }
+
+        void StartAgain() {
+            LevelLoader.currentUserId = inputUserId;
+            // LevelLoader.ResetCurrentLevelProgress();
+            SceneManager.LoadScene("Cinematic");
         }
     }
 }
