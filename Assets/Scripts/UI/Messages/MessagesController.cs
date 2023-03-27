@@ -15,10 +15,12 @@ namespace ScrapCoder.UI {
         public static MessagesController instance;
 
         // Editor variable
-        [SerializeField] MessageContainer messageContainer;
+        [SerializeField] MessageContainer informationMessageContainer;
+        [SerializeField] MessageContainer acceptAndCancelMessageContainer;
 
         // State variables
         MessageInfo currentMessage;
+        MessageContainer currentMessageContainer;
         Queue<MessageInfo> messageQueue = new Queue<MessageInfo>();
 
         [SerializeField] States state = States.Iddle;
@@ -70,6 +72,8 @@ namespace ScrapCoder.UI {
         /// <param name="customSprite">Sprite to show instead of icon</param>
         /// <param name="hideInNewMessage">Indicates whether the message is automatically hidden if a new message is added.</param>
         /// <param name="onFullShowCallback">Callback to execute when the message is fully showed.</param>
+        /// <param name="customHeight">Height where show the message.</param>
+        /// <param name="type">The type of the message. It help to decide between different containers</param>
         /// <returns>A Guid of the added message</returns>
         public System.Guid AddMessage(
             string message,
@@ -79,7 +83,8 @@ namespace ScrapCoder.UI {
             Sprite customSprite = null,
             bool hideInNewMessage = false,
             System.Action onFullShowCallback = null,
-            int customHeight = 50
+            int customHeight = 50,
+            MessageType type = MessageType.Information
         ) {
             var guid = System.Guid.NewGuid();
 
@@ -92,6 +97,7 @@ namespace ScrapCoder.UI {
                 onFullShowCallback = onFullShowCallback,
                 seconds = isFinite ? seconds : -1,
                 customHeight = customHeight,
+                type = type,
             });
 
             if (currentMessage?.hideInNewMessage == true) {
@@ -104,7 +110,11 @@ namespace ScrapCoder.UI {
         void ShowMessage() {
             currentMessage = messageQueue.Dequeue();
 
-            messageContainer.ShowNewMessage(currentMessage);
+            currentMessageContainer = currentMessage.type == MessageType.Information
+                ? informationMessageContainer
+                : acceptAndCancelMessageContainer;
+
+            currentMessageContainer.ShowNewMessage(currentMessage);
             state = States.ShowingMessage;
             waitTime = currentMessage.seconds;
 
@@ -112,7 +122,7 @@ namespace ScrapCoder.UI {
         }
 
         public void HideCurrentMessage() {
-            messageContainer.Hide();
+            currentMessageContainer.Hide();
             state = States.WaitingForHiddenMessage;
         }
 

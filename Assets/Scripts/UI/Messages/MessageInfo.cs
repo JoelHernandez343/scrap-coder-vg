@@ -16,8 +16,7 @@ namespace ScrapCoder.UI {
         public int seconds;
         public System.Action onFullShowCallback;
         public int customHeight;
-
-        // public bool 
+        public MessageType type;
 
     }
 }

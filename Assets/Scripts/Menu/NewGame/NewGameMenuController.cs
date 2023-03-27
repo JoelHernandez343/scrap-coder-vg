@@ -34,12 +34,20 @@ namespace ScrapCoder.UI
             inputUserId = inputText.Value;
 
             if (string.IsNullOrEmpty(inputUserId)) {
-                // Here sould be a message
+                MessagesController.instance.AddMessage(
+                    message: "Ingresa un valor no vacío",
+                    hideInNewMessage: true,
+                    status: MessageStatus.Error
+                );
                 return;
             };
 
             if (!Regex.IsMatch(inputUserId, "^[^\\s]+.*[^\\s]+$")) {
-                // Here sould be a message
+                MessagesController.instance.AddMessage(
+                    message: "El usuario no puede tener espacios ni al principio, ni al final",
+                    hideInNewMessage: true,
+                    status: MessageStatus.Error
+                );
                 return;
             }
 
@@ -53,8 +61,9 @@ namespace ScrapCoder.UI
                 MessagesController.instance.AddMessage(
                     message: "Este usuario ya existe, ¿quieres empezar de nuevo la aventura?",
                     isFinite: false,
-                    customHeight: 100,
-                    hideInNewMessage: true
+                    hideInNewMessage: true,
+                    status: MessageStatus.Warning,
+                    type: MessageType.AcceptAndCancel
                 );
             }
         }
