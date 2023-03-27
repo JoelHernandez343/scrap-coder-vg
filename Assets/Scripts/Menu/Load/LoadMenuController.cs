@@ -33,7 +33,7 @@ namespace ScrapCoder.UI {
 
             InitializeLevelSelectors();
 
-            returnButton.AddListener(() => SceneManager.LoadScene("Menu"));
+            returnButton.AddListener(() => SceneManager.LoadScene("SelectGame"));
 
             rightButton.AddListener(() => ChangeLevel(forward: true));
             leftbutton.AddListener(() => ChangeLevel(forward: false));

@@ -120,11 +120,10 @@ public class MenuScript : MonoBehaviour
             switch (selectCount[0])
             {
                 case 0:     /*        Nueva Partida      */
-                    // SceneManager.LoadScene("Cinematic");
                     SceneManager.LoadScene("NewGame");
                     break;
                 case 1:     /*       Cargar Partida      */
-                    SceneManager.LoadScene("LoadLevelscene");
+                    SceneManager.LoadScene("SelectGame");
                     break;
                 case 2:     /*          Opciones         */
                     menuCount = 1;
