@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ScrapCoder.UI {
     public class QwertyNumbersTextHandler : MonoBehaviour, ITextHandler {
 
-        string[] qwerty = {
+        static string[] qwerty = {
             "a",  "b",  "c",  "d",  "e",  "f",
             "g",  "h",  "i",  "j",  "k",  "l",
             "m",  "n",  "o",  "p",  "q",  "r",
@@ -16,7 +16,7 @@ namespace ScrapCoder.UI {
             "y",  "z", ";",
         };
 
-        string[] qwertyUpperCase = {
+        static string[] qwertyUpperCase = {
             "A",  "B",  "C",  "D",  "E",  "F",
             "G",  "H",  "I",  "J",  "K",  "L",
             "M",  "N",  "O",  "P",  "Q",  "R",
@@ -24,28 +24,35 @@ namespace ScrapCoder.UI {
             "Y",  "Z", "Ñ"
         };
 
-        string[] symbols = {
+        static string[] symbols = {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
         }; 
 
         public void HandleCharacterInput(InputText inputText) {
             var character = GetPressedCharacter();
+
+            if (string.IsNullOrEmpty(character)) return;
+
             inputText.AddCharacter(character);
         }
 
         public void HandleDeleteCharacter(InputText inputText) { }
 
-        string GetPressedCharacter() {
+        public static string GetPressedCharacter() {
             var pressedKey = LookForInQwerty();
 
             if (pressedKey == "") {
                 pressedKey = LookForInNumbers();
             }
 
+            if (pressedKey == "") {
+                pressedKey = IsWhiteSpace();
+            }
+
             return pressedKey;
         }
 
-        string LookForInQwerty() {
+        static string LookForInQwerty() {
             var pressedKey = "";
 
             int letter;
@@ -68,7 +75,7 @@ namespace ScrapCoder.UI {
             return pressedKey;
         }
 
-        string LookForInNumbers() {
+        static string LookForInNumbers() {
             var pressedKey = "";
 
             int letter;
@@ -78,6 +85,16 @@ namespace ScrapCoder.UI {
                 pressedKey = symbols[letter];
 
                 break;
+            }
+
+            return pressedKey;
+        }
+
+        static string IsWhiteSpace() { 
+            var pressedKey = "";
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                pressedKey = " ";
             }
 
             return pressedKey;

@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace ScrapCoder.UI
 {
@@ -32,7 +33,15 @@ namespace ScrapCoder.UI
         void CreateUser() {
             inputUserId = inputText.Value;
 
-            if (string.IsNullOrEmpty(inputUserId)) return;
+            if (string.IsNullOrEmpty(inputUserId)) {
+                // Here sould be a message
+                return;
+            };
+
+            if (!Regex.IsMatch(inputUserId, "^[^\\s]+.*[^\\s]+$")) {
+                // Here sould be a message
+                return;
+            }
 
             var users = LevelLoader.GetAllLevelProgressData();
 
