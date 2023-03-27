@@ -197,8 +197,14 @@ namespace ScrapCoder.UI {
 
         void RenderCursor() {
             var x = cursor > 0
-                ? (int)System.Math.Round(expandableText.characterInfo[cursor - 1].topRight.x)
+                ? (int)System.Math.Round(expandableText.characterInfo[cursor - 1].bottomRight.x)
                 : 0;
+
+            // A dumb fix because I don't know how to configure properly the fucking font asset.
+            // Or is a misconfiguration with the fucking spacing options.
+            if (cursor > 0 && text[cursor - 1] == ' ') {
+                x += 2;
+            }
 
             var delta = cursorSprite.SetPosition(
                 x: cursorLeftOffset + x,
