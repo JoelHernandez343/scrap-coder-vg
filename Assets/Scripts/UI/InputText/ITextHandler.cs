@@ -10,6 +10,7 @@ namespace ScrapCoder.UI {
     public interface ITextHandler {
 
         void HandleCharacterInput(InputText inputText);
+        void HandleDeleteCharacter(InputText inputText);
 
     }
 

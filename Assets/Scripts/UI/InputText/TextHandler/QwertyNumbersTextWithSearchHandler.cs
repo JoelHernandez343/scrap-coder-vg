@@ -8,6 +8,10 @@ using UnityEngine;
 namespace ScrapCoder.UI {
     public class QwertyNumbersTextWithSearchHandler : MonoBehaviour, ITextHandler {
 
+        // Editor variables
+        [SerializeField] SelectGameMenuController selectGameMenuController; 
+
+        // Constants
         string[] qwerty = {
             "a",  "b",  "c",  "d",  "e",  "f",
             "g",  "h",  "i",  "j",  "k",  "l",
@@ -28,17 +32,19 @@ namespace ScrapCoder.UI {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
         }; 
 
+        // Methods
         public void HandleCharacterInput(InputText inputText) {
             var character = GetPressedCharacter();
 
-            // Here we need to search for the new text
-            var newQuery = inputText.Value.Insert(inputText.Cursor, character);
-
-            if (!string.IsNullOrEmpty(newQuery)) { 
-            
-            }
+            var newFilter = inputText.Value.Insert(inputText.Cursor, character);
+            selectGameMenuController.FilterUsersBy(newFilter);
 
             inputText.AddCharacter(character);
+        }
+
+        public void HandleDeleteCharacter(InputText inputText){
+            var newFilter = inputText.Value;
+            selectGameMenuController.FilterUsersBy(newFilter);
         }
 
         string GetPressedCharacter() {

@@ -37,6 +37,9 @@ namespace ScrapCoder.UI {
             inputText.AddCharacter(character);
         }
 
+        public void HandleDeleteCharacter(InputText inputText) { }
+
+
         string GetPressedCharacter() {
             var (character, index) = GetCharacterFromCategory(qwerty);
 

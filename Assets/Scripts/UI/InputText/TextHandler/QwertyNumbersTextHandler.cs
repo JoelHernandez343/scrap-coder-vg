@@ -33,6 +33,8 @@ namespace ScrapCoder.UI {
             inputText.AddCharacter(character);
         }
 
+        public void HandleDeleteCharacter(InputText inputText) { }
+
         string GetPressedCharacter() {
             var pressedKey = LookForInQwerty();
 

@@ -5519,7 +5519,7 @@ PrefabInstance:
     - target: {fileID: 3500322027183536217, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: textHandler
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1700995132}
     - target: {fileID: 3500322027183536217, guid: 9db3d0d8bbc1f904f890d17bf9d4d891, type: 3}
       propertyPath: characterLimit
       value: 22
@@ -5551,6 +5551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57fd293ba5fbd5241a679fbc08dbb27c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectGameMenuController: {fileID: 586844549}
 --- !u!1 &1701330570
 GameObject:
   m_ObjectHideFlags: 0

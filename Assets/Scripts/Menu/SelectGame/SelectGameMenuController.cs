@@ -5,6 +5,7 @@ using ScrapCoder.Game;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,7 +38,15 @@ namespace ScrapCoder.UI {
             rightButton.AddListener(() => ChangPage(forward: true));
             leftbutton.AddListener(() => ChangPage(forward: false));
 
-            sortedUsers = LevelLoader.GetAllLevelProgressData().OrderBy(pair => pair.Key);
+            FilterUsersBy("");
+        }
+
+        public void FilterUsersBy(string partialUserId) { 
+            string regexPattern = $"^{Regex.Escape(partialUserId)}.*$";
+
+            sortedUsers = LevelLoader.GetAllLevelProgressData()
+                .Where(pair => Regex.IsMatch(pair.Key, regexPattern))
+                .OrderBy(pair => pair.Key);
             sortedUsersCount = sortedUsers.Count();
 
             ShowPage(0);

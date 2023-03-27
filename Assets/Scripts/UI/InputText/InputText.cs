@@ -97,6 +97,9 @@ namespace ScrapCoder.UI {
 
             if (Input.GetKeyDown(KeyCode.Backspace)) {
                 DeleteCharacterFromCursor();
+                if (textHandler is ITextHandler customTextHandler) { 
+                    customTextHandler.HandleDeleteCharacter(this);
+                }
             } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
                 MoveCursor(1);
             } else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
