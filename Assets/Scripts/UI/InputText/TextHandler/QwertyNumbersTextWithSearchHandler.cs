@@ -15,7 +15,7 @@ namespace ScrapCoder.UI {
         public void HandleCharacterInput(InputText inputText) {
             var character = QwertyNumbersTextHandler.GetPressedCharacter();
 
-            if (string.IsNullOrWhiteSpace(character)) return;
+            if (string.IsNullOrEmpty(character)) return;
 
             var newFilter = inputText.Value.Insert(inputText.Cursor, character);
             selectGameMenuController.FilterUsersBy(newFilter);
