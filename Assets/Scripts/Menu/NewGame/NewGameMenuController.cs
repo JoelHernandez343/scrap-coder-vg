@@ -27,6 +27,7 @@ namespace ScrapCoder.UI
         void Start() {
             returnButton.AddListener(() => SceneManager.LoadScene("Menu"));
             createButton.AddListener(() => CreateUser());
+            inputText.AddListener(() => CreateUser());
             acceptMessageButton.AddListener(() => StartAgain());
         }
 
@@ -37,7 +38,8 @@ namespace ScrapCoder.UI
                 MessagesController.instance.AddMessage(
                     message: "Ingresa un valor no vacío",
                     hideInNewMessage: true,
-                    status: MessageStatus.Error
+                    status: MessageStatus.Error,
+                    seconds: 10
                 );
                 return;
             };
@@ -46,7 +48,8 @@ namespace ScrapCoder.UI
                 MessagesController.instance.AddMessage(
                     message: "El usuario no puede tener espacios ni al principio, ni al final",
                     hideInNewMessage: true,
-                    status: MessageStatus.Error
+                    status: MessageStatus.Error,
+                    seconds: 10
                 );
                 return;
             }
