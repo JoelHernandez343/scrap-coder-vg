@@ -9,13 +9,15 @@ namespace ScrapCoder.UI {
     public class MessageInfo {
 
         public string message;
-        public MessageType type;
+        public MessageStatus status;
         public Sprite customIcon;
         public System.Guid guid;
         public bool hideInNewMessage;
         public int seconds;
         public System.Action onFullShowCallback;
         public int customHeight;
+
+        // public bool 
 
     }
 }

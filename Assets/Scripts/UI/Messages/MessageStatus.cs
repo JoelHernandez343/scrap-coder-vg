@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ScrapCoder.UI {
-    public enum MessageType {
+    public enum MessageStatus {
 
         Normal = 0,
         Warning = 1,

@@ -67,7 +67,7 @@ namespace ScrapCoder.UI {
         }
 
         void Reset() {
-            ChangeIcon(message: new MessageInfo { type = MessageType.Normal });
+            ChangeIcon(message: new MessageInfo { status = MessageStatus.Normal });
             ExpandByText("");
             MessagesController.instance.ClearCurrentMessage();
 
@@ -89,9 +89,9 @@ namespace ScrapCoder.UI {
                 icon.SetCustomSprite(message.customIcon);
             } else {
                 icon.SetState(
-                    state: message.type == MessageType.Normal
+                    state: message.status == MessageStatus.Normal
                         ? "normal"
-                        : message.type == MessageType.Warning
+                        : message.status == MessageStatus.Warning
                         ? "warning"
                         : "error"
                 );

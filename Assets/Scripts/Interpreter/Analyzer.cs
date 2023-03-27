@@ -15,7 +15,7 @@ namespace ScrapCoder.Interpreter {
             if (!IsThereABeginning()) {
                 MessagesController.instance.AddMessage(
                     message: "Debe de existir un Inicio conectado a tus nodos.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 return (isValid: false, beginning: null);
             }
@@ -23,7 +23,7 @@ namespace ScrapCoder.Interpreter {
             if (!IsThereAnEnding()) {
                 MessagesController.instance.AddMessage(
                     message: "Debe de existir un Final conectado a tus nodos.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 return (isValid: false, beginning: null);
             }

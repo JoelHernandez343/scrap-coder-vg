@@ -21,7 +21,7 @@ namespace ScrapCoder.Tutorial {
 
         protected void ShowMessage(
             string message,
-            MessageType type,
+            MessageStatus type,
             Sprite customSprite = null,
             System.Action onFullShowCallback = null,
             int? seconds = null,
@@ -29,7 +29,7 @@ namespace ScrapCoder.Tutorial {
         ) {
             currentGuid = MessagesController.instance.AddMessage(
                 message: message,
-                type: type,
+                status: type,
                 seconds: seconds ?? -1,
                 isFinite: seconds != null,
                 customSprite: customSprite,

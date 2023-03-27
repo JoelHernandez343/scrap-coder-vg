@@ -70,7 +70,7 @@ namespace ScrapCoder.Interpreter {
             if (index < 0) {
                 MessagesController.instance.AddMessage(
                     message: $"El índice {index} debe de ser mayor o igual a 0.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;
@@ -79,7 +79,7 @@ namespace ScrapCoder.Interpreter {
             if (index >= arrayLength) {
                 MessagesController.instance.AddMessage(
                     message: $"El índice {index} debe de ser menor o igual a la longitud: {arrayLength} del arreglo: {arraySymbolName}.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;

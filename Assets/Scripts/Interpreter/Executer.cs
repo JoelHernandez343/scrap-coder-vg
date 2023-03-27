@@ -133,14 +133,14 @@ namespace ScrapCoder.Interpreter {
             if (state == States.Running) {
                 MessagesController.instance.AddMessage(
                     message: "El ejecutor ya se encuentra ejecutándose.",
-                    type: MessageType.Warning
+                    status: MessageStatus.Warning
                 );
                 return;
             }
             if (state == States.Stopping) {
                 MessagesController.instance.AddMessage(
                     message: "El ejecutor está esperando que el robot termine.",
-                    type: MessageType.Warning
+                    status: MessageStatus.Warning
                 );
                 return;
             }
@@ -174,7 +174,7 @@ namespace ScrapCoder.Interpreter {
             } else {
                 MessagesController.instance.AddMessage(
                     message: "Ejecución terminada con errores.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 TutorialController.instance.ReceiveSignal(signal: "executerFinishedWithError");
             }

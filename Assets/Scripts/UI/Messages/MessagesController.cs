@@ -61,7 +61,7 @@ namespace ScrapCoder.UI {
         /// Function to queue messages and display to the user.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// <param name="type">The type of the message. Accepts Normal (default), Warning and Error.</param>
+        /// <param name="status">The status of the message. Accepts Normal (default), Warning and Error.</param>
         /// <param name="seconds">Duration on seconds to display the <paramref name="message"/>. Negative numbers means infinite duration.</param>
         /// <param name="isFinite">
         /// Default value is <see langword="true"/>. If <see langword="false"/>, the message will have infinite duration.
@@ -73,7 +73,7 @@ namespace ScrapCoder.UI {
         /// <returns>A Guid of the added message</returns>
         public System.Guid AddMessage(
             string message,
-            MessageType type = MessageType.Normal,
+            MessageStatus status = MessageStatus.Normal,
             int seconds = 4,
             bool isFinite = true,
             Sprite customSprite = null,
@@ -85,7 +85,7 @@ namespace ScrapCoder.UI {
 
             messageQueue.Enqueue(new MessageInfo {
                 message = message,
-                type = type,
+                status = status,
                 customIcon = customSprite,
                 guid = guid,
                 hideInNewMessage = hideInNewMessage,

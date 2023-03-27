@@ -62,7 +62,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: message,
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 hideInNewMessage: false,
                 seconds: 10,
                 onFullShowCallback: () => InitialMessages(messageIndex + 1)

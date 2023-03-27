@@ -111,7 +111,7 @@ namespace ScrapCoder.UI {
                         SymbolTable.instance[symbolName].Type == NodeType.Variable ? "la variable" : "el arreglo",
                         $": {symbolName} mientras el ejecutor trabaja."
                     ),
-                    type: MessageType.Warning
+                    status: MessageStatus.Warning
                 );
                 return;
             }

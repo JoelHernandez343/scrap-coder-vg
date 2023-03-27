@@ -438,7 +438,7 @@ namespace ScrapCoder.VisualNodes {
                 if (container.isEmpty) {
                     MessagesController.instance.AddMessage(
                         message: $"En un nodo hay un contenedor vacío.",
-                        type: MessageType.Error
+                        status: MessageStatus.Error
                     );
                     return false;
                 };
@@ -452,7 +452,7 @@ namespace ScrapCoder.VisualNodes {
                 if (siblingsContainer.isEmpty) {
                     MessagesController.instance.AddMessage(
                         message: $"Deben de haber instrucciones para ejecutar.",
-                        type: MessageType.Error
+                        status: MessageStatus.Error
                     );
                     return false;
                 }
@@ -462,7 +462,7 @@ namespace ScrapCoder.VisualNodes {
                 if (siblingsContainer.Last.type != NodeType.End) {
                     MessagesController.instance.AddMessage(
                         message: "Debe de existir un Final conectado a tus nodos.",
-                        type: MessageType.Error
+                        status: MessageStatus.Error
                     );
                     return false;
                 }
@@ -600,7 +600,7 @@ namespace ScrapCoder.VisualNodes {
             if (!isPrototype && SymbolTable.instance[template.symbolName] == null) {
                 MessagesController.instance.AddMessage(
                     message: $"El nodo {template.symbolName} no está disponible.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return null;
@@ -609,7 +609,7 @@ namespace ScrapCoder.VisualNodes {
             if (!isPrototype && SymbolTable.instance[template.symbolName].isFull) {
                 MessagesController.instance.AddMessage(
                     message: $"No se puede crear un nodo del tipo {template.symbolName}, el límite ha sido superado.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return null;

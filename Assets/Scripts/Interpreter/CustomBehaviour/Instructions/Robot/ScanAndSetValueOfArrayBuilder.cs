@@ -88,7 +88,7 @@ namespace ScrapCoder.Interpreter {
             if (index < 0) {
                 MessagesController.instance.AddMessage(
                     message: $"El índice {index} debe de ser mayor o igual a 0.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;
@@ -97,7 +97,7 @@ namespace ScrapCoder.Interpreter {
             if (index >= Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
                     message: $"El índice {index} para insertar no debe sobrepasar el límite {Symbol.ArrayLimit}.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;
@@ -106,7 +106,7 @@ namespace ScrapCoder.Interpreter {
             if (arrayLength == Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
                     message: $"El arreglo {arraySymbolName} ha alcanzado su límite.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;

@@ -63,7 +63,7 @@ namespace ScrapCoder.Interpreter {
             if (number < 0 || number > 6) {
                 MessagesController.instance.AddMessage(
                     message: $"El valor que se está intentando ingresar al panel no está entre 0 y 6.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;

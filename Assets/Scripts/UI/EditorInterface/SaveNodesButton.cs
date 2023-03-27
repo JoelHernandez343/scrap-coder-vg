@@ -60,7 +60,7 @@ namespace ScrapCoder.UI {
             ) {
                 MessagesController.instance.AddMessage(
                     message: $"No hay información para guardar, recuerda que ni Inicio ni Fin son guardados",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return;
@@ -70,7 +70,7 @@ namespace ScrapCoder.UI {
 
             MessagesController.instance.AddMessage(
                 message: "Nodos guardados de forma exitosa.",
-                type: MessageType.Normal
+                status: MessageStatus.Normal
             );
         }
     }
