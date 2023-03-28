@@ -375,7 +375,7 @@ MonoBehaviour:
   initHeight: 34
   initWidth: 34
   minHeight: 0
-  minWidth: 0
+  minWidth: 34
   resizable: 1
   moveable: 1
   ownDepthLevels: 0
@@ -412,6 +412,12 @@ MonoBehaviour:
   spriteMessageParent: {fileID: 0}
   spriteShape: {fileID: 8200753219851679843}
   polygonCollider: {fileID: 2470111873010284300}
+  itemsBelow: []
+  itemsToRight:
+  - {fileID: 7572705145512939984}
+  itemsToCenterHorizontally:
+  - {fileID: 5557880469775639421}
+  internalXPadding: 16
 --- !u!82 &2133165626300349961
 AudioSource:
   m_ObjectHideFlags: 0
@@ -867,6 +873,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e16db7c694c15448bfa95e0fa4eecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7572705145512939984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8058669990708895840, guid: bd1b970c9e48be54ba642e0f2d06dc5e, type: 3}
+  m_PrefabInstance: {fileID: 486813849134018992}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3272799579673953090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1126,6 +1143,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1209506847582251074, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
   m_PrefabInstance: {fileID: 7289464882370750687}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5557880469775639421 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2884818788424502178, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}
+  m_PrefabInstance: {fileID: 7289464882370750687}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3919e3c0cd0cd7e4fa370daa4a048c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2876227708546278782 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4810698090559163809, guid: 4fd8cf104f77b96499fad5cf5de21689, type: 3}

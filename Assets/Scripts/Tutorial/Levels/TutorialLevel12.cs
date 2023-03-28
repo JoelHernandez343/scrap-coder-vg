@@ -88,7 +88,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Ahora te presentamos la instrucción Rotar.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 hideInNewMessage: false,
                 seconds: 3,
                 onFullShowCallback: () => PutBeginAndEnd()
@@ -100,7 +100,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Ahora, abre el editor y coloca un Inicio y un Fin.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForBeginAndEnd
             );
         }
@@ -110,7 +110,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Perfecto, ahora coloca una instrucción Girar y conéctalo a Inicio y a Fin.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForRotate
             );
         }
@@ -121,7 +121,7 @@ namespace ScrapCoder.Tutorial {
             ShowMessage(
                 message: "Bien, asegúrate de que al girar, el robot quede mirando hacia el camino que lleva al botón. " +
                          "Ejecuta las instrucciones que acabas de poner.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForExecute
             );
         }
@@ -132,7 +132,7 @@ namespace ScrapCoder.Tutorial {
             ShowMessage(
                 message: "¡Perfecto! Ahora resuelve el camino que el robot tiene que hacer " +
                          "combinando Caminar y Girar.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 seconds: 6,
                 hideInNewMessage: false,
                 onFullShowCallback: () => RepeatPresentation()
@@ -145,7 +145,7 @@ namespace ScrapCoder.Tutorial {
             ShowMessage(
                 message: "Opcionalmente, también puedes resolver este camino con el bloque Repetir, para eso tienes que usar el nodo de Número " +
                          "y escribir cuántas veces quieres que se repita, colocando la instrucción que quieres repetir dentro de Repetir",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 seconds: 12,
                 onFullShowCallback: () => currentState = State.Completed
             );

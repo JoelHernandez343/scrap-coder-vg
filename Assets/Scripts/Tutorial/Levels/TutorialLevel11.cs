@@ -59,7 +59,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "¡Hola!, nuestro objetivo es lograr que el robot abra la puerta para que nosotros podamos salir.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 hideInNewMessage: false,
                 seconds: 6,
                 onFullShowCallback: () => ShowMovementMessage()
@@ -130,7 +130,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Puedes moverte con las teclas W A S D",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 customSprite: wasdSprite,
                 onFullShowCallback: () => currentState = State.WaitingForMovement
             );
@@ -141,7 +141,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Con la tecla Q puedes ingresar al modo inspección, dónde puedes observar como se conecta el botón con la puerta.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 customSprite: qSprite,
                 onFullShowCallback: () => currentState = State.WaitingForInspectOn
             );
@@ -152,7 +152,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Presiona Q para cerrar este modo de inspección.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 customSprite: qSprite,
                 onFullShowCallback: () => currentState = State.WaitingForInspectOff
             );
@@ -163,7 +163,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Acércate al robot y presiona E para abrir el editor del robot.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 customSprite: eSprite,
                 onFullShowCallback: () => currentState = State.WaitingForInteract
             );
@@ -176,7 +176,7 @@ namespace ScrapCoder.Tutorial {
                 message: "Para programar al robot, necesitas decirle cuando comience. " +
                          "Para esto, agrega un nodo de Inicio. Lo puedes encontrar en el primer menú en la esquina superior izquierda. " +
                          "Arrástrarlo a la zona en blanco.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForBeginNode
             );
         }
@@ -188,7 +188,7 @@ namespace ScrapCoder.Tutorial {
                 message: "El robot también necesita saber cuándo terminar. " +
                          "Para esto, agrega un nodo de Fin. Lo puedes encontrar en el primer menú en la esquina superior izquierda. " +
                          "Arrástrarlo a la zona en blanco.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForEndNode
             );
         }
@@ -200,7 +200,7 @@ namespace ScrapCoder.Tutorial {
                 message: "¡Muy bien! Para que el robot pueda presionar el botón necesitamos que camine 4 veces. " +
                          "Coloca 4 instrucciones de Caminar y conéctalos con Inicio y al final pon el nodo Fin. " +
                          "Las puedes encontrar en el segundo menú de Instrucciones. ",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForWalks
             );
         }
@@ -210,7 +210,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Para ejecutar las instrucciones que acabas de programar, dale clic al botón de ejecutar.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForExecute
             );
         }
@@ -221,7 +221,7 @@ namespace ScrapCoder.Tutorial {
             ShowMessage(
                 message: "¡Perfecto! Si quieres reiniciar el nivel por alguna razón o porque quieres repetir estos mensajes, " +
                          "presiona R.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 customSprite: rSprite,
                 onFullShowCallback: () => currentState = State.Completed,
                 seconds: 6

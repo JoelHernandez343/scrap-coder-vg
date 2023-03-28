@@ -21,6 +21,8 @@ namespace ScrapCoder.UI {
 
         }
 
+        public void HandleDeleteCharacter(InputText inputText) { }
+
         string GetPressedCharacter() {
             var keyPressed = "";
 

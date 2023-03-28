@@ -25,6 +25,12 @@ namespace ScrapCoder.UI {
         [SerializeField] NodeTransform spriteShape;
         [SerializeField] NodeTransform polygonCollider;
 
+        [SerializeField] List<NodeTransform> itemsBelow;
+        [SerializeField] List<NodeTransform> itemsToRight;
+        [SerializeField] List<NodeTransform> itemsToCenterHorizontally;
+
+        [SerializeField] int internalXPadding = 16;
+
         // Lazy variables
         NodeTransform _ownTransform;
         NodeTransform ownTransform => _ownTransform ??= (GetComponent<NodeTransform>() as NodeTransform);
@@ -46,7 +52,7 @@ namespace ScrapCoder.UI {
             ExpandByText(message.message);
 
             ownTransform.SetPosition(
-                y: (ownTransform.height + 50) * InterfaceCanvas.NodeScaleFactor,
+                y: (ownTransform.height + message.customHeight) * InterfaceCanvas.NodeScaleFactor,
                 smooth: true,
                 endingCallback: message.onFullShowCallback
             );
@@ -61,7 +67,7 @@ namespace ScrapCoder.UI {
         }
 
         void Reset() {
-            ChangeIcon(message: new MessageInfo { type = MessageType.Normal });
+            ChangeIcon(message: new MessageInfo { status = MessageStatus.Normal });
             ExpandByText("");
             MessagesController.instance.ClearCurrentMessage();
 
@@ -69,11 +75,13 @@ namespace ScrapCoder.UI {
         }
 
         void ExpandByText(string newText) {
-            var (dx, dy) = messageText.ChangeTextExpandingAll(newText: newText);
-            ownTransform.Expand(dx: dx, dy: dy);
-            ownTransform.SetPosition(x: (int)System.Math.Round(ownTransform.width * InterfaceCanvas.NodeScaleFactor / -2f));
+            var (textDx, textDy) = messageText.ChangeTextExpandingAll(newText: newText);
 
-            discardButton.ownTransform.SetPositionByDelta(dx: dx);
+            var newWidth = System.Math.Max(ownTransform.initWidth, messageText.currentTextWidth + 2 * internalXPadding);
+            var dx = newWidth - ownTransform.width;
+
+            ownTransform.Expand(dx: dx, dy: textDy);
+            ownTransform.SetPosition(x: (int)System.Math.Round(ownTransform.width * InterfaceCanvas.NodeScaleFactor / -2f));
         }
 
         void ChangeIcon(MessageInfo message) {
@@ -81,9 +89,9 @@ namespace ScrapCoder.UI {
                 icon.SetCustomSprite(message.customIcon);
             } else {
                 icon.SetState(
-                    state: message.type == MessageType.Normal
+                    state: message.status == MessageStatus.Normal
                         ? "normal"
-                        : message.type == MessageType.Warning
+                        : message.status == MessageStatus.Warning
                         ? "warning"
                         : "error"
                 );
@@ -98,7 +106,11 @@ namespace ScrapCoder.UI {
 
             spriteShape.Expand(dx: dx, dy: dy);
             polygonCollider.Expand(dx: dx, dy: dy);
-            icon.ownTransform.SetPosition(x: (int)System.Math.Round(newWidth / 2f - icon.ownTransform.width / 2f));
+
+            itemsToCenterHorizontally.ForEach(i => i.SetPosition(x: (int)System.Math.Round(newWidth / 2f - i.width / 2f)));
+
+            itemsBelow.ForEach(i => i.SetPositionByDelta(dy: -dy));
+            itemsToRight.ForEach(i => i.SetPositionByDelta(dx: dx));
 
             return (dx, dy);
         }

@@ -49,7 +49,7 @@ namespace ScrapCoder.UI {
 
                 MessagesController.instance.AddMessage(
                     message: $"Ocurrió un error leyendo el archivo {FileBrowserHelpers.GetFilename(path: filePath)}.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return;
@@ -64,7 +64,7 @@ namespace ScrapCoder.UI {
             ) {
                 MessagesController.instance.AddMessage(
                     message: $"Ocurrió un error declarando las variables.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return;
@@ -77,7 +77,7 @@ namespace ScrapCoder.UI {
             ) {
                 MessagesController.instance.AddMessage(
                     message: $"Ocurrió un error declarando los arreglos.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return;
@@ -86,7 +86,7 @@ namespace ScrapCoder.UI {
             if (!InstantiateNodes(nodesTuples: nodeJsonData.nodesTuples, symbolNameChanges: symbolNameChanges)) {
                 MessagesController.instance.AddMessage(
                     message: $"Ocurrió un error colocando los nodos.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
 
                 return;
@@ -94,7 +94,7 @@ namespace ScrapCoder.UI {
 
             MessagesController.instance.AddMessage(
                 message: "Importación exitosa :)",
-                type: MessageType.Normal
+                status: MessageStatus.Normal
             );
         }
 
@@ -130,7 +130,7 @@ namespace ScrapCoder.UI {
                 if (prefab == null) {
                     MessagesController.instance.AddMessage(
                         message: $"El nodo {nodeTree.symbolName} no está disponible.",
-                        type: MessageType.Error
+                        status: MessageStatus.Error
                     );
 
                     return false;

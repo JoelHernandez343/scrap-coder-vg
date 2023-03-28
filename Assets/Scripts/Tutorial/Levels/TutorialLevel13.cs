@@ -110,7 +110,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: message,
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 hideInNewMessage: false,
                 seconds: 10,
                 onFullShowCallback: () => InitialMessages(messageIndex + 1)
@@ -122,7 +122,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Ahora, abre el editor y coloca un Inicio, un Fin y un Repetir Si y conéctalos entre sí.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForRepeat
             );
         }
@@ -132,7 +132,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Perfecto, ahora coloca una constante Verdadera del menú Condiciones en el nodo Repetir si.",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 onFullShowCallback: () => currentState = State.WaitingForTrueConstant
             );
         }
@@ -142,7 +142,7 @@ namespace ScrapCoder.Tutorial {
 
             ShowMessage(
                 message: "Ahora te toca a ti, ¿Qué instrucción se tiene que repetir siempre para que el robot pueda abrir las puertas mientras tú caminas?",
-                type: MessageType.Normal,
+                type: MessageStatus.Normal,
                 seconds: 10,
                 onFullShowCallback: () => currentState = State.Completed
             );

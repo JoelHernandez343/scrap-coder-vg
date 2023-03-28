@@ -97,7 +97,7 @@ namespace ScrapCoder.VisualNodes {
                 if (Executer.instance.isRunning || editor.isEditorOpenRemotely) {
                     MessagesController.instance.AddMessage(
                         message: $"No puedes borrar el nodo: {symbolName} mientras el ejecutor trabaja.",
-                        type: MessageType.Warning
+                        status: MessageStatus.Warning
                     );
                     return;
                 }

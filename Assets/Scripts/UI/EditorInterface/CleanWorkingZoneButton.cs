@@ -22,7 +22,7 @@ namespace ScrapCoder.UI {
                 if (Executer.instance.isRunning || editor.isEditorOpenRemotely) {
                     MessagesController.instance.AddMessage(
                         message: "No puedes limpiar los nodos mientras el ejecutor trabaja.",
-                        type: MessageType.Warning
+                        status: MessageStatus.Warning
                     );
                     return;
                 }

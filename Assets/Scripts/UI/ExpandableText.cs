@@ -23,7 +23,7 @@ namespace ScrapCoder.UI {
         TextMeshPro _textMeshPro;
         TextMeshPro textMeshPro => _textMeshPro ??= (GetComponent<TextMeshPro>() as TextMeshPro);
 
-        int currentTextWidth {
+        public int currentTextWidth {
             get {
                 if (characterCount == 0) return 0;
 
@@ -38,7 +38,7 @@ namespace ScrapCoder.UI {
             }
         }
 
-        int currentTextHeight {
+        public int currentTextHeight {
             get {
                 if (characterCount == 0) return 13;
 

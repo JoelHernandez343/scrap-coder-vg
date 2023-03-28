@@ -68,7 +68,7 @@ namespace ScrapCoder.Interpreter {
             if (arrayLength == Symbol.ArrayLimit) {
                 MessagesController.instance.AddMessage(
                     message: $"El arreglo {arraySymbolName} ha alcanzado su limite de {Symbol.ArrayLimit}",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 Executer.instance.Stop(successfully: false);
                 return;

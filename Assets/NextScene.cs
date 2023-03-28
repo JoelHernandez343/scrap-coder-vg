@@ -9,47 +9,31 @@ using UnityEngine.SceneManagement;
 
 using ScrapCoder.GameInput;
 using ScrapCoder.Game;
+using System.Linq;
 
-public class NextScene : MonoBehaviour
-{
+public class NextScene : MonoBehaviour {
     // Editor variables
     [SerializeField] LevelLoader levelContainer;
 
+    // Lazy variables
+    string currentSceneName => SceneManager.GetActiveScene().name;
+
     // Update is called once per frame
-    void Update()
-    {
-        if (InputController.instance.GetButtonDown("Reset"))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    void Update() {
+        if (InputController.instance.GetButtonDown("Reset")) {
+            SceneManager.LoadScene(currentSceneName);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            var levelCompletionData = levelContainer.GetLevelCompletionData();
-            var levels = levelContainer.levels;
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag != "Player") return;
 
-            var currentSceneName = SceneManager.GetActiveScene().name;
-            var nextSceneName = "";
+        var levels = levelContainer.levels;
 
-            // Search for current level, update locked status, and get the next scene name (if is the last, return to Menu)
-            for (int id = 0; id < levels.Count; id++) {
-                if (levels[id].sceneName == currentSceneName) {
-                    levelCompletionData[id] = true;
-                    nextSceneName = id < levelCompletionData.Count - 1
-                        ? levels[id + 1].sceneName
-                        : "Menu";
-                    break;
-                }
-            }
+        var id = levels.FindIndex(level => level.sceneName == currentSceneName);
+        var nextSceneName = levels.ElementAtOrDefault(id + 1)?.sceneName ?? "Menu";
 
-            // Store the updated list
-            levelContainer.StoreNewLevelCompletionData(newData: levelCompletionData);
-
-            // Load the next scene
-            SceneManager.LoadScene(nextSceneName);
-        }
+        LevelLoader.StoreCurrentLevelProgress(id);
+        SceneManager.LoadScene(nextSceneName);
     }
 }

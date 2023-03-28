@@ -19,7 +19,7 @@ namespace ScrapCoder.VisualNodes {
             } catch (System.FormatException) {
                 MessagesController.instance.AddMessage(
                     message: $"No es posible convertir en número el valor {inputText.Value}.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 return false;
             }

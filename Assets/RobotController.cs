@@ -69,7 +69,7 @@ public class RobotController : MonoBehaviour
             Rotate(rotate: 1);
         } else if (action == Actions.Scan) {
             ScanColor();
-        } else if (action == Actions.One || action == Actions.Two || action == Actions.Three || action == Actions.Four || action == Actions.Five || action == Actions.Six) {
+        } else if (action == Actions.Zero || action == Actions.One || action == Actions.Two || action == Actions.Three || action == Actions.Four || action == Actions.Five || action == Actions.Six) {
             Panel();
         } else if (action == Actions.StopSignal) { 
             if (moving) {

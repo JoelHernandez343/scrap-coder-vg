@@ -6,41 +6,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
-using SimpleFileBrowser;
 
 namespace ScrapCoder.Utils {
     public static class SaveLoadJson<T> {
 
-        public static void SaveJsonToFile(T data, string filePath) {
-            var folderName = FileBrowserHelpers.GetDirectoryName(filePath);
-            var fileName = FileBrowserHelpers.GetFilename(filePath);
+        public static bool SaveJsonToFile(T data, string filePath) {
             var jsonData = JsonConvert.SerializeObject(data);
 
             try {
-                FileBrowserHelpers.WriteTextToFile(filePath, jsonData);
+                File.WriteAllText(filePath, jsonData);
+                return true;
             } catch (System.UnauthorizedAccessException e) {
                 Debug.LogError(e);
+                return false;
             }
         }
 
-        public static void SaveJsonToPersistentData(T data, string subFilePath) {
-            SaveJsonToFile(data: data, filePath: Path.Combine(Application.persistentDataPath, subFilePath));
+        public static bool SaveJsonToPersistentData(T data, string subFilePath) {
+            return SaveJsonToFile(data: data, filePath: Path.Combine(Application.persistentDataPath, subFilePath));
         }
 
         public static T LoadJsonFromFile(string filePath) {
-
-            var jsonData = FileBrowserHelpers.ReadTextFromFile(filePath);
+            var jsonData = File.ReadAllText(filePath);
             T data = JsonConvert.DeserializeObject<T>(jsonData);
 
             return data;
         }
 
         public static T LoadJsonFromPersistentData(string subFilePath) {
+            var jsonData = File.ReadAllText(Path.Combine(Application.persistentDataPath, subFilePath));
 
-            var jsonData = FileBrowserHelpers.ReadTextFromFile(Path.Combine(Application.persistentDataPath, subFilePath));
-            T data = JsonConvert.DeserializeObject<T>(jsonData);
-
-            return data;
+            try {
+                T data = JsonConvert.DeserializeObject<T>(jsonData);
+                return data;
+            } catch (JsonException) {
+                return default;
+            }
         }
 
     }

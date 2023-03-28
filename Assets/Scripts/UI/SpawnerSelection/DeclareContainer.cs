@@ -69,7 +69,7 @@ namespace ScrapCoder.UI {
             if (rawValue == "") {
                 MessagesController.instance.AddMessage(
                     message: "Ingresa un nombre no vacío.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 return;
             }
@@ -77,7 +77,7 @@ namespace ScrapCoder.UI {
             if (!SymbolNameHandler.validForm.IsMatch(rawValue)) {
                 MessagesController.instance.AddMessage(
                     message: "Ingresa un nombre que empiece con una letra.",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 return;
             }
@@ -89,7 +89,7 @@ namespace ScrapCoder.UI {
             if (selectionContainer.SpawnersCount == declarationLimit) {
                 MessagesController.instance.AddMessage(
                     message: $"Ya no puedes declarar más variables, el límite es de: {declarationLimit}.",
-                    type: MessageType.Warning
+                    status: MessageStatus.Warning
                 );
                 return false;
             }
@@ -97,7 +97,7 @@ namespace ScrapCoder.UI {
             if (SymbolTable.instance[symbolName] != null) {
                 MessagesController.instance.AddMessage(
                     message: $"{(type == NodeType.Variable ? "La variable" : "El arreglo")}: {symbolName} ya existe. No lo puedes declarar dos veces",
-                    type: MessageType.Error
+                    status: MessageStatus.Error
                 );
                 return false;
             }

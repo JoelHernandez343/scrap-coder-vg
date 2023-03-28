@@ -144,7 +144,7 @@ namespace ScrapCoder.Interpreter {
                 if (rightNumber == 0) {
                     MessagesController.instance.AddMessage(
                         message: $"División entre 0 detectada en la op: {leftNumber} / {rightNumber}.",
-                        type: MessageType.Error
+                        status: MessageStatus.Error
                     );
                     Executer.instance.Stop(successfully: false);
                     return;

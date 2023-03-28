@@ -1,4 +1,4 @@
-// Joel Harim Hernández Javier @ 2022
+// Joel Harim Hernández Javier @ 2023
 // Github: https://github.com/JoelHernandez343
 
 using System.Collections;
@@ -7,52 +7,96 @@ using UnityEngine;
 
 using ScrapCoder.Utils;
 using ScrapCoder.UI;
+using UnityEngine.UIElements;
+using System.Linq;
 
 namespace ScrapCoder.Game {
     public class LevelLoader : MonoBehaviour {
 
+        // Static variables
         public static string levelDataFileName = "levelData.json";
 
-        [SerializeField] TextAsset levelsTemplate;
+        static Dictionary<string, List<bool>> progressData = null;
+        public static string currentUserId = null;
 
-        [System.Serializable]
-        public class Level {
-
+        // Internal types
+        public class Level
+        {
             public string title;
             public string description;
             public string sceneName;
             public string spritePath;
-
         }
 
+        // Editor variables
+        [SerializeField] TextAsset levelsTemplate;
+
+        // Lazy variables
         private List<Level> _levels = null;
         public List<Level> levels => 
             _levels ??= Newtonsoft.Json.JsonConvert.DeserializeObject<List<Level>>(levelsTemplate.text);
 
         // Methods
-        public void CreateLevelDataIfNotExists() {
-            if (FileExists.PersistentFileExists(levelDataFileName)){
-                return;
+        public static Dictionary<string, List<bool>> GetAllLevelProgressData() { 
+            if (progressData != null) return progressData;
+
+            if (FileExists.PersistentFileExists(levelDataFileName)) { 
+                progressData = SaveLoadJson<Dictionary<string, List<bool>>>.LoadJsonFromPersistentData(
+                    subFilePath: levelDataFileName
+                );
+
+                if (progressData != null ) { Debug.Log("progressData loaded"); }
+                else { Debug.Log("progress data created"); }
+            } 
+
+            if (progressData == null) { 
+                progressData = new Dictionary<string, List<bool>>();
+                SaveAllLevelProgressData(progressData);
             }
 
-            var lockedLevels = levels.ConvertAll(_ => false);
-            StoreNewLevelCompletionData(lockedLevels);
+            return progressData;
         }
 
-        public List<bool> GetLevelCompletionData() {
-            CreateLevelDataIfNotExists();
-
-            return SaveLoadJson<List<bool>>.LoadJsonFromPersistentData(
-                subFilePath: levelDataFileName
-            );
-        }
-
-        public void StoreNewLevelCompletionData(List<bool> newData) {
-            SaveLoadJson<List<bool>>.SaveJsonToPersistentData(
+        static void SaveAllLevelProgressData(Dictionary<string, List<bool>> progressData) {
+            SaveLoadJson<Dictionary<string, List<bool>>>.SaveJsonToPersistentData(
                 subFilePath: levelDataFileName,
-                data: newData
+                data: progressData
             );
         }
 
+        public static void StoreCurrentLevelProgress(int levelId, bool isCompleted = true){
+            if (currentUserId == null) throw new System.Exception("User id must be set first");
+
+            var progressData = GetAllLevelProgressData();
+
+            progressData[currentUserId][levelId] = isCompleted;
+
+            SaveAllLevelProgressData(progressData);
+        }
+
+        public static void ResetCurrentLevelProgress() { 
+            if (currentUserId == null) throw new System.Exception("User id must be set first");
+
+            var progressData = GetAllLevelProgressData();
+
+            progressData[currentUserId] = progressData[currentUserId].ConvertAll(_ => false);
+
+            SaveAllLevelProgressData(progressData);
+        }
+
+
+        public static List<bool> GetCurrentLevelProgress() {
+            if (currentUserId == null) throw new System.Exception("User id must be set first");
+
+            var progressData = GetAllLevelProgressData();
+
+            return progressData[currentUserId];
+        }
+
+        public static void AddUser(string userId, int levelCount) {
+            progressData[userId] = Enumerable.Range(0, levelCount).Select(_ => false).ToList();
+
+            SaveAllLevelProgressData(progressData);
+        }
     }
 }

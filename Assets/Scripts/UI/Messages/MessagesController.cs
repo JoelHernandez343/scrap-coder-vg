@@ -15,10 +15,12 @@ namespace ScrapCoder.UI {
         public static MessagesController instance;
 
         // Editor variable
-        [SerializeField] MessageContainer messageContainer;
+        [SerializeField] MessageContainer informationMessageContainer;
+        [SerializeField] MessageContainer acceptAndCancelMessageContainer;
 
         // State variables
         MessageInfo currentMessage;
+        MessageContainer currentMessageContainer;
         Queue<MessageInfo> messageQueue = new Queue<MessageInfo>();
 
         [SerializeField] States state = States.Iddle;
@@ -61,7 +63,7 @@ namespace ScrapCoder.UI {
         /// Function to queue messages and display to the user.
         /// </summary>
         /// <param name="message">The message to display.</param>
-        /// <param name="type">The type of the message. Accepts Normal (default), Warning and Error.</param>
+        /// <param name="status">The status of the message. Accepts Normal (default), Warning and Error.</param>
         /// <param name="seconds">Duration on seconds to display the <paramref name="message"/>. Negative numbers means infinite duration.</param>
         /// <param name="isFinite">
         /// Default value is <see langword="true"/>. If <see langword="false"/>, the message will have infinite duration.
@@ -70,26 +72,32 @@ namespace ScrapCoder.UI {
         /// <param name="customSprite">Sprite to show instead of icon</param>
         /// <param name="hideInNewMessage">Indicates whether the message is automatically hidden if a new message is added.</param>
         /// <param name="onFullShowCallback">Callback to execute when the message is fully showed.</param>
+        /// <param name="customHeight">Height where show the message.</param>
+        /// <param name="type">The type of the message. It help to decide between different containers</param>
         /// <returns>A Guid of the added message</returns>
         public System.Guid AddMessage(
             string message,
-            MessageType type = MessageType.Normal,
+            MessageStatus status = MessageStatus.Normal,
             int seconds = 4,
             bool isFinite = true,
             Sprite customSprite = null,
             bool hideInNewMessage = false,
-            System.Action onFullShowCallback = null
+            System.Action onFullShowCallback = null,
+            int customHeight = 50,
+            MessageType type = MessageType.Information
         ) {
             var guid = System.Guid.NewGuid();
 
             messageQueue.Enqueue(new MessageInfo {
                 message = message,
-                type = type,
+                status = status,
                 customIcon = customSprite,
                 guid = guid,
                 hideInNewMessage = hideInNewMessage,
                 onFullShowCallback = onFullShowCallback,
-                seconds = isFinite ? seconds : -1
+                seconds = isFinite ? seconds : -1,
+                customHeight = customHeight,
+                type = type,
             });
 
             if (currentMessage?.hideInNewMessage == true) {
@@ -102,7 +110,11 @@ namespace ScrapCoder.UI {
         void ShowMessage() {
             currentMessage = messageQueue.Dequeue();
 
-            messageContainer.ShowNewMessage(currentMessage);
+            currentMessageContainer = currentMessage.type == MessageType.Information
+                ? informationMessageContainer
+                : acceptAndCancelMessageContainer;
+
+            currentMessageContainer.ShowNewMessage(currentMessage);
             state = States.ShowingMessage;
             waitTime = currentMessage.seconds;
 
@@ -110,7 +122,7 @@ namespace ScrapCoder.UI {
         }
 
         public void HideCurrentMessage() {
-            messageContainer.Hide();
+            currentMessageContainer.Hide();
             state = States.WaitingForHiddenMessage;
         }
 

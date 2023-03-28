@@ -1,4 +1,4 @@
-// Joel Harim Hern√°ndez Javier @ 2022
+// Joel Harim Hern·ndez Javier @ 2023
 // Github: https://github.com/JoelHernandez343
 
 using System.Collections;
@@ -7,10 +7,9 @@ using UnityEngine;
 
 namespace ScrapCoder.UI {
     public enum MessageType {
-
-        Normal = 0,
-        Warning = 1,
-        Error = 2,
+        
+        Information = 0,
+        AcceptAndCancel = 1,
 
     }
 }
