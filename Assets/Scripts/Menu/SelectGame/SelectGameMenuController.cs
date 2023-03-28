@@ -45,7 +45,7 @@ namespace ScrapCoder.UI {
             string regexPattern = $"^{Regex.Escape(partialUserId)}.*$";
 
             sortedUsers = LevelLoader.GetAllLevelProgressData()
-                .Where(pair => Regex.IsMatch(pair.Key, regexPattern))
+                .Where(pair => Regex.IsMatch(pair.Key, regexPattern, RegexOptions.IgnoreCase))
                 .OrderBy(pair => pair.Key);
             sortedUsersCount = sortedUsers.Count();
 
